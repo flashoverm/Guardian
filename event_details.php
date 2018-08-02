@@ -31,6 +31,11 @@ if(!isset($_GET['id'])) {
 	<h1><?php echo $event->type; ?></h1>
 </div>
 <div class="container">
+<?php
+	if($isManager){
+		showInfo("Du bist Verwalter dieser Wache");
+	}
+?>
 	<div class="table-responsive">
 		<table class="table table-bordered">
 			<tbody>
@@ -79,7 +84,7 @@ if(!isset($_GET['id'])) {
 				<?php
 				}
 				?>
-				<tr><td colspan="3"><?php echo $event->hash; ?></td></tr>
+				<tr><td colspan="3"><?php echo "/guardian/event_details.php?id=".$event->uuid; ?></td></tr>
 			</tbody>
 		</table>
 	</div>
@@ -92,9 +97,6 @@ if(!isset($_GET['id'])) {
 		<?php
 		if(isset($_SESSION['userid'])) {
 			echo "<a href='event_overview.php' class=\"btn btn-outline-primary\">Zurück</a>";
-		}
-		if($isManager){
-			echo "<a style=\"float:right\">Du bist Verwalter dieser Wache!</a>";
 		}
 		?>
 	</div>

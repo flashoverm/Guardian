@@ -34,7 +34,7 @@ if(isset($_POST['email']) && isset($_POST['engine'])
         if($result) { 
 			mail_add_manager($email, $password);
             $showFormular = false;		
-            showSuccess('Wachbeauftragter erfolgreich angelegt - <a href="manager_overview.php" class="alert-link">Zurück zur Übersicht</a>)';
+            showSuccess('Wachbeauftragter erfolgreich angelegt - <a href="manager_overview.php" class="alert-link">Zurück zur Übersicht</a>');
         } else {
             showError('Beim Abspeichern ist leider ein Fehler aufgetreten');
         }

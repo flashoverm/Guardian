@@ -17,10 +17,10 @@ function insert_event($date, $start, $end, $location, $type, $title, $comment, $
 	$result = $db->query($query);
 
 	if ($result) {
-		echo "New event record created successfully";
+		//echo "New event record created successfully";
 		return $uuid;
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return FALSE;
 }
@@ -35,9 +35,9 @@ function insert_staff($event_uuid, $staff){
 	$result = $db->query($query);
 
 	if ($result) {
-		echo "New staff record created successfully";
+		//echo "New staff record created successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -80,7 +80,7 @@ function get_event($uuid){
 	if ($result) {
 		return $result->fetch_object();  
 	} else {
-		echo "UUID not found";
+		//echo "UUID not found";
 	}
 }
 
@@ -90,9 +90,9 @@ function add_staff_user($uuid, $user){
 	$result = $db->query($query);
 
 	if ($result) {
-		echo "Record ".$uuid." updated successfully";
+		//echo "Record ".$uuid." updated successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -102,9 +102,9 @@ function remove_staff_user($uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "Record ".$uuid." updated successfully";
+		//echo "Record ".$uuid." updated successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -117,9 +117,9 @@ function delete_event($uuid){
 	$result2 = $db->query($query);
 	
 	if ($result1 && $result2) {
-		echo "Record ".$uuid." removed successfully";
+		//echo "Record ".$uuid." removed successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -143,7 +143,7 @@ function create_table_events(){
 	$result = $db->query($query);
 	
 	if($result){
-		echo "Table created<br>";
+		//echo "Table created<br>";
 	} else {
 		//echo "Error: " . $db->error . "<br><br>";
 	}
@@ -164,7 +164,7 @@ function create_table_staff(){
 	$result = $db->query($query);
 	
 	if($result){
-		echo "Table created<br>";
+		//echo "Table created<br>";
 	} else {
 		//echo "Error: " . $db->error . "<br><br>";
 	}

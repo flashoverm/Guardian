@@ -16,9 +16,9 @@ function insert_engine($name){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "New record created successfully<br>";
+		//echo "New record created successfully<br>";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
+		//echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
 	}
 	return $result;
 }
@@ -45,9 +45,9 @@ function insert_user($firstname, $lastname, $email, $engine_uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "New record created successfully";
+		//echo "New record created successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return $uuid;
 }
@@ -62,9 +62,9 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "New record created successfully";
+		//echo "New record created successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return $result;
 }
@@ -79,9 +79,9 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "New record created successfully";
+		//echo "New record created successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return $result;
 }
@@ -206,9 +206,9 @@ function deactivate_manager($uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "Record ".$uuid." updated successfully";
+		//echo "Record ".$uuid." updated successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -218,9 +218,9 @@ function reactivate_manager($uuid){
 	$result = $db->query($query);
 	
 	if ($result) {
-		echo "Record ".$uuid." updated successfully";
+		//echo "Record ".$uuid." updated successfully";
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 }
 
@@ -232,10 +232,10 @@ function reset_password($uuid){
 	$query = "UPDATE user SET password = '".$pwhash."' WHERE uuid = '".$uuid."'";
 	$result = $db->query($query);
 	if ($result) {
-		echo "Record ".$uuid." updated successfully";
+		//echo "Record ".$uuid." updated successfully";
 		return $password;
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 		return FALSE;
 	}
 }
@@ -253,16 +253,16 @@ function change_password($uuid, $old_password, $new_passwort){
 				$query = "UPDATE user SET password = '".$pwhash."' WHERE uuid = '".$uuid."'";
 				$result = $db->query($query);
 				if ($result) {
-					echo "Record ".$uuid." updated successfully";
+					//echo "Record ".$uuid." updated successfully";
 					return TRUE;
 				} else {
-					echo "Error: " . $query . "<br>" . $db->error;
+					//echo "Error: " . $query . "<br>" . $db->error;
 					return FALSE;
 				}
 			}
 		}   
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return FALSE;
 }
@@ -286,7 +286,7 @@ function create_table_user(){
 	$result = $db->query($query);
 	
 	if($result){
-		echo "Table created<br>";
+		//echo "Table created<br>";
 	} else {
 		//echo "Error: " . $db->error . "<br><br>";
 	}
@@ -303,7 +303,7 @@ function create_table_engines(){
 	$result = $db->query($query);
 	
 	if($result){
-		echo "Table created<br>";
+		//echo "Table created<br>";
 		insert_engine("LZ 1/2");
 		insert_engine("LZ 3");
 		insert_engine("LZ 4");

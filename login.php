@@ -20,12 +20,13 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
 		$uuid = check_password($email, $password);
 		if($uuid){
 			$_SESSION['userid'] = $uuid;
-			die('Login erfolgreich. Weiter zur <a href="event_overview.php">Wachenübersicht</a>');
+			echo('Login erfolgreich. Weiter zur <a id="login" href="event_overview.php">Wachenübersicht</a>');
+			echo("<script type=\"text/javascript\">document.getElementById('login').click()</script>");
+			return;
 		}
 	}
 	showAlert("E-Mail oder Passwort ungültig");
 }
-
 ?>
 
 	<form action="" method="post">

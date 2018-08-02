@@ -69,6 +69,7 @@ if(isset($_POST['delete'])) {
 	delete_event($delete_event_uuid);
 }
 ?>
+	
 </div>
 <footer>
 	<div class="container">

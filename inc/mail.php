@@ -10,11 +10,11 @@ function init_mail(){
 	$mail->isSMTP();
 	$mail->Host = 'host33.checkdomain.de';
 	$mail->SMTPAuth = true;
-	$mail->Username = 'thral1';
-	$mail->Password = 'Striker1';
+	$mail->Username = 'guardian@thral.de';
+	$mail->Password = 'guardian';
 	$mail->SMTPSecure = 'tls';
 	$mail->Port = 587;
-	$mail->setFrom('markus@thral.de', 'Wachverwaltung Feuerwehr Landshut');
+	$mail->setFrom('guardian@thral.de', 'Wachverwaltung Feuerwehr Landshut');
 	return $mail;
 }
 	
@@ -26,7 +26,7 @@ function send_mail($to, $subject, $body){
 	$mail->Body    = $body;
 
 	$mail->send();
-	echo 'Message has been sent';
+	//echo 'Message has been sent';
 }
 
 function send_html_mail($to, $subject, $body){
@@ -38,7 +38,7 @@ function send_html_mail($to, $subject, $body){
 	$mail->Body = $body;
 
 	$mail->send();
-	echo 'HTML Message has been sent';
+	//echo 'HTML Message has been sent';
 }
 
 ?>
