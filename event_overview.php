@@ -11,10 +11,18 @@ require_once 'inc/mail_controller.php';
 </div>
 <div class="container">
 <?php
+if(isset($_POST['delete'])) {
+	$delete_event_uuid = trim($_POST['delete']);
+	mail_delete_event($delete_event_uuid);
+	delete_event($delete_event_uuid);
+	//if ok
+	showSuccess("Wache gelöscht");
+}
 $data = get_events();
 if (!count($data)) {
     showInfo("Es sind keine Wachen offen");
 } else {
+
 ?>
 <div class="table-responsive">
 	<h2>Übersicht Wachen</h2>
@@ -62,20 +70,18 @@ if (!count($data)) {
 </div>
 <?php   
 }
-if(isset($_POST['delete'])) {
-	$delete_event_uuid = trim($_POST['delete']);
-	showSuccess("Wache gelöscht");
-	mail_delete_event($delete_event_uuid);
-	delete_event($delete_event_uuid);
-}
 ?>
 	
 </div>
 <footer>
 	<div class="container">
 		<a href='event_create.php' class="btn btn-primary">Wache anlegen</a>
+		<?php
+			if(user_is_admin()){
+				echo "<a href='manager_overview.php' class=\"btn btn-outline-primary\">Administration</a>";
+			}
+		?>
 		<a href='change_password.php' class="btn btn-outline-primary">Passwort ändern</a>
-		<a href='manager_overview.php' class="btn btn-outline-primary">Administration</a>
 		<a href='logout.php' class="btn btn-outline-primary">Abmelden</a>
 	</div>
 <?php require_once 'inc/page_end.php'; ?>

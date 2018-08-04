@@ -9,8 +9,7 @@ require_once 'inc/mail_controller.php';
 </div>
 <div class="container">
 <?php
-if (isset($_POST['date']) and isset($_POST['start']) and isset($_POST['end']) 
-	and isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'])
+if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'])
 	and isset($_POST['staff1']) ) {
 	
 	$date = trim($_POST['date']);
@@ -28,18 +27,52 @@ if (isset($_POST['date']) and isset($_POST['start']) and isset($_POST['end'])
 		$comment = "";
 	}
 	
-	$event_uuid = insert_event($date, $start, $end, $location, $type, $title, $comment, $manager);
+	$error = false;
+	if(strlen($date) == 0) {
+        showAlert('Bitte Datum auswählen');
+        $error = true;
+    }
+	if(strlen($start) == 0) {
+        showAlert('Bitte Start-Zeit auswählen');
+        $error = true;
+    }
+	if(strlen($end) == 0) {
+        showAlert('Bitte Ende auswählen');
+        $error = true;
+    }
+	if(strlen($location) == 0) {
+        showAlert('Bitte Ort eingeben');
+        $error = true;
+    }
+	if(strlen($type) == 0) {
+        showAlert('Bitte Typ eingeben');
+        $error = true;
+    }
+	if(strlen($title) == 0) {
+        showAlert('Bitte Titel eingeben');
+        $error = true;
+    }
 	$position = 1;
 	while(isset($_POST["staff".$position])){
 		$staff = trim($_POST["staff".$position]);
+		if(strlen($staff) == 0) {
+			showAlert('Bitte Positionsbezeichnung '.$position.' eingeben');
+			$error = true;
+		}
 		$position += 1;
-		
-		insert_staff($event_uuid, $staff);
 	}
-	mail_insert_event($event_uuid, $manager);
-	
-	//TODO check if event is saved!
-	showSuccess("Wache angelegt");
+	if(!$error){
+		$event_uuid = insert_event($date, $start, $end, $location, $type, $title, $comment, $manager);
+		$position = 1;
+		while(isset($_POST["staff".$position])){
+			$staff = trim($_POST["staff".$position]);
+			$position += 1;
+			insert_staff($event_uuid, $staff);
+		}
+		mail_insert_event($event_uuid, $manager);
+		//if ok
+		showSuccess("Wache angelegt");
+	}
 }
 ?>
 <script type='text/javascript'>
@@ -52,20 +85,8 @@ if (isset($_POST['date']) and isset($_POST['start']) and isset($_POST['end'])
 		input.type = "text";
 		input.name = "staff" + currentPosition;
 		input.id = "staff" + currentPosition;
+		input.required = "required";
 		input.placeholder="Positionsbezeichnung eingeben";
-		/*
-		var previousRemove = document.getElementById("remove");
-		if(previousRemove != null){
-			previousRemove.parentNode.removeChild(previousRemove);
-		}
-		var remove = document.createElement("button");
-		remove.id = "remove";
-		remove.type = "button";
-		remove.textContent = "-";
-		remove.onClick = "removeLast()";
-		remove.style = "float:right";
-		cell.appendChild(remove);
-		*/
 		container.appendChild(input);
 	}
 	function removeLast(){
@@ -80,38 +101,38 @@ if (isset($_POST['date']) and isset($_POST['start']) and isset($_POST['end'])
 	<form action="" method="post">
 		<div class="form-group">
 			<label>Datum:</label>
-			<input type="date" class="form-control" name="date"id="date">
+			<input type="date" required="required" class="form-control" name="date"id="date">
 		</div>
 		<div class="form-group">
 			<label>Start:</label>
-			<input type="time" class="form-control" name="start"id="start">
+			<input type="time" required="required" class="form-control" name="start"id="start">
 		</div>
 		<div class="form-group">
 			<label>Ende:</label>
-			<input type="time" class="form-control" name="end"id="end">
+			<input type="time" required="required" class="form-control" name="end"id="end">
 		</div>
 		<div class="form-group">
 			<label>Ort:</label>
-			<input type="text" class="form-control" name="location"id="location" placeholder="Veranstaltungsort eingeben">
+			<input type="text" required="required" class="form-control" name="location"id="location" placeholder="Veranstaltungsort eingeben">
 		</div>
 		<div class="form-group">
 			<label>Typ:</label>
-			<input type="text" class="form-control" name="type"id="type" placeholder="Typ eingeben">
+			<input type="text" required="required" class="form-control" name="type"id="type" placeholder="Typ eingeben">
 		</div>		
 		<div class="form-group">
 			<label>Titel:</label>
-			<input type="text" class="form-control" name="title"id="title" placeholder="Titel eingeben">
+			<input type="text" required="required" class="form-control" name="title"id="title" placeholder="Titel eingeben">
 		</div>	
 		<div class="form-group">
 			<label >Anmerkungen:</label>
 			<textarea class="form-control" name="comment" id="comment" placeholder="Anmerkungen"></textarea>
-		</div>			
+		</div>				
 		<div class="form-group" id="staffContainer">
 			<label >Positionen:</label>
 			<button type="button" style="float:right" class="btn btn-primary btn-sm" onClick="removeLast()">&minus;</button>
 			<a style="float:right">&nbsp;</a>
 			<button type="button" style="float:right" class="btn btn-primary btn-sm" onClick="addStaff()">+</button>
-			<input class="form-control" type="text" name="staff1" id="staff1" placeholder="Positionsbezeichnung eingeben">
+			<input class="form-control" type="text" required="required" name="staff1" id="staff1" placeholder="Positionsbezeichnung eingeben">
 		</div>			
 		<input type="submit" value="Anlegen" class="btn btn-primary"><br>
 		<input type="hidden" name="action" value="save">

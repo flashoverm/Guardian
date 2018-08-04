@@ -29,7 +29,7 @@ if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password
 	$engine = $_POST['engine'];
  
     if(strlen($password) == 0) {
-        showAlert('Bitte ein Passwort angeben');
+        showAlert('Bitte Passwort angeben');
         $error = true;
     }
     if($password != $password2) {
@@ -42,13 +42,12 @@ if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password
             $error = true;
         }    
     }
-	
     if(!$error) { 
 		$result = insert_manager($firstname, $lastname, $email, $password, $engine);
         
         if($result) { 
-            $showFormular = false;		
-            echo 'Du wurdest erfolgreich registriert. <a href="login.php">Zum Login</a>';
+            $showFormular = false;	
+            echo 'Du wurdest erfolgreich registriert. <a href="login.php" class=\"alert-link\">Zum Login</a>';
         } else {
             echo 'Beim Abspeichern ist leider ein Fehler aufgetreten<br>';
         }
@@ -62,23 +61,23 @@ if($showFormular) {
 	<form action="" method="post">
 		<div class="form-group">
 			<label>Vorname:</label>
-			<input type="text" class="form-control" name="firstname"id="firstname" placeholder="Vorname eingeben">
+			<input type="text" class="form-control" required="required" name="firstname"id="firstname" placeholder="Vorname eingeben">
 		</div>
 		<div class="form-group">
 			<label >Nachname:</label>
-			<input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nachname eingeben">
+			<input type="text" class="form-control" required="required" name="lastname" id="lastname" placeholder="Nachname eingeben">
 		</div>
 		<div class="form-group">
 			<label >E-Mail:</label>
-			<input type="email" class="form-control" name="email"id="email" placeholder="E-Mail eingeben">
+			<input type="email" class="form-control" required="required" name="email"id="email" placeholder="E-Mail eingeben">
 		</div>
 		<div class="form-group">
 			<label >Passwort:</label>
-			<input type="password" class="form-control" name="password" id="password" placeholder="Passwort eingeben">
+			<input type="password" class="form-control" required="required" name="password" id="password" placeholder="Passwort eingeben">
 		</div>
 		<div class="form-group">
 			<label >Passwort wiederholen:</label>
-			<input type="password" class="form-control" name="password2" id="password2" placeholder="Passwort wiederholen">
+			<input type="password" class="form-control" required="required" name="password2" id="password2" placeholder="Passwort wiederholen">
 		</div>
 		<div class="form-group">
 			<label >Löschzug:</label>

@@ -17,8 +17,12 @@ if(isset($_POST['password_old']) && isset($_POST['password'])
 	$password2 = trim($_POST['password2']);
 	
 	$error = false;
+	if(strlen($password_old) == 0) {
+        showAlert('Bitte aktuelles Passwort eingeben');
+        $error = true;
+    }
     if(strlen($password) == 0) {
-        showAlert('Bitte Passwort eingeben');
+        showAlert('Bitte neues Passwort eingeben');
         $error = true;
     }
     if($password != $password2) {
@@ -35,14 +39,14 @@ if(isset($_POST['password_old']) && isset($_POST['password'])
 ?>
 
 	<form action="" method="post">
-	Altes Passwort:<br>
-	<input type="password" size="40" maxlength="250" name="password_old"><br><br>
+	Aktuelles Passwort:<br>
+	<input type="password" size="40" required="required" maxlength="250" name="password_old"><br><br>
 
 	Neues Passwort:<br>
-	<input type="password" size="40" maxlength="250" name="password"><br><br>
+	<input type="password" size="40" required="required" maxlength="250" name="password"><br><br>
 	 
 	Passwort wiederholen:<br>
-	<input type="password" size="40"  maxlength="250" name="password2"><br>
+	<input type="password" size="40" required="required" maxlength="250" name="password2"><br>
 	<br>
 	<input type="submit" value="Passwort ändern" class="btn btn-primary">
 	</form> 

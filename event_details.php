@@ -13,29 +13,36 @@ if(!isset($_GET['id'])) {
 	</div>
 	<div class="container">
 	<?php
-	showAltert("Wache kann nicht angezeigt werden");
+	showAlert("Wache kann nicht angezeigt werden");
 } else {
+
 	$uuid = trim($_GET['id']);
 	$event = get_event($uuid);
 	$staff = get_staff($uuid);
 	
-	$isManager = (strcmp($event->manager, $_SESSION['userid']) == 0);
+	?>
+	<div class="jumbotron text-center">
+		<h1><?php echo $event->type; ?></h1>
+	</div>
+	<div class="container">
+	<?php	
 	
 	if(isset($_POST['staffid'])){
 		$staff_uuid = trim($_POST['staffid']);
 		mail_remove_staff_user($staff_uuid, $uuid);
 		remove_staff_user($staff_uuid);
+		// if ok
+		showSuccess("Eintrag entfernt");
+		$event = get_event($uuid);
 	}
-?>
-<div class="jumbotron text-center">
-	<h1><?php echo $event->type; ?></h1>
-</div>
-<div class="container">
-<?php
+
+	$isManager = (strcmp($event->manager, $_SESSION['userid']) == 0);
+
 	if($isManager){
 		showInfo("Du bist Verwalter dieser Wache");
 	}
 ?>
+
 	<div class="table-responsive">
 		<table class="table table-bordered">
 			<tbody>
