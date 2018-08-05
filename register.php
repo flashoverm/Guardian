@@ -1,5 +1,6 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
+require_once 'inc/db_engines.php';
 require_once 'inc/db_user.php';
 require_once 'inc/config.php';
 

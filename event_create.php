@@ -1,6 +1,7 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
 require_once 'inc/secured_page.php';
+require_once 'inc/db_eventtypes.php';
 require_once 'inc/db_event.php';
 require_once 'inc/mail_controller.php';
 ?>
@@ -9,13 +10,11 @@ require_once 'inc/mail_controller.php';
 </div>
 <div class="container">
 <?php
-if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'])
-	and isset($_POST['staff1']) ) {
+if (isset($_POST['title']) and isset($_POST['type']) and isset($_POST['staff1']) ) {
 	
 	$date = trim($_POST['date']);
 	$start = trim($_POST['start']);
 	$end = trim($_POST['end']);
-	$location = trim($_POST['location']);
 	$type = trim($_POST['type']);
 	$title = trim($_POST['title']);
 	$comment;
@@ -36,14 +35,6 @@ if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'
         showAlert('Bitte Start-Zeit auswählen');
         $error = true;
     }
-	if(strlen($end) == 0) {
-        showAlert('Bitte Ende auswählen');
-        $error = true;
-    }
-	if(strlen($location) == 0) {
-        showAlert('Bitte Ort eingeben');
-        $error = true;
-    }
 	if(strlen($type) == 0) {
         showAlert('Bitte Typ eingeben');
         $error = true;
@@ -62,7 +53,7 @@ if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'
 		$position += 1;
 	}
 	if(!$error){
-		$event_uuid = insert_event($date, $start, $end, $location, $type, $title, $comment, $manager);
+		$event_uuid = insert_event($date, $start, $end, $type, $title, $comment, $manager);
 		$position = 1;
 		while(isset($_POST["staff".$position])){
 			$staff = trim($_POST["staff".$position]);
@@ -74,6 +65,8 @@ if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'
 		showSuccess("Wache angelegt");
 	}
 }
+$eventtypes = get_eventtypes();
+
 ?>
 <script type='text/javascript'>
 	var currentPosition = 1;
@@ -108,17 +101,17 @@ if (isset($_POST['title']) and isset($_POST['location']) and isset($_POST['type'
 			<input type="time" required="required" class="form-control" name="start"id="start">
 		</div>
 		<div class="form-group">
-			<label>Ende:</label>
-			<input type="time" required="required" class="form-control" name="end"id="end">
+			<label>Ende (Optional):</label>
+			<input type="time" class="form-control" name="end"id="end">
 		</div>
 		<div class="form-group">
-			<label>Ort:</label>
-			<input type="text" required="required" class="form-control" name="location"id="location" placeholder="Veranstaltungsort eingeben">
+			<label >Typ:</label>
+			<select class="form-control" name="type">
+				<?php foreach ( $eventtypes as $type ) : ?>
+					<option value="<?php echo $type->uuid; ?>"><?php echo $type->type; ?></option>
+				<?php endforeach; ?>
+			</select>
 		</div>
-		<div class="form-group">
-			<label>Typ:</label>
-			<input type="text" required="required" class="form-control" name="type"id="type" placeholder="Typ eingeben">
-		</div>		
 		<div class="form-group">
 			<label>Titel:</label>
 			<input type="text" required="required" class="form-control" name="title"id="title" placeholder="Titel eingeben">

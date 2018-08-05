@@ -1,5 +1,5 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
 require_once 'inc/secured_page.php';
 require_once 'inc/db_user.php';
 ?>

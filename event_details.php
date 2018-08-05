@@ -1,5 +1,6 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
+require_once 'inc/db_eventtypes.php';
 require_once 'inc/db_event.php';
 require_once 'inc/db_user.php';
 require_once 'inc/mail_controller.php';
@@ -22,7 +23,7 @@ if(!isset($_GET['id'])) {
 	
 	?>
 	<div class="jumbotron text-center">
-		<h1><?php echo $event->type; ?></h1>
+		<h1><?php echo get_eventtype($event->type)->type; ?></h1>
 	</div>
 	<div class="container">
 	<?php	
@@ -54,7 +55,13 @@ if(!isset($_GET['id'])) {
 				<tr>
 					<td><?php echo $event->date; ?></td>
 					<td><?php echo $event->start_time; ?></td>
-					<td><?php echo $event->end_time; ?></td>
+					<td><?php 
+							if($event->end_time != 0) {
+								echo $event->end_time;
+							} else {
+								echo " - ";
+							}
+						?></td>
 				</tr>
 				<tr><th colspan="3"><?php echo $event->title; ?></th></tr>
 				<tr><td colspan="3"><?php echo $event->comment; ?></td></tr>

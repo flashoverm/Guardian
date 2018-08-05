@@ -4,24 +4,7 @@ require_once 'inc/db_connect.php';
 require_once 'inc/mail.php';
 require_once 'inc/password.php';
 
-create_table_engines();
 create_table_user();
-
-function insert_engine($name){
-	global $db;
-	$guid = getGUID();
-	$query = "INSERT INTO engines (uuid, name)
-		VALUES ('".$guid."', '".$name."')";
-		
-	$result = $db->query($query);
-	
-	if ($result) {
-		//echo "New record created successfully<br>";
-	} else {
-		//echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
-	}
-	return $result;
-}
 
 function insert_user($firstname, $lastname, $email, $engine_uuid){
 	global $db;
@@ -114,36 +97,6 @@ function get_user($uuid){
 		}   
 	}
 	return FALSE;
-}
-
-function get_engine($uuid){
-	global $db;
-	$query = "SELECT * FROM engines WHERE uuid = '".$uuid."'";
-	$result = $db->query($query);
-	if ($result) {
-		if (mysqli_num_rows($result)) {
-			$data = $result->fetch_object();
-			$result->free();
-			return $data;
-		}   
-	}
-	return FALSE;
-}
-
-function get_engines(){
-	global $db;
-	$data = array();
-	$query = "SELECT * FROM engines ORDER BY name";
-	$result = $db->query($query);
-	if ($result) {
-		if (mysqli_num_rows($result)) {
-			while($date = $result->fetch_object()) {
-				$data[] = $date;
-			}
-			$result->free();
-		}   
-	}
-	return $data;
 }
 
 function email_in_use($email){
@@ -273,7 +226,7 @@ function create_table_user(){
                           uuid CHARACTER(32) NOT NULL,
 						  firstname VARCHAR(64) NOT NULL,
                           lastname VARCHAR(64) NOT NULL,
-                          email VARCHAR(64) NOT NULL,
+                          email VARCHAR(96) NOT NULL,
                           password VARCHAR(255),
                           isadmin BOOLEAN NOT NULL,
 						  ismanager BOOLEAN NOT NULL,
@@ -287,31 +240,6 @@ function create_table_user(){
 	
 	if($result){
 		//echo "Table created<br>";
-	} else {
-		//echo "Error: " . $db->error . "<br><br>";
-	}
-}
-
-function create_table_engines(){
-	global $db;
-	$query = "CREATE TABLE engines (
-                          uuid CHARACTER(32) NOT NULL,
-						  name VARCHAR(32) NOT NULL,
-                          PRIMARY KEY  (uuid)
-                          )";
-						  
-	$result = $db->query($query);
-	
-	if($result){
-		//echo "Table created<br>";
-		insert_engine("LZ 1/2");
-		insert_engine("LZ 3");
-		insert_engine("LZ 4");
-		insert_engine("LZ 5");
-		insert_engine("LZ 6");
-		insert_engine("LZ 7");
-		insert_engine("LZ 8");
-		insert_engine("LZ 9");
 	} else {
 		//echo "Error: " . $db->error . "<br><br>";
 	}

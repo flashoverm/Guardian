@@ -1,6 +1,7 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
 require_once 'inc/secured_page.php';
+require_once 'inc/db_engines.php';
 require_once 'inc/db_user.php';
 require_once 'inc/mail_controller.php';
 ?>
@@ -59,12 +60,11 @@ if($showFormular){
 			<tbody>
 				<?php
 				foreach ($data as $row) {
-					$engine = get_engine($row->engine);
 				?>
 					<tr>
 						<td><?php echo $row->firstname; ?></td>
 						<td><?php echo $row->lastname; ?></td>
-						<td><?php echo $engine->name; ?></td>
+						<td><?php echo get_engine($row->engine)->name; ?></td>
 						<td><?php echo $row->email; ?></td>
 						<td><?php 
 									if($row->loginenabled){

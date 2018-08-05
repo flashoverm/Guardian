@@ -1,7 +1,8 @@
 <?php
-require_once 'inc/page_head.php';
+require_once 'page_head.php';
 require_once 'inc/secured_page.php';
 require_once 'inc/db_user.php';
+require_once 'inc/db_eventtypes.php';
 require_once 'inc/db_event.php';
 require_once 'inc/mail_controller.php';
 
@@ -25,14 +26,12 @@ if (!count($data)) {
 
 ?>
 <div class="table-responsive">
-	<h2>Übersicht Wachen</h2>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th>Datum</th>
 				<th>Start</th>
 				<th>Ende</th>
-				<th>Ort</th>
 				<th>Typ</th>
 				<th>Titel</th>
 				<th>Details</th>
@@ -46,9 +45,14 @@ if (!count($data)) {
 				<tr>
 					<td><?php echo $row->date; ?></td>
 					<td><?php echo $row->start_time; ?></td>
-					<td><?php echo $row->end_time; ?></td>
-					<td><?php echo $row->location; ?></td>
-					<td><?php echo $row->type; ?></td>
+					<td><?php 
+							if($row->end_time != 0) {
+								echo $row->end_time;
+							} else {
+								echo " - ";
+							}
+						?></td>
+					<td><?php echo get_eventtype($row->type)->type; ?></td>
 					<td><?php echo $row->title; ?></td>
 					<td>
 						<form method="post" action="<?= "event_details.php?id=".$row->uuid ?>">
