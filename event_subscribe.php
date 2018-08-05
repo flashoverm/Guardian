@@ -44,7 +44,7 @@ if(isset($_GET['staffid']) and isset($_GET['id'])){
 			add_staff_user($staff_uuid, $user_uuid);
 			mail_subscribe_staff_user($event_uuid, $email, $engine_uuid);
 			//TODO if ok
-			showSuccess("In Wache eingetragen");
+			showSuccess("Als Wachteilnehmer eintragen");
 			$showFormular = false;
 		}
 	}

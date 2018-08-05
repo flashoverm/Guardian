@@ -47,7 +47,7 @@ if (isset($_POST['title']) and isset($_POST['type']) and isset($_POST['staff1'])
 	while(isset($_POST["staff".$position])){
 		$staff = trim($_POST["staff".$position]);
 		if(strlen($staff) == 0) {
-			showAlert('Bitte Positionsbezeichnung '.$position.' eingeben');
+			showAlert('Bitte Funktionsbezeichnung '.$position.' eingeben');
 			$error = true;
 		}
 		$position += 1;
@@ -79,7 +79,7 @@ $eventtypes = get_eventtypes();
 		input.name = "staff" + currentPosition;
 		input.id = "staff" + currentPosition;
 		input.required = "required";
-		input.placeholder="Positionsbezeichnung eingeben";
+		input.placeholder="Funktionsbezeichnung eingeben";
 		container.appendChild(input);
 	}
 	function removeLast(){
@@ -121,11 +121,11 @@ $eventtypes = get_eventtypes();
 			<textarea class="form-control" name="comment" id="comment" placeholder="Anmerkungen"></textarea>
 		</div>				
 		<div class="form-group" id="staffContainer">
-			<label >Positionen:</label>
+			<label >Funktionen:</label>
 			<button type="button" style="float:right" class="btn btn-primary btn-sm" onClick="removeLast()">&minus;</button>
 			<a style="float:right">&nbsp;</a>
 			<button type="button" style="float:right" class="btn btn-primary btn-sm" onClick="addStaff()">+</button>
-			<input class="form-control" type="text" required="required" name="staff1" id="staff1" placeholder="Positionsbezeichnung eingeben">
+			<input class="form-control" type="text" required="required" name="staff1" id="staff1" placeholder="Funktionsbezeichnung eingeben">
 		</div>			
 		<input type="submit" value="Anlegen" class="btn btn-primary"><br>
 		<input type="hidden" name="action" value="save">
