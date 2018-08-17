@@ -1,0 +1,25 @@
+$theme-colors: (
+  "primary": #9d1006,
+  "danger": #f41a2f
+);
+
+@import "bootstrap-4.1.3/scss/bootstrap.scss";
+
+.jumbotron {
+  padding: $jumbotron-padding ($jumbotron-padding / 2);
+  margin-bottom: $jumbotron-padding;
+  background-color: #9d1006;
+  text-color: #fff;
+  @include border-radius($border-radius-lg);
+
+  @include media-breakpoint-up(sm) {
+    padding: ($jumbotron-padding * 2) $jumbotron-padding;
+  }
+}
+.jumbotron h1{
+    color: #fff;
+}
+.jumbotron h5{
+    color: #fff;
+}
+
