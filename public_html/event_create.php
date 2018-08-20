@@ -5,6 +5,15 @@ require_once '../resources/library/db_eventtypes.php';
 require_once '../resources/library/db_event.php';
 require_once '../resources/library/mail_controller.php';
 
+$eventtypes = get_eventtypes ();
+
+// Pass variables (as an array) to template
+$variables = array (
+		'title' => 'Wache anlegen',
+		'secured' => true,
+		'eventtypes' => $eventtypes,
+);
+
 if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 
 	$date = trim ( $_POST ['date'] );
@@ -60,17 +69,10 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
 		}
 		mail_insert_event ( $event_uuid, $manager );
 		// if ok
-		showSuccess ( "Wache angelegt" );
+		$variables ['successMessage'] = "Wache angelegt";
 	}
 }
-$eventtypes = get_eventtypes ();
 
-// Pass variables (as an array) to template
-$variables = array (
-		'title' => 'Wache anlegen',
-		'secured' => true,
-		'eventtypes' => $eventtypes,
-);
 
 renderLayoutWithContentFile ( "eventCreate_template.php", $variables );
 ?>

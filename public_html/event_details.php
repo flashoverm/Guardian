@@ -11,8 +11,9 @@ if (! isset ( $_GET ['id'] )) {
 	// Pass variables (as an array) to template
 	$variables = array (
 			'title' => 'Wache kann nicht angezeigt werden',
-			'secured' => true,
-			'idSet' => false
+			'secured' => false,
+			'showFormular' => false,
+			'alertMessage' => "Wache kann nicht angezeigt werden - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>"
 	);
 } else {
 	$uuid = trim ( $_GET ['id'] );
@@ -24,17 +25,20 @@ if (! isset ( $_GET ['id'] )) {
 		mail_remove_staff_user ( $staff_uuid, $uuid );
 		remove_staff_user ( $staff_uuid );
 		// if ok
-		showSuccess ( "Eintrag entfernt" );
+		$variables ['successMessage'] = "Eintrag entfernt" ;
 		$event = get_event ( $uuid );
 	}
 
-	$isManager = (strcmp ( $event->manager, $_SESSION ['userid'] ) == 0);
+	$isManager = false;
+	if(isset($_SESSION ['userid'])){
+		$isManager = (strcmp ( $event->manager, $_SESSION ['userid'] ) == 0);
+	}
 
 	// Pass variables (as an array) to template
 	$variables = array (
 			'title' => get_eventtype ( $event->type )->type,
-			'secured' => true,
-			'idSet' => true,
+			'secured' => false,
+			'showFormular' => true,
 			'isManager' => $isManager,
 			'event' => $event,
 			'staff' => $staff

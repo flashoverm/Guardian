@@ -1,9 +1,5 @@
 <?php
-if ($deleted) {
-	showSuccess ( "Wache gelöscht" );
-}
-
-if (! count ( $data )) {
+if (! count ( $events )) {
 	showInfo ( "Es sind keine Wachen offen" );
 } else {
 ?>
@@ -12,18 +8,18 @@ if (! count ( $data )) {
 		<thead>
 			<tr>
 				<th>Datum</th>
-				<th>Start</th>
+				<th>Beginn</th>
 				<th>Ende</th>
 				<th>Typ</th>
 				<th>Titel</th>
 				<th>Details</th>
-				<th>Löschen</th>
+				<th>LÃ¶schen</th>
 			</tr>
 		</thead>
 		<tbody>
 			
 	<?php
-	foreach ( $data as $row ) {
+	foreach ( $events as $row ) {
 		?>
 				<tr>
 				<td><?= $row->date; ?></td>
@@ -48,7 +44,7 @@ if (! count ( $data )) {
 				<td>
 					<form method="post" action="">
 						<input type="hidden" name="delete" id="delete"
-							value="<?= $row->uuid ?>" /> <input type="submit" value="Löschen"
+							value="<?= $row->uuid ?>" /> <input type="submit" value="LÃ¶schen"
 							class="btn btn-outline-primary btn-sm" />
 					</form>
 				</td>

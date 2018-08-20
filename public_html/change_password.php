@@ -1,13 +1,8 @@
 <?php
-require_once '../resources/templates/header.php';
-require_once '../resources/library/secured_page.php';
+require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
+require_once LIBRARY_PATH . "/template.php";
 require_once '../resources/library/db_user.php';
-?>
-<div class="jumbotron text-center">
-	<h1>Passwort ändern</h1>
-</div>
-<div class="container">
-<?php
+
 if (isset ( $_POST ['password_old'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_SESSION ['userid'] )) {
 
 	$uuid = $_SESSION ['userid'];
@@ -25,33 +20,22 @@ if (isset ( $_POST ['password_old'] ) && isset ( $_POST ['password'] ) && isset 
 		$error = true;
 	}
 	if ($password != $password2) {
-		showAlert ( 'Die Passwörter müssen übereinstimmen' );
+		showAlert ( 'Die PasswÃ¶rter mÃ¼ssen Ã¼bereinstimmen' );
 		$error = true;
 	}
 
 	if (! $error) {
 		$uuid = change_password ( $uuid, $password_old, $password );
-		showSuccess ( "Password erfolgreich geändert" );
+		showSuccess ( "Password erfolgreich geï¿½ndert" );
 	}
 }
 
-?>
+// Pass variables (as an array) to template
+$variables = array (
+'title' => "Passwort Ã¤ndern",
+'secured' => true,
+);
 
-	<form action="" method="post">
-		Aktuelles Passwort:<br> <input type="password" size="40"
-			required="required" maxlength="250" name="password_old"><br> <br>
-		Neues Passwort:<br> <input type="password" size="40"
-			required="required" maxlength="250" name="password"><br> <br>
-		Passwort wiederholen:<br> <input type="password" size="40"
-			required="required" maxlength="250" name="password2"><br> <br> <input
-			type="submit" value="Passwort Ã¤ndern" class="btn btn-primary">
-	</form>
-</div>
-<footer>
-	<div class="container">
-		<a href='event_overview.php' class="btn btn-outline-primary">Zurück
-			zur Wachenübersicht</a> <a href='manager_overview.php'
-			class="btn btn-outline-primary">Zurück zur Beauftragten-Übersicht</a>
-	</div>
-	
-<?php require_once '../resources/templates/footer.php'; ?>
+renderLayoutWithContentFile ( "changePassword_template.php", $variables );
+
+?>

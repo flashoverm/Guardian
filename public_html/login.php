@@ -3,9 +3,15 @@ require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_user.php";
 
-if(isset ($_SESSION ['userid'])){
+if (isset ( $_SESSION ['userid'] )) {
 	header ( "Location: event_overview.php" ); // redirects
 }
+
+// Pass variables (as an array) to template
+$variables = array (
+		'title' => "Guardian</h1><h5>Wachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut</h5>",
+		'secured' => false
+);
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 
@@ -19,14 +25,8 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 			header ( "Location: event_overview.php" ); // redirects
 		}
 	}
-	showAlert ( "E-Mail oder Passwort ungültig" );
+	$variables ['alertMessage'] = "E-Mail oder Passwort ungÃ¼ltig";
 }
-
-// Pass variables (as an array) to template
-$variables = array (
-		'title' => "Guardian</h1><h5>Wachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut</h5>",
-		'secured' => false
-);
 
 renderLayoutWithContentFile ( "login_template.php", $variables );
 ?>

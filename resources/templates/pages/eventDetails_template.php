@@ -1,9 +1,10 @@
 <?php
-if($idSet){
+require_once '../resources/library/db_engines.php';
+require_once '../resources/library/db_user.php';
 
-	if ($isManager) { 
-		showInfo ( "Du bist Verwalter dieser Wache" ); 
-	} 
+if ($isManager) { 
+	showInfo ( "Du bist Verwalter dieser Wache" ); 
+} 
 ?>
 
 <div class="table-responsive">
@@ -69,9 +70,9 @@ if($idSet){
 			</tr>
 		</tbody>
 	</table>
+	<?php
+	if($loggedIn){
+		echo "<a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
+	}
+	?>
 </div>
-<?php
-} else {
-	showAlert ( "Wache kann nicht angezeigt werden" );
-}
-?>

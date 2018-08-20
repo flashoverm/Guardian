@@ -27,10 +27,24 @@ function renderLayoutWithContentFile($contentFile, $variables = array()) {
 
 	if ($secured && ! $loggedIn) {
 		showAlert ( 'Bitte zuerst <a href="login.php" class="alert-link">einloggen</a>' );
-	} else {
+	} else {	
+		
+		if(isset($alertMessage)){
+			showAlert($alertMessage);
+		}
+		
+		if(isset($successMessage)){
+			showSuccess($successMessage);
+		}
+		
+		if(isset($infoMessage)){
+			showInfo($infoMessage);
+		}
 		
 		if (file_exists ( $contentFileFullPath )) {
-			require_once ($contentFileFullPath);
+			if(!isset($showFormular) || $showFormular){
+				require_once ($contentFileFullPath);
+			}
 		} else {
 			/*
 			 * If the file isn't found the error can be handled in lots of ways.

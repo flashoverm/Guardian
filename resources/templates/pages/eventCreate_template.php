@@ -5,7 +5,7 @@
 			class="form-control" name="date" id="date">
 	</div>
 	<div class="form-group">
-		<label>Start:</label> <input type="time" required="required"
+		<label>Beginn:</label> <input type="time" required="required"
 			class="form-control" name="start" id="start">
 	</div>
 	<div class="form-group">
@@ -30,7 +30,7 @@
 			placeholder="Anmerkungen"></textarea>
 	</div>
 	<div class="form-group" id="staffContainer">
-		<label>Benötigtes Wachpersonal:</label>
+		<label>BenÃ¶tigtes Wachpersonal:</label>
 		<button type="button" style="float: right"
 			class="btn btn-primary btn-sm" onClick="removeLast()">&minus;</button>
 		<a style="float: right">&nbsp;</a>

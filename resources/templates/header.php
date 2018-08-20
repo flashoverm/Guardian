@@ -50,18 +50,24 @@ if ($loggedIn) {
 			</li>		
 		</ul>
 	</div>";
+	
+	if ($isAdmin) {
+	echo "<div class='collapse navbar-collapse order-2 dual-collapse2'
+		id='navbarMainContent'>
+			<ul class='navbar-nav mx-auto'>
+				<li class='nav-item'>
+	        	<a class='nav-link' href='manager_overview.php'>Wachbeauftragte</a>
+				</li>
+			</ul>
+		</div>";
+	}
 }
 ?>
-    <div class="collapse navbar-collapse  order-2 dual-collapse2"
+    <div class="collapse navbar-collapse  order-3 dual-collapse3"
 		id="navbarMainContent">
 		<ul class="navbar-nav ml-auto">
 <?php
 if ($loggedIn) {
-	if ($isAdmin) {
-		echo " 	<li class='nav-item'>
-	        	<a class='nav-link' href='manager_overview.php'>Wachbeauftragte</a>
-				</li>";
-	}
 	echo "	<li class='nav-item'>
                 <a class='nav-link' href='change_password.php'>Passwort ändern</a>
             </li>
@@ -82,3 +88,4 @@ if ($loggedIn) {
         </ul>
 	</div>
 	</nav> </header>
+	

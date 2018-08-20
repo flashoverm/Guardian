@@ -1,23 +1,20 @@
 <?php
-require_once '../resources/templates/header.php';
+require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
+require_once LIBRARY_PATH . "/template.php";
 require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
-require_once '../resources/config.php';
 
-session_start ();
-?>
+// Pass variables (as an array) to template
+$variables = array (
+		'title' => "Als Wachbeauftragter registrieren",
+		'secured' => false
+);
 
-<div class="jumbotron text-center">
-	<h1>Als Wachbeauftragter registrieren</h1>
-</div>
-<div class="container">
-
-<?php
 if ($config ["settings"] ["selfregistration"]) {
-	$showFormular = true;
+	$variables ['showFormular'] = true;
 } else {
-	$showFormular = false;
-	showAlert ( "Selbstregistrierung deaktiviert - <a href=\"login.php\" class=\"alert-link\">Zum Login</a>" );
+	$variables ['showFormular'] = false;
+	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"login.php\" class=\"alert-link\">Zum Login</a>";
 }
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
@@ -35,76 +32,31 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 		$error = true;
 	}
 	if ($password != $password2) {
-		showAlert ( 'Die Passwörter müssen übereinstimmen' );
+		showAlert ( 'Die PasswÃ¶rter mÃ¼ssen Ã¼bereinstimmen' );
 		$error = true;
 	}
 	if (! $error) {
 		if (email_in_use ( $email )) {
-			showAlert ( 'Diese E-Mail-Adresse ist bereits vergeben' );
+			$variables ['alertMessage'] = "Diese E-Mail-Adresse ist bereits vergeben";
 			$error = true;
 		}
 	}
 	if (! $error) {
-		$result = insert_manager ( $firstname, $lastname, $email, $password, $engine );
+		if ($config ["settings"] ["autoadmin"]) {
+			$result = insert_admin ( $firstname, $lastname, $email, $password, $engine );
+		} else {
+			$result = insert_manager ( $firstname, $lastname, $email, $password, $engine );
+		}
 
 		if ($result) {
-			$showFormular = false;
-			header("Location: login.php"); // redirects
+			header ( "Location: login.php" ); // redirects
 		} else {
-			showAlert('Leider ist ein Fehler aufgetreten');
+			$variables ['alertMessage'] = "Ein unbekannter Fehler ist aufgetreten";
 		}
 	}
 }
+$engines = get_engines ();
+$variables ['engines'] = $engines;
 
-if ($showFormular) {
-	$results = get_engines ();
-
+renderLayoutWithContentFile ( "register_template.php", $variables );
 ?>
-
-	<form action="" method="post">
-		<div class="form-group">
-			<label>Vorname:</label> <input type="text" class="form-control"
-				required="required" name="firstname" id="firstname"
-				placeholder="Vorname eingeben">
-		</div>
-		<div class="form-group">
-			<label>Nachname:</label> <input type="text" class="form-control"
-				required="required" name="lastname" id="lastname"
-				placeholder="Nachname eingeben">
-		</div>
-		<div class="form-group">
-			<label>E-Mail:</label> <input type="email" class="form-control"
-				required="required" name="email" id="email"
-				placeholder="E-Mail eingeben">
-		</div>
-		<div class="form-group">
-			<label>Passwort:</label> <input type="password" class="form-control"
-				required="required" name="password" id="password"
-				placeholder="Passwort eingeben">
-		</div>
-		<div class="form-group">
-			<label>Passwort wiederholen:</label> <input type="password"
-				class="form-control" required="required" name="password2"
-				id="password2" placeholder="Passwort wiederholen">
-		</div>
-		<div class="form-group">
-			<label>LÃ¶schzug:</label> <select class="form-control" name="engine">
-				<?php foreach ( $results as $option ) : ?>
-					<option value="<?php echo $option->uuid; ?>"><?php echo $option->name; ?></option>
-				<?php endforeach; ?>
-			</select>
-		</div>
-		<input type="submit" value="Registrieren" class="btn btn-primary">
-	</form>
-</div>
-
-<?php
-}
-?>
-
-<footer>
-	<div class="container">
-		<a href='login.php' class="btn btn-outline-primary">Zurück</a>
-	</div>
-	
-<?php require_once '../resources/templates/footer.php'; ?>
