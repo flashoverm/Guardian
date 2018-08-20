@@ -30,6 +30,11 @@
 	<header>
 	<div class="jumbotron text-center">
 		<h1><?= $title ?></h1>
+		<?php
+		if(isset($subtitle)){
+			echo "<h5>".$subtitle."</h5>";
+		}
+		?>
 	</div>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <!-- <a class="navbar-brand" href="#">Navigation</a> -->
