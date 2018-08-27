@@ -6,6 +6,13 @@ require_once '../resources/library/db_eventtypes.php';
 require_once '../resources/library/db_event.php';
 require_once '../resources/library/mail_controller.php';
 
+
+// Pass variables (as an array) to template
+$variables = array (
+    'title' => "Übersicht Wachen",
+    'secured' => true,
+);
+
 if (isset ( $_POST ['delete'] )) {
 	$delete_event_uuid = trim ( $_POST ['delete'] );
 	mail_delete_event ( $delete_event_uuid );
@@ -14,15 +21,8 @@ if (isset ( $_POST ['delete'] )) {
 	$variables ['successMessage'] = "Wache gelöscht";
 }
 
-$events = get_events ();
-
-// Pass variables (as an array) to template
-$variables = array (
-		'title' => "Übersicht Wachen",
-		'secured' => true,
-		'events' => $events
-);
+$events = get_events ($_SESSION ['userid']);
+$variables ['events'] = $events;
 
 renderLayoutWithContentFile ( "eventOverview_template.php", $variables );
-
 ?>

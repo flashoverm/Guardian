@@ -12,6 +12,9 @@ $variables = array (
 
 if ($config ["settings"] ["selfregistration"]) {
 	$variables ['showFormular'] = true;
+	
+	$engines = get_engines ();
+	$variables ['engines'] = $engines;
 } else {
 	$variables ['showFormular'] = false;
 	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"login.php\" class=\"alert-link\">Zum Login</a>";
@@ -19,7 +22,6 @@ if ($config ["settings"] ["selfregistration"]) {
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
 
-	$error = false;
 	$firstname = $_POST ['firstname'];
 	$lastname = $_POST ['lastname'];
 	$email = $_POST ['email'];
@@ -27,12 +29,9 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 	$password2 = $_POST ['password2'];
 	$engine = $_POST ['engine'];
 
-	if (strlen ( $password ) == 0) {
-		showAlert ( 'Bitte Passwort angeben' );
-		$error = true;
-	}
+	$error = false;
 	if ($password != $password2) {
-		showAlert ( 'Die Passwörter müssen übereinstimmen' );
+	    $variables ['alertMessage'] = 'Die Passwörter müssen übereinstimmen';
 		$error = true;
 	}
 	if (! $error) {
@@ -55,8 +54,6 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 		}
 	}
 }
-$engines = get_engines ();
-$variables ['engines'] = $engines;
 
 renderLayoutWithContentFile ( "register_template.php", $variables );
 ?>

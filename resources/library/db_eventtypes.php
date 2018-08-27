@@ -5,18 +5,19 @@ create_table_eventtypes ();
 
 function insert_eventtype($type) {
 	global $db;
-	$guid = getGUID ();
+	$uuid = getGUID ();
 	$query = "INSERT INTO eventtypes (uuid, type)
-		VALUES ('" . $guid . "', '" . $type . "')";
+		VALUES ('" . $uuid . "', '" . $type . "')";
 
 	$result = $db->query ( $query );
 
 	if ($result) {
 		// echo "New record created successfully<br>";
+	    return $uuid;
 	} else {
 		echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
+		return false;
 	}
-	return $result;
 }
 
 function get_eventtype($uuid) {
@@ -30,7 +31,7 @@ function get_eventtype($uuid) {
 			return $data;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 function get_eventtypes() {
@@ -68,7 +69,9 @@ function create_table_eventtypes() {
 		insert_eventtype ( "Burgwache" );
 		insert_eventtype ( "Wache Grieserwiese" );
 		insert_eventtype ( "Sonstige Wache (siehe Anmerkungen)" );
+		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
+		return false;
 	}
 }

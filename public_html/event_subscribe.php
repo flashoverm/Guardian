@@ -6,13 +6,21 @@ require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
 require_once '../resources/library/mail_controller.php';
 
-$showFormular = true;
+// Pass variables (as an array) to template
+$variables = array (
+    'title' => 'In Wache eintragen',
+    'secured' => false,
+);
 
 if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 
 	$staffUUID = trim ( $_GET ['staffid'] );
 	$engines = get_engines ();
 	$eventUUID = trim ( $_GET ['id'] );
+	
+	$variables ['engines'] = $engines;
+	$variables ['eventUUID'] = $eventUUID;
+	$variables ['staffUUID'] = $staffUUID;
 
 	if (isset ( $_POST ['firstname'] ) and isset ( $_POST ['lastname'] ) && isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] )) {
 
@@ -21,46 +29,17 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 		$email = trim ( $_POST ['email'] );
 		$engineUUID = trim ( $_POST ['engine'] );
 
-		$error = false;
-		if (strlen ( $firstname ) == 0) {
-			showAlert ( 'Bitte Vorname angeben' );
-			$error = true;
-		}
-		if (strlen ( $lastname ) == 0) {
-			showAlert ( 'Bitte Nachname angeben' );
-			$error = true;
-		}
-		if (strlen ( $email ) == 0) {
-			showAlert ( 'Bitte E-Mail angeben' );
-			$error = true;
-		}
-		
-		if (! $error) {
-			$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
-			add_staff_user ( $staffUUID, $user_uuid );
-			mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
-			// TODO if ok
-			showSuccess ( "Als Wachteilnehmer eingetragen" );
-			$showFormular = false;
-		}
-		
+		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
+		add_staff_user ( $staffUUID, $user_uuid );
+		mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
+		// TODO if ok
+		$variables ['successMessage'] = "Als Wachteilnehmer eingetragen";
+		$variables ['showFormular'] = false;
 	}
 } else {
-	$showFormular = false;
-	showAlert ( "Fehlende Paramter" );
+    $variables ['showFormular'] = false;
+    $variables ['alertMessage'] = "Fehlende Paramter";
 }
 
-if ($showFormular) {
-
-	// Pass variables (as an array) to template
-	$variables = array (
-			'title' => 'In Wache eintragen',
-			'secured' => false,
-			'engines' => $engines,
-			'eventUUID' => $eventUUID,
-			'staffUUID' => $staffUUID
-	);
-	
-	renderLayoutWithContentFile ( "eventSubscribe_template.php", $variables );
-}
+renderLayoutWithContentFile ( "eventSubscribe_template.php", $variables );
 ?>

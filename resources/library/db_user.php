@@ -28,10 +28,11 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 
 	if ($result) {
 		// echo "New record created successfully";
+	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
-	return $uuid;
 }
 
 function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) {
@@ -45,10 +46,11 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) 
 
 	if ($result) {
 		// echo "New record created successfully";
+	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
-	return $result;
 }
 
 function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
@@ -56,16 +58,17 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
 	$query = "INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine)
-		VALUES ('" . $uuid . "', '" . $firstname . "', '" . $lastname . "', '" . $email . "', '" . $pwhash . "', TRUE, FALSE, TRUE, '" . $engine_uuid . "')";
+		VALUES ('" . $uuid . "', '" . $firstname . "', '" . $lastname . "', '" . $email . "', '" . $pwhash . "', TRUE, TRUE, TRUE, '" . $engine_uuid . "')";
 
 	$result = $db->query ( $query );
 
 	if ($result) {
 		// echo "New record created successfully";
+	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
-	return $result;
 }
 
 function get_manager() {
@@ -95,7 +98,21 @@ function get_user($uuid) {
 			return $data;
 		}
 	}
-	return FALSE;
+	return false;
+}
+
+function get_engine_of_user($user_uuid){
+    global $db;
+    $query = "SELECT engine FROM user WHERE uuid = '" . $user_uuid . "'";
+    $result = $db->query ( $query );
+    if ($result) {
+        if (mysqli_num_rows ( $result )) {
+            $data = $result->fetch_row ();
+            $result->free ();
+            return $data[0];
+        }
+    }
+    return false;
 }
 
 function email_in_use($email) {
@@ -103,9 +120,9 @@ function email_in_use($email) {
 	$query = "SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = '" . $email . "'";
 	$result = $db->query ( $query );
 	if (mysqli_num_rows ( $result )) {
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 function is_admin($uuid) {
@@ -133,7 +150,7 @@ function login_enabled($email) {
 			return $data [0];
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 function check_password($email, $password) {
@@ -149,7 +166,7 @@ function check_password($email, $password) {
 			}
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 function deactivate_manager($uuid) {
@@ -159,8 +176,10 @@ function deactivate_manager($uuid) {
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
+		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
 }
 
@@ -171,8 +190,10 @@ function reactivate_manager($uuid) {
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
+		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
 }
 
@@ -188,7 +209,7 @@ function reset_password($uuid) {
 		return $password;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
-		return FALSE;
+		return false;
 	}
 }
 
@@ -206,17 +227,17 @@ function change_password($uuid, $old_password, $new_passwort) {
 				$result = $db->query ( $query );
 				if ($result) {
 					// echo "Record ".$uuid." updated successfully";
-					return TRUE;
+					return true;
 				} else {
 					// echo "Error: " . $query . "<br>" . $db->error;
-					return FALSE;
+				    return false;
 				}
 			}
 		}
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
 	}
-	return FALSE;
+	return false;
 }
 
 function create_table_user() {
@@ -239,8 +260,10 @@ function create_table_user() {
 
 	if ($result) {
 		// echo "Table created<br>";
+		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
+		return false;
 	}
 }
 

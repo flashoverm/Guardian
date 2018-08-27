@@ -50,14 +50,14 @@ if ($isManager) {
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
 					if ($entry->user == NULL) {
-						echo "<form method=\"post\" action=\"event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "\">
-										<input type=\"submit\" value=\"Eintragen\" class=\"btn btn-primary btn-sm\"/>
+						echo "<form method='post' action='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>
+										<input type='submit' value='Eintragen' class='btn btn-primary btn-sm'/>
 									</form>";
 					}
 					if ($entry->user != NULL and $isManager) {
-						echo "<form method=\"post\" action=\"event_details.php?id=" . $event->uuid . "\">
-										<input type=\"hidden\" name=\"staffid\" id=\"staffid\" value=\"" . $entry->uuid . "\"/>
-										<input type=\"submit\" value=\"Entfernen\" class=\"btn btn-outline-primary btn-sm\"/>
+						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
+										<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
+										<input type='submit' value='Entfernen' class='btn btn-outline-primary btn-sm'/>
 									</form>";
 					}
 					?></td>
@@ -66,13 +66,21 @@ if ($isManager) {
 				}
 				?>
 				<tr>
-				<td colspan="3"><?= "/guardian/event_details.php?id=".$event->uuid; ?></td>
+				<td colspan="3"><b>Link:&nbsp;</b> <?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></td>
 			</tr>
 		</tbody>
 	</table>
 	<?php
 	if($loggedIn){
-		echo "<a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
+	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
+                  <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
+		if($event->engine != NULL and $isManager){
+            echo "<input type='hidden' name='publish' id='publish' value='publish'/>
+                  <input type='submit' class='btn btn-primary' value='Veröffentlichen'/>";
+		} else {
+		    echo "&nbsp;<input type='button' disabled='disabled' class='btn btn-outline-primary' value='Wache ist öffentlich' />";
+		}
+	    echo "</form>";
 	}
 	?>
 </div>

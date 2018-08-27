@@ -21,56 +21,28 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
 	$end = trim ( $_POST ['end'] );
 	$type = trim ( $_POST ['type'] );
 	$title = trim ( $_POST ['title'] );
-	$comment;
+	$comment = "";
+	$informOther = false;
+
 	$manager = $_SESSION ['userid'];
 
 	if (isset ( $_POST ['comment'] )) {
 		$comment = trim ( $_POST ['comment'] );
-	} else {
-		$comment = "";
 	}
-
+	if(isset($_POST ['informOther'])){
+	    $informOther = true;
+	}
 	
-	$error = false;
-	if (strlen ( $date ) == 0) {
-		showAlert ( 'Bitte Datum auswählen' );
-		$error = true;
-	}
-	if (strlen ( $start ) == 0) {
-		showAlert ( 'Bitte Start-Zeit auswählen' );
-		$error = true;
-	}
-	if (strlen ( $type ) == 0) {
-		showAlert ( 'Bitte Typ eingeben' );
-		$error = true;
-	}
-	if (strlen ( $title ) == 0) {
-		showAlert ( 'Bitte Titel eingeben' );
-		$error = true;
-	}
+    $event_uuid = insert_event ( $date, $start, $end, $type, $title, $comment, !$informOther, $manager );
 	$position = 1;
 	while ( isset ( $_POST ["staff" . $position] ) ) {
 		$staff = trim ( $_POST ["staff" . $position] );
-		if (strlen ( $staff ) == 0) {
-			showAlert ( 'Bitte Funktionsbezeichnung ' . $position . ' eingeben' );
-			$error = true;
-		}
 		$position += 1;
+		insert_staff ( $event_uuid, $staff );
 	}
-	
-	
-	if (! $error) {
-		$event_uuid = insert_event ( $date, $start, $end, $type, $title, $comment, $manager );
-		$position = 1;
-		while ( isset ( $_POST ["staff" . $position] ) ) {
-			$staff = trim ( $_POST ["staff" . $position] );
-			$position += 1;
-			insert_staff ( $event_uuid, $staff );
-		}
-		mail_insert_event ( $event_uuid, $manager );
-		// if ok
-		$variables ['successMessage'] = "Wache angelegt";
-	}
+	mail_insert_event ( $event_uuid, $manager, $informOther);
+	// if ok
+	$variables ['successMessage'] = "Wache angelegt";
 }
 
 

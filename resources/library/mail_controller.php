@@ -3,7 +3,7 @@ require_once 'mail.php';
 require_once 'db_connect.php';
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 
-function mail_insert_event($event_uuid, $manager_uuid) {
+function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	global $db;
 	global $config;
 
@@ -12,7 +12,8 @@ function mail_insert_event($event_uuid, $manager_uuid) {
 	$body = "Eine neue Wache wurde eingestellt: \n\n" . $link;
 	// TODO add more infos of the event (evtl: as html)
 
-	$query = "SELECT email FROM user WHERE ismanager = TRUE AND NOT uuid = '" . $manager_uuid . "'";
+	$query = "SELECT email FROM user WHERE uuid = '" . $manager_uuid . "'";
+	
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -22,6 +23,31 @@ function mail_insert_event($event_uuid, $manager_uuid) {
 			$result->free ();
 		}
 	}
+	
+	if($informOther){
+	    mail_publish($event_uuid, $manager_uuid);
+	}
+}
+
+function mail_publish($event_uuid, $manager_uuid){
+    global $db;
+    global $config;
+    
+    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
+    $subject = "Neuer Wache verÃ¶ffentlicht";
+    $body = "Eine neue Wache wurde verÃ¶ffentlicht: \n\n" . $link;
+    
+    $query = "SELECT email FROM user WHERE ismanager = TRUE AND NOT uuid = '" . $user_uuid . "'";
+    
+    $result = $db->query ( $query );
+    if ($result) {
+        if (mysqli_num_rows ( $result )) {
+            while ( $email = $result->fetch_row () ) {
+                send_mail ( $email [0], $subject, $body );
+            }
+            $result->free ();
+        }
+    }
 }
 
 function mail_delete_event($event_uuid) {
@@ -69,7 +95,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 		}
 	}
 
-	$query = "SELECT COUNT(*) AS empty_pos FROM staff WHERE user = NULL AND event = '" . $event_uuid . "'";
+	$query = "SELECT COUNT(*) AS empty_pos FROM staff WHERE user IS NULL AND event = '" . $event_uuid . "'";
 	$result = $db->query ( $query );
 	$count = $result->fetch_row () [0];
 	if ($count == 0) {
@@ -128,15 +154,15 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 
 function mail_add_manager($mail_manager, $password) {
 	$subject = "Zugangsdaten Wachbauftragter";
-	$body = "Für Sie wurde ein Zugang als Wachbeuaftragter angelegt: \nLogin: " . $mail_manager . " \nPasswort: " . $password;
+	$body = "FÃ¼r Sie wurde ein Zugang als Wachbeuaftragter angelegt: \nLogin: " . $mail_manager . " \nPasswort: " . $password;
 	send_mail ( $mail_manager, $subject, $body );
 }
 
 function mail_reset_password($manager_uuid, $password) {
 	global $db;
 
-	$subject = "Passwort zurückgesetzt";
-	$body = "Ihr Passwort wurde zurückgesetzt auf: " . $password;
+	$subject = "Passwort zurï¿½ckgesetzt";
+	$body = "Ihr Passwort wurde zurï¿½ckgesetzt auf: " . $password;
 
 	$query = "SELECT * FROM user WHERE uuid = '" . $manager_uuid . "'";
 	$result = $db->query ( $query );

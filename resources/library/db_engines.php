@@ -5,18 +5,19 @@ create_table_engines ();
 
 function insert_engine($name) {
 	global $db;
-	$guid = getGUID ();
+	$uuid = getGUID ();
 	$query = "INSERT INTO engines (uuid, name)
-		VALUES ('" . $guid . "', '" . $name . "')";
+		VALUES ('" . $uuid . "', '" . $name . "')";
 
 	$result = $db->query ( $query );
 
 	if ($result) {
-		// echo "New record created successfully<br>";
+		 //echo "New record created successfully<br>";
+		 return true;
 	} else {
-		// echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
+		 //echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
+		 return false;
 	}
-	return $result;
 }
 
 function get_engine($uuid) {
@@ -30,7 +31,7 @@ function get_engine($uuid) {
 			return $data;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 function get_engines() {
@@ -69,7 +70,9 @@ function create_table_engines() {
 		insert_engine ( "Löschzug 7" );
 		insert_engine ( "Löschzug 8" );
 		insert_engine ( "Löschzug 9" );
+		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
+		return false;
 	}
 }

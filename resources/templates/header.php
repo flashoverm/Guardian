@@ -43,18 +43,19 @@
 		aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
+
 <?php
 if ($loggedIn) {
 	echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
-		<ul class='navbar-nav mr-auto'>
-			<li class='nav-item'>
+		  <ul class='navbar-nav mr-auto'>
+            <li class='nav-item'>
         		<a class='nav-link' href='event_overview.php'>Wachübersicht</a>
 			</li>	
 			<li class='nav-item'>
         		<a class='nav-link' href='event_create.php'>Wache anlegen</a>
-			</li>		
-		</ul>
-	</div>";
+			</li>
+			</ul>
+		</div>";
 	
 	if ($isAdmin) {
 	echo "<div class='collapse navbar-collapse order-2 dual-collapse2'
@@ -66,6 +67,15 @@ if ($loggedIn) {
 			</ul>
 		</div>";
 	}
+} else if($config ["settings"] ["selfregistration"]){
+    echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
+		  <ul class='navbar-nav mr-auto'>
+			<ul class='navbar-nav mx-auto'>
+ 				<li class='nav-item'>
+	        	  <a class='nav-link' href='event_report.php'>Wachbericht erstellen</a>
+				</li>
+			</ul>
+		</div>";  
 }
 ?>
     <div class="collapse navbar-collapse  order-3 dual-collapse3"

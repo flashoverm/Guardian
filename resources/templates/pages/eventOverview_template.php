@@ -12,6 +12,7 @@ if (! count ( $events )) {
 				<th>Ende</th>
 				<th>Typ</th>
 				<th>Titel</th>
+				<th>Öffentlich</th>
 				<th>Details</th>
 				<th>Löschen</th>
 			</tr>
@@ -34,6 +35,15 @@ if (! count ( $events )) {
 		?></td>
 				<td><?= get_eventtype($row->type)->type; ?></td>
 				<td><?= $row->title; ?></td>
+				<td>
+					<?php
+					if($row->engine == NULL){
+					    echo " X ";
+					} else {
+					    echo " - ";
+					}
+					?>
+				</td>
 				<td>
 					<form method="post"
 						action="<?= "event_details.php?id=".$row->uuid ?>">

@@ -1,17 +1,26 @@
 <?php
 require_once 'db_connect.php';
 require_once 'mail.php';
+require_once 'db_user.php';
 
 create_table_events ();
 create_table_staff ();
 
-function insert_event($date, $start, $end, $type_uuid, $title, $comment, $manager) {
+function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine_only, $manager) {
 	global $db;
 
 	$uuid = getGUID ();
 	$hash = hash ( "sha256", $uuid . $date . $start . $end . $type_uuid . $title );
-	$query = "INSERT INTO events (uuid, date, start_time, end_time, type, title, comment, hash, manager)
-		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', '" . $hash . "', '" . $manager . "')";
+	if($engine_only){
+	    $engine = get_engine_of_user($manager);
+	    
+	    $query = "INSERT INTO events (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', '" . $engine . "','" . $hash . "', '" . $manager . "')";
+	    
+	} else {
+	    $query = "INSERT INTO events (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', NULL,'" . $hash . "', '" . $manager . "')";
+	}
 
 	$result = $db->query ( $query );
 
@@ -21,7 +30,7 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $manage
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
 	}
-	return FALSE;
+	return false;
 }
 
 function insert_staff($event_uuid, $staff) {
@@ -35,15 +44,24 @@ function insert_staff($event_uuid, $staff) {
 
 	if ($result) {
 		// echo "New staff record created successfully";
+	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
 }
 
-function get_events() {
+function get_public_events() {
+    return get_events(null);   
+}
+    
+function get_events($user_uuid) {
 	global $db;
 	$data = array ();
-	$result = $db->query ( "SELECT * FROM events" );
+	
+	$engine = get_engine_of_user($user_uuid);
+
+	$result = $db->query ( "SELECT * FROM events WHERE engine IS NULL OR engine = '" . $engine . "'" );
 
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -72,9 +90,9 @@ function get_staff($event_uuid) {
 	return $data;
 }
 
-function get_event($uuid) {
+function get_event($event_uuid) {
 	global $db;
-	$result = $db->query ( "SELECT * FROM events WHERE uuid = '" . $uuid . "'" );
+	$result = $db->query ( "SELECT * FROM events WHERE uuid = '" . $event_uuid . "'" );
 
 	if ($result) {
 		return $result->fetch_object ();
@@ -90,8 +108,10 @@ function add_staff_user($uuid, $user) {
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
+		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
 }
 
@@ -102,9 +122,25 @@ function remove_staff_user($uuid) {
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
+	    return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+	    return false;
 	}
+}
+
+function publish_event($uuid){
+    global $db;
+    $query = "UPDATE events SET engine = NULL WHERE uuid='" . $uuid . "'";
+    $result = $db->query ( $query );
+    
+    if ($result) {
+        // echo "Record ".$uuid." updated successfully";
+        return true;
+    } else {
+        // echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
 }
 
 function delete_event($uuid) {
@@ -117,8 +153,10 @@ function delete_event($uuid) {
 
 	if ($result1 && $result2) {
 		// echo "Record ".$uuid." removed successfully";
+	    return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
 }
 
@@ -132,6 +170,7 @@ function create_table_events() {
                           type CHARACTER(32) NOT NULL,
 						  title VARCHAR(96) NOT NULL,
 						  comment VARCHAR(255),
+                          engine CHARACTER(32),
 						  hash VARCHAR(64) NOT NULL,
 						  manager CHARACTER(32) NOT NULL,
                           PRIMARY KEY  (uuid),
@@ -143,8 +182,10 @@ function create_table_events() {
 
 	if ($result) {
 		// echo "Table created<br>";
+		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
+		return false;
 	}
 }
 
@@ -164,8 +205,10 @@ function create_table_staff() {
 
 	if ($result) {
 		// echo "Table created<br>";
+		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
+		return false;
 	}
 }
 
