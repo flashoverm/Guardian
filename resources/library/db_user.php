@@ -243,7 +243,7 @@ function change_password($uuid, $old_password, $new_passwort) {
 function create_table_user() {
 	global $db;
 	$query = "CREATE TABLE user (
-                          uuid CHARACTER(32) NOT NULL,
+                          uuid CHARACTER(36) NOT NULL,
 						  firstname VARCHAR(64) NOT NULL,
                           lastname VARCHAR(64) NOT NULL,
                           email VARCHAR(96) NOT NULL,
@@ -251,7 +251,7 @@ function create_table_user() {
                           isadmin BOOLEAN NOT NULL,
 						  ismanager BOOLEAN NOT NULL,
 						  loginenabled BOOLEAN NOT NULL,
-						  engine CHARACTER(32) NOT NULL,
+						  engine CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (engine) REFERENCES engines(uuid)
                           )";

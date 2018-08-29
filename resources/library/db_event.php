@@ -28,9 +28,9 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine
 		// echo "New event record created successfully";
 		return $uuid;
 	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
+		echo "Error: " . $query . "<br>" . $db->error;
+		return false;
 	}
-	return false;
 }
 
 function insert_staff($event_uuid, $staff) {
@@ -163,16 +163,16 @@ function delete_event($uuid) {
 function create_table_events() {
 	global $db;
 	$query = "CREATE TABLE events (
-                          uuid CHARACTER(32) NOT NULL,
+                          uuid CHARACTER(36) NOT NULL,
 						  date DATE NOT NULL,
                           start_time TIME NOT NULL,
                           end_time TIME NOT NULL,
-                          type CHARACTER(32) NOT NULL,
+                          type CHARACTER(36) NOT NULL,
 						  title VARCHAR(96) NOT NULL,
 						  comment VARCHAR(255),
-                          engine CHARACTER(32),
+                          engine CHARACTER(36),
 						  hash VARCHAR(64) NOT NULL,
-						  manager CHARACTER(32) NOT NULL,
+						  manager CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (manager) REFERENCES user(uuid),
 						  FOREIGN KEY (type) REFERENCES eventtypes(uuid)
@@ -192,10 +192,10 @@ function create_table_events() {
 function create_table_staff() {
 	global $db;
 	$query = "CREATE TABLE staff (
-						  uuid CHARACTER(32) NOT NULL,
+						  uuid CHARACTER(36) NOT NULL,
                           position VARCHAR(64) NOT NULL,
-                          event CHARACTER(32) NOT NULL,
-						  user CHARACTER(32),
+                          event CHARACTER(36) NOT NULL,
+						  user CHARACTER(36),
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (user) REFERENCES user(uuid),
 						  FOREIGN KEY (event) REFERENCES events(uuid)

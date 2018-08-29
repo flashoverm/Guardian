@@ -10,10 +10,9 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "Neuer Wache eingestellt";
 	$body = "Eine neue Wache wurde eingestellt: \n\n" . $link;
-	// TODO add more infos of the event (evtl: as html)
 
 	$query = "SELECT email FROM user WHERE uuid = '" . $manager_uuid . "'";
-	
+
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -23,31 +22,31 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 			$result->free ();
 		}
 	}
-	
-	if($informOther){
-	    mail_publish($event_uuid, $manager_uuid);
+
+	if ($informOther) {
+		mail_publish_event ( $event_uuid, $manager_uuid );
 	}
 }
 
-function mail_publish($event_uuid, $manager_uuid){
-    global $db;
-    global $config;
-    
-    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-    $subject = "Neuer Wache veröffentlicht";
-    $body = "Eine neue Wache wurde veröffentlicht: \n\n" . $link;
-    
-    $query = "SELECT email FROM user WHERE ismanager = TRUE AND NOT uuid = '" . $user_uuid . "'";
-    
-    $result = $db->query ( $query );
-    if ($result) {
-        if (mysqli_num_rows ( $result )) {
-            while ( $email = $result->fetch_row () ) {
-                send_mail ( $email [0], $subject, $body );
-            }
-            $result->free ();
-        }
-    }
+function mail_publish_event($event_uuid, $manager_uuid) {
+	global $db;
+	global $config;
+
+	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
+	$subject = "Neuer Wache veröffentlicht";
+	$body = "Eine neue Wache wurde veröffentlicht: \n\n" . $link;
+
+	$query = "SELECT email FROM user WHERE ismanager = TRUE AND NOT uuid = '" . $manager_uuid . "'";
+
+	$result = $db->query ( $query );
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			while ( $email = $result->fetch_row () ) {
+				send_mail ( $email [0], $subject, $body );
+			}
+			$result->free ();
+		}
+	}
 }
 
 function mail_delete_event($event_uuid) {
@@ -55,7 +54,6 @@ function mail_delete_event($event_uuid) {
 
 	$subject = "Wache abgesagt";
 	$body = "Eine Wache bei der Sie sich eingetragen haben wurde abgesagt!";
-	// TODO add more infos of the event (evtl: as html)
 
 	$query = "SELECT email FROM user, staff WHERE user.uuid = staff.user AND staff.event = '" . $event_uuid . "'";
 	$result = $db->query ( $query );
@@ -73,14 +71,13 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 	global $db;
 	global $config;
 
-	$link = $config ["urls"] ["baseUrl"] . "/guardian/event_details.php?id=" . $event_uuid;
+	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "In Wache eingeschrieben";
 	$body = "Sie haben sich in einer Wache eingeschrieben: " . $link;
-	// TODO add more infos of the event (evtl: as html)
 
 	send_mail ( $user_email, $subject, $body );
 
-	if ($config ["settings"] ["mgrmailonsubscription"]) {
+	if ($config ["settings"] ["enginemgrmailonsubscription"]) {
 		$body = "Jemand aus Ihrem Zug hat sich in eine Wache eingeschrieben: " . $link;
 
 		$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $user_engine_uuid . "'";
@@ -101,8 +98,10 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 	if ($count == 0) {
 		$subject = "Wache voll belegt";
 		$body = "Eine von Ihnen erstellte Wache ist voll belegt: " . $link;
-	} else {
+	} else if ($config ["settings"] ["mgrmailonsubscription"]) {
 		$body = "Jemand hat sich in eine von Ihnen erstellte Wache eingeschrieben: " . $link;
+	} else {
+		return;
 	}
 
 	$query = "SELECT email FROM user, events WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
@@ -123,7 +122,6 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	$link = $config ["urls"] ["baseUrl"] . "/guardian/event_details.php?id=" . $event_uuid;
 	$subject = "Aus Wache entfernt";
 	$body = "Sie wurden durch den Wachbeauftragten von der Wache entfernt: " . $link;
-	// TODO add more infos of the event (evtl: as html)
 
 	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.uuid = '" . $staff_uuid . "'";
 	$result = $db->query ( $query );
@@ -154,22 +152,22 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 
 function mail_add_manager($mail_manager, $password) {
 	$subject = "Zugangsdaten Wachbauftragter";
-	$body = "Für Sie wurde ein Zugang als Wachbeuaftragter angelegt: \nLogin: " . $mail_manager . " \nPasswort: " . $password;
+	$body = "Für Sie wurde ein Zugang als Wachbeauftragter angelegt: \nLogin: " . $mail_manager . " \nPasswort: " . $password;
 	send_mail ( $mail_manager, $subject, $body );
 }
 
 function mail_reset_password($manager_uuid, $password) {
 	global $db;
 
-	$subject = "Passwort zur�ckgesetzt";
-	$body = "Ihr Passwort wurde zur�ckgesetzt auf: " . $password;
+	$subject = "Passwort zurückgesetzt";
+	$body = "Ihr Passwort wurde zurückgesetzt auf: " . $password . "\n Sie können es im Portal in ihr Wunschkennwort ändern.";
 
-	$query = "SELECT * FROM user WHERE uuid = '" . $manager_uuid . "'";
+	$query = "SELECT email FROM user WHERE uuid = '" . $manager_uuid . "'";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
-			$user = $result->fetch_object ();
-			send_mail ( $user->email, $subject, $body );
+			$data = $result->fetch_row ();
+			send_mail ( $data [0], $subject, $body );
 			$result->free ();
 		}
 	}

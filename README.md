@@ -1,6 +1,11 @@
 # guardian
 
 To Do:
+- Verification dialog for ciritical operations
+	- Reset password
+	- Delete event
+	
+
 - Secure Login with Session Token
 - Show Loading-Screen in mail sending
 

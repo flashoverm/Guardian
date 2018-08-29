@@ -53,7 +53,7 @@ function get_engines() {
 function create_table_engines() {
 	global $db;
 	$query = "CREATE TABLE engines (
-                          uuid CHARACTER(32) NOT NULL,
+                          uuid CHARACTER(36) NOT NULL,
 						  name VARCHAR(32) NOT NULL,
                           PRIMARY KEY  (uuid)
                           )";

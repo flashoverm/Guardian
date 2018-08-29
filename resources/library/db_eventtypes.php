@@ -53,7 +53,7 @@ function get_eventtypes() {
 function create_table_eventtypes() {
 	global $db;
 	$query = "CREATE TABLE eventtypes (
-                          uuid CHARACTER(32) NOT NULL,
+                          uuid CHARACTER(36) NOT NULL,
 						  type VARCHAR(64) NOT NULL,
                           PRIMARY KEY  (uuid)
                           )";
