@@ -37,6 +37,8 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] )) {
     $report = "";
     $creator = trim ($_POST ['creator']);
     
+    showAlert($date);
+    
     if($engine == $config ["backoffice"]){
         
     }
@@ -69,7 +71,7 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] )) {
 
 }
 
-renderLayoutWithContentFile ( "eventReport_template.php", $variables );
+renderLayoutWithContentFile ( "eventReport/eventReport_template.php", $variables );
 ?>
 
 <script type='text/javascript'>

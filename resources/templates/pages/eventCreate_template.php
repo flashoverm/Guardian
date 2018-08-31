@@ -1,16 +1,24 @@
 
 <form action="" method="post">
-	<div class="form-group">
-		<label>Datum:</label> <input type="date" required="required"
-			class="form-control" name="date" id="date">
-	</div>
-	<div class="form-group">
-		<label>Beginn:</label> <input type="time" required="required"
-			class="form-control" name="start" id="start">
-	</div>
-	<div class="form-group">
-		<label>Ende (Optional):</label> <input type="time"
-			class="form-control" name="end" id="end">
+	<div class="row">
+		<div class="col">
+			<div class="form-group">
+				<label>Datum:</label> <input type="date" required="required"
+					class="form-control" name="date" id="date">
+			</div>
+		</div>
+		<div class="col">
+			<div class="form-group">
+				<label>Beginn:</label> <input type="time" required="required"
+					class="form-control" name="start" id="start">
+			</div>
+		</div>
+		<div class="col">
+			<div class="form-group">
+				<label>Ende:</label> <input type="time" required="required"
+					class="form-control" name="end" id="end">
+			</div>
+		</div>
 	</div>
 	<div class="form-group">
 		<label>Typ:</label> <select class="form-control" name="type">
@@ -31,11 +39,12 @@
 	</div>
 	<div class="form-group" id="staffContainer">
 		<label>Benötigtes Wachpersonal:</label>
-		<button type="button" style="float: right"
-			class="btn btn-primary btn-sm" onClick="removeLast()">&minus;</button>
-		<a style="float: right">&nbsp;</a>
-		<button type="button" style="float: right"
-			class="btn btn-primary btn-sm" onClick="addStaff()">+</button>
+		<div class="btn-group btn-group-sm" role="group" style="float: right">
+  			<button type="button" class="btn btn-primary" onClick="removeLast()">&minus;</button>
+  			<span class="border-right"></span>
+  			<button type="button" class="btn btn-primary " onClick="addStaff()">+</button>
+		</div>
+			
 		<input class="form-control" type="text" required="required"
 			name="staff1" id="staff1" placeholder="Funktionsbezeichnung eingeben">
 	</div>
@@ -46,3 +55,29 @@
 	<input type="submit" value="Anlegen" class="btn btn-primary"><br> <input
 		type="hidden" name="action" value="save">
 </form>
+
+
+<script type='text/javascript'>
+	var createPositionCount = 1;
+	
+	function addStaff(){
+		createPositionCount += 1;
+		var container = document.getElementById("staffContainer");
+		var input = document.createElement("input");
+		input.className ="form-control";
+		input.type = "text";
+		input.name = "staff" + createPositionCount;
+		input.id = "staff" + createPositionCount;
+		input.required = "required";
+		input.placeholder="Funktionsbezeichnung eingeben";
+		container.appendChild(input);
+	}
+	
+	function removeLast(){
+		if(createPositionCount != 1){
+			var lastStaffRow = document.getElementById("staff"+createPositionCount);
+			lastStaffRow.parentNode.removeChild(lastStaffRow);
+			createPositionCount -= 1;
+		}
+	}
+</script>
