@@ -40,9 +40,9 @@
 	<div class="form-group" id="staffContainer">
 		<label>Benötigtes Wachpersonal:</label>
 		<div class="btn-group btn-group-sm" role="group" style="float: right">
-  			<button type="button" class="btn btn-primary" onClick="removeLast()">&minus;</button>
+  			<button type="button" class="btn btn-primary" onClick="eventRemoveLastStaff()">&minus;</button>
   			<span class="border-right"></span>
-  			<button type="button" class="btn btn-primary " onClick="addStaff()">+</button>
+  			<button type="button" class="btn btn-primary " onClick="eventAddStaff()">+</button>
 		</div>
 			
 		<input class="form-control" type="text" required="required"
@@ -60,7 +60,7 @@
 <script type='text/javascript'>
 	var createPositionCount = 1;
 	
-	function addStaff(){
+	function eventAddStaff(){
 		createPositionCount += 1;
 		var container = document.getElementById("staffContainer");
 		var input = document.createElement("input");
@@ -73,7 +73,7 @@
 		container.appendChild(input);
 	}
 	
-	function removeLast(){
+	function eventRemoveLastStaff(){
 		if(createPositionCount != 1){
 			var lastStaffRow = document.getElementById("staff"+createPositionCount);
 			lastStaffRow.parentNode.removeChild(lastStaffRow);

@@ -1,7 +1,13 @@
 <?php
 require_once 'mail.php';
 require_once 'db_connect.php';
+require_once 'db_engines.php';
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
+
+require_once LIBRARY_PATH . '/class/EventReport.php';
+require_once LIBRARY_PATH . '/class/ReportUnit.php';
+require_once LIBRARY_PATH . '/class/ReportUnitStaff.php';
+
 
 function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	global $db;
@@ -171,6 +177,32 @@ function mail_reset_password($manager_uuid, $password) {
 			$result->free ();
 		}
 	}
+}
+
+function mail_send_report($report){
+	global $config;
+	global $db;
+	
+	$subject = "Wachbericht";
+	$body = $report->toString();
+		
+	if($report->engine == $config ["backoffice"]){
+		send_mail ( $report->engine, $subject, $body );
+	} else {
+		$engine = get_engine_from_name($report->engine);
+		
+		$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $engine->uuid . "'";
+		$result = $db->query ( $query );
+		if ($result) {
+			if (mysqli_num_rows ( $result )) {
+				while ( $email = $result->fetch_row () ) {
+					send_mail ( $email [0], $subject, $body );
+				}
+				$result->free ();
+			}
+		}
+	}
+
 }
 
 ?>

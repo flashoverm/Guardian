@@ -31,19 +31,36 @@ if (! $isAdmin) {
 				<td><?= get_engine($row->engine)->name; ?></td>
 				<td><?= $row->email; ?></td>
 				<td>
-	<?php
-			if ($row->loginenabled) {
-				echo "Aktiv";
-			} else {
-				echo "Deaktiviert";
-			}
+			<?php
+				if ($row->loginenabled) {
+					echo "Aktiv";
+				} else {
+					echo "Deaktiviert";
+				}
 			?>
-						</td>
+				</td>
 				<td>
 					<form method="post" action="">
-						<input type="hidden" name="resetpw" id="resetpw"
-							value="<?=$row->uuid?>" /> <input type="submit"
-							value="Passwort zurücksetzen" class="btn btn-primary btn-sm" />
+						<input type="hidden" name="resetpw" id="resetpw" value="<?=$row->uuid?>" />
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmReset">Passwort zurücksetzen</button>
+						
+						<div class="modal" id="confirmReset">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Passwort wirklich zurücksetzen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Passwort zurücksetzen" class="btn btn-primary" />
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div>
 					</form>
 				</td>
 				<td>
@@ -67,6 +84,7 @@ if (! $isAdmin) {
 	</table>
 	<a href='manager_create.php' class="btn btn-primary">Wachbeauftragten anlegen</a>
 </div>
+
 <?php
 	}
 }

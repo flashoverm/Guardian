@@ -1,3 +1,5 @@
+<?php include('eventReportUnit_template.php'); ?>
+
 <form action="event_report.php" method="post" >
 
 	<div class="row">
@@ -24,7 +26,7 @@
 	<div class="form-group">
 		<label>Typ:</label> <select class="form-control" name="type">
 				<?php foreach ( $eventtypes as $type ) : ?>
-					<option value="<?= $type->uuid; ?>"><?= $type->type; ?></option>
+					<option value="<?= $type->type;  //Change to $type->uuid for database usage	?>"><?= $type->type; ?></option>
 				<?php endforeach; ?>
 			</select>
 	</div>
@@ -41,7 +43,7 @@
 			<option value="" disabled selected>Bitte auswählen</option>
 			<option value="<?=$config ["backoffice"]; ?>">Geschäftszimmer</option>
 			<?php foreach ( $engines as $option ) : ?>
-			<option value="<?=  $option->uuid; ?>"><?= $option->name; ?></option>
+			<option value="<?=  $option->name; //Change to $option->uuid for database usage	?> "><?= $option->name; ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>
@@ -63,38 +65,35 @@
 			placeholder="Namen eintragen">
 	</div>
 
-	<?php include('eventReportModal_template.php'); ?>
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Fahrzeug/Station hinzufügen</button><p>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Fahrzeug/Station hinzufügen</button><p>
 
-	<?php include('vehicleList.php'); ?>
-	
+	<div id="unitlist">
+	</div>
+	<p>
 	<div id="submitPlaceholder">
 	</div>
 
 </form>
 
 <script type='text/javascript'>
-	 $("#addStation").on("click",function(){
-		addStation();
-	 })
 	 
-	var reportStationCount = 0;
+	var reportUnitCount = 0;
 	
-	function addStation(){
-		reportStationCount += 1;
+	function addReportUnit(){
+		reportUnitCount += 1;
+
+		var unit = document.getElementById("unit").value;
+		var km = document.getElementById("km").value;
+
+		if(km == ""){
+			var headerString = unit;
+		} else {
+			var headerString = unit + " (" + km + " km)";
+		}
 		
-		//var container = document.getElementById("stations");
-		/*
-		var input = document.createElement("div");
-		input.id ="collapse";
-		input.type = "text";
-		input.name = "staff" + reportStationCount;
-		input.id = "staff" + reportStationCount;
-		input.required = "required";
-		input.placeholder="Funktionsbezeichnung eingeben";
-		container.appendChild(input);
-		*/
-		if(reportStationCount == 1){
+		addUnitCard(reportUnitCount, headerString);
+		
+		if(reportUnitCount == 1){
 			var div = document.getElementById("submitPlaceholder");
 			var input1 = document.createElement("input");
 			input1.type = "submit";
@@ -108,12 +107,129 @@
 			div.appendChild(input2);			
 		}
 	}
+
+	function addUnitCard(position, title){
+		var container = document.getElementById("unitlist");
+		
+		var card = document.createElement("div");
+		card.className ="card";
+		card.id = "unit" + position;
+
+		var cardHeader = document.createElement("div");
+		cardHeader.className ="card-header";
+
+		var h5 = document.createElement("h5");
+		h5.className ="mb-0";
+
+		var button = document.createElement("button");
+		button.className = "btn btn-link";
+		button.type = "button";
+		button.setAttribute("data-toggle", "collapse");
+		button.setAttribute("data-target", "#collapse" + position);
+
+		var headername = document.createTextNode(title);
+		
+		button.appendChild(headername);
+		h5.appendChild(button);
+		cardHeader.appendChild(h5);
+		card.appendChild(cardHeader);
+
+		var collapse = document.createElement("div");
+		collapse.className = "collapse";
+		collapse.id = "collapse" + position;
+		collapse.setAttribute("data-parent", "#unitlist");
+
+		var cardBody = document.createElement("div");
+		cardBody.className = "card-body";
+		
+		addUnitCardBody(cardBody);
+
+		collapse.appendChild(cardBody);
+		card.appendChild(collapse);
+		
+		container.appendChild(card);
+
+		button.click();
+	}
+
+	function addUnitCardBody(cardBody){
+		var form = document.getElementById("addUnitForm");
+		var unitdate = form.querySelector("#unitdate").value;
+		var unitstart = form.querySelector("#unitstart").value;
+		var unitend = form.querySelector("#unitend").value;
+		
+		var rowHead = document.createElement("div");
+		rowHead.className = "row";
+
+		cardBody.appendChild(rowHead);
+
+		appendInput(rowHead, "unit"+reportUnitCount+"date", unitdate, "Datum:", false);
+		appendInput(rowHead, "unit"+reportUnitCount+"start", unitstart, "Beginn:", false);
+		appendInput(rowHead, "unit"+reportUnitCount+"end", unitend, "Ende:", false);
+
+		var unit = document.getElementById("unit").value;
+		var km = document.getElementById("km").value;
+
+		appendInput(rowHead, "unit"+reportUnitCount+"unit", unit, null, true);
+		appendInput(rowHead, "unit"+reportUnitCount+"km", km, null, true);	
+		
+		var label = document.createElement("label");
+		label.innerHTML = "Personal:";
+		cardBody.appendChild(label);
+		
+		//var unit = form.querySelector("unit");
+		//var km = form.querySelector("km");
+		
+		for (i = 1; i <= reportPositionCount; i++) {
+			var rowBody = document.createElement("div");
+			rowBody.className = "row";
+			
+			var position = form.querySelector("#position" + i);
+			var posFunction = position.querySelector("#positionfunction").value;
+			var posName = position.querySelector("#positionname").value;
+			var posEngineUUID = position.querySelector("#positionengine").value;
+			appendInput(rowBody, "unit"+reportUnitCount+"function"+i, posFunction, null, false);
+			appendInput(rowBody, "unit"+reportUnitCount+"name"+i, posName, null, false);
+			appendInput(rowBody, "unit"+reportUnitCount+"engine"+i, posEngineUUID, null, false);
+			cardBody.appendChild(rowBody);
+		}
+	}
+
+	function appendInput(parent, name, value, labeltext, hidden){
+		var col = document.createElement("div");
+		col.className = "col";
+
+		var formgroup = document.createElement("div");
+		formgroup.className = "form-group";
+
+		if(labeltext != null){
+			var label = document.createElement("label");
+			label.innerHTML = labeltext;
+			formgroup.appendChild(label);
+		}
+		
+		var input = document.createElement("input");
+		input.className = "form-control border-0 bg-white";
+		input.id = name;
+		input.name = name;
+		input.type = "text";
+		input.readOnly = true;
+		input.value = value;
+		if(hidden){
+			input.type = "hidden";
+		}
+
+		formgroup.appendChild(input);
+		col.appendChild(formgroup);
+
+		parent.appendChild(col);
+	}
 	
-	function removeLast(){
-		if(currentPosition != 0){
-			var lastStaffRow = document.getElementById("staff"+currentPosition);
+	function removeLastReportUnit(){
+		if(reportUnitCount != 0){
+			var lastStaffRow = document.getElementById("unit"+reportUnitCount);
 			lastStaffRow.parentNode.removeChild(lastStaffRow);
-			currentPosition -= 1;
+			reportUnitCount -= 1;
 		} else {
 			
 		}

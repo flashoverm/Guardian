@@ -34,6 +34,20 @@ function get_engine($uuid) {
 	return false;
 }
 
+function get_engine_from_name($name) {
+	global $db;
+	$query = "SELECT * FROM engines WHERE name = '" . $name . "'";
+	$result = $db->query ( $query );
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_object ();
+			$result->free ();
+			return $data;
+		}
+	}
+	return false;
+}
+
 function get_engines() {
 	global $db;
 	$data = array ();

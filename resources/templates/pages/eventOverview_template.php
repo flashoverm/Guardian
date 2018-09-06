@@ -53,9 +53,26 @@ if (! count ( $events )) {
 				</td>
 				<td>
 					<form method="post" action="">
-						<input type="hidden" name="delete" id="delete"
-							value="<?= $row->uuid ?>" /> <input type="submit" value="Löschen"
-							class="btn btn-outline-primary btn-sm" />
+						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
+						
+						<div class="modal" id="confirmDelete">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Wache wirklich löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" />
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
 					</form>
 				</td>
 			</tr>

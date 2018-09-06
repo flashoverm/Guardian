@@ -87,6 +87,22 @@ function get_manager() {
 	return $data;
 }
 
+function get_manager_of_engine($engine_uuid) {
+	global $db;
+	$data = array ();
+	$result = $db->query ( "SELECT * FROM user WHERE ismanager = TRUE AND engine = '" . $engine_uuid . "'" );
+	
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
 function get_user($uuid) {
 	global $db;
 	$query = "SELECT * FROM user WHERE uuid = '" . $uuid . "'";
