@@ -2,8 +2,6 @@
 
 To Do:
 
-- Secure Login with Session Token
-
 - Send HTML Mails with Infos about events
 - Send iCal-File for Adding Event to Calender
 

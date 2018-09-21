@@ -11,11 +11,11 @@ class ReportUnitStaff {
 		$this->engine = $engine;
 	}
 	
-	function toString(){
-		return "Position: " . $this->position
-				. " - Name: " . $this->name 
-				. " - Engine: " . $this->engine
-				. "<br>";
+	function toMail(){
+		return "Position: \t" . $this->position
+				. "\t Name: \t" . $this->name 
+				. "\t Zug: \t" . $this->engine
+				. "\n";
 	}
 }
 ?>

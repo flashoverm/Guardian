@@ -18,7 +18,7 @@ function init_mail() {
 	$mail->SMTPSecure = $config ["mail"] ["secure"];
 	$mail->Port = $config ["mail"] ["port"];
 	$mail->setFrom ( $config ["mail"] ["fromaddress"], $config ["mail"] ["fromname"] );
-	
+	$mail->CharSet = 'utf-8';     
 	//$mail->SMTPDebug = 2;
 	return $mail;
 }

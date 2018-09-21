@@ -22,12 +22,12 @@ if ($config ["settings"] ["selfregistration"]) {
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
 
-	$firstname = $_POST ['firstname'];
-	$lastname = $_POST ['lastname'];
-	$email = $_POST ['email'];
-	$password = $_POST ['password'];
-	$password2 = $_POST ['password2'];
-	$engine = $_POST ['engine'];
+	$firstname = trim($_POST ['firstname']);
+	$lastname = trim($_POST ['lastname']);
+	$email = trim($_POST ['email']);
+	$password = trim($_POST ['password']);
+	$password2 = trim($_POST ['password2']);
+	$engine = trim($_POST ['engine']);
 
 	$error = false;
 	if ($password != $password2) {

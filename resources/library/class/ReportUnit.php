@@ -29,7 +29,7 @@ class ReportUnit {
 		$this->km = $km;
 	}
 	
-	function toString(){
+	function toHTML(){
 		$string = "Unitname: " . $this->unit . " - KM: ". $this->km . "<br>"
 				. "Date: " . $this->date . " - Beginn: " . $this->beginn . " - End: " . $this->end . "<br>" 
 				. "";
@@ -39,6 +39,22 @@ class ReportUnit {
 		}
 		
 		return $string . "<br";
+	}
+	
+	function toMail(){
+		$string = "------------------------- Einheit --------------------------"
+				. "\n\n" . $this->unit 
+				. " (km: ". $this->km . ")"
+				. "\nDatum: \t" . $this->date 
+				. "\nBeginn: \t" . $this->beginn 
+				. "\nEnde: \t\t" . $this->end
+				. "\n\n";
+						
+		foreach ($this->staffList as $value) {
+			$string = $string . $value->toMail();
+		}
+		
+		return $string . "\n";
 	}
 	
 }

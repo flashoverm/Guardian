@@ -49,7 +49,7 @@
 	</div>
 	
 	<div class="form-check">
-		<input type="checkbox" class="form-check-input" id="noIncidents"> <label
+		<input type="checkbox" class="form-check-input" name="noIncidents" id="noIncidents"> <label
 			for="noIncidents">Keine Vorkomnisse</label>
 	</div>
 	

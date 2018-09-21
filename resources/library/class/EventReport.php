@@ -39,17 +39,43 @@ class EventReport {
 		return false;
 	}
 	
-	function toString(){
-		$string = "Date: " . $this->date . " - Beginn: " . $this->beginn . " - End: " . $this->end . "<br>" 
+	function toHTML(){
+		$string = "Date: " . $this->date . " - Beginn: " . $this->beginn . " - End: " . $this->end . "<br>"
 				. "Type: " . $this->type . " - Title: " . $this->title . " - Engine: " . $this->engine . "<br>"
 						. "NoIncidents: " . $this->noIncidents . " - Reporttext: ". $this->report . " - Creator: " . $this->creator
-		. "<br><br>";
+						. "<br><br>";
+						
+						foreach ($this->units as $value) {
+							$string = $string . $value->toString();
+						}
+						
+						return $string . "<br>";
+	}
+	
+	function toMail(){
+		$string = "----------------------- Wachbericht -----------------------"
+				. "\n\n" .$this->type
+				. "\nTitel: \t\t" . $this->title
+				. "\n\nDatum: \t" . $this->date 
+				. "\nBeginn: \t" . $this->beginn 
+				. "\nEnde: \t\t" . $this->end . "\n\n";
+		
+		if($this->noIncidents){
+			$string = $string . "Keine Vorkomnisse";
+		} else {
+			$string = $string . "Vorkomnisse gemeldet - siehe Bericht";
+		}
+				
+		$string = $string . "\n\nBericht: \n". $this->report . "\n\n";
 		
 		foreach ($this->units as $value) {
-			$string = $string . $value->toString();
+			$string = $string . $value->toMail();
 		}
 		
-		return $string . "<br>";
+		return $string
+				. "-----------------------------------------------------------"
+				. "\n\nZuständiger Zug: \t" . $this->engine
+				. "\n\nErsteller: \t\t" . $this->creator;
 	}
 }
 ?>

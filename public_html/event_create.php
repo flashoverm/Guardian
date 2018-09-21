@@ -34,7 +34,6 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
 	}
 	
     $event_uuid = insert_event ( $date, $start, $end, $type, $title, $comment, !$informOther, $manager );
-    echo "UUID: " . $event_uuid;
     if($event_uuid){
     	$position = 1;
     	while ( isset ( $_POST ["staff" . $position] ) ) {

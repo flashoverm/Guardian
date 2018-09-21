@@ -44,6 +44,7 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
     
     if(isset($_POST ['noIncidents'])){
         $noIncidents = true;
+        echo "NoIncidents";
     }
     if (isset ( $_POST ['report'] )) {
     	$report = trim ( $_POST ['report'] );

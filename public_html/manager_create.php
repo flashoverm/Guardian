@@ -16,10 +16,10 @@ $variables = array (
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
 
-	$firstname = $_POST ['firstname'];
-	$lastname = $_POST ['lastname'];
-	$email = $_POST ['email'];
-	$engine = $_POST ['engine'];
+	$firstname = trim($_POST ['firstname']);
+	$lastname = trim($_POST ['lastname']);
+	$email = trim($_POST ['email']);
+	$engine = trim($_POST ['engine']);
 	
 	$error = false;
 	if (email_in_use ( $email )) {

@@ -209,7 +209,7 @@ function mail_send_report($report){
 	
 	$subject = "Wachbericht";
 	
-	$body = $report->toString();
+	$body = $report->toMail();
 		
 	if($report->engine == $config ["backoffice"]){
 		send_mail ( $report->engine, $subject, $body );
