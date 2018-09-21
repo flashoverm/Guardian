@@ -1,5 +1,5 @@
 
-<form action="" method="post">
+<form onsubmit="showLoader()" action="" method="post">
 	<div class="row">
 		<div class="col">
 			<div class="form-group">

@@ -1,4 +1,4 @@
-<form
+<form onsubmit="showLoader()"
 	action="<?= "event_subscribe.php?id=".$eventUUID."&staffid=".$staffUUID ?>"
 	method="post">
 	<legend>Für Wache eintragen</legend>

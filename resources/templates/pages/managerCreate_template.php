@@ -3,7 +3,7 @@ if (! $isAdmin) {
 	showAlert ( "Kein Administrator angemeldet - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>" );
 } else {
 
-?><form action="" method="post">
+?><form onsubmit="showLoader()" action="" method="post">
 	<div class="form-group">
 		<label>Vorname:</label> <input type="text" class="form-control"
 			required="required" name="firstname" id="firstname"

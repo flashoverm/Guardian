@@ -18,6 +18,8 @@ function init_mail() {
 	$mail->SMTPSecure = $config ["mail"] ["secure"];
 	$mail->Port = $config ["mail"] ["port"];
 	$mail->setFrom ( $config ["mail"] ["fromaddress"], $config ["mail"] ["fromname"] );
+	
+	//$mail->SMTPDebug = 2;
 	return $mail;
 }
 

@@ -56,9 +56,28 @@ if ($isManager) {
 					}
 					if ($entry->user != NULL and $isManager) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
-										<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
-										<input type='submit' value='Entfernen' class='btn btn-outline-primary btn-sm'/>
-									</form>";
+								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
+								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe'>Austragen</button>
+								
+								<div class='modal' id='confirmUnscribe'>
+								  <div class='modal-dialog'>
+								    <div class='modal-content'>
+								
+								      <div class='modal-header'>
+								        <h4 class='modal-title'>Personal wirklich austragen?</h4>
+								        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+								      </div>
+								
+								      <div class='modal-footer'>
+								      	<input type='submit' value='Austragen' class='btn btn-primary' onClick='showLoader()'/>
+								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+								      </div>
+								
+								    </div>
+								  </div>
+								</div> 
+							</form>";
+					
 					}
 					?></td>
 			</tr>
@@ -76,7 +95,7 @@ if ($isManager) {
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
 		if($event->engine != NULL and $isManager){
             echo "<input type='hidden' name='publish' id='publish' value='publish'/>
-                  <input type='submit' class='btn btn-primary' value='Veröffentlichen'/>";
+                  <input type='submit' class='btn btn-primary' value='Veröffentlichen' onClick='showLoader()'/>";
 		} else {
 		    echo "&nbsp;<input type='button' disabled='disabled' class='btn btn-outline-primary' value='Wache ist öffentlich' />";
 		}

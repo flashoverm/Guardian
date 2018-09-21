@@ -54,7 +54,7 @@ if (! $isAdmin) {
 						      </div>
 						
 						      <div class="modal-footer">
-						      	<input type="submit" value="Passwort zurücksetzen" class="btn btn-primary" />
+						      	<input type="submit" value="Passwort zurücksetzen" class="btn btn-primary" onClick="showLoader()"/>
 						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
 						      </div>
 						

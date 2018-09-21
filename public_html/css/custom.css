@@ -6813,4 +6813,36 @@ body {
   /* Vertically center the text there */
   text-align: center; }
 
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #9d1006;
+  /* Primary */
+  border-radius: 50%;
+  animation: spin 2s linear infinite; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+#overlay {
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  float: left;
+  text-align: center;
+  padding-top: 25%; }
+
 /*# sourceMappingURL=custom.css.map */

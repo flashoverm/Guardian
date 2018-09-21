@@ -1,4 +1,4 @@
-<form action="" method="post">
+<form onsubmit="showLoader()" action="" method="post">
 	<div class="form-group">
 		<label>Email:</label> <input type="email" class="form-control"
 			required="required" name="email" id="email"

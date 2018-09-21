@@ -33,7 +33,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 		add_staff_user ( $staffUUID, $user_uuid );
 		mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
 		// TODO if ok
-		$variables ['successMessage'] = "Als Wachteilnehmer eingetragen";
+		$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
 		$variables ['showFormular'] = false;
 	}
 } else {
