@@ -23,6 +23,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 		$uuid = check_password ( $email, $password );
 		if ($uuid) {
 			$_SESSION ['userid'] = $uuid;
+			$_SESSION ['usermail'] = $email;
 			header ( "Location: event_overview.php" ); // redirects
 		}
 	}

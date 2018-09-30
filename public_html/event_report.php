@@ -79,10 +79,7 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
         $unitCount += 1;
     }
     
-
-    
     mail_send_report ($eventReport);
-    // if ok
     $variables ['successMessage'] = "Bericht versendet";
 
 }

@@ -42,7 +42,6 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
     		insert_staff ( $event_uuid, $staff );
     	}
     	mail_insert_event ( $event_uuid, $manager, $informOther);
-    	// if ok
     	$variables ['successMessage'] = "Wache angelegt";
     } else {
     	$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";

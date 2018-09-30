@@ -16,9 +16,11 @@ $variables = array (
 if (isset ( $_POST ['delete'] )) {
 	$delete_event_uuid = trim ( $_POST ['delete'] );
 	mail_delete_event ( $delete_event_uuid );
-	delete_event ( $delete_event_uuid );
-	// if ok
-	$variables ['successMessage'] = "Wache gelöscht";
+	if(delete_event ( $delete_event_uuid )){
+		$variables ['successMessage'] = "Wache gelöscht";
+	} else {
+		$variables ['alertMessage'] = "Wache konnte nicht gelöscht werden";
+	}
 }
 
 $events = get_events ($_SESSION ['userid']);

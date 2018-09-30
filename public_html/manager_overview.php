@@ -13,23 +13,30 @@ $variables = array (
 
 if (isset ( $_POST ['disable'] )) {
 	$delete_manager_uuid = trim ( $_POST ['disable'] );
-	deactivate_manager ( $delete_manager_uuid );
-	// if ok
-	$variables ['successMessage'] = "Wachbeauftragter deaktiviert";
+	if(deactivate_manager ( $delete_manager_uuid )){
+		$variables ['successMessage'] = "Wachbeauftragter deaktiviert";
+	} else {
+		$variables ['alertMessage'] = "Deaktivieren des Wachbeauftragten fehlgeschlagen";
+	}
 }
 if (isset ( $_POST ['enable'] )) {
 	$delete_manager_uuid = trim ( $_POST ['enable'] );
-	reactivate_manager ( $delete_manager_uuid );
-	// if ok
-	$variables ['successMessage'] = "Wachbeauftragter aktiviert";
+	if(reactivate_manager ( $delete_manager_uuid )){
+		$variables ['successMessage'] = "Wachbeauftragter aktiviert";
+	} else {
+		$variables ['alertMessage'] = "Aktivieren des Wachbeauftragten fehlgeschlagen";
+	}
 }
 
 if (isset ( $_POST ['resetpw'] )) {
 	$resetpw_manager_uuid = trim ( $_POST ['resetpw'] );
 	$password = reset_password ( $resetpw_manager_uuid );
-	mail_reset_password ( $resetpw_manager_uuid, $password );
-	// if ok
-	$variables ['successMessage'] = "Passwort zurückgesetzt und per E-Mail zugestellt";
+	if($password){
+		mail_reset_password ( $resetpw_manager_uuid, $password );
+		$variables ['successMessage'] = "Passwort zurückgesetzt";
+	} else {
+		$variables ['alertMessage'] = "Passwort konnte nicht zurückgesetzt werden";
+	}
 }
 $manager = get_manager ();
 $variables ['manager'] = $manager;

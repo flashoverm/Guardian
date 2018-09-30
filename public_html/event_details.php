@@ -38,16 +38,21 @@ if (! isset($_GET['id'])) {
     	if (isset($_POST['staffid'])) {
     		$staff_uuid = trim($_POST['staffid']);
     		mail_remove_staff_user($staff_uuid, $uuid);
-    		remove_staff_user($staff_uuid);
-    		// if ok
-    		$variables['successMessage'] = "Personal-Eintrag entfernt";
+    		if(remove_staff_user($staff_uuid)){
+    			$variables['successMessage'] = "Personal-Eintrag entfernt";
+    		} else {
+    			$variables['alertMessage'] = "Eintrag konnte nicht entfernt werden";
+    		}	
     	}
     	
     	if (isset($_POST['publish']) && $event->engine != NULL) {
-    		publish_event($uuid);
-    		mail_publish_event($uuid);
-    		$variables['successMessage'] = "Wache veröffentlich - Wachbeauftragte informiert";
-    		$event = get_event($uuid);
+    		if(publish_event($uuid) ){
+    			mail_publish_event($uuid);
+    			$variables['successMessage'] = "Wache veröffentlich - Wachbeauftragte informiert";
+    			$event = get_event($uuid);
+    		} else {
+    			$variables['alertMessage'] = "Wache konnte nicht veröffentlicht werden";
+    		}
     	}
     	
     	$staff = get_staff($uuid);

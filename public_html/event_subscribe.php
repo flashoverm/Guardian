@@ -30,11 +30,18 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 		$engineUUID = trim ( $_POST ['engine'] );
 
 		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
-		add_staff_user ( $staffUUID, $user_uuid );
-		mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
-		// TODO if ok
-		$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
-		$variables ['showFormular'] = false;
+		if($user_uuid){
+			if(add_staff_user ( $staffUUID, $user_uuid )){
+				mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
+				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+				$variables ['showFormular'] = false;
+			} else {
+				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+			}
+		} else {
+			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+		}
+
 	}
 } else {
     $variables ['showFormular'] = false;

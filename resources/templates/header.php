@@ -49,10 +49,10 @@ if ($loggedIn) {
 	echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
 		  <ul class='navbar-nav mr-auto'>
             <li class='nav-item'>
-        		<a class='nav-link' href='event_overview.php'>Wachübersicht</a>
+        		<a class='nav-link text-light' href='event_overview.php'>Wachübersicht</a>
 			</li>	
 			<li class='nav-item'>
-        		<a class='nav-link' href='event_create.php'>Wache anlegen</a>
+        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
 			</li>
 			</ul>
 		</div>";
@@ -62,7 +62,7 @@ if ($loggedIn) {
 		id='navbarMainContent'>
 			<ul class='navbar-nav mx-auto'>
 				<li class='nav-item'>
-	        	<a class='nav-link' href='manager_overview.php'>Wachbeauftragte</a>
+	        	<a class='nav-link text-light' href='manager_overview.php'>Wachbeauftragte</a>
 				</li>
 			</ul>
 		</div>";
@@ -72,7 +72,7 @@ if ($loggedIn) {
 		  <ul class='navbar-nav mr-auto'>
 			<ul class='navbar-nav mx-auto'>
  				<li class='nav-item'>
-	        	  <a class='nav-link' href='event_report.php'>Wachbericht erstellen</a>
+	        	  <a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
 				</li>
 			</ul>
 		</div>";  
@@ -83,19 +83,29 @@ if ($loggedIn) {
 		<ul class="navbar-nav ml-auto">
 <?php
 if ($loggedIn) {
-	echo "	<li class='nav-item'>
-                <a class='nav-link' href='change_password.php'>Passwort ändern</a>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link' href='logout.php'>Abmelden</a>
-            </li>";
+	echo "	
+			<li class='dropdown'>
+				<a class='nav-link dropdown-toggle text-light' data-toggle='dropdown' href='#'>"
+				. $_SESSION ['usermail'] . 
+			"	<span class='caret'></span></a>
+				<ul class='dropdown-menu dropdown-menu-right bg-dark'>
+					<li class='nav-item'>
+		                <a class='dropdown-item text-light' href='change_password.php'>Passwort ändern</a>
+		            </li>
+		            <li class='nav-item'>
+    					<div class='dropdown-divider'></div>
+		                <a class='dropdown-item text-light' href='logout.php'>Abmelden</a>
+		            </li>
+				</ul>
+			</li>
+";
 } else {
 	echo " 	<li class='nav-item'>
-                <a class='nav-link' href='login.php'>Anmelden</a>
+                <a class='nav-link text-light' href='login.php'>Anmelden</a>
             </li>";
 	if ($config ["settings"] ["selfregistration"]) {
 		echo " 	<li class='nav-item'>
-                <a class='nav-link' href='register.php'>Registrierung</a>
+                <a class='nav-link text-light' href='register.php'>Registrierung</a>
             </li>";
 	}
 }

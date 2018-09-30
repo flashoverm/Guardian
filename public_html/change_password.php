@@ -23,8 +23,11 @@ if (isset($_POST['password_old']) && isset($_POST['password']) && isset($_POST['
     }
 
     if (! $error) {
-        $uuid = change_password($uuid, $password_old, $password);
-        $variables['successMessage'] = "Password erfolgreich geändert";
+    	if(change_password($uuid, $password_old, $password)){
+    		$variables['successMessage'] = "Password erfolgreich geändert";
+    	} else {
+    		$variables['alertMessage'] = "Passwort konnte nicht geändert werden!";
+    	}
     }
 }
 

@@ -5,6 +5,7 @@ require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 
 require_once "phpmailer/src/PHPMailer.php";
 require_once "phpmailer/src/SMTP.php";
+require_once "phpmailer/src/Exception.php";
 
 function init_mail() {
 	global $config;
@@ -29,9 +30,16 @@ function send_mail($to, $subject, $body) {
 	$mail->addAddress ( $to );
 	$mail->Subject = $subject;
 	$mail->Body = $body;
-
-	$mail->send ();
-	// echo 'Message has been sent';
+	
+	try{
+		if($mail->send ()){
+			throw new Exception;
+		}
+	}catch(Exception $e){
+		echo "<script language='javascript'>
+				alert('E-Mail konnte nicht gesendet werden');
+			</script>";
+	}
 }
 
 function send_html_mail($to, $subject, $body) {
@@ -41,9 +49,16 @@ function send_html_mail($to, $subject, $body) {
 	$mail->addAddress ( ( string ) $to );
 	$mail->Subject = $subject;
 	$mail->Body = $body;
-
-	$mail->send ();
-	// echo 'HTML Message has been sent';
+	
+	try{
+		if(!$mail->send ()){
+			throw new Exception;
+		}
+	}catch(Exception $e){
+		echo "<script language='javascript'>
+				alert('E-Mail konnte nicht gesendet werden');
+			</script>";
+	}
 }
 
 ?>
