@@ -3,6 +3,7 @@ require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
 require_once LIBRARY_PATH . '/db_engines.php';
 require_once LIBRARY_PATH . '/db_eventtypes.php';
+require_once LIBRARY_PATH . '/db_staffpositions.php';
 require_once LIBRARY_PATH . '/mail_controller.php';
 
 require_once LIBRARY_PATH . '/class/EventReport.php';
@@ -20,10 +21,14 @@ if ($config ["settings"] ["reportfunction"]) {
     $variables ['showFormular'] = true;
     
     $eventtypes = get_eventtypes ();
+    $staffpositions = get_staffpositions();
     $engines = get_engines();
+    
     
     $variables ['engines'] = $engines;
     $variables ['eventtypes'] = $eventtypes;
+    $variables ['staffpositions'] = $staffpositions;
+    
     
 } else {
     $variables ['showFormular'] = false;

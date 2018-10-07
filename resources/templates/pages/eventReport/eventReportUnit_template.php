@@ -19,7 +19,7 @@
 						</div>
 						<div class="col">
 							<div class="form-group">
-								<label>KM (Nur bei Fahrzeug)</label> <input type="number"
+								<label>Kilometer (Nur bei Fahrzeug)</label> <input type="number"
 									class="form-control" name="km" id="km"
 									placeholder="Gefahrene Kilometer">
 							</div>
@@ -61,9 +61,13 @@
 						<div class="row" id="position1">
 							<div class="col">
 								<div class="form-group">
-									<input type="text" placeholder="Funktionsbezeichnung"
-										class="form-control" name="positionfunction" required="required"
+										<select class="form-control" name="positionfunction" required="required"
 										id="positionfunction">
+										<option value="" disabled selected>Funktion auswählen</option>
+										<?php foreach ( $staffpositions as $option ) : ?>
+										<option value="<?=  $option->position;  //Change to $option->uuid for database usage ?>"><?= $option->position; ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<div class="col">
@@ -102,10 +106,6 @@
 		var date = document.getElementById("date").value;
 		var start = document.getElementById("start").value;
 		var end = document.getElementById("end").value;
-
-		console.log("date: " + date);
-		console.log("start: " + start);
-		console.log("end: " + end);
 
 		var form = document.getElementById("addUnitForm");
 

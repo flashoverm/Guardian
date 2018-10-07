@@ -187,12 +187,30 @@
 			var position = form.querySelector("#position" + i);
 			var posFunction = position.querySelector("#positionfunction").value;
 			var posName = position.querySelector("#positionname").value;
-			var posEngineUUID = position.querySelector("#positionengine").value;
+			var posEngine = position.querySelector("#positionengine").value;
 			appendInput(rowBody, "unit"+reportUnitCount+"function"+i, posFunction, null, false);
 			appendInput(rowBody, "unit"+reportUnitCount+"name"+i, posName, null, false);
-			appendInput(rowBody, "unit"+reportUnitCount+"engine"+i, posEngineUUID, null, false);
+			appendInput(rowBody, "unit"+reportUnitCount+"engine"+i, posEngine, null, false);
 			cardBody.appendChild(rowBody);
 		}
+
+		var edit = document.createElement("button");
+		edit.type = "button";
+		edit.className = "btn btn-primary btn-sm";
+		edit.setAttribute("data-toogle", "modal");
+		edit.setAttribute("data-target", "#addUnitModal");
+		edit.appendChild(document.createTextNode("Bearbeiten"));
+		cardBody.appendChild(edit);
+
+		//<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Fahrzeug/Station hinzufügen</button><p>
+
+		var remove = document.createElement("button");
+		remove.type = "button";
+		remove.className = "btn btn-outline-primary btn-sm";
+		remove.onClick = function() {removeLastReportUnit()};
+		remove.appendChild(document.createTextNode("Entfernen"));
+		cardBody.appendChild(remove);
+		
 	}
 
 	function appendInput(parent, name, value, labeltext, hidden){
@@ -227,8 +245,8 @@
 	
 	function removeLastReportUnit(){
 		if(reportUnitCount != 0){
-			var lastStaffRow = document.getElementById("unit"+reportUnitCount);
-			lastStaffRow.parentNode.removeChild(lastStaffRow);
+			var lastUnit = document.getElementById("unit"+reportUnitCount);
+			lastUnit.parentNode.removeChild(lastUnit);
 			reportUnitCount -= 1;
 		} else {
 			
