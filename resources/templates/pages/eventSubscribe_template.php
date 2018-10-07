@@ -26,6 +26,15 @@
 			<?php endforeach; ?>
 		</select>
 	</div>
+	<?php
+	if($config ["settings"] ["usermailonsubscription"]){
+		echo "<div class='form-check'>
+		<input type='checkbox' class='form-check-input' name='noMail' id='noMail'> <label
+		for='noMail'>Keine Bestätigung per E-Mail senden</label>
+		</div>";
+	}
+	?>
+
 	<input type="submit" value="Eintragen" class="btn btn-primary">
 <?php 
 if (isset ( $eventUUID )) {

@@ -29,10 +29,15 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 		$email = trim ( $_POST ['email'] );
 		$engineUUID = trim ( $_POST ['engine'] );
 
+		$sendMail = true;
+		if(isset($_POST ['noMail'])){
+			$sendMail = false;
+		}
+		
 		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
 		if($user_uuid){
 			if(add_staff_user ( $staffUUID, $user_uuid )){
-				mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID );
+				mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID, $sendMail);
 				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
 				$variables ['showFormular'] = false;
 			} else {

@@ -71,11 +71,29 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	}
 }
 
-function get_manager() {
+function get_all_manager() {
 	global $db;
 	$data = array ();
 	$result = $db->query ( "SELECT * FROM user WHERE ismanager = TRUE" );
 
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
+function get_manager_except_engine($engine_uuid){
+	global $db;
+	$query = "SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = '" . $engine_uuid . "'";
+	
+	$data = array ();
+	$result = $db->query ( $query );
+	
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {

@@ -101,6 +101,52 @@ function get_event($event_uuid) {
 	}
 }
 
+function get_events_creator($event_uuid){
+	global $db;
+	
+	$query = "SELECT * FROM user, events WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
+	$result = $db->query ( $query );
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			$creator = $result->fetch_object ();
+			$result->free ();
+			return $creator;
+		}
+	}
+}
+
+function get_events_staff($event_uuid){
+	global $db;
+	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.event = '" . $event_uuid . "'";
+	
+	$data = array ();
+	$result = $db->query ( $query );
+	
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
+function get_staff_user($staff_uuid){
+	global $db;
+	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.uuid = '" . $staff_uuid . "'";
+	$db->query ( $query );
+	$result = $db->query ( $query );
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			$user = $result->fetch_object ();
+			$result->free ();
+			return $user;
+		}
+	}
+}
+
 function add_staff_user($uuid, $user) {
 	global $db;
 	$query = "UPDATE staff SET user = '" . $user . "' WHERE uuid = '" . $uuid . "'";

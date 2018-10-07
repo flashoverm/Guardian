@@ -69,16 +69,44 @@ function create_table_staffpositions() {
 	$result = $db->query ( $query );
 
 	if ($result) {
-		// echo "Table created<br>";
+		insert_staffposition ( "GF (mind. LM)", TRUE );
+	    insert_staffposition ( "GF (mind. HFM)", TRUE );
+	    insert_staffposition ( "KF", TRUE );
+	    insert_staffposition ( "MA 1", TRUE );
+	    insert_staffposition ( "MA 2", TRUE );
+	    insert_staffposition ( "MA 3", TRUE );
+	    insert_staffposition ( "MA 4", TRUE );
+	    insert_staffposition ( "MA 5", TRUE );
+	    insert_staffposition ( "MA 6", TRUE );
+	    insert_staffposition ( "MA 7", TRUE );
+	    insert_staffposition ( "MA 1 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 2 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 3 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 4 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 5 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 6 AT-Träger", TRUE );
+	    insert_staffposition ( "MA 7 AT-Träger", TRUE );
+	    
+	    insert_staffposition ( "Wachhabender", FALSE );
+	    insert_staffposition ( "WM 1", FALSE );
+	    insert_staffposition ( "WM 2", FALSE );
+	    insert_staffposition ( "WM 3", FALSE );
+	    insert_staffposition ( "WM 4", FALSE );
+	    insert_staffposition ( "WM 5", FALSE );
+	    insert_staffposition ( "WM 6", FALSE );
+	    insert_staffposition ( "WM 7", FALSE );
+	    insert_staffposition ( "WM 8", FALSE );
+	    insert_staffposition ( "WM 9", FALSE );
+	    /*
 	    insert_staffposition ( "Gruppenführer", TRUE );
 	    insert_staffposition ( "Maschinist", TRUE );
 	    insert_staffposition ( "Atemschutzträger", TRUE );
 	    insert_staffposition ( "Feuerwehrmann/-frau", TRUE );
 	    insert_staffposition ( "Wachhabender", FALSE );
 	    insert_staffposition ( "Wachmann/-frau", FALSE );
+	    */
 		return true;
 	} else {
-		// echo "Error: " . $db->error . "<br><br>";
 		return false;
 	}
 }

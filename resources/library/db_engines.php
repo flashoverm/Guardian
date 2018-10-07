@@ -75,7 +75,7 @@ function create_table_engines() {
 	$result = $db->query ( $query );
 
 	if ($result) {
-		// echo "Table created<br>";
+		insert_engine( "Geschäftszimmer" );
 		insert_engine ( "Löschzug 1/2" );
 		insert_engine ( "Löschzug 3" );
 		insert_engine ( "Löschzug 4" );
@@ -86,7 +86,6 @@ function create_table_engines() {
 		insert_engine ( "Löschzug 9" );
 		return true;
 	} else {
-		// echo "Error: " . $db->error . "<br><br>";
 		return false;
 	}
 }

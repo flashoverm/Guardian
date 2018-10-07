@@ -2,25 +2,22 @@
 
 To Do:
 
-- Deleting/Deactivating last manager of an engine is not allowed
-
 - Send HTML Mails with Infos about events
 - Send iCal-File for Adding Event to Calender
 
 - Report function to send event report via mail
-	- 	Edit function for units
+	- 	Edit-function for units
+	-	Delete-function for units
 
-- Zwischenablage Button
-- Positionspositionen wie in VSP Fire
-- Deaktivierung des eigenen Kontos nicht möglich
-- Info-Mail bei Eintragung Wachmann 
-- Geschäftszimmer als Zug bei neuen Wachen
-	
+- "Save to clipboard"-button
+
+
 Refactoring:
 
 - Call database tables singular
 - rename files and functions in camel case?
-	
+
+
 Done: 
 
 - Verification dialog for ciritical operations
@@ -31,3 +28,6 @@ Done:
 - Loading Screen while mail sending
 - Handling errors, mail exception
 
+- Positions like access database
+
+- Deactivating own account not possible

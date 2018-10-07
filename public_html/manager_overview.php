@@ -13,15 +13,19 @@ $variables = array (
 
 if (isset ( $_POST ['disable'] )) {
 	$delete_manager_uuid = trim ( $_POST ['disable'] );
-	if(deactivate_manager ( $delete_manager_uuid )){
-		$variables ['successMessage'] = "Wachbeauftragter deaktiviert";
+	if($delete_manager_uuid == $_SESSION ['userid']){
+		$variables ['alertMessage'] = "Eigenes Konto kann nicht deaktiviert werden";
+	} else if(deactivate_manager ( $delete_manager_uuid )) {
+		$variables ['successMessage'] = "Wachbeauftragter deaktiviert";	
 	} else {
 		$variables ['alertMessage'] = "Deaktivieren des Wachbeauftragten fehlgeschlagen";
 	}
 }
 if (isset ( $_POST ['enable'] )) {
 	$delete_manager_uuid = trim ( $_POST ['enable'] );
-	if(reactivate_manager ( $delete_manager_uuid )){
+	if($delete_manager_uuid == $_SESSION ['userid']){
+		$variables ['alertMessage'] = "Eigenes Konto kann nicht aktiviert werden";
+	} else if(reactivate_manager ( $delete_manager_uuid )){
 		$variables ['successMessage'] = "Wachbeauftragter aktiviert";
 	} else {
 		$variables ['alertMessage'] = "Aktivieren des Wachbeauftragten fehlgeschlagen";
@@ -38,7 +42,7 @@ if (isset ( $_POST ['resetpw'] )) {
 		$variables ['alertMessage'] = "Passwort konnte nicht zurückgesetzt werden";
 	}
 }
-$manager = get_manager ();
+$manager = get_all_manager ();
 $variables ['manager'] = $manager;
 
 renderLayoutWithContentFile ( "managerOverview_template.php", $variables );

@@ -65,13 +65,15 @@ if (! $isAdmin) {
 				</td>
 				<td>
 					<form method="post" action="">
-	<?php
-			if ($row->loginenabled) {
-				echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
-				echo "<input type=\"submit\" value=\"Deaktivieren\"  class=\"btn btn-outline-primary btn-sm\"/>";
-			} else {
-				echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
-				echo "<input type=\"submit\" value=\"Aktivieren\"  class=\"btn btn-primary btn-sm\"/>";
+			<?php
+			if($row->uuid != $_SESSION ['userid']){
+				if ($row->loginenabled) {
+					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
+					echo "<input type=\"submit\" value=\"Deaktivieren\"  class=\"btn btn-outline-primary btn-sm\"/>";
+				} else {
+					echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
+					echo "<input type=\"submit\" value=\"Aktivieren\"  class=\"btn btn-primary btn-sm\"/>";
+				}
 			}
 			?>
 							</form>

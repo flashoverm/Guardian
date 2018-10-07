@@ -41,7 +41,6 @@
 		<label>Zuständiger Löschzug/Geschäftszimmer:</label> <select
 			class="form-control" name="engine" required="required">
 			<option value="" disabled selected>Bitte auswählen</option>
-			<option value="<?=$config ["backoffice"]; ?>">Geschäftszimmer</option>
 			<?php foreach ( $engines as $option ) : ?>
 			<option value="<?=  $option->name; //Change to $option->uuid for database usage	?> "><?= $option->name; ?></option>
 			<?php endforeach; ?>

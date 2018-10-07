@@ -61,4 +61,16 @@ function send_html_mail($to, $subject, $body) {
 	}
 }
 
+function send_mails($recipients, $subject, $body) {
+	foreach ($recipients as $to) {
+		send_mail($to, $subject, $body);
+	}
+}
+
+function send_html_mails($recipients, $subject, $body) {
+	foreach ($recipients as $to) {
+		send_html_mail($to, $subject, $body);
+	}
+}
+
 ?>

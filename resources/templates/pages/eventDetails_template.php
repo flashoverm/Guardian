@@ -85,7 +85,7 @@ if ($isManager) {
 				}
 				?>
 				<tr>
-				<td colspan="3"><b>Link:&nbsp;</b> <?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></td>
+				<td colspan="3"><b>Link:&nbsp;</b> <p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p></td>
 			</tr>
 		</tbody>
 	</table>

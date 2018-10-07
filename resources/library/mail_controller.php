@@ -3,6 +3,9 @@ require_once 'mail.php';
 require_once 'mail_body.php';
 require_once 'db_connect.php';
 require_once 'db_engines.php';
+require_once 'db_user.php';
+require_once 'db_event.php';
+
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 
 require_once LIBRARY_PATH . '/class/EventReport.php';
@@ -11,7 +14,6 @@ require_once LIBRARY_PATH . '/class/ReportUnitStaff.php';
 
 
 function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
-	global $db;
 	global $config;
 	global $bodies;
 
@@ -20,17 +22,8 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	
 	$body =  $bodies["event_insert"] . $link;
 
-	$query = "SELECT email FROM user WHERE uuid = '" . $manager_uuid . "'";
-
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			while ( $email = $result->fetch_row () ) {
-				send_mail ( $email [0], $subject, $body );
-			}
-			$result->free ();
-		}
-	}
+	$manager = get_user( $manager_uuid );
+	send_mail ( $manager->email, $subject, $body );
 
 	if ($informOther) {
 		mail_publish_event ( $event_uuid, $manager_uuid );
@@ -38,7 +31,6 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 }
 
 function mail_publish_event($event_uuid, $manager_uuid) {
-	global $db;
 	global $config;
 	global $bodies;
 	
@@ -46,43 +38,14 @@ function mail_publish_event($event_uuid, $manager_uuid) {
 	$subject = "Neuer Wache veröffentlicht";
 	
 	$body = $bodies["event_publish"] . $link;
-
-	$query = "SELECT email FROM user WHERE ismanager = TRUE AND NOT uuid = '" . $manager_uuid . "'";
-
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			while ( $email = $result->fetch_row () ) {
-				send_mail ( $email [0], $subject, $body );
-			}
-			$result->free ();
-		}
-	}
+	
+	$manager = get_user($manager_uuid);
+	
+	$recipients = get_manager_except_engine($manager->engine);
+	send_mails($recipients, $subject, $body);
 }
 
-function mail_delete_event($event_uuid) {
-	global $db;
-	global $config;
-	global $bodies;
-	
-	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Wache abgesagt";
-	
-	$body = $bodies["event_delete"] . $link;
-
-	$query = "SELECT email FROM user, staff WHERE user.uuid = staff.user AND staff.event = '" . $event_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			while ( $email = $result->fetch_row () ) {
-				send_mail ( $email [0], $subject, $body );
-			}
-			$result->free ();
-		}
-	}
-}
-
-function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) {
+function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, $send_mail) {
 	global $db;
 	global $config;
 	global $bodies;
@@ -92,21 +55,15 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 	
 	$body = $bodies["event_subscribe"] . $link;
 
-	send_mail ( $user_email, $subject, $body );
+	if($config ["settings"] ["usermailonsubscription"] && $send_mail){
+		send_mail ( $user_email, $subject, $body );
+	}
 
 	if ($config ["settings"] ["enginemgrmailonsubscription"]) {
 		$body = $bodies["event_subscribe_manager"] . $link;
 
-		$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $user_engine_uuid . "'";
-		$result = $db->query ( $query );
-		if ($result) {
-			if (mysqli_num_rows ( $result )) {
-				while ( $email = $result->fetch_row () ) {
-					send_mail ( $email [0], $subject, $body );
-				}
-				$result->free ();
-			}
-		}
+		$recipients = get_manager_of_engine($user_engine_uuid);
+		send_mails($recipients, $subject, $body);
 	}
 
 	$query = "SELECT COUNT(*) AS empty_pos FROM staff WHERE user IS NULL AND event = '" . $event_uuid . "'";
@@ -117,7 +74,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 		
 		$body = $bodies["event_full"] . $link;
 		
-	} else if ($config ["settings"] ["mgrmailonsubscription"]) {
+	} else if ($config ["settings"] ["creatormailonsubscription"]) {
 		
 		$body = $bodies["event_subscribe_engine"] . $link;
 		
@@ -125,19 +82,11 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid) 
 		return;
 	}
 
-	$query = "SELECT email FROM user, events WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			$email = $result->fetch_row ();
-			send_mail ( $email [0], $subject, $body );
-			$result->free ();
-		}
-	}
+	$creator = get_events_creator($event_uuid);
+	send_mail($creator, $subject, $body);
 }
 
 function mail_remove_staff_user($staff_uuid, $event_uuid) {
-	global $db;
 	global $config;
 	global $bodies;
 	
@@ -146,32 +95,28 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	
 	$body = $bodies["event_unscribe"] . $link;
 
-	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.uuid = '" . $staff_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			$user = $result->fetch_object ();
-			send_mail ( $user->email, $subject, $body );
-			$result->free ();
+	$user = get_staff_user($staff_uuid);
+	send_mail ( $user->email, $subject, $body );
+	
+	$body = $bodies["event_unscribe_engine"] . $link;
 
-			global $mail_engine_manager_on_subscription;
-			if ($mail_engine_manager_on_subscription) {
-				
-				$body = $bodies["event_unscribe_engine"] . $link;
-
-				$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $user->engine . "'";
-				$result = $db->query ( $query );
-				if ($result) {
-					if (mysqli_num_rows ( $result )) {
-						while ( $email = $result->fetch_row () ) {
-							send_mail ( $email [0], $subject, $body );
-						}
-						$result->free ();
-					}
-				}
-			}
-		}
+	if ($config ["settings"] ["enginemgrmailonsubscription"]) {
+		$recipients = get_manager_of_engine($user->engine);
+		send_mails($recipients, $subject, $body);
 	}
+}
+
+function mail_delete_event($event_uuid) {
+	global $config;
+	global $bodies;
+	
+	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
+	$subject = "Wache abgesagt";
+	
+	$body = $bodies["event_delete"] . $link;
+	
+	$recipients = get_events_staff($event_uuid);
+	send_mails($recipients, $subject, $body);
 }
 
 function mail_add_manager($mail_manager, $password) {
@@ -205,7 +150,6 @@ function mail_reset_password($manager_uuid, $password) {
 function mail_send_report($report){
 	global $config;
 	global $db;
-	global $bodies;
 	
 	$subject = "Wachbericht";
 	
@@ -229,5 +173,4 @@ function mail_send_report($report){
 	}
 
 }
-
 ?>
