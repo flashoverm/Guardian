@@ -1,12 +1,12 @@
 <?php
 require_once 'db_connect.php';
 
-create_table_eventtypes ();
+create_table_eventtype ();
 
 function insert_eventtype($type) {
 	global $db;
 	$uuid = getGUID ();
-	$query = "INSERT INTO eventtypes (uuid, type)
+	$query = "INSERT INTO eventtype (uuid, type)
 		VALUES ('" . $uuid . "', '" . $type . "')";
 
 	$result = $db->query ( $query );
@@ -22,7 +22,7 @@ function insert_eventtype($type) {
 
 function get_eventtype($uuid) {
 	global $db;
-	$query = "SELECT * FROM eventtypes WHERE uuid = '" . $uuid . "'";
+	$query = "SELECT * FROM eventtype WHERE uuid = '" . $uuid . "'";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -37,7 +37,7 @@ function get_eventtype($uuid) {
 function get_eventtypes() {
 	global $db;
 	$data = array ();
-	$query = "SELECT * FROM eventtypes ORDER BY type";
+	$query = "SELECT * FROM eventtype ORDER BY type";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -50,9 +50,9 @@ function get_eventtypes() {
 	return $data;
 }
 
-function create_table_eventtypes() {
+function create_table_eventtype() {
 	global $db;
-	$query = "CREATE TABLE eventtypes (
+	$query = "CREATE TABLE eventtype (
                           uuid CHARACTER(36) NOT NULL,
 						  type VARCHAR(64) NOT NULL,
                           PRIMARY KEY  (uuid)

@@ -23,12 +23,12 @@ if (! count ( $events )) {
 	foreach ( $events as $row ) {
 		?>
 				<tr>
-				<td><?= $row->date; ?></td>
-				<td><?= $row->start_time; ?></td>
+				<td><?= date($config ["formats"] ["date"], strtotime($row->date)); ?></td>
+				<td><?= date($config ["formats"] ["time"], strtotime($row->start_time)); ?></td>
 				<td>
 	<?php
 		if ($row->end_time != 0) {
-			echo $row->end_time;
+		    echo date($config ["formats"] ["time"], strtotime($row->end_time));
 		} else {
 			echo " - ";
 		}

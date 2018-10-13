@@ -66,7 +66,7 @@ if (! $isAdmin) {
 				<td>
 					<form method="post" action="">
 			<?php
-			if($row->uuid != $_SESSION ['userid']){
+			if($row->uuid != $_SESSION ['guardian_userid']){
 				if ($row->loginenabled) {
 					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
 					echo "<input type=\"submit\" value=\"Deaktivieren\"  class=\"btn btn-outline-primary btn-sm\"/>";

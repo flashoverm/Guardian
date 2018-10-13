@@ -36,9 +36,11 @@ function send_mail($to, $subject, $body) {
 			throw new Exception;
 		}
 	}catch(Exception $e){
-		echo "<script language='javascript'>
+	    //TODO Remove - Only for debugging
+	   echo "Mail to: " . $to . " Subject: " . $subject . " Could not be sent<br>Body: " . $body . "<br>";
+		/*echo "<script language='javascript'>ot 
 				alert('E-Mail konnte nicht gesendet werden');
-			</script>";
+			</script>";*/
 	}
 }
 
@@ -63,13 +65,13 @@ function send_html_mail($to, $subject, $body) {
 
 function send_mails($recipients, $subject, $body) {
 	foreach ($recipients as $to) {
-		send_mail($to, $subject, $body);
+		send_mail($to->email, $subject, $body);
 	}
 }
 
 function send_html_mails($recipients, $subject, $body) {
 	foreach ($recipients as $to) {
-		send_html_mail($to, $subject, $body);
+		send_html_mail($to->email, $subject, $body);
 	}
 }
 

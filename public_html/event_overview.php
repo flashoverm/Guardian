@@ -23,7 +23,7 @@ if (isset ( $_POST ['delete'] )) {
 	}
 }
 
-$events = get_events ($_SESSION ['userid']);
+$events = get_events ($_SESSION ['guardian_userid']);
 $variables ['events'] = $events;
 
 renderLayoutWithContentFile ( "eventOverview_template.php", $variables );

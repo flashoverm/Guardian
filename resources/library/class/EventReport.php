@@ -12,11 +12,12 @@ class EventReport {
 	public $noIncidents;
 	public $report;
 	public $creator;
+	public $ilsEntry;
 	
 	public $units = array();
 	
 	function __construct($date, $beginn, $end, $type, $title, $engine, 
-			$noIncidents, $report, $creator) {
+	    $noIncidents, $report, $creator, $ilsEntry) {
 		
 		$this->date = $date;
 		$this->beginn = $beginn;
@@ -29,6 +30,7 @@ class EventReport {
 		$this->noIncidents = $noIncidents;
 		$this->report = $report;
 		$this->creator = $creator;
+		$this->ilsEntry = $ilsEntry;
 	}
 	
 	function addUnit($unit){
@@ -60,6 +62,9 @@ class EventReport {
 				. "\nBeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end . "\n\n";
 		
+		if($this->ilsEntry){
+		    $string = $string . "Einsatz durch ILS angelegt!";
+		}				
 		if($this->noIncidents){
 			$string = $string . "Keine Vorkomnisse";
 		} else {

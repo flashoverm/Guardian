@@ -3,7 +3,7 @@ require_once 'db_connect.php';
 require_once 'mail.php';
 require_once 'db_user.php';
 
-create_table_events ();
+create_table_event ();
 create_table_staff ();
 
 function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine_only, $manager) {
@@ -14,11 +14,11 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine
 	if($engine_only){
 	    $engine = get_engine_of_user($manager);
 	    
-	    $query = "INSERT INTO events (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+	    $query = "INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
 		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', '" . $engine . "','" . $hash . "', '" . $manager . "')";
 	    
 	} else {
-	    $query = "INSERT INTO events (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+	    $query = "INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
 		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', NULL,'" . $hash . "', '" . $manager . "')";
 	}
 
@@ -61,7 +61,7 @@ function get_events($user_uuid) {
 	
 	$engine = get_engine_of_user($user_uuid);
 
-	$result = $db->query ( "SELECT * FROM events WHERE engine IS NULL OR engine = '" . $engine . "'" );
+	$result = $db->query ( "SELECT * FROM event WHERE engine IS NULL OR engine = '" . $engine . "'" );
 
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -92,7 +92,7 @@ function get_staff($event_uuid) {
 
 function get_event($event_uuid) {
 	global $db;
-	$result = $db->query ( "SELECT * FROM events WHERE uuid = '" . $event_uuid . "'" );
+	$result = $db->query ( "SELECT * FROM event WHERE uuid = '" . $event_uuid . "'" );
 
 	if ($result) {
 		return $result->fetch_object ();
@@ -104,7 +104,7 @@ function get_event($event_uuid) {
 function get_events_creator($event_uuid){
 	global $db;
 	
-	$query = "SELECT * FROM user, events WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
+	$query = "SELECT * FROM user, event WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -177,7 +177,7 @@ function remove_staff_user($uuid) {
 
 function publish_event($uuid){
     global $db;
-    $query = "UPDATE events SET engine = NULL WHERE uuid='" . $uuid . "'";
+    $query = "UPDATE event SET engine = NULL WHERE uuid='" . $uuid . "'";
     $result = $db->query ( $query );
     
     if ($result) {
@@ -194,7 +194,7 @@ function delete_event($uuid) {
 	$query = "DELETE FROM staff WHERE event='" . $uuid . "'";
 	$result1 = $db->query ( $query );
 
-	$query = "DELETE FROM events WHERE uuid='" . $uuid . "'";
+	$query = "DELETE FROM event WHERE uuid='" . $uuid . "'";
 	$result2 = $db->query ( $query );
 
 	if ($result1 && $result2) {
@@ -206,9 +206,9 @@ function delete_event($uuid) {
 	}
 }
 
-function create_table_events() {
+function create_table_event() {
 	global $db;
-	$query = "CREATE TABLE events (
+	$query = "CREATE TABLE event (
                           uuid CHARACTER(36) NOT NULL,
 						  date DATE NOT NULL,
                           start_time TIME NOT NULL,
@@ -221,7 +221,7 @@ function create_table_events() {
 						  manager CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (manager) REFERENCES user(uuid),
-						  FOREIGN KEY (type) REFERENCES eventtypes(uuid)
+						  FOREIGN KEY (type) REFERENCES eventtype(uuid)
                           )";
 
 	$result = $db->query ( $query );
@@ -244,7 +244,7 @@ function create_table_staff() {
 						  user CHARACTER(36),
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (user) REFERENCES user(uuid),
-						  FOREIGN KEY (event) REFERENCES events(uuid)
+						  FOREIGN KEY (event) REFERENCES event(uuid)
                           )";
 
 	$result = $db->query ( $query );

@@ -153,8 +153,10 @@ function email_in_use($email) {
 	global $db;
 	$query = "SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = '" . $email . "'";
 	$result = $db->query ( $query );
-	if (mysqli_num_rows ( $result )) {
-		return true;
+	if ($result) {
+    	if (mysqli_num_rows ( $result )) {
+    		return true;
+    	}
 	}
 	return false;
 }
@@ -269,7 +271,7 @@ function change_password($uuid, $old_password, $new_passwort) {
 			}
 		}
 	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
+		 echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return false;
 }
@@ -287,7 +289,7 @@ function create_table_user() {
 						  loginenabled BOOLEAN NOT NULL,
 						  engine CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
-						  FOREIGN KEY (engine) REFERENCES engines(uuid)
+						  FOREIGN KEY (engine) REFERENCES engine(uuid)
                           )";
 
 	$result = $db->query ( $query );
@@ -296,7 +298,7 @@ function create_table_user() {
 		// echo "Table created<br>";
 		return true;
 	} else {
-		// echo "Error: " . $db->error . "<br><br>";
+		 //echo "Error: " . $db->error . "<br><br>";
 		return false;
 	}
 }

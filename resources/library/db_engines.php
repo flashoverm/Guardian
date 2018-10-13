@@ -1,12 +1,12 @@
 <?php
 require_once 'db_connect.php';
 
-create_table_engines ();
+create_table_engine ();
 
 function insert_engine($name) {
 	global $db;
 	$uuid = getGUID ();
-	$query = "INSERT INTO engines (uuid, name)
+	$query = "INSERT INTO engine (uuid, name)
 		VALUES ('" . $uuid . "', '" . $name . "')";
 
 	$result = $db->query ( $query );
@@ -22,7 +22,7 @@ function insert_engine($name) {
 
 function get_engine($uuid) {
 	global $db;
-	$query = "SELECT * FROM engines WHERE uuid = '" . $uuid . "'";
+	$query = "SELECT * FROM engine WHERE uuid = '" . $uuid . "'";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -36,7 +36,7 @@ function get_engine($uuid) {
 
 function get_engine_from_name($name) {
 	global $db;
-	$query = "SELECT * FROM engines WHERE name = '" . $name . "'";
+	$query = "SELECT * FROM engine WHERE name = '" . $name . "'";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -51,7 +51,7 @@ function get_engine_from_name($name) {
 function get_engines() {
 	global $db;
 	$data = array ();
-	$query = "SELECT * FROM engines ORDER BY name";
+	$query = "SELECT * FROM engine ORDER BY name";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -64,9 +64,9 @@ function get_engines() {
 	return $data;
 }
 
-function create_table_engines() {
+function create_table_engine() {
 	global $db;
-	$query = "CREATE TABLE engines (
+	$query = "CREATE TABLE engine (
                           uuid CHARACTER(36) NOT NULL,
 						  name VARCHAR(32) NOT NULL,
                           PRIMARY KEY  (uuid)

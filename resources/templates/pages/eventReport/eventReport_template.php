@@ -47,6 +47,12 @@
 		</select>
 	</div>
 	
+	
+	<div class="form-check">
+		<input type="checkbox" class="form-check-input" name="ilsEntry" id="ilsEntry"> <label
+			for="ilsEntry">Einsatz durch ILS angelegt</label>
+	</div>
+	
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" name="noIncidents" id="noIncidents"> <label
 			for="noIncidents">Keine Vorkomnisse</label>
@@ -95,15 +101,33 @@
 		if(reportUnitCount == 1){
 			var div = document.getElementById("submitPlaceholder");
 			var input1 = document.createElement("input");
+			input1.id = "formSubmit";
 			input1.type = "submit";
 			input1.value = "Abschicken";
 			input1.className ="btn btn-primary";
 			div.appendChild(input1);
 			var input2 = document.createElement("input");
+			input2.id = "formSend";
 			input2.type = "hidden";
 			input2.value = "send";
 			input2.name ="action";
 			div.appendChild(input2);			
+		}
+	}
+
+
+	function removeLastReportUnit(){
+		if(reportUnitCount != 0){
+			var lastUnit = document.getElementById("unit"+reportUnitCount);
+			lastUnit.parentNode.removeChild(lastUnit);
+			reportUnitCount -= 1;
+
+			if(reportUnitCount == 0){
+				var formSubmit = document.getElementById("formSubmit");
+				var formSend = document.getElementById("formSend");
+				formSubmit.parentNode.removeChild(formSubmit);
+				formSend.parentNode.removeChild(formSend);
+			}
 		}
 	}
 
@@ -148,12 +172,19 @@
 		
 		container.appendChild(card);
 
+		var removeUnit = document.getElementById("unit"+reportUnitCount+"delete");
+		removeUnit.onclick = removeLastReportUnit;
+
+		//var editUnit = document.getElementById("unit"+reportUnitCount+"edit");
+		//editUnit.onclick = 
+		
 		button.click();
 	}
 
+
 	function addUnitCardBody(cardBody){
 		var form = document.getElementById("addUnitForm");
-		var unitdate = form.querySelector("#unitdate").value;
+		var unitdate = new Date(form.querySelector("#unitdate").value).toLocaleDateString("de-DE");
 		var unitstart = form.querySelector("#unitstart").value;
 		var unitend = form.querySelector("#unitend").value;
 		
@@ -193,23 +224,22 @@
 			cardBody.appendChild(rowBody);
 		}
 
+		/*
 		var edit = document.createElement("button");
+		edit.id = "unit"+reportUnitCount+"edit;
 		edit.type = "button";
 		edit.className = "btn btn-primary btn-sm";
 		edit.setAttribute("data-toogle", "modal");
 		edit.setAttribute("data-target", "#addUnitModal");
 		edit.appendChild(document.createTextNode("Bearbeiten"));
 		cardBody.appendChild(edit);
-
-		//<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Fahrzeug/Station hinzufügen</button><p>
-
+		*/	
 		var remove = document.createElement("button");
+		remove.id = "unit"+reportUnitCount+"delete"
 		remove.type = "button";
 		remove.className = "btn btn-outline-primary btn-sm";
-		remove.onClick = function() {removeLastReportUnit()};
 		remove.appendChild(document.createTextNode("Entfernen"));
 		cardBody.appendChild(remove);
-		
 	}
 
 	function appendInput(parent, name, value, labeltext, hidden){
@@ -241,14 +271,5 @@
 
 		parent.appendChild(col);
 	}
-	
-	function removeLastReportUnit(){
-		if(reportUnitCount != 0){
-			var lastUnit = document.getElementById("unit"+reportUnitCount);
-			lastUnit.parentNode.removeChild(lastUnit);
-			reportUnitCount -= 1;
-		} else {
-			
-		}
-	}
+
 </script>

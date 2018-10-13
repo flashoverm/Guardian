@@ -24,7 +24,7 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
 	$comment = "";
 	$informOther = false;
 
-	$manager = $_SESSION ['userid'];
+	$manager = $_SESSION ['guardian_userid'];
 
 	if (isset ( $_POST ['comment'] )) {
 		$comment = trim ( $_POST ['comment'] );

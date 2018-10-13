@@ -1,17 +1,17 @@
 <?php
 require_once 'db_connect.php';
 
-create_table_staffpositions ();
+create_table_staffposition ();
 
 function insert_staffposition($position, $vehicle) {
 	global $db;
 	$uuid = getGUID ();
 	
 	if($vehicle){
-	    $query = "INSERT INTO staffpositions (uuid, position, vehicle)
+	    $query = "INSERT INTO staffposition (uuid, position, vehicle)
 		VALUES ('" . $uuid . "', '" . $position . "', TRUE)";
 	} else {
-	    $query = "INSERT INTO staffpositions (uuid, position, vehicle)
+	    $query = "INSERT INTO staffposition (uuid, position, vehicle)
 		VALUES ('" . $uuid . "', '" . $position . "', FALSE)";
 	}
 
@@ -44,7 +44,7 @@ function get_staffposition($uuid) {
 function get_staffpositions() {
 	global $db;
 	$data = array ();
-	$query = "SELECT * FROM staffpositions ORDER BY position";
+	$query = "SELECT * FROM staffposition ORDER BY position";
 	$result = $db->query ( $query );
 	if ($result) {
 		if (mysqli_num_rows ( $result )) {
@@ -57,9 +57,9 @@ function get_staffpositions() {
 	return $data;
 }
 
-function create_table_staffpositions() {
+function create_table_staffposition() {
 	global $db;
-	$query = "CREATE TABLE staffpositions (
+	$query = "CREATE TABLE staffposition (
                           uuid CHARACTER(36) NOT NULL,
 						  position VARCHAR(64) NOT NULL,
                           vehicle  BOOLEAN NOT NULL,

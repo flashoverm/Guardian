@@ -18,8 +18,8 @@ function renderLayoutWithContentFile($contentFile, $variables = array()) {
 		}
 	}
 
-	$loggedIn = isset ( $_SESSION ['userid'] );
-	$isAdmin = $loggedIn && is_admin ( $_SESSION ['userid'] );
+	$loggedIn = isset ( $_SESSION ['guardian_userid'] );
+	$isAdmin = $loggedIn && is_admin ( $_SESSION ['guardian_userid'] );
 
 	require_once (TEMPLATES_PATH . "/header.php");
 

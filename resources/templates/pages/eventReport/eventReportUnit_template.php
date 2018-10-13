@@ -118,6 +118,14 @@
 		if(end != ""){
 			form.querySelector("#unitend").value = end;
 		}
+
+		//TODO set false
+		if(false){
+			form.querySelector("#unitdate").value = "2018-10-12";
+			form.querySelector("#unitstart").value = "20:00";
+			form.querySelector("#unitend").value = "22:00";
+			form.querySelector("#unit").value = "Test";
+		}
 	}
 
 	function processForm(e) {

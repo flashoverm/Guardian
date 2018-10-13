@@ -44,17 +44,21 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
     $title = trim ( $_POST ['title'] );
     $engine = trim ($_POST ['engine']);
     $noIncidents = false;
+    $ilsEntry = false;
     $report = "";
     $creator = trim ($_POST ['creator']);
     
     if(isset($_POST ['noIncidents'])){
         $noIncidents = true;
     }
+    if(isset($_POST ['ilsEntry'])){
+        $ilsEntry = true;
+    }
     if (isset ( $_POST ['report'] )) {
     	$report = trim ( $_POST ['report'] );
     }
     
-    $eventReport = new EventReport($date, $beginn, $end, $type, $title, $engine, $noIncidents, $report, $creator);
+    $eventReport = new EventReport($date, $beginn, $end, $type, $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
 
     $unitCount = 1;
     while ( isset ( $_POST ["unit" . $unitCount . "unit"] ) ) {

@@ -83,7 +83,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	}
 
 	$creator = get_events_creator($event_uuid);
-	send_mail($creator, $subject, $body);
+	send_mail($creator->email, $subject, $body);
 }
 
 function mail_remove_staff_user($staff_uuid, $event_uuid) {
@@ -152,25 +152,19 @@ function mail_send_report($report){
 	global $db;
 	
 	$subject = "Wachbericht";
-	
 	$body = $report->toMail();
-		
-	if($report->engine == $config ["backoffice"]){
-		send_mail ( $report->engine, $subject, $body );
-	} else {
-		$engine = get_engine_from_name($report->engine);
-		
-		$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $engine->uuid . "'";
-		$result = $db->query ( $query );
-		if ($result) {
-			if (mysqli_num_rows ( $result )) {
-				while ( $email = $result->fetch_row () ) {
-					send_mail ( $email [0], $subject, $body );
-				}
-				$result->free ();
+	
+	$engine = get_engine_from_name($report->engine);
+	
+	$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $engine->uuid . "'";
+	$result = $db->query ( $query );
+	if ($result) {
+		if (mysqli_num_rows ( $result )) {
+			while ( $email = $result->fetch_row () ) {
+				send_mail ( $email [0], $subject, $body );
 			}
+			$result->free ();
 		}
 	}
-
 }
 ?>

@@ -86,7 +86,7 @@ if ($loggedIn) {
 	echo "	
 			<li class='dropdown'>
 				<a class='nav-link dropdown-toggle text-light' data-toggle='dropdown' href='#'>"
-				. $_SESSION ['usermail'] . 
+				. $_SESSION ['guardian_usermail'] . 
 			"	<span class='caret'></span></a>
 				<ul class='dropdown-menu dropdown-menu-right bg-dark'>
 					<li class='nav-item'>

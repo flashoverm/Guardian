@@ -16,11 +16,11 @@ if ($isManager) {
 				<th>Ende</th>
 			</tr>
 			<tr>
-				<td><?= $event->date; ?></td>
-				<td><?= $event->start_time; ?></td>
+				<td><?= date($config ["formats"] ["date"], strtotime($event->date)); ?></td>
+				<td><?= date($config ["formats"] ["time"], strtotime($event->start_time)); ?></td>
 				<td><?php
 				if ($event->end_time != 0) {
-					echo $event->end_time;
+				    echo date($config ["formats"] ["time"], strtotime($event->end_time));
 				} else {
 					echo " - ";
 				}
