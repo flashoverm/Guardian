@@ -1,6 +1,6 @@
 	<footer id="footer" class="footer bg-gray">
 		<div class="container">
-			Bei Anmerkungen oder Problemen: Email an <a href="mailto:guardian@thral.de?subject=Fehlerbericht%20Guardian" >guardian@thral.de</a>
+			<a href="impressum.php">Impressum</a> | Bei Anmerkungen oder Problemen: Email an <a href="mailto:guardian@thral.de?subject=Fehlerbericht%20Guardian" >guardian@thral.de</a>
 		</div>
 	</footer>
 	<div id="overlay" style="display:none;">
