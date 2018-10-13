@@ -32,15 +32,15 @@ function send_mail($to, $subject, $body) {
 	$mail->Body = $body;
 	
 	try{
-		if($mail->send ()){
+		if(!$mail->send ()){
 			throw new Exception;
 		}
 	}catch(Exception $e){
-	    //TODO Remove - Only for debugging
-	   echo "Mail to: " . $to . " Subject: " . $subject . " Could not be sent<br>Body: " . $body . "<br>";
-		/*echo "<script language='javascript'>ot 
-				alert('E-Mail konnte nicht gesendet werden');
-			</script>";*/
+		//echo "Mail to '" . $to . "' with subject '" . $subject . "' could not be sent<br>Body: " . $body . "<br>";
+		
+		echo "<script language='javascript'>ot 
+				alert('Eine E-Mail konnte nicht gesendet werden');
+			</script>";
 	}
 }
 
@@ -57,8 +57,10 @@ function send_html_mail($to, $subject, $body) {
 			throw new Exception;
 		}
 	}catch(Exception $e){
+		//echo "Mail to '" . $to . "' with subject '" . $subject . "' could not be sent<br>Body: " . $body . "<br>";
+		
 		echo "<script language='javascript'>
-				alert('E-Mail konnte nicht gesendet werden');
+				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";
 	}
 }

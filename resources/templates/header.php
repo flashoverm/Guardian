@@ -39,40 +39,37 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <!-- <a class="navbar-brand" href="#">Navigation</a> -->
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
-		data-target="#navbarMainContent" aria-controls="navbarMainContent"
-		aria-expanded="false" aria-label="Toggle navigation">
+		data-target="#navbarMainContent">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
 <?php
 if ($loggedIn) {
 	echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
-		  <ul class='navbar-nav mr-auto'>
-            <li class='nav-item'>
-        		<a class='nav-link text-light' href='event_overview.php'>Wachübersicht</a>
-			</li>	
-			<li class='nav-item'>
-        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
-			</li>
+		  	<ul class='navbar-nav mr-auto'>
+	            <li class='nav-item'>
+	        		<a class='nav-link text-light' href='event_overview.php'>Wachübersicht</a>
+				</li>	
+				<li class='nav-item'>
+	        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
+				</li>
 			</ul>
 		</div>";
 	
 	if ($isAdmin) {
-	echo "<div class='collapse navbar-collapse order-2 dual-collapse2'
-		id='navbarMainContent'>
+	echo "<div class='collapse navbar-collapse order-2 dual-collapse2' id='navbarMainContent'>
 			<ul class='navbar-nav mx-auto'>
 				<li class='nav-item'>
-	        	<a class='nav-link text-light' href='manager_overview.php'>Wachbeauftragte</a>
+	        		<a class='nav-link text-light' href='manager_overview.php'>Wachbeauftragte</a>
 				</li>
 			</ul>
 		</div>";
 	}
-} else if($config ["settings"] ["selfregistration"]){
+} else if($config ["settings"] ["reportfunction"]){
     echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
 		  <ul class='navbar-nav mr-auto'>
-			<ul class='navbar-nav mx-auto'>
  				<li class='nav-item'>
-	        	  <a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
+	        	  	<a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
 				</li>
 			</ul>
 		</div>";  

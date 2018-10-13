@@ -18,7 +18,7 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	global $bodies;
 
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Neuer Wache eingestellt";
+	$subject = "Neue Wache eingestellt";
 	
 	$body =  $bodies["event_insert"] . $link;
 
@@ -35,7 +35,7 @@ function mail_publish_event($event_uuid, $manager_uuid) {
 	global $bodies;
 	
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Neuer Wache veröffentlicht";
+	$subject = "Neue Wache veröffentlicht";
 	
 	$body = $bodies["event_publish"] . $link;
 	
@@ -148,7 +148,6 @@ function mail_reset_password($manager_uuid, $password) {
 }
 
 function mail_send_report($report){
-	global $config;
 	global $db;
 	
 	$subject = "Wachbericht";

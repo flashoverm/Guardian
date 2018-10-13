@@ -46,11 +46,7 @@ function renderLayoutWithContentFile($contentFile, $variables = array()) {
 				require_once ($contentFileFullPath);
 			}
 		} else {
-			/*
-			 * If the file isn't found the error can be handled in lots of ways.
-			 * In this case we will just include an error template.
-			 */
-			require_once (TEMPLATES_PATH . "/error.php");
+			echo "Requested template not existing";
 		}
 		
 	}

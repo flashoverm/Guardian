@@ -13,9 +13,9 @@ $bodies = array (
 		
 		"event_publish" => $util["head"] . "eine neue Wache wurde veröffentlicht: \n\n",	
 		
-		"event_delete" => $util["head"] . "eine Wache bei der Sie sich eingetragen haben wurde abgesagt: \n\n",
+		"event_delete" => $util["head"] . "eine Wache, bei der Sie sich eingetragen haben, wurde abgesagt: \n\n",
 		
-		"event_subscribe" => $util["head"] . "sie haben sich in einer Wache eingeschrieben: \n\n",
+		"event_subscribe" => $util["head"] . "sie haben sich in eine Wache eingeschrieben: \n\n",
 		
 		"event_subscribe_manager" => $util["head"] . "jemand aus Ihrem Zug hat sich in eine Wache eingeschrieben: \n\n",
 		
