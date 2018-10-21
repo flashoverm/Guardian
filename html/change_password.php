@@ -9,9 +9,9 @@ $variables = array(
     'secured' => true
 );
 
-if (isset($_POST['password_old']) && isset($_POST['password']) && isset($_POST['password2']) && isset($_SESSION['userid'])) {
+if (isset($_POST['password_old']) && isset($_POST['password']) && isset($_POST['password2']) && isset($_SESSION['guardian_userid'])) {
 
-    $uuid = $_SESSION['userid'];
+    $uuid = $_SESSION['guardian_userid'];
     $password_old = trim($_POST['password_old']);
     $password = trim($_POST['password']);
     $password2 = trim($_POST['password2']);

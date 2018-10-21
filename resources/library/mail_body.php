@@ -3,13 +3,13 @@ require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 
 $util = array (
 		
-		"head" => "Lieber Nutzer, \n\n"
-		
+		"head" => "Lieber Nutzer, \n\n",
+		"footer" => "\n\n\nGuardian\nWachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut\n\n" . $config ["urls"] ["baseUrl"]
 );
 
 $bodies = array (
 		
-		"event_insert" => $util["head"] . "eine neue Wache wurde eingestellt: \n\n",
+		"event_insert" => $util["head"] . "in ihrem Zug wurde eine neue Wache eingestellt: \n\n",
 		
 		"event_publish" => $util["head"] . "eine neue Wache wurde veröffentlicht: \n\n",	
 		

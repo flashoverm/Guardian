@@ -22,8 +22,8 @@ if (! isset($_GET['id'])) {
     if($event){
     	
     	$isManager = false;
-    	if (isset($_SESSION['userid'])) {
-    		$isManager = (strcmp($event->manager, $_SESSION['userid']) == 0);
+    	if (isset($_SESSION['guardian_userid'])) {
+    		$isManager = (strcmp($event->manager, $_SESSION['guardian_userid']) == 0);
     	}
     	
     	// Pass variables (as an array) to template
@@ -47,7 +47,7 @@ if (! isset($_GET['id'])) {
     	
     	if (isset($_POST['publish']) && $event->engine != NULL) {
     		if(publish_event($uuid) ){
-    			mail_publish_event($uuid);
+    			mail_publish_event($uuid, $event->manager);
     			$variables['successMessage'] = "Wache veröffentlich - Wachbeauftragte informiert";
     			$event = get_event($uuid);
     		} else {

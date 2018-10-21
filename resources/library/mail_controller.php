@@ -46,7 +46,6 @@ function mail_publish_event($event_uuid, $manager_uuid) {
 }
 
 function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, $send_mail) {
-	global $db;
 	global $config;
 	global $bodies;
 	
@@ -66,10 +65,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 		send_mails($recipients, $subject, $body);
 	}
 
-	$query = "SELECT COUNT(*) AS empty_pos FROM staff WHERE user IS NULL AND event = '" . $event_uuid . "'";
-	$result = $db->query ( $query );
-	$count = $result->fetch_row () [0];
-	if ($count == 0) {
+	if (is_event_full($event_uuid)) {
 		$subject = "Wache voll belegt";
 		
 		$body = $bodies["event_full"] . $link;
@@ -130,40 +126,22 @@ function mail_add_manager($mail_manager, $password) {
 }
 
 function mail_reset_password($manager_uuid, $password) {
-	global $db;
 	global $bodies;
 	$subject = "Passwort zurückgesetzt";
 	
 	$body = $bodies["manager_reset_password"] . $bodies["password"] . $password . $bodies["manager_reset_password2"];
 
-	$query = "SELECT email FROM user WHERE uuid = '" . $manager_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_row ();
-			send_mail ( $data [0], $subject, $body );
-			$result->free ();
-		}
-	}
+	$manager = get_user($manager_uuid);
+	send_mail ($manager->email, $subject, $body );
 }
 
-function mail_send_report($report){
-	global $db;
-	
+function mail_send_report($report){	
 	$subject = "Wachbericht";
 	$body = $report->toMail();
 	
 	$engine = get_engine_from_name($report->engine);
 	
-	$query = "SELECT email FROM user WHERE ismanager = TRUE AND engine = '" . $engine->uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-		if (mysqli_num_rows ( $result )) {
-			while ( $email = $result->fetch_row () ) {
-				send_mail ( $email [0], $subject, $body );
-			}
-			$result->free ();
-		}
-	}
+	$managerList = get_manager_of_engine($engine->uuid);
+	send_mails($managerList, $subject, $body);
 }
 ?>

@@ -7,31 +7,34 @@ function insert_staffposition($position, $vehicle) {
 	global $db;
 	$uuid = getGUID ();
 	
+	$statement = $db->prepare("INSERT INTO staffposition (uuid, position, vehicle) VALUES (?, ?, ?)");
+	
 	if($vehicle){
-	    $query = "INSERT INTO staffposition (uuid, position, vehicle)
-		VALUES ('" . $uuid . "', '" . $position . "', TRUE)";
+	    $statement->bind_param('ssi', $uuid, $position, true);
 	} else {
-	    $query = "INSERT INTO staffposition (uuid, position, vehicle)
-		VALUES ('" . $uuid . "', '" . $position . "', FALSE)";
+	    $statement->bind_param('ssi', $uuid, $position, false); 
 	}
-
-
-	$result = $db->query ( $query );
-
+		
+	$result = $statement->execute();
+	
 	if ($result) {
 		// echo "New record created successfully<br>";
 	    return $uuid;
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
+		//echo "Error: " . $query . "<br>" . $db->error . "<br><br>";
 		return false;
 	}
 }
 
 function get_staffposition($uuid) {
 	global $db;
-	$query = "SELECT * FROM staffposition WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM staffposition WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -44,9 +47,12 @@ function get_staffposition($uuid) {
 function get_staffpositions() {
 	global $db;
 	$data = array ();
-	$query = "SELECT * FROM staffposition ORDER BY position";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM staffposition ORDER BY position");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -59,14 +65,15 @@ function get_staffpositions() {
 
 function create_table_staffposition() {
 	global $db;
-	$query = "CREATE TABLE staffposition (
+	
+	$statement = $db->prepare("CREATE TABLE staffposition (
                           uuid CHARACTER(36) NOT NULL,
 						  position VARCHAR(64) NOT NULL,
                           vehicle  BOOLEAN NOT NULL,
                           PRIMARY KEY  (uuid)
-                          )";
-
-	$result = $db->query ( $query );
+                          )");
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		insert_staffposition ( "GF (mind. LM)", TRUE );

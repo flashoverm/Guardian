@@ -11,36 +11,39 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine
 
 	$uuid = getGUID ();
 	$hash = hash ( "sha256", $uuid . $date . $start . $end . $type_uuid . $title );
+
 	if($engine_only){
 	    $engine = get_engine_of_user($manager);
 	    
-	    $query = "INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
-		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', '" . $engine . "','" . $hash . "', '" . $manager . "')";
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	    $statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $title, $comment, $engine, $hash, $manager);
 	    
 	} else {
-	    $query = "INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
-		VALUES ('" . $uuid . "', '" . $date . "', '" . $start . "', '" . $end . "', '" . $type_uuid . "', '" . $title . "', '" . $comment . "', NULL,'" . $hash . "', '" . $manager . "')";
+		$statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
+		VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)");
+		$statement->bind_param('sssssssss', $uuid, $date, $start, $end, $type_uuid, $title, $comment, $hash, $manager);
 	}
 
-	$result = $db->query ( $query );
-
+	$result = $statement->execute();
+	
 	if ($result) {
 		// echo "New event record created successfully";
 		return $uuid;
 	} else {
-		echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . $query . "<br>" . $db->error;
 		return false;
 	}
 }
 
 function insert_staff($event_uuid, $staff) {
 	global $db;
-
 	$uuid = getGUID ();
-	$query = "INSERT INTO staff (uuid, position, event, user)
-		VALUES ('" . $uuid . "', '" . $staff . "', '" . $event_uuid . "', NULL)";
-
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("INSERT INTO staff (uuid, position, event, user) VALUES (?, ?, ?, NULL)");
+	$statement->bind_param('sss', $uuid, $staff, $event_uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "New staff record created successfully";
@@ -58,12 +61,14 @@ function get_public_events() {
 function get_events($user_uuid) {
 	global $db;
 	$data = array ();
-	
 	$engine = get_engine_of_user($user_uuid);
-
-	$result = $db->query ( "SELECT * FROM event WHERE engine IS NULL OR engine = '" . $engine . "'" );
-
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL OR engine = ?");
+	$statement->bind_param('s', $engine);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -77,9 +82,13 @@ function get_events($user_uuid) {
 function get_staff($event_uuid) {
 	global $db;
 	$data = array ();
-	$result = $db->query ( "SELECT * FROM staff WHERE event = '" . $event_uuid . "'" );
-
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM staff WHERE event = ?");
+	$statement->bind_param('s', $event_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -90,12 +99,31 @@ function get_staff($event_uuid) {
 	return $data;
 }
 
+function is_event_full($event_uuid){
+	global $db;
+	
+	$statement = $db->prepare("SELECT COUNT(*) AS empty_pos FROM staff WHERE user IS NULL AND event = ?");
+	$statement->bind_param('s', $event_uuid);
+	
+	$result = $statement->execute();
+		
+	if ($result && $statement->get_result()->fetch_row () [0] == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function get_event($event_uuid) {
 	global $db;
-	$result = $db->query ( "SELECT * FROM event WHERE uuid = '" . $event_uuid . "'" );
+	
+	$statement = $db->prepare("SELECT * FROM event WHERE uuid = ?");
+	$statement->bind_param('s', $event_uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
-		return $result->fetch_object ();
+		return $statement->get_result()->fetch_object ();
 	} else {
 		// echo "UUID not found";
 	}
@@ -104,9 +132,12 @@ function get_event($event_uuid) {
 function get_events_creator($event_uuid){
 	global $db;
 	
-	$query = "SELECT * FROM user, event WHERE events.manager = user.uuid AND events.uuid = '" . $event_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	$statement = $db->prepare("SELECT * FROM user, event WHERE event.manager = user.uuid AND event.uuid = ?");
+	$statement->bind_param('s', $event_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$creator = $result->fetch_object ();
 			$result->free ();
@@ -117,12 +148,14 @@ function get_events_creator($event_uuid){
 
 function get_events_staff($event_uuid){
 	global $db;
-	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.event = '" . $event_uuid . "'";
-	
 	$data = array ();
-	$result = $db->query ( $query );
 	
-	if ($result) {
+	$statement = $db->prepare("SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.event = ?");
+	$statement->bind_param('s', $event_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -135,10 +168,13 @@ function get_events_staff($event_uuid){
 
 function get_staff_user($staff_uuid){
 	global $db;
-	$query = "SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.uuid = '" . $staff_uuid . "'";
-	$db->query ( $query );
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user, staff WHERE user.uuid = staff.user AND staff.uuid = ?");
+	$statement->bind_param('s', $staff_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$user = $result->fetch_object ();
 			$result->free ();
@@ -149,9 +185,12 @@ function get_staff_user($staff_uuid){
 
 function add_staff_user($uuid, $user) {
 	global $db;
-	$query = "UPDATE staff SET user = '" . $user . "' WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-
+	
+	$statement = $db->prepare("UPDATE staff SET user = ? WHERE uuid = ?");
+	$statement->bind_param('ss', $user, $uuid);
+	
+	$result = $statement->execute();
+	
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
 		return true;
@@ -163,8 +202,11 @@ function add_staff_user($uuid, $user) {
 
 function remove_staff_user($uuid) {
 	global $db;
-	$query = "UPDATE staff SET user = NULL WHERE uuid='" . $uuid . "'";
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("UPDATE staff SET user = NULL WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
@@ -177,8 +219,11 @@ function remove_staff_user($uuid) {
 
 function publish_event($uuid){
     global $db;
-    $query = "UPDATE event SET engine = NULL WHERE uuid='" . $uuid . "'";
-    $result = $db->query ( $query );
+    
+    $statement = $db->prepare("UPDATE event SET engine = NULL WHERE uuid= ?");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
     
     if ($result) {
         // echo "Record ".$uuid." updated successfully";
@@ -191,11 +236,16 @@ function publish_event($uuid){
 
 function delete_event($uuid) {
 	global $db;
-	$query = "DELETE FROM staff WHERE event='" . $uuid . "'";
-	$result1 = $db->query ( $query );
-
-	$query = "DELETE FROM event WHERE uuid='" . $uuid . "'";
-	$result2 = $db->query ( $query );
+	
+	$statement = $db->prepare("DELETE FROM staff WHERE event= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result1 = $statement->execute();
+	
+	$statement = $db->prepare("DELETE FROM event WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result2 = $statement->execute();
 
 	if ($result1 && $result2) {
 		// echo "Record ".$uuid." removed successfully";
@@ -208,7 +258,8 @@ function delete_event($uuid) {
 
 function create_table_event() {
 	global $db;
-	$query = "CREATE TABLE event (
+	
+	$statement = $db->prepare("CREATE TABLE event (
                           uuid CHARACTER(36) NOT NULL,
 						  date DATE NOT NULL,
                           start_time TIME NOT NULL,
@@ -222,9 +273,9 @@ function create_table_event() {
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (manager) REFERENCES user(uuid),
 						  FOREIGN KEY (type) REFERENCES eventtype(uuid)
-                          )";
-
-	$result = $db->query ( $query );
+                          )");
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Table created<br>";
@@ -237,7 +288,8 @@ function create_table_event() {
 
 function create_table_staff() {
 	global $db;
-	$query = "CREATE TABLE staff (
+	
+	$statement = $db->prepare("CREATE TABLE staff (
 						  uuid CHARACTER(36) NOT NULL,
                           position VARCHAR(64) NOT NULL,
                           event CHARACTER(36) NOT NULL,
@@ -245,9 +297,9 @@ function create_table_staff() {
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (user) REFERENCES user(uuid),
 						  FOREIGN KEY (event) REFERENCES event(uuid)
-                          )";
-
-	$result = $db->query ( $query );
+                          )");
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Table created<br>";

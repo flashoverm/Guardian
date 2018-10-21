@@ -2,17 +2,19 @@
 require_once 'db_connect.php';
 require_once 'mail.php';
 require_once 'password.php';
+require_once 'db_engines.php';
 
 create_table_user ();
 
 function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	global $db;
-
-	$query = "SELECT * FROM user 
-		WHERE firstname = '" . $firstname . "' AND lastname = '" . $lastname . "' 
-		AND email = '" . $email . "' AND engine = '" . $engine_uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE firstname = ? AND lastname = ? AND email = ? AND engine = ?");
+	$statement->bind_param('ssss', $firstname, $lastname, $email, $engine_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -21,10 +23,11 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	}
 
 	$uuid = getGUID ();
-	$query = "INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine)
-		VALUES ('" . $uuid . "', '" . $firstname . "', '" . $lastname . "', '" . $email . "', NULL, FALSE, FALSE, FALSE, '" . $engine_uuid . "')";
-
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, NULL, FALSE, FALSE, FALSE, ?)");
+	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $email, $engine_uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "New record created successfully";
@@ -39,10 +42,11 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) 
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
-	$query = "INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine)
-		VALUES ('" . $uuid . "', '" . $firstname . "', '" . $lastname . "', '" . $email . "', '" . $pwhash . "', FALSE, TRUE, TRUE, '" . $engine_uuid . "')";
-
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, ?, FALSE, TRUE, TRUE, ?)");
+	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "New record created successfully";
@@ -57,10 +61,11 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
-	$query = "INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine)
-		VALUES ('" . $uuid . "', '" . $firstname . "', '" . $lastname . "', '" . $email . "', '" . $pwhash . "', TRUE, TRUE, TRUE, '" . $engine_uuid . "')";
-
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, ?, TRUE, TRUE, TRUE, ?)");
+	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "New record created successfully";
@@ -74,9 +79,12 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 function get_all_manager() {
 	global $db;
 	$data = array ();
-	$result = $db->query ( "SELECT * FROM user WHERE ismanager = TRUE" );
-
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -89,12 +97,14 @@ function get_all_manager() {
 
 function get_manager_except_engine($engine_uuid){
 	global $db;
-	$query = "SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = '" . $engine_uuid . "'";
-	
 	$data = array ();
-	$result = $db->query ( $query );
+		
+	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = ?");
+	$statement->bind_param('s', $engine_uuid);
 	
-	if ($result) {
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -108,9 +118,13 @@ function get_manager_except_engine($engine_uuid){
 function get_manager_of_engine($engine_uuid) {
 	global $db;
 	$data = array ();
-	$result = $db->query ( "SELECT * FROM user WHERE ismanager = TRUE AND engine = '" . $engine_uuid . "'" );
 	
-	if ($result) {
+	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND engine = ?");
+	$statement->bind_param('s', $engine_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -123,9 +137,13 @@ function get_manager_of_engine($engine_uuid) {
 
 function get_user($uuid) {
 	global $db;
-	$query = "SELECT * FROM user WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -137,10 +155,14 @@ function get_user($uuid) {
 
 function get_engine_of_user($user_uuid){
     global $db;
-    $query = "SELECT engine FROM user WHERE uuid = '" . $user_uuid . "'";
-    $result = $db->query ( $query );
-    if ($result) {
-        if (mysqli_num_rows ( $result )) {
+    
+    $statement = $db->prepare("SELECT engine FROM user WHERE uuid = ?");
+    $statement->bind_param('s', $user_uuid);
+    
+    if ($statement->execute()) {
+    	$result = $statement->get_result();
+    	
+    	if (mysqli_num_rows ( $result )) {
             $data = $result->fetch_row ();
             $result->free ();
             return $data[0];
@@ -151,10 +173,14 @@ function get_engine_of_user($user_uuid){
 
 function email_in_use($email) {
 	global $db;
-	$query = "SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = '" . $email . "'";
-	$result = $db->query ( $query );
-	if ($result) {
-    	if (mysqli_num_rows ( $result )) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement->bind_param('s', $email);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
     		return true;
     	}
 	}
@@ -163,9 +189,13 @@ function email_in_use($email) {
 
 function is_admin($uuid) {
 	global $db;
-	$query = "SELECT isadmin FROM user WHERE isadmin = TRUE AND uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT isadmin FROM user WHERE isadmin = TRUE AND uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_row ();
 			$result->free ();
@@ -177,9 +207,13 @@ function is_admin($uuid) {
 
 function login_enabled($email) {
 	global $db;
-	$query = "SELECT loginenabled FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = '" . $email . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT loginenabled FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement->bind_param('s', $email);
+		
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_row ();
 			$result->free ();
@@ -191,9 +225,13 @@ function login_enabled($email) {
 
 function check_password($email, $password) {
 	global $db;
-	$query = "SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = '" . $email . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement->bind_param('s', $email);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -207,8 +245,11 @@ function check_password($email, $password) {
 
 function deactivate_manager($uuid) {
 	global $db;
-	$query = "UPDATE user SET loginenabled = FALSE WHERE uuid='" . $uuid . "'";
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("UPDATE user SET loginenabled = FALSE WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
@@ -221,8 +262,11 @@ function deactivate_manager($uuid) {
 
 function reactivate_manager($uuid) {
 	global $db;
-	$query = "UPDATE user SET loginenabled = TRUE WHERE uuid='" . $uuid . "'";
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("UPDATE user SET loginenabled = TRUE WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
@@ -238,8 +282,12 @@ function reset_password($uuid) {
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
 
 	global $db;
-	$query = "UPDATE user SET password = '" . $pwhash . "' WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("UPDATE user SET password = ? WHERE uuid = ?");
+	$statement->bind_param('ss', $pwhash, $uuid);
+	
+	$result = $statement->execute();
+
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
 		return $password;
@@ -251,16 +299,24 @@ function reset_password($uuid) {
 
 function change_password($uuid, $old_password, $new_passwort) {
 	global $db;
-	$query = "SELECT * FROM user WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
 			if (password_verify ( $old_password, $data->password )) {
 				$pwhash = password_hash ( $new_passwort, PASSWORD_DEFAULT );
-				$query = "UPDATE user SET password = '" . $pwhash . "' WHERE uuid = '" . $uuid . "'";
-				$result = $db->query ( $query );
+				
+				$statement = $db->prepare("UPDATE user SET password = ? WHERE uuid = ?");
+				$statement->bind_param('ss', $pwhash, $uuid);
+				
+				$result = $statement->execute();
+				
 				if ($result) {
 					// echo "Record ".$uuid." updated successfully";
 					return true;
@@ -271,14 +327,15 @@ function change_password($uuid, $old_password, $new_passwort) {
 			}
 		}
 	} else {
-		 echo "Error: " . $query . "<br>" . $db->error;
+		 //echo "Error: " . $query . "<br>" . $db->error;
 	}
 	return false;
 }
 
 function create_table_user() {
 	global $db;
-	$query = "CREATE TABLE user (
+	
+	$statement = $db->prepare("CREATE TABLE user (
                           uuid CHARACTER(36) NOT NULL,
 						  firstname VARCHAR(64) NOT NULL,
                           lastname VARCHAR(64) NOT NULL,
@@ -290,15 +347,15 @@ function create_table_user() {
 						  engine CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (engine) REFERENCES engine(uuid)
-                          )";
-
-	$result = $db->query ( $query );
+                          )");
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		// echo "Table created<br>";
 		return true;
 	} else {
-		 //echo "Error: " . $db->error . "<br><br>";
+		// echo "Error: " . $db->error . "<br><br>";
 		return false;
 	}
 }

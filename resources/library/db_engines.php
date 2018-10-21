@@ -6,10 +6,11 @@ create_table_engine ();
 function insert_engine($name) {
 	global $db;
 	$uuid = getGUID ();
-	$query = "INSERT INTO engine (uuid, name)
-		VALUES ('" . $uuid . "', '" . $name . "')";
-
-	$result = $db->query ( $query );
+	
+	$statement = $db->prepare("INSERT INTO engine (uuid, name) VALUES (?, ?)");
+	$statement->bind_param('ss', $uuid, $name);
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		 //echo "New record created successfully<br>";
@@ -22,9 +23,13 @@ function insert_engine($name) {
 
 function get_engine($uuid) {
 	global $db;
-	$query = "SELECT * FROM engine WHERE uuid = '" . $uuid . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM engine WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -36,9 +41,13 @@ function get_engine($uuid) {
 
 function get_engine_from_name($name) {
 	global $db;
-	$query = "SELECT * FROM engine WHERE name = '" . $name . "'";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM engine WHERE name = ?");
+	$statement->bind_param('s', $name);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
@@ -51,9 +60,12 @@ function get_engine_from_name($name) {
 function get_engines() {
 	global $db;
 	$data = array ();
-	$query = "SELECT * FROM engine ORDER BY name";
-	$result = $db->query ( $query );
-	if ($result) {
+	
+	$statement = $db->prepare("SELECT * FROM engine ORDER BY name");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
 				$data [] = $date;
@@ -66,13 +78,14 @@ function get_engines() {
 
 function create_table_engine() {
 	global $db;
-	$query = "CREATE TABLE engine (
+	
+	$statement = $db->prepare("CREATE TABLE engine (
                           uuid CHARACTER(36) NOT NULL,
 						  name VARCHAR(32) NOT NULL,
                           PRIMARY KEY  (uuid)
-                          )";
-
-	$result = $db->query ( $query );
+                          )");
+	
+	$result = $statement->execute();
 
 	if ($result) {
 		insert_engine( "Geschäftszimmer" );
@@ -86,6 +99,7 @@ function create_table_engine() {
 		insert_engine ( "Löschzug 9" );
 		return true;
 	} else {
+		// echo "Error: " . $db->error . "<br><br>";
 		return false;
 	}
 }
