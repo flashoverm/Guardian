@@ -42,11 +42,16 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
     
-    if(isset( $_POST ['typeOther'] )){
+    if(isset( $_POST ['typeOther'] ) && $_POST ['typeOther'] != ""){
+    	echo "other set";
     	$type = trim( $_POST ['typeOther'] );
     }
     
-    $title = trim ( $_POST ['title'] );
+    if(isset ( $_POST ['title'])){
+    	$title = trim ( $_POST ['title'] );
+    } else {
+    	$title = null;
+    }
     $engine = trim ($_POST ['engine']);
     $noIncidents = false;
     $ilsEntry = false;

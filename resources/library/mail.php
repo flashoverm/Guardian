@@ -34,7 +34,7 @@ function send_mail($to, $subject, $body) {
 	$mail->Subject = $subject;
 	$mail->Body = $body . $util["footer"];
 	
-	echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
+	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
 
 	try{
 		if(!$mail->send ()){

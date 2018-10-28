@@ -1,6 +1,6 @@
 <?php include('eventReportUnit_template.php'); ?>
 
-<form action="event_report.php" method="post" >
+<form onsubmit="showLoader()" action="event_report.php" method="post" >
 
 	<div class="row">
 		<div class="col">
@@ -38,7 +38,7 @@
 	</div>
 		
 	<div class="form-group">
-		<label>Titel:</label> <input type="text" required="required"
+		<label>Titel:</label> <input type="text"
 			class="form-control" name="title" id="title"
 			placeholder="Titel eingeben">
 	</div>

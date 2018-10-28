@@ -56,14 +56,18 @@ class EventReport {
 	
 	function toMail(){
 		$string = "----------------------- Wachbericht -----------------------"
-				. "\n\n" .$this->type
-				. "\nTitel: \t\t" . $this->title
+				. "\n\n" .$this->type;
+		
+		if($this->title != null){
+			$string = $string . "\nTitel: \t\t" . $this->title;
+		}
+		$string = $string
 				. "\n\nDatum: \t" . $this->date 
 				. "\nBeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end . "\n\n";
 		
 		if($this->ilsEntry){
-		    $string = $string . "Einsatz durch ILS angelegt!";
+		    $string = $string . "Einsatz durch ILS angelegt!\n\n";
 		}				
 		if($this->noIncidents){
 			$string = $string . "Keine Vorkomnisse";

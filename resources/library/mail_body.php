@@ -4,7 +4,7 @@ require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 $util = array (
 		
 		"head" => "Lieber Nutzer, \n\n",
-		"footer" => "\n\n\nGuardian\nWachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut\n\n" . $config ["urls"] ["baseUrl"]
+		"footer" => "\n\n\nWachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut\n\n" . $config ["urls"] ["baseUrl"]
 );
 
 $bodies = array (
