@@ -72,12 +72,14 @@ function create_table_eventtype() {
 	if ($result) {
 		// echo "Table created<br>";
 		insert_eventtype ( "Theaterwache" );
+		insert_eventtype ( "Theaterwache Schüler" );
 		insert_eventtype ( "Residenzwache" );
 		insert_eventtype ( "Rathauswache" );
 		insert_eventtype ( "Wache Sparkassenarena" );
 		insert_eventtype ( "Burgwache" );
 		insert_eventtype ( "Wache Grieserwiese" );
-		insert_eventtype ( "Sonstige Wache (siehe Anmerkungen)" );
+		insert_eventtype ( "Dultwache" );
+		insert_eventtype ( "Sonstige Wache" );
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";

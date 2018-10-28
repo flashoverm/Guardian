@@ -1,6 +1,12 @@
 #guardian
 
+Bugs:
+
+- Date/Time is empty after adding station/vehicle
+
 To Do:
+
+- Field "Sonstige Wache" if selected
 
 - Send HTML Mails with Infos about events
 - Send iCal-File for Adding Event to Calender

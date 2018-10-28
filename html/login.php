@@ -9,8 +9,8 @@ if (isset ( $_SESSION ['guardian_userid'] )) {
 
 // Pass variables (as an array) to template
 $variables = array (
-		'title' => "Guardian",
-		'subtitle' => "Wachverwaltung der Freiwilligen Feuerwehr der Stadt Landshut",
+		'title' => "Wachverwaltung",
+		'subtitle' => "der Freiwilligen Feuerwehr der Stadt Landshut",
 		'secured' => false
 );
 
