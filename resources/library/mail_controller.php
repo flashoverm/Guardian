@@ -142,6 +142,10 @@ function mail_send_report($report){
 	$engine = get_engine_from_name($report->engine);
 	
 	$managerList = get_manager_of_engine($engine->uuid);
-	send_mails($managerList, $subject, $body);
+	if(sizeof($managerList) > 1){
+		send_mails($managerList, $subject, $body);
+		return true;
+	}
+	return false;
 }
 ?>

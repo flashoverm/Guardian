@@ -41,6 +41,11 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
     $beginn = trim ( $_POST ['start'] );
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
+    
+    if(isset( $_POST ['typeOther'] )){
+    	$type = trim( $_POST ['typeOther'] );
+    }
+    
     $title = trim ( $_POST ['title'] );
     $engine = trim ($_POST ['engine']);
     $noIncidents = false;
@@ -88,8 +93,11 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
         $unitCount += 1;
     }
     
-    mail_send_report ($eventReport);
-    $variables ['successMessage'] = "Bericht versendet";
+    if(mail_send_report ($eventReport)){
+    	$variables ['successMessage'] = "Bericht versendet";
+    } else {
+    	$variables ['alertMessage'] = "Bericht konnte nicht versendet werden";
+    }
 
 }
 

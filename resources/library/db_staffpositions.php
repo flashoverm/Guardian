@@ -8,12 +8,7 @@ function insert_staffposition($position, $vehicle) {
 	$uuid = getGUID ();
 	
 	$statement = $db->prepare("INSERT INTO staffposition (uuid, position, vehicle) VALUES (?, ?, ?)");
-	
-	if($vehicle){
-	    $statement->bind_param('ssi', $uuid, $position, true);
-	} else {
-	    $statement->bind_param('ssi', $uuid, $position, false); 
-	}
+	$statement->bind_param('ssi', $uuid, $position, $vehicle);
 		
 	$result = $statement->execute();
 	

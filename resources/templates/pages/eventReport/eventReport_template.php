@@ -24,13 +24,19 @@
 	</div>
 	
 	<div class="form-group">
-		<label>Typ:</label> <select class="form-control" name="type">
+		<label>Typ:</label> <select class="form-control" name="type" id="type" onchange="showHideTypeOther()">
 				<?php foreach ( $eventtypes as $type ) : ?>
 					<option value="<?= $type->type;  //Change to $type->uuid for database usage	?>"><?= $type->type; ?></option>
 				<?php endforeach; ?>
 			</select>
 	</div>
 	
+	<div class="form-group" id="groupTypeOther" style=>
+		<label>Sonstiger Wachtyp:</label> <input type="text" required="required"
+			class="form-control" name="typeOther" id="typeOther"
+			placeholder="Wachtyp eingeben">
+	</div>
+		
 	<div class="form-group">
 		<label>Titel:</label> <input type="text" required="required"
 			class="form-control" name="title" id="title"
@@ -81,7 +87,8 @@
 </form>
 
 <script type='text/javascript'>
-	 
+	showHideTypeOther();
+	
 	var reportUnitCount = 0;
 	
 	function addReportUnit(){
@@ -270,6 +277,22 @@
 		col.appendChild(formgroup);
 
 		parent.appendChild(col);
+	}
+
+	function showHideTypeOther(){
+		var type = document.getElementById("type");
+		var selectedType = type.options[type.selectedIndex].value;
+
+	    var groupTypeOther = document.getElementById("groupTypeOther");
+	    var typeOther = document.getElementById("typeOther");
+		
+		if(selectedType == "Sonstige Wache"){
+			typeOther.setAttribute("required", "");
+			groupTypeOther.style.display = "block";
+		} else {
+			typeOther.removeAttribute("required");
+			groupTypeOther.style.display = "none";
+		}
 	}
 
 </script>
