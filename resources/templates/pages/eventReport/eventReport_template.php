@@ -11,7 +11,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Beginn:</label> <input type="time" required="required"
+				<label>Wachbeginn:</label> <input type="time" required="required"
 					class="form-control" name="start" id="start">
 			</div>
 		</div>
@@ -201,7 +201,7 @@
 		cardBody.appendChild(rowHead);
 
 		appendInput(rowHead, "unit"+reportUnitCount+"date", unitdate, "Datum:", false);
-		appendInput(rowHead, "unit"+reportUnitCount+"start", unitstart, "Beginn:", false);
+		appendInput(rowHead, "unit"+reportUnitCount+"start", unitstart, "Wachbeginn:", false);
 		appendInput(rowHead, "unit"+reportUnitCount+"end", unitend, "Ende:", false);
 
 		var unit = document.getElementById("unit").value;

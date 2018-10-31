@@ -12,7 +12,7 @@ if ($isManager) {
 		<tbody>
 			<tr>
 				<th>Datum</th>
-				<th>Beginn</th>
+				<th>Wachbeginn</th>
 				<th>Ende</th>
 			</tr>
 			<tr>

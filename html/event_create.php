@@ -14,13 +14,18 @@ $variables = array (
 		'eventtypes' => $eventtypes,
 );
 
-if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
+if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 
 	$date = trim ( $_POST ['date'] );
 	$start = trim ( $_POST ['start'] );
 	$end = trim ( $_POST ['end'] );
 	$type = trim ( $_POST ['type'] );
+		
 	$title = trim ( $_POST ['title'] );
+	if(empty ($title)){
+	    $title = null;
+	}
+	
 	$comment = "";
 	$informOther = false;
 
@@ -43,6 +48,9 @@ if (isset ( $_POST ['title'] ) and isset ( $_POST ['type'] ) and isset ( $_POST 
     	}
     	mail_insert_event ( $event_uuid, $manager, $informOther);
     	$variables ['successMessage'] = "Wache angelegt";
+    	
+    	//header ( "Location: event_details.php?id=" . $event_uuid ); // redirects
+    	
     } else {
     	$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
     }

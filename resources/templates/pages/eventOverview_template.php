@@ -8,10 +8,11 @@ if (! count ( $events )) {
 		<thead>
 			<tr>
 				<th>Datum</th>
-				<th>Beginn</th>
+				<th>Wachbeginn</th>
 				<th>Ende</th>
 				<th>Typ</th>
 				<th>Titel</th>
+				<th>Belegung</th>
 				<th>Öffentlich</th>
 				<th>Details</th>
 				<th>Löschen</th>
@@ -24,7 +25,7 @@ if (! count ( $events )) {
 		?>
 				<tr>
 				<td><?= date($config ["formats"] ["date"], strtotime($row->date)); ?></td>
-				<td><?= date($config ["formats"] ["time"], strtotime($row->start_time)); ?></td>
+				<td align="center"><?= date($config ["formats"] ["time"], strtotime($row->start_time)); ?></td>
 				<td>
 	<?php
 		if ($row->end_time != 0) {
@@ -35,7 +36,16 @@ if (! count ( $events )) {
 		?></td>
 				<td><?= get_eventtype($row->type)->type; ?></td>
 				<td><?= $row->title; ?></td>
-				<td>
+				<td align="center">
+					<?php 
+					if(is_event_full($row->uuid)){
+					    echo '<font color="green">' . get_occupancy($row->uuid) . '</font>';
+					} else {
+					    echo '<font color="red">' . get_occupancy($row->uuid) . '</font>';
+					}
+				    ?>
+				</td>
+				<td align="center">
 					<?php
 					if($row->engine == NULL){
 					    echo " X ";

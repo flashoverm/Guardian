@@ -63,7 +63,7 @@ function get_events($user_uuid) {
 	$data = array ();
 	$engine = get_engine_of_user($user_uuid);
 	
-	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL OR engine = ?");
+	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL OR engine = ? ORDER BY date DESC");
 	$statement->bind_param('s', $engine);
 	
 	if ($statement->execute()) {
@@ -97,6 +97,21 @@ function get_staff($event_uuid) {
 		}
 	}
 	return $data;
+}
+
+
+function get_occupancy($event_uuid){
+    
+    $staff = get_staff($event_uuid);
+    
+    $length = sizeof($staff);
+    $occupancy = 0;
+    foreach ( $staff as $entry ) {
+        if($entry->user != NULL){
+            $occupancy ++;
+        }
+    }
+    return $occupancy . "/" . $length;
 }
 
 function is_event_full($event_uuid){
@@ -265,7 +280,7 @@ function create_table_event() {
                           start_time TIME NOT NULL,
                           end_time TIME NOT NULL,
                           type CHARACTER(36) NOT NULL,
-						  title VARCHAR(96) NOT NULL,
+						  title VARCHAR(96),
 						  comment VARCHAR(255),
                           engine CHARACTER(36),
 						  hash VARCHAR(64) NOT NULL,

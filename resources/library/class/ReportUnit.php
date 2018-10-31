@@ -46,7 +46,7 @@ class ReportUnit {
 				. "\n\n" . $this->unit 
 				. " (km: ". $this->km . ")"
 				. "\nDatum: \t" . $this->date 
-				. "\nBeginn: \t" . $this->beginn 
+				. "\nWachbeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end
 				. "\n\n";
 						

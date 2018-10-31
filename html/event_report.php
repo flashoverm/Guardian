@@ -35,23 +35,23 @@ if ($config ["settings"] ["reportfunction"]) {
     $variables ['alertMessage'] = "Funktion \"Wachbericht erstellen\" deaktiviert - <a href=\"login.php\" class=\"alert-link\">Zur Startseite</a>";
 }
 
-if (isset ( $_POST ['title'] ) and isset ( $_POST ['creator'] )) {
+if (isset ( $_POST ['creator'] )) {
     
     $date = trim ( $_POST ['date'] );
     $beginn = trim ( $_POST ['start'] );
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
     
-    if(isset( $_POST ['typeOther'] ) && $_POST ['typeOther'] != ""){
+    if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
     	echo "other set";
     	$type = trim( $_POST ['typeOther'] );
     }
     
-    if(isset ( $_POST ['title'])){
-    	$title = trim ( $_POST ['title'] );
-    } else {
+    $title = trim ( $_POST ['title'] );
+    if(empty ($title)){        
     	$title = null;
     }
+    
     $engine = trim ($_POST ['engine']);
     $noIncidents = false;
     $ilsEntry = false;

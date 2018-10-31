@@ -35,7 +35,7 @@
 						</div>
 						<div class="col">
 							<div class="form-group">
-								<label>Beginn:</label> <input type="time" class="form-control" required="required"
+								<label>Wachbeginn:</label> <input type="time" class="form-control" required="required"
 									name="unitstart" id="unitstart">
 							</div>
 						</div>

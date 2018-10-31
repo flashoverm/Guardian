@@ -9,7 +9,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Beginn:</label> <input type="time" required="required"
+				<label>Wachbeginn:</label> <input type="time" required="required"
 					class="form-control" name="start" id="start">
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 			</select>
 	</div>
 	<div class="form-group">
-		<label>Titel:</label> <input type="text" required="required"
+		<label>Titel:</label> <input type="text"
 			class="form-control" name="title" id="title"
 			placeholder="Titel eingeben">
 	</div>
@@ -50,7 +50,7 @@
 	</div>
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" id="informOther" name="informOther"> 
-		<label for="informOther">Veröffentlichen (Andere Züge informieren)</label>
+		<label for="informOther">Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
 	</div>
 	<input type="submit" value="Anlegen" class="btn btn-primary"><br> <input
 		type="hidden" name="action" value="save">

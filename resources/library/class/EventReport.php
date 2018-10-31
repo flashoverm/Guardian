@@ -63,11 +63,11 @@ class EventReport {
 		}
 		$string = $string
 				. "\n\nDatum: \t" . $this->date 
-				. "\nBeginn: \t" . $this->beginn 
+				. "\nWachbeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end . "\n\n";
 		
 		if($this->ilsEntry){
-		    $string = $string . "Einsatz durch ILS angelegt!\n\n";
+		    $string = $string . "Wache durch ILS angelegt!\n\n";
 		}				
 		if($this->noIncidents){
 			$string = $string . "Keine Vorkomnisse";
