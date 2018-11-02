@@ -1,6 +1,7 @@
 <?php
 require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
+require_once '../resources/library/db_staffpositions.php';
 
 if ($isManager) { 
 	showInfo ( "Du bist Verwalter dieser Wache" ); 
@@ -46,7 +47,7 @@ if ($isManager) {
 					}
 					?>
 					<tr>
-				<td><?= $entry->position; ?></td>
+				<td><?= get_staffposition($entry->position)->position; ?></td>
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
 					if ($entry->user == NULL) {

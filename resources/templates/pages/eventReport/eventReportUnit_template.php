@@ -61,8 +61,7 @@
 						<div class="row" id="position1">
 							<div class="col">
 								<div class="form-group">
-										<select class="form-control" name="positionfunction" required="required"
-										id="positionfunction">
+									<select class="form-control" name="positionfunction" required="required" id="positionfunction">
 										<option value="" disabled selected>Funktion auswählen</option>
 										<?php foreach ( $staffpositions as $option ) : ?>
 										<option value="<?=  $option->position;  //Change to $option->uuid for database usage ?>"><?= $option->position; ?></option>

@@ -44,9 +44,13 @@
   			<span class="border-right"></span>
   			<button type="button" class="btn btn-primary " onClick="eventAddStaff()">+</button>
 		</div>
+		<select class="form-control" name="staff1" required="required" id="staff1">
+			<option value="" disabled selected>Funktion auswählen</option>
+			<?php foreach ( $staffpositions as $option ) : ?>
+			<option value="<?=  $option->uuid; ?>"><?= $option->position; ?></option>
+			<?php endforeach; ?>
+		</select>
 			
-		<input class="form-control" type="text" required="required"
-			name="staff1" id="staff1" placeholder="Funktionsbezeichnung eingeben">
 	</div>
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" id="informOther" name="informOther"> 
@@ -59,8 +63,25 @@
 
 <script type='text/javascript'>
 	var createPositionCount = 1;
-	
+
 	function eventAddStaff(){
+		createPositionCount += 1;
+		
+		var container = document.getElementById("staffContainer");
+
+		var position1 = document.getElementById("staff1");
+		var newPosition =  position1.cloneNode(true);
+		newPosition.id = "staff" + createPositionCount;
+		newPosition.name = "staff" + createPositionCount;
+		
+		container.appendChild(newPosition);
+	}
+
+
+
+	
+	
+	function eventAddStaff2(){
 		createPositionCount += 1;
 		var container = document.getElementById("staffContainer");
 		var input = document.createElement("input");

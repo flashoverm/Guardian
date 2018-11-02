@@ -8,10 +8,6 @@ Bugs:
 
 To Do: 
 
-- E-Mail-Betreff: Datum - Wachbeginn - Typ
-
-- Dropdown-Feld für Positionen bei der Wache
-
 - Field "Sonstige Wache" if selected (Create event)
 
 - Confirm "Veröffentlichen"
@@ -19,6 +15,8 @@ To Do:
 - "Save to clipboard"-button 
 
 New feature:
+
+- Public events overview (like event overview)
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
@@ -35,6 +33,8 @@ Refactoring:
 - consistent usage of " and '
 
 Done: 
+- E-Mail-Betreff: Datum - Wachbeginn - Typ
+- Dropdown for event positions
 
 - Sort events descending by date (overview)
 - Event Overview: Occupancy 1/3, 2/3 (Color Red/Green)
@@ -42,6 +42,7 @@ Done:
 - "E-Mail an alle Wachbeauftragen"
 - After creating event, redirect to detail page
 - "Titel" not required
+
 
 - Verification dialog for ciritical operations
 	(Reset password, delete event, unscribe User)

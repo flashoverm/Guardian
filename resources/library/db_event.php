@@ -36,12 +36,12 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine
 	}
 }
 
-function insert_staff($event_uuid, $staff) {
+function insert_staff($event_uuid, $position_uuid) {
 	global $db;
 	$uuid = getGUID ();
 	
 	$statement = $db->prepare("INSERT INTO staff (uuid, position, event, user) VALUES (?, ?, ?, NULL)");
-	$statement->bind_param('sss', $uuid, $staff, $event_uuid);
+	$statement->bind_param('sss', $uuid, $position_uuid, $event_uuid);
 	
 	$result = $statement->execute();
 
@@ -306,12 +306,13 @@ function create_table_staff() {
 	
 	$statement = $db->prepare("CREATE TABLE staff (
 						  uuid CHARACTER(36) NOT NULL,
-                          position VARCHAR(64) NOT NULL,
+                          position CHARACTER(36) NOT NULL,
                           event CHARACTER(36) NOT NULL,
 						  user CHARACTER(36),
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (user) REFERENCES user(uuid),
-						  FOREIGN KEY (event) REFERENCES event(uuid)
+						  FOREIGN KEY (event) REFERENCES event(uuid),
+                          FOREIGN KEY (position) REFERENCES staffposition(uuid)
                           )");
 	
 	$result = $statement->execute();

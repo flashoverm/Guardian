@@ -5,6 +5,7 @@ require_once 'db_connect.php';
 require_once 'db_engines.php';
 require_once 'db_user.php';
 require_once 'db_event.php';
+require_once 'db_eventtypes.php';
 
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 
@@ -18,7 +19,7 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	global $bodies;
 
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Neue Wache eingestellt";
+	$subject = "Neue Wache eingestellt" . event_subject($event_uuid);
 	
 	$body =  $bodies["event_insert"] . $link;
 
@@ -35,7 +36,7 @@ function mail_publish_event($event_uuid, $manager_uuid) {
 	global $bodies;
 	
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Neue Wache veröffentlicht";
+	$subject = "Neue Wache veröffentlicht" . event_subject($event_uuid);
 	
 	$body = $bodies["event_publish"] . $link;
 	
@@ -50,7 +51,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	global $bodies;
 	
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "In Wache eingeschrieben";
+	$subject = "In Wache eingeschrieben" . event_subject($event_uuid);
 	
 	$body = $bodies["event_subscribe"] . $link;
 
@@ -66,7 +67,7 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	}
 
 	if (is_event_full($event_uuid)) {
-		$subject = "Wache voll belegt";
+	    $subject = "Wache voll belegt" . event_subject($event_uuid);
 		
 		$body = $bodies["event_full"] . $link;
 		
@@ -87,7 +88,7 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	global $bodies;
 	
 	$link = $config ["urls"] ["baseUrl"] . "/guardian/event_details.php?id=" . $event_uuid;
-	$subject = "Aus Wache entfernt";
+	$subject = "Aus Wache entfernt" . event_subject($event_uuid);
 	
 	$body = $bodies["event_unscribe"] . $link;
 
@@ -107,7 +108,7 @@ function mail_delete_event($event_uuid) {
 	global $bodies;
 	
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
-	$subject = "Wache abgesagt";
+	$subject = "Wache abgesagt" . event_subject($event_uuid);
 	
 	$body = $bodies["event_delete"] . $link;
 	
@@ -147,5 +148,17 @@ function mail_send_report($report){
 		return true;
 	}
 	return false;
+}
+
+function event_subject($event_uuid){
+    global $config;
+    $event = get_event($event_uuid);
+    
+    $subject = " - " 
+        . date($config ["formats"] ["date"], strtotime($event->date)) . " " 
+            . date($config ["formats"] ["time"], strtotime($event->start_time)) . " Uhr "
+                . get_eventtype($event->type)->type;
+    
+    return $subject;
 }
 ?>
