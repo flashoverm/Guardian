@@ -1,4 +1,6 @@
 <?php
+require_once realpath(dirname(__FILE__) . "/../resources/config.php");
+
 class EventReport {
 	
 	public $date;
@@ -62,7 +64,7 @@ class EventReport {
 			$string = $string . "\nTitel: \t\t" . $this->title;
 		}
 		$string = $string
-				. "\n\nDatum: \t" . $this->date 
+		. "\n\nDatum: \t" . date($config ["formats"] ["date"], strtotime($this->date))
 				. "\nWachbeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end . "\n\n";
 		

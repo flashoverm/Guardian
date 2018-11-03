@@ -2,7 +2,7 @@
 
 Bugs:
 
-- Date/Time is empty after adding station/vehicle
+- Date/Time is empty after adding station/vehicle (close popup)
 - In Vehicle/Station field: Date, Times are false formated (on mobile)
 
 
@@ -13,14 +13,16 @@ New feature:
 
 - Public events overview (like event overview)
 
+- Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
+
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+
+- Save report textfiles on server
 
 - Send HTML mails with infos about events
 - Send iCal-File for adding event to calender
 
 - Edit-function for units in event report
-
-- Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
 
 Refactoring: 
