@@ -214,9 +214,6 @@
 		label.innerHTML = "Personal:";
 		cardBody.appendChild(label);
 		
-		//var unit = form.querySelector("unit");
-		//var km = form.querySelector("km");
-		
 		for (i = 1; i <= reportPositionCount; i++) {
 			var rowBody = document.createElement("div");
 			rowBody.className = "row";
@@ -230,17 +227,7 @@
 			appendInput(rowBody, "unit"+reportUnitCount+"engine"+i, posEngine, null, false);
 			cardBody.appendChild(rowBody);
 		}
-
-		/*
-		var edit = document.createElement("button");
-		edit.id = "unit"+reportUnitCount+"edit;
-		edit.type = "button";
-		edit.className = "btn btn-primary btn-sm";
-		edit.setAttribute("data-toogle", "modal");
-		edit.setAttribute("data-target", "#addUnitModal");
-		edit.appendChild(document.createTextNode("Bearbeiten"));
-		cardBody.appendChild(edit);
-		*/	
+		
 		var remove = document.createElement("button");
 		remove.id = "unit"+reportUnitCount+"delete"
 		remove.type = "button";

@@ -6,7 +6,7 @@ require_once 'db_user.php';
 create_table_event ();
 create_table_staff ();
 
-function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine_only, $manager) {
+function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine_only, $manager) {
 	global $db;
 
 	$uuid = getGUID ();
@@ -15,14 +15,14 @@ function insert_event($date, $start, $end, $type_uuid, $title, $comment, $engine
 	if($engine_only){
 	    $engine = get_engine_of_user($manager);
 	    
-	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-	    $statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $title, $comment, $engine, $hash, $manager);
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, hash, manager)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $hash, $manager);
 	    
 	} else {
-		$statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, title, comment, engine, hash, manager)
-		VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)");
-		$statement->bind_param('sssssssss', $uuid, $date, $start, $end, $type_uuid, $title, $comment, $hash, $manager);
+		$statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, hash, manager)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)");
+		$statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $hash, $manager);
 	}
 
 	$result = $statement->execute();
@@ -280,6 +280,7 @@ function create_table_event() {
                           start_time TIME NOT NULL,
                           end_time TIME NOT NULL,
                           type CHARACTER(36) NOT NULL,
+                          type_other VARCHAR(96),
 						  title VARCHAR(96),
 						  comment VARCHAR(255),
                           engine CHARACTER(36),

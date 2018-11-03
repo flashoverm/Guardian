@@ -35,7 +35,7 @@ function send_mail($to, $subject, $body) {
 	$mail->Body = $body . $util["footer"];
 	
 	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
-    /*
+
 	try{
 		if(!$mail->send ()){
 			throw new Exception;
@@ -44,8 +44,10 @@ function send_mail($to, $subject, $body) {
 		echo "<script language='javascript'> 
 				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";
+		return false;
 	}
-	*/
+	return true;
+
 }
 
 function send_html_mail($to, $subject, $body) {
@@ -68,19 +70,29 @@ function send_html_mail($to, $subject, $body) {
 		echo "<script language='javascript'>
 				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";
+		return false;
 	}
+	return true;
 }
 
 function send_mails($recipients, $subject, $body) {
+	$noError = true;
 	foreach ($recipients as $to) {
-		send_mail($to->email, $subject, $body);
+		if(!send_mail($to->email, $subject, $body)){
+			$noError = false;
+		}
 	}
+	return $noError;
 }
 
 function send_html_mails($recipients, $subject, $body) {
+	$noError = true;
 	foreach ($recipients as $to) {
-		send_html_mail($to->email, $subject, $body);
+		if(!send_html_mail($to->email, $subject, $body)){
+			$noError = false;
+		}
 	}
+	return $noError;
 }
 
 ?>

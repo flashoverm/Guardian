@@ -24,11 +24,12 @@ function mail_insert_event($event_uuid, $manager_uuid, $informOther) {
 	$body =  $bodies["event_insert"] . $link;
 
 	$manager = get_user( $manager_uuid );
-	send_mail ( $manager->email, $subject, $body );
-
+	$sendOK = send_mail ( $manager->email, $subject, $body );
+	
 	if ($informOther) {
-		mail_publish_event ( $event_uuid, $manager_uuid );
+		$sendOK = $sendOK && mail_publish_event ( $event_uuid, $manager_uuid );
 	}
+	return $sendOK;
 }
 
 function mail_publish_event($event_uuid, $manager_uuid) {

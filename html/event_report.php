@@ -43,7 +43,6 @@ if (isset ( $_POST ['creator'] )) {
     $type = trim ( $_POST ['type'] );
     
     if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
-    	echo "other set";
     	$type = trim( $_POST ['typeOther'] );
     }
     

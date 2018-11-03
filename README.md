@@ -8,11 +8,6 @@ Bugs:
 
 To Do: 
 
-- Field "Sonstige Wache" if selected (Create event)
-
-- Confirm "Veröffentlichen"
-
-- "Save to clipboard"-button 
 
 New feature:
 
@@ -27,14 +22,25 @@ New feature:
 
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
+
 Refactoring: 
 
 - rename files and functions in camel case?
 - consistent usage of " and '
+- methods for updating database structure and content (staffpositions, eventtypes)
+
 
 Done: 
+
+- "Save to clipboard"-button 
+- Improved error handling on sending mails
+- Confirm "Veröffentlichen"
+- Field "Sonstige Wache" if selected (Create event)
+
+
 - E-Mail-Betreff: Datum - Wachbeginn - Typ
 - Dropdown for event positions
+
 
 - Sort events descending by date (overview)
 - Event Overview: Occupancy 1/3, 2/3 (Color Red/Green)

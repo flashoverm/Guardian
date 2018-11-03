@@ -86,7 +86,11 @@ if ($isManager) {
 				}
 				?>
 				<tr>
-				<td colspan="3"><b>Link:&nbsp;</b> <p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p></td>
+				<td colspan="3">
+					<b>Link:&nbsp;</b> 
+					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p>
+					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-outline-primary btn-sm'>Link kopieren</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -95,12 +99,51 @@ if ($isManager) {
 	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
 		if($event->engine != NULL and $isManager){
-            echo "<input type='hidden' name='publish' id='publish' value='publish'/>
-                  <input type='submit' class='btn btn-primary' value='Veröffentlichen' onClick='showLoader()'/>";
+            echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
+				  	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish'>Veröffentlichen</button>
+
+					<div class='modal' id='confirmPublish'>
+					  <div class='modal-dialog'>
+					    <div class='modal-content'>
+			
+					      <div class='modal-header'>
+					        <h4 class='modal-title'>Wache veröffentlichen <br>(E-Mail an alle Wachbeauftragen)?</h4>
+					        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+					      </div>
+			
+					      <div class='modal-footer'>
+					      	<input type='submit' value='Veröffentlichen' class='btn btn-primary' onClick='showLoader()'/>
+					      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+					      </div>
+			
+					    </div>
+					  </div>
+					</div>";
+           
 		} else {
-		    echo "&nbsp;<input type='button' disabled='disabled' class='btn btn-outline-primary' value='Wache ist öffentlich' />";
+		    echo "&nbsp;<button type='button' class='btn btn-outline-primary' disabled='disabled' >Wache ist öffentlich</button>";
 		}
 	    echo "</form>";
 	}
 	?>
 </div>
+<script>
+
+function copyToClipBoard(){
+	link = document.getElementById("link");
+	el = document.createElement('textarea');
+	el.value = link.childNodes[0].nodeValue;
+	el.setAttribute('readonly', '');
+	el.style.position = 'absolute';
+	el.style.left = '-9999px';
+	document.body.appendChild(el);
+	el.select();
+	document.execCommand('copy');
+	document.body.removeChild(el);
+
+	btn = document.getElementById("btnCpy");
+	btn.className  = "btn btn-outline-success btn-sm";
+	btn.firstChild.nodeValue = "Link kopiert";
+}
+
+</script>

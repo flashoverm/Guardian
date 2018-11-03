@@ -21,12 +21,19 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label>Typ:</label> <select class="form-control" name="type">
+		<label>Typ:</label> <select class="form-control" name="type" id="type" onchange="showHideTypeOtherCreate()">
 				<?php foreach ( $eventtypes as $type ) : ?>
 					<option value="<?= $type->uuid; ?>"><?= $type->type; ?></option>
 				<?php endforeach; ?>
 			</select>
 	</div>
+	<div class="form-group" id="groupTypeOther">
+		<label>Sonstiger Wachtyp:</label> <input type="text" required="required"
+			class="form-control" name="typeOther" id="typeOther"
+			placeholder="Wachtyp eingeben">
+	</div>
+	
+	
 	<div class="form-group">
 		<label>Titel:</label> <input type="text"
 			class="form-control" name="title" id="title"
@@ -63,7 +70,9 @@
 
 <script type='text/javascript'>
 	var createPositionCount = 1;
-
+	
+	showHideTypeOtherCreate();
+	
 	function eventAddStaff(){
 		createPositionCount += 1;
 		
@@ -76,29 +85,28 @@
 		
 		container.appendChild(newPosition);
 	}
-
-
-
-	
-	
-	function eventAddStaff2(){
-		createPositionCount += 1;
-		var container = document.getElementById("staffContainer");
-		var input = document.createElement("input");
-		input.className ="form-control";
-		input.type = "text";
-		input.name = "staff" + createPositionCount;
-		input.id = "staff" + createPositionCount;
-		input.required = "required";
-		input.placeholder="Funktionsbezeichnung eingeben";
-		container.appendChild(input);
-	}
 	
 	function eventRemoveLastStaff(){
 		if(createPositionCount != 1){
 			var lastStaffRow = document.getElementById("staff"+createPositionCount);
 			lastStaffRow.parentNode.removeChild(lastStaffRow);
 			createPositionCount -= 1;
+		}
+	}
+
+	function showHideTypeOtherCreate(){
+		var type = document.getElementById("type");
+		var selectedType = type.options[type.selectedIndex].text;
+
+	    var groupTypeOther = document.getElementById("groupTypeOther");
+	    var typeOther = document.getElementById("typeOther");
+		
+		if(selectedType == "Sonstige Wache"){
+			typeOther.setAttribute("required", "");
+			groupTypeOther.style.display = "block";
+		} else {
+			typeOther.removeAttribute("required");
+			groupTypeOther.style.display = "none";
 		}
 	}
 </script>

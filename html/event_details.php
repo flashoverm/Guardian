@@ -34,6 +34,9 @@ if (! isset($_GET['id'])) {
     			'isManager' => $isManager
     	);
     	
+    	if($event->type_other != null){
+    		$variables['subtitle'] = $event->type_other;
+    	}
     	
     	if (isset($_POST['staffid'])) {
     		$staff_uuid = trim($_POST['staffid']);

@@ -23,7 +23,12 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	$start = trim ( $_POST ['start'] );
 	$end = trim ( $_POST ['end'] );
 	$type = trim ( $_POST ['type'] );
-		
+	
+	$typeOther = null;
+	if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
+		$typeOther = trim( $_POST ['typeOther'] );
+	}
+	
 	$title = trim ( $_POST ['title'] );
 	if(empty ($title)){
 	    $title = null;
@@ -41,7 +46,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	    $informOther = true;
 	}
 	
-    $event_uuid = insert_event ( $date, $start, $end, $type, $title, $comment, !$informOther, $manager );
+	$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, !$informOther, $manager );
     if($event_uuid){
     	$position = 1;
     	while ( isset ( $_POST ["staff" . $position] ) ) {
@@ -49,11 +54,13 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
     		$position += 1;
     		insert_staff ( $event_uuid, $staffPosition );
     	}
-    	mail_insert_event ( $event_uuid, $manager, $informOther);
-    	$variables ['successMessage'] = "Wache angelegt";
-    	
-    	header ( "Location: event_details.php?id=" . $event_uuid ); // redirects
-    	
+    	if(mail_insert_event ( $event_uuid, $manager, $informOther)){
+    		$variables ['successMessage'] = "Wache angelegt";
+    		
+    		header ( "Location: event_details.php?id=" . $event_uuid ); // redirects
+    	} else {
+    		$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
+    	}
     } else {
     	$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
     }
