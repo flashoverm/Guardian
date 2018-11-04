@@ -5,10 +5,13 @@ Bugs:
 
 To Do: 
 
-- Use case changed: events are not bound to an manager but an engine
+- Use case changed: events are not bound to an manager but an engine - manager is creator
 
 
 New feature:
+
+- Event overview : Own events | Public events | past events
+- Active events: Sort ascending <
 
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
