@@ -58,9 +58,9 @@ if ($isManager) {
 					if ($entry->user != NULL and $isManager) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
 								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
-								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe'>Austragen</button>
+								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe" . $entry->uuid ."'>Austragen</button>
 								
-								<div class='modal' id='confirmUnscribe'>
+								<div class='modal' id='confirmUnscribe" . $entry->uuid . "'>
 								  <div class='modal-dialog'>
 								    <div class='modal-content'>
 								
@@ -100,9 +100,9 @@ if ($isManager) {
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
 		if($event->engine != NULL and $isManager){
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
-				  	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish'>Veröffentlichen</button>
+				  	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
 
-					<div class='modal' id='confirmPublish'>
+					<div class='modal' id='confirmPublish" . $event->uuid ."'>
 					  <div class='modal-dialog'>
 					    <div class='modal-content'>
 			

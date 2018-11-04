@@ -42,9 +42,9 @@ if (! $isAdmin) {
 				<td class="text-center">
 					<form method="post" action="">
 						<input type="hidden" name="resetpw" id="resetpw" value="<?=$row->uuid?>" />
-						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmReset">Passwort zurücksetzen</button>
+						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmReset<?= $row->uuid; ?>">Passwort zurücksetzen</button>
 						
-						<div class="modal" id="confirmReset">
+						<div class="modal" id="confirmReset<?= $row->uuid; ?>">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						

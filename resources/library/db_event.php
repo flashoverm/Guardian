@@ -55,7 +55,22 @@ function insert_staff($event_uuid, $position_uuid) {
 }
 
 function get_public_events() {
-    return get_events(null);   
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL ORDER BY date DESC");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
 }
     
 function get_events($user_uuid) {
@@ -71,7 +86,9 @@ function get_events($user_uuid) {
 		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
-				$data [] = $date;
+				if(get_engine_of_user($date->manager) == $engine){
+					$data [] = $date;
+				}
 			}
 			$result->free ();
 		}

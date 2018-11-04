@@ -64,9 +64,9 @@ if (! count ( $events )) {
 				<td class="text-center">
 					<form method="post" action="">
 						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
-						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete">Löschen</button>
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
 						
-						<div class="modal" id="confirmDelete">
+						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						

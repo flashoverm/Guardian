@@ -1,9 +1,11 @@
 #guardian
 
 Bugs:
-
+ - Dont send mails to deactivated users
 
 To Do: 
+
+- Use case changed: events are not bound to an manager but an engine
 
 
 New feature:
