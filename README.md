@@ -2,16 +2,11 @@
 
 Bugs:
 
-- Date/Time is empty after adding station/vehicle (close popup)
-- In Vehicle/Station field: Date, Times are false formated (on mobile)
-
 
 To Do: 
 
 
 New feature:
-
-- Public events overview (like event overview)
 
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
@@ -27,12 +22,19 @@ New feature:
 
 Refactoring: 
 
+- report date from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
 - methods for updating database structure and content (staffpositions, eventtypes)
 
 
 Done: 
+- In Vehicle/Station field: Date, Times are false formated (on mobile)
+- Updated report ui: seperate button for station/vehicle
+- Public events overview (configurable)
+- Date/Time is empty after adding station/vehicle (close popup on "add"!)
+- Splitted adding personal on report
+- Centered table fields
 
 - "Save to clipboard"-button 
 - Improved error handling on sending mails

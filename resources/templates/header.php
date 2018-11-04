@@ -65,14 +65,25 @@ if ($loggedIn) {
 			</ul>
 		</div>";
 	}
-} else if($config ["settings"] ["reportfunction"]){
-    echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
-		  <ul class='navbar-nav mr-auto'>
- 				<li class='nav-item'>
-	        	  	<a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
-				</li>
-			</ul>
-		</div>";  
+} else {
+	?>
+	<div class='collapse navbar-collapse' id='navbarMainContent'>
+		<ul class='navbar-nav mr-auto'>
+	<?php
+	if($config ["settings"] ["publicevents"]){
+		echo "	<li class='nav-item'>
+	        		<a class='nav-link text-light' href='event_public.php'>Öffentliche Wachen</a>
+				</li>";
+	}
+	if($config ["settings"] ["reportfunction"]){
+	    echo "<li class='nav-item'>
+		        	<a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
+			  </li>";  
+	}
+	?>
+		</ul>
+	</div>
+<?php
 }
 ?>
     <div class="collapse navbar-collapse  order-3 dual-collapse3"

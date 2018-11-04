@@ -75,10 +75,12 @@ if (isset ( $_POST ['creator'] )) {
     	$unitbeginn = trim ( $_POST ['unit' . $unitCount . 'start'] );
     	$unitend = trim ( $_POST ['unit' . $unitCount . 'end'] );
     	$unitname = trim ( $_POST ['unit' . $unitCount . 'unit'] );
-    	$unitkm = trim ( $_POST ['unit' . $unitCount . 'km'] );
-    	
+    	    	
     	$unit = new ReportUnit($unitname, $unitdate, $unitbeginn, $unitend);
-    	if($unitkm != ""){
+    	
+    	
+    	if(isset ( $_POST ['unit' . $unitCount . 'km'] ) && $_POST ['unit' . $unitCount . 'km'] != ""){
+    		$unitkm = trim ( $_POST ['unit' . $unitCount . 'km'] );
     		$unit->setKM($unitkm);
     	}
     	

@@ -12,13 +12,13 @@ if (! $isAdmin) {
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>Vorname</th>
-				<th>Nachname</th>
-				<th>Löschzug</th>
-				<th>E-Mail</th>
-				<th>Anmeldung</th>
-				<th></th>
-				<th></th>
+				<th class="text-center">Vorname</th>
+				<th class="text-center">Nachname</th>
+				<th class="text-center">Löschzug</th>
+				<th class="text-center">E-Mail</th>
+				<th class="text-center">Anmeldung</th>
+				<th class="text-center"></th>
+				<th class="text-center"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,11 +26,11 @@ if (! $isAdmin) {
 		foreach ( $manager as $row ) {
 			?>
 					<tr>
-				<td><?= $row->firstname; ?></td>
-				<td><?= $row->lastname; ?></td>
-				<td><?= get_engine($row->engine)->name; ?></td>
-				<td><?= $row->email; ?></td>
-				<td>
+				<td class="text-center"><?= $row->firstname; ?></td>
+				<td class="text-center"><?= $row->lastname; ?></td>
+				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
+				<td class="text-center"><?= $row->email; ?></td>
+				<td class="text-center">
 			<?php
 				if ($row->loginenabled) {
 					echo "Aktiv";
@@ -39,7 +39,7 @@ if (! $isAdmin) {
 				}
 			?>
 				</td>
-				<td>
+				<td class="text-center">
 					<form method="post" action="">
 						<input type="hidden" name="resetpw" id="resetpw" value="<?=$row->uuid?>" />
 						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmReset">Passwort zurücksetzen</button>
@@ -63,7 +63,7 @@ if (! $isAdmin) {
 						</div>
 					</form>
 				</td>
-				<td>
+				<td class="text-center">
 					<form method="post" action="">
 			<?php
 			if($row->uuid != $_SESSION ['guardian_userid']){

@@ -75,10 +75,12 @@
 			class="form-control" name="creator" id="creator"
 			placeholder="Namen eintragen">
 	</div>
-
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Fahrzeug/Station hinzufügen</button><p>
-
+	
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Wachpersonal hinzufügen</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModalVehicle()">Fahrzeug hinzufügen</button>
+	<p>
 	<div id="unitlist">
+
 	</div>
 	<p>
 	<div id="submitPlaceholder">
@@ -87,6 +89,7 @@
 </form>
 
 <script type='text/javascript'>
+	
 	showHideTypeOther();
 	
 	var reportUnitCount = 0;
@@ -195,37 +198,51 @@
 		var unitstart = form.querySelector("#unitstart").value;
 		var unitend = form.querySelector("#unitend").value;
 		
-		var rowHead = document.createElement("div");
-		rowHead.className = "row";
+		var row = document.createElement("div");
+		row.className = "row form-group";
+		cardBody.appendChild(row);
 
-		cardBody.appendChild(rowHead);
-
-		appendInput(rowHead, "unit"+reportUnitCount+"date", unitdate, "Datum:", false);
-		appendInput(rowHead, "unit"+reportUnitCount+"start", unitstart, "Wachbeginn:", false);
-		appendInput(rowHead, "unit"+reportUnitCount+"end", unitend, "Ende:", false);
+		appendInput(row, "unit"+reportUnitCount+"date", unitdate, "Datum:");
+		appendInput(row, "unit"+reportUnitCount+"start", unitstart, "Wachbeginn:");
+		appendInput(row, "unit"+reportUnitCount+"end", unitend, "Ende:");
 
 		var unit = document.getElementById("unit").value;
 		var km = document.getElementById("km").value;
 
-		appendInput(rowHead, "unit"+reportUnitCount+"unit", unit, null, true);
-		appendInput(rowHead, "unit"+reportUnitCount+"km", km, null, true);	
+		var unitField = document.createElement("input");
+		unitField.id = "unit"+reportUnitCount+"unit";
+		unitField.name = "unit"+reportUnitCount+"unit";
+		unitField.type = "text";
+		unitField.value = unit;
+		unitField.type = "hidden";
+		cardBody.appendChild(unitField);
+
+		var kmField = document.createElement("input");
+		kmField.id = "unit"+reportUnitCount+"km";
+		kmField.name = "unit"+reportUnitCount+"km";
+		kmField.type = "text";
+		kmField.value = km;
+		kmField.type = "hidden";
+		cardBody.appendChild(unitField);
 		
 		var label = document.createElement("label");
 		label.innerHTML = "Personal:";
 		cardBody.appendChild(label);
 		
 		for (i = 1; i <= reportPositionCount; i++) {
-			var rowBody = document.createElement("div");
-			rowBody.className = "row";
+			var rowStaff = document.createElement("div");
+			rowStaff.className = "row form-group";
 			
 			var position = form.querySelector("#position" + i);
 			var posFunction = position.querySelector("#positionfunction").value;
 			var posName = position.querySelector("#positionname").value;
 			var posEngine = position.querySelector("#positionengine").value;
-			appendInput(rowBody, "unit"+reportUnitCount+"function"+i, posFunction, null, false);
-			appendInput(rowBody, "unit"+reportUnitCount+"name"+i, posName, null, false);
-			appendInput(rowBody, "unit"+reportUnitCount+"engine"+i, posEngine, null, false);
-			cardBody.appendChild(rowBody);
+			
+			appendInput(rowStaff, "unit"+reportUnitCount+"function"+i, posFunction, null);
+			appendInput(rowStaff, "unit"+reportUnitCount+"name"+i, posName, null);
+			appendInput(rowStaff, "unit"+reportUnitCount+"engine"+i, posEngine, null);
+			
+			cardBody.appendChild(rowStaff);
 		}
 		
 		var remove = document.createElement("button");
@@ -236,32 +253,25 @@
 		cardBody.appendChild(remove);
 	}
 
-	function appendInput(parent, name, value, labeltext, hidden){
+	function appendInput(parent, name, value, labeltext){
 		var col = document.createElement("div");
-		col.className = "col";
-
-		var formgroup = document.createElement("div");
-		formgroup.className = "form-group";
-
+		col.className = "col-sm";
+		
 		if(labeltext != null){
 			var label = document.createElement("label");
 			label.innerHTML = labeltext;
-			formgroup.appendChild(label);
+			col.appendChild(label);
 		}
 		
 		var input = document.createElement("input");
-		input.className = "form-control border-0 bg-white";
+		input.className = "form-control  bg-white";
 		input.id = name;
 		input.name = name;
 		input.type = "text";
 		input.readOnly = true;
 		input.value = value;
-		if(hidden){
-			input.type = "hidden";
-		}
 
-		formgroup.appendChild(input);
-		col.appendChild(formgroup);
+		col.appendChild(input);
 
 		parent.appendChild(col);
 	}

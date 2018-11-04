@@ -43,8 +43,14 @@ class ReportUnit {
 	
 	function toMail(){
 		$string = "------------------------- Einheit --------------------------"
-				. "\n\n" . $this->unit 
-				. " (km: ". $this->km . ")"
+				. "\n\n" . $this->unit;
+		
+		if($this->km != null && $this->km != ""){
+			$string = $string
+			. " (km: ". $this->km . ")";
+		}
+		
+		$string = $string
 				. "\nDatum: \t" . $this->date 
 				. "\nWachbeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end

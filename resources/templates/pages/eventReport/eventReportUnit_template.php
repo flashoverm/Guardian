@@ -12,9 +12,9 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group">
-								<label>Fahrzeug/Station:</label> <input type="text"
+								<label>Fahrzeug:</label> <input type="text"
 									class="form-control" name="unit" id="unit" required="required"
-									placeholder="Fahrzeug/Station eingeben">
+									placeholder="Fahrzeug eingeben">
 							</div>
 						</div>
 						<div class="col">
@@ -102,6 +102,18 @@
 
 	function initializeModal(){
 
+		var unit = document.getElementById("unit");
+		var km = document.getElementById("km");
+
+		unit.value = "Stationäre Wache";
+		unit.disabled = true;
+		km.disabled = true;
+		
+		initializeModalVehicle();	
+	}
+
+	function initializeModalVehicle(){
+
 		var date = document.getElementById("date").value;
 		var start = document.getElementById("start").value;
 		var end = document.getElementById("end").value;
@@ -129,13 +141,12 @@
 
 	function processForm(e) {
 	    if (e.preventDefault) e.preventDefault();
-	
-	    /* do what you want with the form */
-	
-	    // You must return false to prevent the default form behavior
+		
 	    addReportUnit();
 	    
 	    clearForm();
+	    
+	    $('#addUnitModal').modal('hide');
 	    return false;
 	}
 	
@@ -182,6 +193,11 @@
 		}
 
 		form.reset();
+
+		var unit = document.getElementById("unit");
+		var km = document.getElementById("km");
+		unit.disabled = false;
+		km.disabled = false;
 	}
 		
 </script>
