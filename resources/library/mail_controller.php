@@ -44,7 +44,7 @@ function mail_publish_event($event_uuid, $manager_uuid) {
 	$manager = get_user($manager_uuid);
 	
 	$recipients = get_manager_except_engine($manager->engine);
-	send_mails($recipients, $subject, $body);
+	return send_mails($recipients, $subject, $body);
 }
 
 function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, $send_mail) {
