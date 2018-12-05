@@ -198,6 +198,23 @@ function get_events_staff($event_uuid){
 	return $data;
 }
 
+function get_events_staffposition($staff_uuid){
+    global $db;
+    
+    $statement = $db->prepare("SELECT * FROM staff, staffposition WHERE staff.position = staffposition.uuid AND staff.uuid = ?");
+    $statement->bind_param('s', $staff_uuid);
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            $position = $result->fetch_object ();
+            $result->free ();
+            return $position;
+        }
+    }
+}
+
 function get_staff_user($staff_uuid){
 	global $db;
 	

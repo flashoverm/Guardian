@@ -75,9 +75,9 @@
 			class="form-control" name="creator" id="creator"
 			placeholder="Namen eintragen">
 	</div>
-	
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Wachpersonal hinzufügen</button>
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModalVehicle()">Fahrzeug hinzufügen</button>
+	<p class="h6">Wachpersonal hinzufügen:</p>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModal()">Ohne Fahrzeug</button>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModalVehicle()">Mit Fahrzeug</button>
 	<p>
 	<div id="unitlist">
 

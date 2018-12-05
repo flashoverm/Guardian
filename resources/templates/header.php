@@ -23,7 +23,7 @@
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
 
-<title>Guardian - <?= $title ?></title>
+<title><?= $title ?></title>
 
 </head>
 <body>

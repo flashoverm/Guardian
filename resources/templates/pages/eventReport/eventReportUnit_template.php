@@ -25,7 +25,7 @@
 							</div>
 						</div>
 					</div>
-					<p>
+					</p>
 					<div class="row">
 						<div class="col">
 							<div class="form-group">
@@ -46,8 +46,8 @@
 							</div>
 						</div>
 					</div>
-					<p>
-					<div class="form-group" id="staffContainer">
+					</p>
+					<div class="form-group mb-0" id="staffContainer">
 						<label>Personal:</label>
 						<div class="btn-group btn-group-sm" role="group"
 							style="float: right">
@@ -57,7 +57,7 @@
 							<button type="button" class="btn btn-primary "
 								onClick="addReportPosition()">+</button>
 						</div>
-						<p>
+						</p>
 						<div class="row" id="position1">
 							<div class="col">
 								<div class="form-group">
@@ -88,6 +88,7 @@
 							</div>
 						</div>
 					</div>
+					<p class="text-right my-0 mx-0"><sub><em>* Mehr Personal kann mit + eingefügt werden</em></sub></p>
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" id="addUnit" value="Hinzufügen">

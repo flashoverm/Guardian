@@ -7,11 +7,19 @@ To Do:
 
 - Use case changed: events are not bound to an manager but an engine - manager is creator
 
+- "Working-copy aus Seitentitel entfernen"
+
+- Remove fields "unitname", "km" form modal if "no vehicle"
 
 New feature:
 
 - Event overview : Own events | Public events | past events
+
 - Active events: Sort ascending <
+
+- Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
+
+- Event-Detail page: Some field editable, especially "comment", other fields eventually
 
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
@@ -24,7 +32,6 @@ New feature:
 
 - Edit-function for units in event report
 
-
 Refactoring: 
 
 - report date from config, not hard coded
@@ -34,6 +41,10 @@ Refactoring:
 
 
 Done: 
+- Event-Detail page: move publish button so other side -> accidentally click!
+- After event subscription -> Redirect to detail-page (with info about success, or not)
+- Event-Subscribe page: Show infos about event and position, i.e. "Eintragen für Theaterwache -> Dienstgrad"
+
 - In Vehicle/Station field: Date, Times are false formated (on mobile)
 - Updated report ui: seperate button for station/vehicle
 - Public events overview (configurable)

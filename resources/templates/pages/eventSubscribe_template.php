@@ -1,7 +1,6 @@
 <form onsubmit="showLoader()"
 	action="<?= "event_subscribe.php?id=".$eventUUID."&staffid=".$staffUUID ?>"
 	method="post">
-	<legend>Für Wache eintragen</legend>
 	<div class="form-group">
 		<label>Vorname:</label> <input type="text" class="form-control"
 			required="required" name="firstname" id="firstname"

@@ -100,7 +100,7 @@ if ($isManager) {
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
 		if($event->engine != NULL and $isManager){
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
-				  	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+				  	<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
 
 					<div class='modal' id='confirmPublish" . $event->uuid ."'>
 					  <div class='modal-dialog'>
@@ -121,7 +121,7 @@ if ($isManager) {
 					</div>";
            
 		} else {
-		    echo "&nbsp;<button type='button' class='btn btn-outline-primary' disabled='disabled' >Wache ist öffentlich</button>";
+		    echo "&nbsp;<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
 		}
 	    echo "</form>";
 	}
