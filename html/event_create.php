@@ -11,9 +11,6 @@ $eventtypes = get_eventtypes ();
 $staffpositions = get_staffpositions();
 $engines = get_engines_without_office();
 
-$user = $_SESSION ['guardian_userid'];
-$usersEngine = get_engine_of_user($user);
-
 // Pass variables (as an array) to template
 $variables = array (
 		'title' => 'Wache anlegen',
@@ -21,8 +18,15 @@ $variables = array (
 		'eventtypes' => $eventtypes,
         'staffpositions' => $staffpositions,
         'engines' => $engines,
-        'usersEngine' => $usersEngine
 );
+
+
+if(isset($_SESSION ['guardian_userid'])){
+    $user = $_SESSION ['guardian_userid'];
+    $usersEngine = get_engine_of_user($user);
+    
+    $variables ['usersEngine'] = $usersEngine;
+}
 
 if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 

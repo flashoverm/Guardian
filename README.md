@@ -11,12 +11,6 @@ To Do:
 
 New feature:
 
-- Event overview : Own events | Public events | past events
-
-
-- Active events: Sort ascending <
-
-
 - Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
 - Event-Detail page: Some field editable, especially "comment", other fields eventually
 
@@ -44,6 +38,8 @@ Refactoring:
 
 
 Done:
+- Event overview : Own events | Public events | past events
+- Active events: Sort ascending <
 - Use case changed: events are not bound to an manager but an engine - manager is creator
 - Remove fields "unitname", "km" form modal if "no vehicle"
 - assignement of event to other engines is possible

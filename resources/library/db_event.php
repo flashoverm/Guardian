@@ -79,7 +79,7 @@ function get_events($user_uuid) {
 	$data = array ();
 	$engine = get_engine_of_user($user_uuid);
 	
-	$statement = $db->prepare("SELECT * FROM event WHERE engine = ? OR creator = ? ORDER BY date DESC");
+	$statement = $db->prepare("SELECT * FROM event WHERE (engine = ? OR creator = ?) AND date >= (now() - INTERVAL 1 DAY) ORDER BY date ASC");
 	$statement->bind_param('ss', $engine, $user_uuid);
 	
 	if ($statement->execute()) {
@@ -93,6 +93,27 @@ function get_events($user_uuid) {
 		}
 	}
 	return $data;
+}
+
+function get_past_events($user_uuid) {
+    global $db;
+    $data = array ();
+    $engine = get_engine_of_user($user_uuid);
+    
+    $statement = $db->prepare("SELECT * FROM event WHERE (engine = ? OR creator = ?) AND date < (now() - INTERVAL 1 DAY) ORDER BY date DESC");
+    $statement->bind_param('ss', $engine, $user_uuid);
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
 }
 
 function get_staff($event_uuid) {

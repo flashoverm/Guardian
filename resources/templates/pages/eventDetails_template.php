@@ -8,7 +8,18 @@ if ($isCreator) {
     if($otherEngine != null){
         showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
     }
-} 
+}
+
+$relevant = false;
+$dateNow = getdate();
+$now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
+
+if(strtotime($event->date) >= $now){
+    $relevant = true;
+} else {
+    showInfo("Diese Wache hat bereits stattgefunden - Bearbeitung nicht mehr möglich");
+}
+
 ?>
 
 <div class="table-responsive">
@@ -53,12 +64,12 @@ if ($isCreator) {
 				<td><?= get_staffposition($entry->position)->position; ?></td>
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
-					if ($entry->user == NULL) {
+					if ($entry->user == NULL and $relevant) {
 						echo "<form method='post' action='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>
 										<input type='submit' value='Eintragen' class='btn btn-primary btn-sm'/>
 									</form>";
 					}
-					if ($entry->user != NULL and $isCreator) {
+					if ($entry->user != NULL and $isCreator and $relevant) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
 								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
 								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe" . $entry->uuid ."'>Austragen</button>
@@ -102,7 +113,7 @@ if ($isCreator) {
 	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
 	    if(!$event->published){
-	        if($isCreator) {
+	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
 				  	<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
 
