@@ -4,7 +4,10 @@ require_once '../resources/library/db_user.php';
 require_once '../resources/library/db_staffpositions.php';
 
 if ($isCreator) { 
-	showInfo ( "Du bist Ersteller dieser Wache" ); 
+    showInfo ( "Du bist Ersteller dieser Wache" );
+    if($otherEngine != null){
+        showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
+    }
 } 
 ?>
 

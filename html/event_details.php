@@ -22,8 +22,14 @@ if (! isset($_GET['id'])) {
     if($event){
     	
         $isCreator = false;
+        $otherEngine = null;
     	if (isset($_SESSION['guardian_userid'])) {
     		$isCreator = (strcmp($event->creator, $_SESSION['guardian_userid']) == 0);
+    		
+    		if(strcmp(get_user($_SESSION['guardian_userid'])->engine, $event->engine) != 0){
+    		    $otherEngine = get_engine($event->engine);
+    		 
+    		}
     	}
     	
     	// Pass variables (as an array) to template
@@ -31,7 +37,8 @@ if (! isset($_GET['id'])) {
     			'title' => get_eventtype($event->type)->type,
     			'secured' => false,
     			'showFormular' => true,
-    	        'isCreator' => $isCreator
+    	        'isCreator' => $isCreator,
+    	        'otherEngine' => $otherEngine
     	);
     	
     	if($event->type_other != null){

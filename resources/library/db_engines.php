@@ -76,6 +76,25 @@ function get_engines() {
 	return $data;
 }
 
+function get_engines_without_office() {
+    global $db;
+    $data = array ();
+    
+    $statement = $db->prepare("SELECT * FROM engine WHERE NOT name = 'Geschäftszimmer'  ORDER BY name");
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
+}
+
 function create_table_engine() {
 	global $db;
 	

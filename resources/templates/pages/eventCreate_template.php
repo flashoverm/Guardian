@@ -39,11 +39,30 @@
 			class="form-control" name="title" id="title"
 			placeholder="Titel eingeben">
 	</div>
+		
+	<div class="form-group">
+		<label>Zuständiger Löschzug</label> <select
+			class="form-control" name="engine" required="required">
+			<?php foreach ( $engines as $option ) : 
+			if(strcmp($option->uuid, $usersEngine) == 0){
+			    ?>
+			   	<option selected="selected" value="<?=  $option->uuid;	?> "><?= $option->name; ?></option>
+			    <?php 
+			} else {
+			    ?>
+			   <option value="<?=  $option->uuid;	?> "><?= $option->name; ?></option>
+			    <?php
+			}
+			?>
+			<?php endforeach; ?>
+		</select>
+	</div>
 	<div class="form-group">
 		<label>Anmerkungen:</label>
 		<textarea class="form-control" name="comment" id="comment"
 			placeholder="Anmerkungen"></textarea>
 	</div>
+	
 	<div class="form-group" id="staffContainer">
 		<label>Benötigtes Wachpersonal:</label>
 		<div class="btn-group btn-group-sm" role="group" style="float: right">

@@ -4,17 +4,24 @@ require_once LIBRARY_PATH . "/template.php";
 require_once '../resources/library/db_eventtypes.php';
 require_once '../resources/library/db_event.php';
 require_once '../resources/library/db_staffpositions.php';
+require_once '../resources/library/db_engines.php';
 require_once '../resources/library/mail_controller.php';
 
 $eventtypes = get_eventtypes ();
 $staffpositions = get_staffpositions();
+$engines = get_engines_without_office();
+
+$user = $_SESSION ['guardian_userid'];
+$usersEngine = get_engine_of_user($user);
 
 // Pass variables (as an array) to template
 $variables = array (
 		'title' => 'Wache anlegen',
 		'secured' => true,
 		'eventtypes' => $eventtypes,
-        'staffpositions' => $staffpositions
+        'staffpositions' => $staffpositions,
+        'engines' => $engines,
+        'usersEngine' => $usersEngine
 );
 
 if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
@@ -23,6 +30,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	$start = trim ( $_POST ['start'] );
 	$end = trim ( $_POST ['end'] );
 	$type = trim ( $_POST ['type'] );
+	$engine = $_POST ['engine'];
 	
 	$typeOther = null;
 	if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
@@ -38,8 +46,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	$publish = false;
 
 	$creator = $_SESSION ['guardian_userid'];
-	$engine = get_engine_of_user($creator);
-
+	
 	if (isset ( $_POST ['comment'] )) {
 		$comment = trim ( $_POST ['comment'] );
 	}

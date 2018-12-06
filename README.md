@@ -5,7 +5,7 @@ Bugs:
 
 To Do: 
 
-- Switch mail from @thral.de to @feuerwehr-landhsut.de
+- Switch mail from @thral.de to @feuerwehr-landshut.de
 
 - "Working-copy aus Seitentitel entfernen"
 
@@ -13,22 +13,27 @@ New feature:
 
 - Event overview : Own events | Public events | past events
 
+
 - Active events: Sort ascending <
 
-- Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
 
+- Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
 - Event-Detail page: Some field editable, especially "comment", other fields eventually
+
 
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
-- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
 - Save report textfiles on server
 
-- Send HTML mails with infos about events
-- Send iCal-File for adding event to calender
 
 - Edit-function for units in event report
+
+Low prio:
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+	
+- Send HTML mails with infos about events
+- Send iCal-File for adding event to calender
 
 Refactoring: 
 
@@ -41,6 +46,7 @@ Refactoring:
 Done:
 - Use case changed: events are not bound to an manager but an engine - manager is creator
 - Remove fields "unitname", "km" form modal if "no vehicle"
+- assignement of event to other engines is possible
 
  
 - Event-Detail page: move publish button so other side -> accidentally click!
