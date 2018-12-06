@@ -9,7 +9,7 @@
 				</div>
 	
 				<div class="modal-body">
-					<div class="row">
+					<div class="row" id="vehiclerow">
 						<div class="col">
 							<div class="form-group">
 								<label>Fahrzeug:</label> <input type="text"
@@ -19,7 +19,7 @@
 						</div>
 						<div class="col">
 							<div class="form-group">
-								<label>Kilometer (Nur bei Fahrzeug)</label> <input type="number"
+								<label>Kilometer:</label> <input type="number" required="required"
 									class="form-control" name="km" id="km"
 									placeholder="Gefahrene Kilometer">
 							</div>
@@ -103,18 +103,31 @@
 
 	function initializeModal(){
 
+		initializeModalVehicle();
+		
+		var vehicleRow = document.getElementById("vehiclerow");
 		var unit = document.getElementById("unit");
 		var km = document.getElementById("km");
+		
 
 		unit.value = "Stationäre Wache";
 		unit.disabled = true;
 		km.disabled = true;
-		
-		initializeModalVehicle();	
+		vehicleRow.style.display = 'none';	
 	}
 
 	function initializeModalVehicle(){
 
+		var vehicleRow = document.getElementById("vehiclerow");
+		var unit = document.getElementById("unit");
+		var km = document.getElementById("km");
+		
+
+		unit.value = '';
+		unit.disabled = false;
+		km.disabled = false;
+		vehicleRow.style.display = 'flex';	
+		
 		var date = document.getElementById("date").value;
 		var start = document.getElementById("start").value;
 		var end = document.getElementById("end").value;

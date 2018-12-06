@@ -5,11 +5,9 @@ Bugs:
 
 To Do: 
 
-- Use case changed: events are not bound to an manager but an engine - manager is creator
+- Switch mail from @thral.de to @feuerwehr-landhsut.de
 
 - "Working-copy aus Seitentitel entfernen"
-
-- Remove fields "unitname", "km" form modal if "no vehicle"
 
 New feature:
 
@@ -40,7 +38,11 @@ Refactoring:
 - methods for updating database structure and content (staffpositions, eventtypes)
 
 
-Done: 
+Done:
+- Use case changed: events are not bound to an manager but an engine - manager is creator
+- Remove fields "unitname", "km" form modal if "no vehicle"
+
+ 
 - Event-Detail page: move publish button so other side -> accidentally click!
 - After event subscription -> Redirect to detail-page (with info about success, or not)
 - Event-Subscribe page: Show infos about event and position, i.e. "Eintragen für Theaterwache -> Dienstgrad"
