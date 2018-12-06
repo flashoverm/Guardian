@@ -89,7 +89,7 @@ if ($isCreator) {
 				<td colspan="3">
 					<b>Link:&nbsp;</b> 
 					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p>
-					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-outline-primary btn-sm'>Link kopieren</button>
+					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-primary btn-sm'>Link kopieren</button>
 				</td>
 			</tr>
 		</tbody>
@@ -98,7 +98,8 @@ if ($isCreator) {
 	if($loggedIn){
 	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
-	    if(!$event->published and $isCreator){
+	    if(!$event->published){
+	        if($isCreator) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
 				  	<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
 
@@ -119,7 +120,9 @@ if ($isCreator) {
 					    </div>
 					  </div>
 					</div>";
-           
+	        } else {
+	            echo "&nbsp;<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
+	        }
 		} else {
 		    echo "&nbsp;<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
 		}
