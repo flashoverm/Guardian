@@ -36,6 +36,7 @@ function send_mail($to, $subject, $body) {
 	
 	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
 
+	/*
 	try{
 		if(!$mail->send ()){
 			throw new Exception;
@@ -46,6 +47,7 @@ function send_mail($to, $subject, $body) {
 			</script>";
 		return false;
 	}
+	*/
 	return true;
 
 }
@@ -61,7 +63,7 @@ function send_html_mail($to, $subject, $body) {
 	$mail->Body = $body . $util["footer"];
 	
 	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
-	
+	/*
 	try{
 		if(!$mail->send ()){
 			throw new Exception;
@@ -72,6 +74,7 @@ function send_html_mail($to, $subject, $body) {
 			</script>";
 		return false;
 	}
+	*/
 	return true;
 }
 

@@ -21,9 +21,9 @@ if (! isset($_GET['id'])) {
     
     if($event){
     	
-    	$isManager = false;
+        $isCreator = false;
     	if (isset($_SESSION['guardian_userid'])) {
-    		$isManager = (strcmp($event->manager, $_SESSION['guardian_userid']) == 0);
+    		$isCreator = (strcmp($event->creator, $_SESSION['guardian_userid']) == 0);
     	}
     	
     	// Pass variables (as an array) to template
@@ -31,7 +31,7 @@ if (! isset($_GET['id'])) {
     			'title' => get_eventtype($event->type)->type,
     			'secured' => false,
     			'showFormular' => true,
-    			'isManager' => $isManager
+    	        'isCreator' => $isCreator
     	);
     	
     	if($event->type_other != null){
@@ -50,7 +50,7 @@ if (! isset($_GET['id'])) {
     	
     	if (isset($_POST['publish']) && $event->engine != NULL) {
     		if(publish_event($uuid) ){
-    			mail_publish_event($uuid, $event->manager);
+    		    mail_publish_event($uuid, $_SESSION['guardian_userid']);
     			$variables['successMessage'] = "Wache veröffentlich - Wachbeauftragte informiert";
     			$event = get_event($uuid);
     		} else {

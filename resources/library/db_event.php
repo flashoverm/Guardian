@@ -6,23 +6,24 @@ require_once 'db_user.php';
 create_table_event ();
 create_table_staff ();
 
-function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine_only, $manager) {
+function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $published) {
 	global $db;
 
 	$uuid = getGUID ();
 	$hash = hash ( "sha256", $uuid . $date . $start . $end . $type_uuid . $title );
 
-	if($engine_only){
-	    $engine = get_engine_of_user($manager);
+	if($published){
 	    
-	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, hash, manager)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $hash, $manager);
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, hash)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?)");
+	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $hash);
 	    
 	} else {
-		$statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, hash, manager)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?)");
-		$statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $hash, $manager);
+	    
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, hash)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?)");
+	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $hash);
+	    
 	}
 
 	$result = $statement->execute();
@@ -58,7 +59,7 @@ function get_public_events() {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL ORDER BY date DESC");
+	$statement = $db->prepare("SELECT * FROM event WHERE published = TRUE ORDER BY date DESC");
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -78,17 +79,15 @@ function get_events($user_uuid) {
 	$data = array ();
 	$engine = get_engine_of_user($user_uuid);
 	
-	$statement = $db->prepare("SELECT * FROM event WHERE engine IS NULL OR engine = ? ORDER BY date DESC");
-	$statement->bind_param('s', $engine);
+	$statement = $db->prepare("SELECT * FROM event WHERE engine = ? OR creator = ? ORDER BY date DESC");
+	$statement->bind_param('ss', $engine, $user_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
 		
 		if (mysqli_num_rows ( $result )) {
 			while ( $date = $result->fetch_object () ) {
-				if(get_engine_of_user($date->manager) == $engine){
-					$data [] = $date;
-				}
+				$data [] = $date;
 			}
 			$result->free ();
 		}
@@ -164,7 +163,7 @@ function get_event($event_uuid) {
 function get_events_creator($event_uuid){
 	global $db;
 	
-	$statement = $db->prepare("SELECT * FROM user, event WHERE event.manager = user.uuid AND event.uuid = ?");
+	$statement = $db->prepare("SELECT * FROM user, event WHERE event.creator = user.uuid AND event.uuid = ?");
 	$statement->bind_param('s', $event_uuid);
 	
 	if ($statement->execute()) {
@@ -269,7 +268,7 @@ function remove_staff_user($uuid) {
 function publish_event($uuid){
     global $db;
     
-    $statement = $db->prepare("UPDATE event SET engine = NULL WHERE uuid= ?");
+    $statement = $db->prepare("UPDATE event SET published = TRUE WHERE uuid= ?");
     $statement->bind_param('s', $uuid);
     
     $result = $statement->execute();
@@ -307,7 +306,7 @@ function delete_event($uuid) {
 
 function create_table_event() {
 	global $db;
-	
+		
 	$statement = $db->prepare("CREATE TABLE event (
                           uuid CHARACTER(36) NOT NULL,
 						  date DATE NOT NULL,
@@ -317,12 +316,14 @@ function create_table_event() {
                           type_other VARCHAR(96),
 						  title VARCHAR(96),
 						  comment VARCHAR(255),
-                          engine CHARACTER(36),
+                          engine CHARACTER(36) NOT NULL,
+						  creator CHARACTER(36) NOT NULL,
+                          published BOOLEAN NOT NULL,
 						  hash VARCHAR(64) NOT NULL,
-						  manager CHARACTER(36) NOT NULL,
                           PRIMARY KEY  (uuid),
-						  FOREIGN KEY (manager) REFERENCES user(uuid),
-						  FOREIGN KEY (type) REFERENCES eventtype(uuid)
+						  FOREIGN KEY (creator) REFERENCES user(uuid),
+						  FOREIGN KEY (type) REFERENCES eventtype(uuid),
+						  FOREIGN KEY (engine) REFERENCES engine(uuid)
                           )");
 	
 	$result = $statement->execute();

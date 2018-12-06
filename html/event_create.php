@@ -35,18 +35,19 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	}
 	
 	$comment = "";
-	$informOther = false;
+	$publish = false;
 
-	$manager = $_SESSION ['guardian_userid'];
+	$creator = $_SESSION ['guardian_userid'];
+	$engine = get_engine_of_user($creator);
 
 	if (isset ( $_POST ['comment'] )) {
 		$comment = trim ( $_POST ['comment'] );
 	}
-	if(isset($_POST ['informOther'])){
-	    $informOther = true;
+	if(isset($_POST ['publish'])){
+	    $publish = true;
 	}
 	
-	$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, !$informOther, $manager );
+	$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator, $publish);
     if($event_uuid){
     	$position = 1;
     	while ( isset ( $_POST ["staff" . $position] ) ) {
@@ -54,7 +55,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
     		$position += 1;
     		insert_staff ( $event_uuid, $staffPosition );
     	}
-    	if(mail_insert_event ( $event_uuid, $manager, $informOther)){
+    	if(mail_insert_event ( $event_uuid, $creator, $publish)){
     		$variables ['successMessage'] = "Wache angelegt";
     		
     		header ( "Location: event_details.php?id=" . $event_uuid ); // redirects

@@ -47,7 +47,7 @@ if (! count ( $events )) {
 				</td>
 				<td class="text-center">
 					<?php
-					if($row->engine == NULL){
+					if($row->published){
 					    echo " X ";
 					} else {
 					    echo " - ";

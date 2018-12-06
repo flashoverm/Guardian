@@ -3,8 +3,8 @@ require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
 require_once '../resources/library/db_staffpositions.php';
 
-if ($isManager) { 
-	showInfo ( "Du bist Verwalter dieser Wache" ); 
+if ($isCreator) { 
+	showInfo ( "Du bist Ersteller dieser Wache" ); 
 } 
 ?>
 
@@ -55,7 +55,7 @@ if ($isManager) {
 										<input type='submit' value='Eintragen' class='btn btn-primary btn-sm'/>
 									</form>";
 					}
-					if ($entry->user != NULL and $isManager) {
+					if ($entry->user != NULL and $isCreator) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
 								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
 								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe" . $entry->uuid ."'>Austragen</button>
@@ -98,7 +98,7 @@ if ($isManager) {
 	if($loggedIn){
 	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
                   <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
-		if($event->engine != NULL and $isManager){
+	    if(!$event->published and $isCreator){
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
 				  	<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
 
