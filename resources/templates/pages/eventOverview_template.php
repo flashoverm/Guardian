@@ -93,6 +93,10 @@ if (! count ( $events )) {
 	</table>
 </div>
 </p>
+<?php 
+}
+if ( count ( $pastEvents )) {
+?>
 <button class="btn btn-outline-primary my-2" type="button" data-toggle="collapse" data-target="#pastevents">
     Vergangene Wachen
 </button>

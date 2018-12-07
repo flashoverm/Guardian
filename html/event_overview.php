@@ -23,10 +23,13 @@ if (isset ( $_POST ['delete'] )) {
 	}
 }
 
-$events = get_events ($_SESSION ['guardian_userid']);
-$pastEvents = get_past_events($_SESSION ['guardian_userid']);
-$variables ['events'] = $events;
-$variables ['pastEvents'] = $pastEvents;
+if(isset($_SESSION ['guardian_userid'])){
+    
+    $events = get_events ($_SESSION ['guardian_userid']);
+    $pastEvents = get_past_events($_SESSION ['guardian_userid']);
+    $variables ['events'] = $events;
+    $variables ['pastEvents'] = $pastEvents;
+}
 
 
 renderLayoutWithContentFile ( "eventOverview_template.php", $variables );
