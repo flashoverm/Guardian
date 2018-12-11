@@ -95,12 +95,12 @@ function get_all_manager() {
 	return $data;
 }
 
-function get_manager_except_engine($engine_uuid){
+function get_manager_except_engine_and_creator($engine_uuid, $creator_uuid){
 	global $db;
 	$data = array ();
 		
-	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = ?");
-	$statement->bind_param('s', $engine_uuid);
+	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = ? AND NOT uuid = ?");
+	$statement->bind_param('ss', $engine_uuid, $creator_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();

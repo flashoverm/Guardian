@@ -14,7 +14,7 @@ require_once LIBRARY_PATH . '/class/ReportUnit.php';
 require_once LIBRARY_PATH . '/class/ReportUnitStaff.php';
 
 
-function mail_insert_event($event_uuid, $manager_uuid, $publish) {
+function mail_insert_event($event_uuid, $creator_uuid, $publish) {
 	global $config;
 	global $bodies;
 
@@ -23,28 +23,50 @@ function mail_insert_event($event_uuid, $manager_uuid, $publish) {
 	
 	$body =  $bodies["event_insert"] . $link;
 
-	$manager = get_user( $manager_uuid );
+	$creator = get_user( $creator_uuid );
 
-	$sendOK = send_mail ( $manager->email, $subject, $body );
+	$sendOK = send_mail ( $creator->email, $subject, $body );
 	
-	if ($publish) {
-		$sendOK = $sendOK && mail_publish_event ( $event_uuid, $manager_uuid );
+	$event = get_event( $event_uuid );
+	if ($event->engine != $creator->engine){
+	    $assignedOk = mail_assigned_event($event);
+	    $sendOK = $sendOK && $assignedOk;
+	}
+	
+	if ($publish) {  
+	    $publishOK = mail_publish_event ( $event_uuid, $creator_uuid );
+	    $sendOK = $sendOK && $publishOK;
 	}
 	return $sendOK;
 }
 
-function mail_publish_event($event_uuid, $manager_uuid) {
+function mail_assigned_event($event) {
+    global $config;
+    global $bodies;
+    
+    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event->uuid;
+    $subject = "Neue Wache zugewiesen" . event_subject($event->uuid);
+    
+    $body = $bodies["event_assign"] . $link;
+    
+    $recipients = get_manager_of_engine($event->engine);
+    
+    return send_mails($recipients, $subject, $body);
+}
+
+function mail_publish_event($event_uuid, $creator_uuid) {
 	global $config;
 	global $bodies;
-	
+		
 	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "Neue Wache veröffentlicht" . event_subject($event_uuid);
 	
 	$body = $bodies["event_publish"] . $link;
 	
-	$manager = get_user($manager_uuid);
-	
-	$recipients = get_manager_except_engine($manager->engine);
+	$event = get_event( $event_uuid );
+		
+	$recipients = get_manager_except_engine_and_creator($event->engine, $creator_uuid);
+
 	return send_mails($recipients, $subject, $body);
 }
 

@@ -35,7 +35,8 @@ function send_mail($to, $subject, $body) {
 	$mail->Body = $body . $util["footer"];
 	
 	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br>Body: " . $body . $util["footer"] . "<br>";
-
+	//echo "Mail to '" . $to . "<br>";
+	
 	
 	try{
 		if(!$mail->send ()){
@@ -80,7 +81,7 @@ function send_html_mail($to, $subject, $body) {
 
 function send_mails($recipients, $subject, $body) {
 	$noError = true;
-	foreach ($recipients as $to) {
+	foreach (filter_deactivated($recipients) as $to) {
 		if(!send_mail($to->email, $subject, $body)){
 			$noError = false;
 		}
@@ -90,12 +91,24 @@ function send_mails($recipients, $subject, $body) {
 
 function send_html_mails($recipients, $subject, $body) {
 	$noError = true;
-	foreach ($recipients as $to) {
+	foreach (filter_deactivated($recipients) as $to) {
 		if(!send_html_mail($to->email, $subject, $body)){
 			$noError = false;
 		}
 	}
 	return $noError;
+}
+
+
+function filter_deactivated($unfiltered){
+    $filtered = array ();
+    
+    foreach ($unfiltered as $user) {
+        if($user->loginenabled == 1 && isset($user->password)){
+            $filtered [] = $user;
+        }
+    }
+    return $filtered;
 }
 
 ?>

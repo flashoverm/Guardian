@@ -11,6 +11,8 @@ $bodies = array (
 		
 		"event_insert" => $util["head"] . "in ihrem Zug wurde eine neue Wache eingestellt: \n\n",
 		
+        "event_assign" => $util["head"] . "ihrem Zug wurde eine neue Wache zugewiesen: \n\n",
+    
 		"event_publish" => $util["head"] . "eine neue Wache wurde veröffentlicht: \n\n",	
 		
 		"event_delete" => $util["head"] . "eine Wache, bei der Sie sich eingetragen haben, wurde abgesagt: \n\n",

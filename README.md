@@ -1,11 +1,9 @@
 #guardian
 
 Bugs:
- - Dont send mails to deactivated users
 
 To Do: 
 
-- Switch mail from @thral.de to @feuerwehr-landshut.de
 
 - "Working-copy aus Seitentitel entfernen"
 
@@ -27,6 +25,7 @@ Low prio:
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 	
 - Send HTML mails with infos about events
+
 - Send iCal-File for adding event to calender
 
 Refactoring: 
@@ -38,6 +37,10 @@ Refactoring:
 
 
 Done:
+- Switch mail from @thral.de to @feuerwehr-landshut.de
+- Dont send mails to deactivated users
+- Send mail to manager if event is assigned to engine
+
 - Event overview : Own events | Public events | past events
 - Active events: Sort ascending <
 - Use case changed: events are not bound to an manager but an engine - manager is creator
@@ -49,12 +52,14 @@ Done:
 - After event subscription -> Redirect to detail-page (with info about success, or not)
 - Event-Subscribe page: Show infos about event and position, i.e. "Eintragen für Theaterwache -> Dienstgrad"
 
+
 - In Vehicle/Station field: Date, Times are false formated (on mobile)
 - Updated report ui: seperate button for station/vehicle
 - Public events overview (configurable)
 - Date/Time is empty after adding station/vehicle (close popup on "add"!)
 - Splitted adding personal on report
 - Centered table fields
+
 
 - "Save to clipboard"-button 
 - Improved error handling on sending mails

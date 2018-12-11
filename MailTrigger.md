@@ -2,12 +2,13 @@
 
 
 New event:
-- Creator
-- When published: All managers except creators engine
+- Creator and assigned engine (of not creators engine)
+
+- When published: All managers except creator/assigned engine
 
 
 Publish:
-- All managers except creator
+- All managers except creator/assigned engine
 	
 
 Subscribe:
