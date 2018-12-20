@@ -30,6 +30,7 @@ Low prio:
 
 Refactoring: 
 
+- use path variables for user-, event-id, ...
 - report date from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
