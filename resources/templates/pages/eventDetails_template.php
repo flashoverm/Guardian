@@ -104,7 +104,7 @@ if(strtotime($event->date) >= $now){
 					<b>Link:&nbsp;</b> 
 					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p>
 					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-primary btn-sm'>Link kopieren</button>
-					<a href='<?= $config ["urls"] ["html"] . '/calender.php?id=' . $event->uuid; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag erzeugen</a>
+					<a href='<?= $config ["urls"] ["html"] . '/calender.php?id=' . $event->uuid; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag</a>
 					
 				</td>
 				
