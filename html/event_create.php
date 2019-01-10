@@ -36,6 +36,11 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	$type = trim ( $_POST ['type'] );
 	$engine = $_POST ['engine'];
 	
+	if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $date)) {
+	    //European date format -> change to yyyy-mm-dd
+	    $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
+	}
+	
 	$typeOther = null;
 	if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
 		$typeOther = trim( $_POST ['typeOther'] );
@@ -76,6 +81,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
     } else {
     	$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
     }
+
 }
 
 

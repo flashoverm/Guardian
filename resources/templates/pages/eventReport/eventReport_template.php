@@ -5,20 +5,25 @@
 	<div class="row">
 		<div class="col">
 			<div class="form-group">
-				<label>Datum:</label> <input type="date" required="required"
-					class="form-control" name="date" id="date">
+				<label>Datum:</label> <input type="date" required="required" 
+				placeholder="TT.MM.JJJJ" title="TT.MM.JJJJ"	class="form-control" 
+				name="date" id="date" 
+				required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
 			</div>
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Wachbeginn:</label> <input type="time" required="required"
-					class="form-control" name="start" id="start">
+				<label>Wachbeginn:</label> <input type="time" required="required" 
+				placeholder="--:--" title="--:--" class="form-control" 
+				name="start" id="start" 
+				required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Ende:</label> <input type="time" required="required"
-					class="form-control" name="end" id="end">
+				<label>Ende:</label> <input type="time" required="required" 
+				placeholder="--:--" title="--:--" class="form-control" 
+				name="end" id="end" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
 		</div>
 	</div>

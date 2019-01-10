@@ -42,6 +42,12 @@ if (isset ( $_POST ['creator'] )) {
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
     
+    
+    if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $date)) {
+        //European date format -> change to yyyy-mm-dd
+        $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
+    }
+    
     if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
     	$type = trim( $_POST ['typeOther'] );
     }
@@ -75,6 +81,12 @@ if (isset ( $_POST ['creator'] )) {
     	$unitbeginn = trim ( $_POST ['unit' . $unitCount . 'start'] );
     	$unitend = trim ( $_POST ['unit' . $unitCount . 'end'] );
     	$unitname = trim ( $_POST ['unit' . $unitCount . 'unit'] );
+    	
+    	
+    	if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $unitdate)) {
+    	    //European date format -> change to yyyy-mm-dd
+    	    $unitdate = date_create_from_format('d.m.Y', $unitdate)->format('Y-m-d');
+    	}
     	    	
     	$unit = new ReportUnit($unitname, $unitdate, $unitbeginn, $unitend);
     	

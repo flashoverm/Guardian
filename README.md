@@ -2,6 +2,8 @@
 
 Bugs:
 
+- 
+
 To Do: 
 
 
@@ -19,10 +21,10 @@ New feature:
 - Save report textfiles on server
 
 
-- Edit-function for units in event report
-
 Low prio:
+
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+- Edit-function for units in event report
 	
 - Send HTML mails with infos about events
 

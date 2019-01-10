@@ -29,20 +29,24 @@
 					<div class="row">
 						<div class="col">
 							<div class="form-group">
-								<label>Datum:</label> <input type="date" class="form-control" required="required"
-									name="unitdate" id="unitdate">
+								<label>Datum:</label> <input type="date" class="form-control" required="required" 
+								placeholder="TT.MM.JJJJ" title="TT.MM.JJJJ"
+								name="unitdate" id="unitdate" 
+								required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
 							</div>
 						</div>
 						<div class="col">
 							<div class="form-group">
 								<label>Wachbeginn:</label> <input type="time" class="form-control" required="required"
-									name="unitstart" id="unitstart">
+								placeholder="--:--" title="--:--"
+								name="unitstart" id="unitstart" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 							</div>
 						</div>
 						<div class="col">
 							<div class="form-group">
-								<label>Ende:</label> <input type="time" class="form-control" required="required"
-									name="unitend" id="unitend">
+								<label>Ende:</label> <input type="time" class="form-control" required="required" 
+								placeholder="--:--" title="--:--"
+								name="unitend" id="unitend" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 							</div>
 						</div>
 					</div>
