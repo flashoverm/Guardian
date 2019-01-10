@@ -93,6 +93,7 @@
 
 </form>
 
+<script src="js/date.js"></script>
 <script type='text/javascript'>
 	
 	showHideTypeOther();
@@ -199,7 +200,14 @@
 
 	function addUnitCardBody(cardBody){
 		var form = document.getElementById("addUnitForm");
-		var unitdate = new Date(form.querySelector("#unitdate").value).toLocaleDateString("de-DE");
+
+		var dateReg = /^\d{2}[.]\d{2}[.]\d{4}$/
+		var unitdate = form.querySelector("#unitdate").value;
+		if(unitdate.match(dateReg)){
+			var unitdate = getDateFromFormat(unitdate, "dd.MM.yyyy");
+		}
+		unitdate = new Date(unitdate).toLocaleDateString("de-DE");
+		
 		var unitstart = form.querySelector("#unitstart").value;
 		var unitend = form.querySelector("#unitend").value;
 		
@@ -208,6 +216,7 @@
 		cardBody.appendChild(row);
 
 		appendInput(row, "unit"+reportUnitCount+"date", unitdate, "Datum:");
+		
 		appendInput(row, "unit"+reportUnitCount+"start", unitstart, "Wachbeginn:");
 		appendInput(row, "unit"+reportUnitCount+"end", unitend, "Ende:");
 

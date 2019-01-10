@@ -40,9 +40,14 @@ Refactoring:
 
 
 Done:
+
+- Datepicker in IE 11 does no work
+
+
 - Switch mail from @thral.de to @feuerwehr-landshut.de
 - Dont send mails to deactivated users
 - Send mail to manager if event is assigned to engine
+
 
 - Event overview : Own events | Public events | past events
 - Active events: Sort ascending <
