@@ -73,6 +73,44 @@ function get_public_events() {
 	}
 	return $data;
 }
+
+function get_all_active_events() {
+    global $db;
+    $data = array ();
+    
+    $statement = $db->prepare("SELECT * FROM event WHERE date >= (now() - INTERVAL 1 DAY) ORDER BY date ASC");
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                    $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
+}
+
+function get_all_past_events() {
+    global $db;
+    $data = array ();
+    
+    $statement = $db->prepare("SELECT * FROM event WHERE date < (now() + INTERVAL 1 DAY) ORDER BY date ASC");
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                    $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
+}
     
 function get_events($user_uuid) {
 	global $db;

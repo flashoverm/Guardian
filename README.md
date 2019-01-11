@@ -6,7 +6,8 @@ Bugs:
 
 To Do: 
 
-
+- Reminder 10 days before event if not full
+		(Cron job midnight which runs code sniped to fire mails)
 - "Working-copy aus Seitentitel entfernen"
 
 New feature:

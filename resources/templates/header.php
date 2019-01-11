@@ -43,41 +43,42 @@
 		data-target="#navbarMainContent">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-
+	<div class='collapse navbar-collapse w-100 order-1 dual-collapse2' id='navbarMainContent'>
+		<ul class='navbar-nav'>
 <?php
 if ($loggedIn) {
-	echo "<div class='collapse navbar-collapse' id='navbarMainContent'>
-		  	<ul class='navbar-nav mr-auto'>
-	            <li class='nav-item'>
+	echo "      <li class='nav-item'>
 	        		<a class='nav-link text-light' href='event_overview.php'>Wachübersicht</a>
 				</li>	
-				<li class='nav-item'>
+				<li class='nav-item mx-1'>
 	        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
+				</li>
+				<li class='nav-item mx-1'>
+	        		<a class='nav-link text-light' href='event_report.php'>Wachbericht</a>
 				</li>
 			</ul>
 		</div>";
 	
 	if ($isAdmin) {
-	echo "<div class='collapse navbar-collapse order-2 dual-collapse2' id='navbarMainContent'>
+	echo "<div class='collapse navbar-collapse w-100  order-2 dual-collapse2' id='navbarMainContent'>
 			<ul class='navbar-nav mx-auto'>
-				<li class='nav-item'>
+				<li class='nav-item mx-1'>
 	        		<a class='nav-link text-light' href='manager_overview.php'>Wachbeauftragte</a>
+				</li>
+				<li class='nav-item mx-1'>
+	        		<a class='nav-link text-light' href='event_admin.php'>Alle Wachen</a>
 				</li>
 			</ul>
 		</div>";
 	}
 } else {
-	?>
-	<div class='collapse navbar-collapse' id='navbarMainContent'>
-		<ul class='navbar-nav mr-auto'>
-	<?php
 	if($config ["settings"] ["publicevents"]){
-		echo "	<li class='nav-item'>
+		echo "	<li class='nav-item mx-1'>
 	        		<a class='nav-link text-light' href='event_public.php'>Öffentliche Wachen</a>
 				</li>";
 	}
 	if($config ["settings"] ["reportfunction"]){
-	    echo "<li class='nav-item'>
+	    echo "<li class='nav-item mx-1'>
 		        	<a class='nav-link text-light' href='event_report.php'>Wachbericht erstellen</a>
 			  </li>";  
 	}
@@ -87,14 +88,14 @@ if ($loggedIn) {
 <?php
 }
 ?>
-    <div class="collapse navbar-collapse  order-3 dual-collapse3"
+    <div class="collapse navbar-collapse w-100 order-3 dual-collapse1"
 		id="navbarMainContent">
 		<ul class="navbar-nav ml-auto">
 <?php
 if ($loggedIn) {
 	echo "	
 			<li class='dropdown'>
-				<a class='nav-link dropdown-toggle text-light' data-toggle='dropdown' href='#'>"
+				<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>"
 				. $_SESSION ['guardian_usermail'] . 
 			"	<span class='caret'></span></a>
 				<ul class='dropdown-menu dropdown-menu-right bg-dark'>

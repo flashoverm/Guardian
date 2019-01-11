@@ -1,8 +1,10 @@
 <?php
-if (!isset($events) || ! count ( $events ) ) {
-	showInfo ( "Es sind keine Wachen offen" );
+if (!$isAdmin) {
+    showAlert ( "Kein Administrator angemeldet - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>" );
+} else if (!isset($events) || ! count ( $events ) ) {
+    showInfo ( "Es sind keine Wachen offen" );
 } else {
-?>
+    ?>
 <div class="table-responsive">
 	<table class="table table-striped">
 		<thead>
@@ -14,8 +16,8 @@ if (!isset($events) || ! count ( $events ) ) {
 				<th class="text-center">Titel</th>
 				<th class="text-center">Belegung</th>
 				<th class="text-center">Öffentlich</th>
+				<th class="text-center">Zugewiesen</th>
 				<th class="text-center">Details</th>
-				<th class="text-center">Löschen</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,35 +56,12 @@ if (!isset($events) || ! count ( $events ) ) {
 					}
 					?>
 				</td>
+				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
 				<td class="text-center">
 					<form method="post"
 						action="<?= "event_details.php?id=".$row->uuid ?>">
 						<input type="submit" value="Details"
 							class="btn btn-primary btn-sm" />
-					</form>
-				</td>
-				<td class="text-center">
-					<form method="post" action="">
-						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
-						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
-						
-						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						
-						      <div class="modal-header">
-						        <h4 class="modal-title">Wache wirklich löschen?</h4>
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						      </div>
-						
-						      <div class="modal-footer">
-						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
-						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
-						      </div>
-						
-						    </div>
-						  </div>
-						</div> 
 					</form>
 				</td>
 			</tr>
@@ -111,6 +90,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				<th class="text-center">Typ</th>
 				<th class="text-center">Titel</th>
 				<th class="text-center">Öffentlich</th>
+				<th class="text-center">Zugewiesen</th>
 				<th class="text-center">Details</th>
 			</tr>
 		</thead>
@@ -141,6 +121,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 					}
 					?>
 				</td>
+				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
 				<td class="text-center">
 					<form method="post"
 						action="<?= "event_details.php?id=".$row->uuid ?>">
