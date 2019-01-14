@@ -13,9 +13,9 @@ class ReportUnitStaff {
 	
 	function toMail(){
 		return "Position: \t" . $this->position
-				. "\t Name: \t" . $this->name 
-				. "\t Zug: \t" . $this->engine
-				. "\n";
+				. "\n Name: \t" . $this->name 
+				. "\n Zug: \t" . $this->engine
+				. "\n\n";
 	}
 }
 ?>

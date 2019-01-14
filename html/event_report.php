@@ -4,6 +4,7 @@ require_once LIBRARY_PATH . "/template.php";
 require_once LIBRARY_PATH . '/db_engines.php';
 require_once LIBRARY_PATH . '/db_eventtypes.php';
 require_once LIBRARY_PATH . '/db_staffpositions.php';
+require_once LIBRARY_PATH . '/db_report.php';
 require_once LIBRARY_PATH . '/mail_controller.php';
 
 require_once LIBRARY_PATH . '/class/EventReport.php';
@@ -41,6 +42,7 @@ if (isset ( $_POST ['creator'] )) {
     $beginn = trim ( $_POST ['start'] );
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
+    $typeMail = trim ( $_POST ['type'] );
     
     
     if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $date)) {
@@ -48,8 +50,12 @@ if (isset ( $_POST ['creator'] )) {
         $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
     }
     
+    $typeOther = null;
     if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
-    	$type = trim( $_POST ['typeOther'] );
+        $typeMail = trim( $_POST ['typeOther'] );
+        $typeOther = trim( $_POST ['typeOther'] );
+    } else {
+        $typeMail = get_eventtype($typeMail)->type;
     }
     
     $title = trim ( $_POST ['title'] );
@@ -73,7 +79,7 @@ if (isset ( $_POST ['creator'] )) {
     	$report = trim ( $_POST ['report'] );
     }
     
-    $eventReport = new EventReport($date, $beginn, $end, $type, $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
+    $eventReport = new EventReport($date, $beginn, $end, $typeMail, $title, get_engine($engine)->name, $noIncidents, $report, $creator, $ilsEntry);
 
     $unitCount = 1;
     while ( isset ( $_POST ["unit" . $unitCount . "unit"] ) ) {
@@ -100,9 +106,9 @@ if (isset ( $_POST ['creator'] )) {
         while ( isset ( $_POST ["unit" . $unitCount . "function" . $position] ) ) {
         	$function = trim ( $_POST ["unit" . $unitCount . "function" . $position] );
         	$name = trim ( $_POST ["unit" . $unitCount . "name" . $position] );
-        	$engine = trim ( $_POST ["unit" . $unitCount . "engine" . $position] );
+        	$engineUnit = trim ( $_POST ["unit" . $unitCount . "engine" . $position] );
         	
-        	$unit->addStaff(new ReportUnitStaff($function, $name, $engine));
+        	$unit->addStaff(new ReportUnitStaff($function, $name, $engineUnit));
         	
         	$position += 1;
         }
@@ -111,6 +117,9 @@ if (isset ( $_POST ['creator'] )) {
         $unitCount += 1;
     }
     
+    insert_report($date, $beginn, $end, $type, $typeOther,
+        $title, $engine, $creator, $noIncidents, nl2br($eventReport->toMail()));
+        
     if(mail_send_report ($eventReport)){
     	$variables ['successMessage'] = "Bericht versendet";
     } else {

@@ -5,9 +5,6 @@ Bugs:
 - 
 
 To Do: 
-
-- Reminder 10 days before event if not full
-		(Cron job midnight which runs code sniped to fire mails)
 		
 - "Working-copy aus Seitentitel entfernen"
 
@@ -20,7 +17,6 @@ New feature:
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 
 - Event import function from excel
-- Save reports on server (List and download function)
 
 
 Low prio:
@@ -41,8 +37,11 @@ Refactoring:
 
 
 Done:
-
+- Save reports on server (List view + report page)
+- Reminder 10 days before event if not full
+		(Cron job 1 am which runs code sniped to fire mails)
 - iCal-File download for adding event to calender
+
 
 - Datepicker in IE 11 does no work
 

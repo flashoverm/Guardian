@@ -31,7 +31,7 @@
 	<div class="form-group">
 		<label>Typ:</label> <select class="form-control" name="type" id="type" onchange="showHideTypeOther()">
 				<?php foreach ( $eventtypes as $type ) : ?>
-					<option value="<?= $type->type;  //Change to $type->uuid for database usage	?>"><?= $type->type; ?></option>
+					<option value="<?= $type->uuid; ?>"><?= $type->type; ?></option>
 				<?php endforeach; ?>
 			</select>
 	</div>
@@ -53,7 +53,7 @@
 			class="form-control" name="engine" required="required">
 			<option value="" disabled selected>Bitte auswählen</option>
 			<?php foreach ( $engines as $option ) : ?>
-			<option value="<?=  $option->name; //Change to $option->uuid for database usage	?> "><?= $option->name; ?></option>
+			<option value="<?=  $option->uuid; ?> "><?= $option->name; ?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>
@@ -292,7 +292,7 @@
 
 	function showHideTypeOther(){
 		var type = document.getElementById("type");
-		var selectedType = type.options[type.selectedIndex].value;
+		var selectedType = type.options[type.selectedIndex].text;
 
 	    var groupTypeOther = document.getElementById("groupTypeOther");
 	    var typeOther = document.getElementById("typeOther");

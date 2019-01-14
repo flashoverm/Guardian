@@ -54,6 +54,9 @@ if ($loggedIn) {
 	        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
 				</li>
 				<li class='nav-item mx-1'>
+	        		<a class='nav-link text-light' href='report_overview.php'>Berichtsübersicht</a>
+				</li>
+				<li class='nav-item mx-1'>
 	        		<a class='nav-link text-light' href='event_report.php'>Wachbericht</a>
 				</li>
 			</ul>
