@@ -1,7 +1,10 @@
 <?php
-require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
-require_once '../resources/library/db_event.php';
-require_once '../resources/library/mail_controller.php';
+
+echo "Path: " . realpath ( dirname ( __FILE__ ) );
+
+require_once realpath ( dirname ( __FILE__ ) . "/../../resources/config.php" );
+require_once '../../resources/library/db_event.php';
+require_once '../../resources/library/mail_controller.php';
 
 $events = get_all_active_events();
 
