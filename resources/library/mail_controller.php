@@ -107,6 +107,19 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	send_mail($creator->email, $subject, $body);
 }
 
+function mail_not_full($event_uuid) {
+    global $config;
+    global $bodies;
+    
+    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
+    $subject = "Erinnerung: Wache nicht voll belegt" . event_subject($event_uuid);
+    
+    $body = $bodies["event_not_full"] . $link;
+        
+    $creator = get_events_creator($event_uuid);
+    return send_mail($creator->email, $subject, $body);
+}
+
 function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	global $config;
 	global $bodies;

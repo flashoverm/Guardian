@@ -24,6 +24,8 @@ $bodies = array (
 		"event_full" => $util["head"] . "eine von Ihnen erstellte Wache ist voll belegt: \n\n",
 		
 		"event_subscribe_engine" => $util["head"] . "jemand hat sich in eine von Ihnen erstellte Wache eingeschrieben: \n\n",
+    
+        "event_not_full" => $util["head"] . "eine Wache findet in 10 Tagen statt und hat noch nicht die nötige Besetzung erreicht: \n\n",
 		
 		"event_unscribe" => $util["head"] . "sie wurden durch den Wachbeauftragten von der Wache entfernt: \n\n",
 		
