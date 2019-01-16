@@ -2,6 +2,7 @@
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/db_engines.php";
 
 if (isset ( $_SESSION ['guardian_userid'] )) {
 	header ( "Location: event_overview.php" ); // redirects
@@ -24,6 +25,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 		if ($uuid) {
 			$_SESSION ['guardian_userid'] = $uuid;
 			$_SESSION ['guardian_usermail'] = $email;
+			$_SESSION ['guardian_engine'] = get_engine(get_engine_of_user($uuid))->name;
 			header ( "Location: event_overview.php" ); // redirects
 		}
 	}

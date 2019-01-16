@@ -102,7 +102,11 @@ if ($loggedIn) {
 				. $_SESSION ['guardian_usermail'] . 
 			"	<span class='caret'></span></a>
 				<ul class='dropdown-menu dropdown-menu-right bg-dark'>
+            		<li class='nav-item'>
+		                <p class='dropdown-item disabled text-secondary'>" . $_SESSION ['guardian_engine'] . "</p>
+		            </li>
 					<li class='nav-item'>
+    					<div class='dropdown-divider'></div>
 		                <a class='dropdown-item text-light' href='change_password.php'>Passwort ändern</a>
 		            </li>
 		            <li class='nav-item'>
