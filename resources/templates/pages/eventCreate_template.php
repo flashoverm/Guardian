@@ -45,8 +45,10 @@
 	</div>
 		
 	<div class="form-group">
-		<label>Zuständiger Löschzug</label> <select
-			class="form-control" name="engine" required="required">
+		<label>Zuständiger Löschzug</label> 
+		<select
+			class="form-control" name="engine" required="required"
+			data-toggle="tooltip" data-placement="top" title="Dieser Zug soll die Wache besetzen">
 			<?php foreach ( $engines as $option ) : 
 			if(strcmp($option->uuid, $usersEngine) == 0){
 			    ?>

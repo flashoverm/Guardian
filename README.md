@@ -5,7 +5,7 @@ Bugs:
 - 
 
 To Do: 
-		
+
 - "Working-copy aus Seitentitel entfernen"
 
 New feature:
@@ -30,13 +30,14 @@ Low prio:
 Refactoring: 
 
 - use path variables for user-, event-id, ...
-- report date from config, not hard coded
+- report date format from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
 - methods for updating database structure and content (staffpositions, eventtypes)
 
 
 Done:
+- Toolstipps for no obvious fields (Zuständiger Löschzug, Veröffentlichen)
 - Save reports on server (List view + report page)
 - Reminder 10 days before event if not full
 		(Cron job 1 am which runs code sniped to fire mails)

@@ -118,7 +118,9 @@ if(strtotime($event->date) >= $now){
 	    if(!$event->published){
 	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
-				  	<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+                    <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
+				  	     <button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+                    </span>
 
 					<div class='modal' id='confirmPublish" . $event->uuid ."'>
 					  <div class='modal-dialog'>
