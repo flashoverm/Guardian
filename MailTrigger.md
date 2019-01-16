@@ -20,13 +20,16 @@ Unscribe:
 - Subscriber
 - All managers of the subscribers engine (opt in config)
 
+Reminder (x days before event):
+- Creator
+
 Delete event:
 - All subscriber
 	
 Send report:
 - All managers of the engine
 	
-	
+
 	
 Reset password:
 - User
