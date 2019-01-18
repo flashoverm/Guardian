@@ -43,37 +43,30 @@
 		data-target="#navbarMainContent">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<div class='collapse navbar-collapse w-100 order-1 dual-collapse2' id='navbarMainContent'>
+	<div class='collapse navbar-collapse w-100' id='navbarMainContent'>
 		<ul class='navbar-nav'>
 <?php
 if ($loggedIn) {
-	echo "      <li class='nav-item'>
-	        		<a class='nav-link text-light' href='event_overview.php'>Wachübersicht</a>
-				</li>	
-				<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='event_create.php'>Wache anlegen</a>
+	echo "      <li class='nav-item dropdown'>
+        			<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>
+						Wachen
+					</a>
+        			<div class='dropdown-menu bg-dark'>
+	        			<a class='dropdown-item text-light' href='event_overview.php'>Wachübersicht</a>
+	        			<a class='dropdown-item text-light' href='event_create.php'>Wache anlegen</a>
+					</div>
 				</li>
-				<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='report_overview.php'>Berichtsübersicht</a>
-				</li>
-				<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='event_report.php'>Wachbericht</a>
-				</li>
-			</ul>
-		</div>";
-	
-	if ($isAdmin) {
-	echo "<div class='collapse navbar-collapse w-100  order-2 dual-collapse2' id='navbarMainContent'>
-			<ul class='navbar-nav mx-auto'>
-				<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='manager_overview.php'>Wachbeauftragte</a>
-				</li>
-				<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='event_admin.php'>Alle Wachen</a>
+				<li class='nav-item dropdown'>
+        			<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>
+						Wachberichte
+					</a>
+        			<div class='dropdown-menu bg-dark'>
+	        			<a class='dropdown-item text-light' href='report_overview.php'>Berichtsübersicht</a>
+	        			<a class='dropdown-item text-light' href='event_report.php'>Bericht anlegen</a>
+					</div>
 				</li>
 			</ul>
 		</div>";
-	}
 } else {
 	if($config ["settings"] ["publicevents"]){
 		echo "	<li class='nav-item mx-1'>
@@ -91,29 +84,33 @@ if ($loggedIn) {
 <?php
 }
 ?>
-    <div class="collapse navbar-collapse w-100 order-3 dual-collapse1"
+    <div class="collapse navbar-collapse w-100"
 		id="navbarMainContent">
 		<ul class="navbar-nav ml-auto">
 <?php
 if ($loggedIn) {
-	echo "	
-			<li class='dropdown'>
+	
+	if ($isAdmin) {
+		echo "<li class='nav-item dropdown'>
+        			<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>
+						Administration
+					</a>
+        			<div class='dropdown-menu bg-dark'>
+	        			<a class='dropdown-item text-light' href='manager_overview.php'>Wachbeauftragte</a>
+	        			<a class='dropdown-item text-light' href='event_admin.php'>Alle Wachen</a>
+					</div>
+				</li>";
+	}
+	echo "	<li class='dropdown'>
 				<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>"
 				. $_SESSION ['guardian_usermail'] . 
-			"	<span class='caret'></span></a>
-				<ul class='dropdown-menu dropdown-menu-right bg-dark'>
-            		<li class='nav-item'>
-		                <p class='dropdown-item disabled text-secondary'>" . $_SESSION ['guardian_engine'] . "</p>
-		            </li>
-					<li class='nav-item'>
-    					<div class='dropdown-divider'></div>
-		                <a class='dropdown-item text-light' href='change_password.php'>Passwort ändern</a>
-		            </li>
-		            <li class='nav-item'>
-    					<div class='dropdown-divider'></div>
-		                <a class='dropdown-item text-light' href='logout.php'>Abmelden</a>
-		            </li>
-				</ul>
+				"</a>
+	        	<div class='dropdown-menu dropdown-menu-right bg-dark'>
+					<a class='dropdown-item disabled text-secondary'>" . $_SESSION ['guardian_engine'] . "</a>
+					<div class='dropdown-divider'></div>
+					<a class='dropdown-item text-light' href='change_password.php'>Passwort ändern</a>
+					<a class='dropdown-item text-light' href='logout.php'>Abmelden</a>
+				</div>
 			</li>
 ";
 } else {
