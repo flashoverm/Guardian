@@ -97,7 +97,7 @@ function get_all_past_events() {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM event WHERE date < (now() + INTERVAL 1 DAY) ORDER BY date ASC");
+    $statement = $db->prepare("SELECT * FROM event WHERE date < (now() - INTERVAL 1 DAY) ORDER BY date ASC");
     
     if ($statement->execute()) {
         $result = $statement->get_result();
