@@ -11,8 +11,18 @@ $variables = array (
     'secured' => true,
 );
 
-$reports = get_reports();
-$variables ['reports'] = $reports;
+$user = $_SESSION ['guardian_userid'];
+$usersEngine = get_engine(get_engine_of_user($user));
+
+if($usersEngine->name == 'Geschäftszimmer'){
+    $variables ['reports'] = get_reports();
+} else {
+    $variables ['reports'] = get_filtered_reports($usersEngine->uuid);
+    $variables ['infoMessage'] = "Es werden nur Wachbericht angezeigt, die Ihrem Zug zugewiesen wurden";
+    
+}
+
+
 
 renderLayoutWithContentFile ( "reportOverview_template.php", $variables );
 

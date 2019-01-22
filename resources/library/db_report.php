@@ -33,11 +33,30 @@ function insert_report($date, $start, $end, $type_uuid, $type_other, $title, $en
     }
 }
 
+function get_filtered_reports($engine_uuid) {
+    global $db;
+    $data = array ();
+    
+    $statement = $db->prepare("SELECT * FROM report WHERE engine = '" . $engine_uuid . "' ORDER BY date DESC");
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
+}
+
 function get_reports() {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM report");
+    $statement = $db->prepare("SELECT * FROM report ORDER BY date DESC");
     
     if ($statement->execute()) {
         $result = $statement->get_result();
