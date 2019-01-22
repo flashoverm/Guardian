@@ -6,7 +6,9 @@ Bugs:
 
 To Do: 
 
-- "Working-copy aus Seitentitel entfernen"
+- Manual with ?-Symbol in navigation
+
+- "Working-copy aus Seitentitel entfernen"?
 
 New feature:
 
