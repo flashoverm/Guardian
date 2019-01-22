@@ -19,7 +19,7 @@ $bodies = array (
 		
 		"event_subscribe" => $util["head"] . "sie haben sich in eine Wache eingeschrieben: \n\n",
 		
-		"event_subscribe_manager" => $util["head"] . "jemand aus Ihrem Zug hat sich in eine Wache eingeschrieben: \n\n",
+		"event_subscribe_manager" => $util["head"] . "jemand aus Ihrem Zug hat sich in eine Wache eingeschrieben oder wurden eingeteilt: \n\n",
 		
 		"event_full" => $util["head"] . "eine von Ihnen erstellte Wache ist voll belegt: \n\n",
 		
