@@ -18,7 +18,7 @@ if($usersEngine->name == 'Geschäftszimmer'){
     $variables ['reports'] = get_reports();
 } else {
     $variables ['reports'] = get_filtered_reports($usersEngine->uuid);
-    $variables ['infoMessage'] = "Es werden nur Wachbericht angezeigt, die Ihrem Zug zugewiesen wurden";
+    $variables ['infoMessage'] = "Es werden nur Wachberichte angezeigt, die Ihrem Zug zugewiesen wurden";
     
 }
 
