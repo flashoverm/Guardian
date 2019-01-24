@@ -65,9 +65,7 @@ if(strtotime($event->date) >= $now){
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
 					if ($entry->user == NULL and $relevant) {
-						echo "<form method='post' action='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>
-										<input type='submit' value='Eintragen' class='btn btn-primary btn-sm'/>
-									</form>";
+						echo "<a class='btn btn-primary btn-sm' href='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>Eintragen</a>";
 					}
 					if ($entry->user != NULL and $isCreator and $relevant) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
