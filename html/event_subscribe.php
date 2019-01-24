@@ -36,7 +36,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     
     		$firstname = trim ( $_POST ['firstname'] );
     		$lastname = trim ( $_POST ['lastname'] );
-    		$email = trim ( $_POST ['email'] );
+    		$email = strtolower(trim ( $_POST ['email'] ));
     		$engineUUID = trim ( $_POST ['engine'] );
     
     		$sendMail = true;

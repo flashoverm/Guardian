@@ -18,7 +18,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST 
 
 	$firstname = trim($_POST ['firstname']);
 	$lastname = trim($_POST ['lastname']);
-	$email = trim($_POST ['email']);
+	$email = strtolower(trim($_POST ['email']));
 	$engine = trim($_POST ['engine']);
 	
 	$error = false;

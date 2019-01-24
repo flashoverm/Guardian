@@ -24,7 +24,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 
 	$firstname = trim($_POST ['firstname']);
 	$lastname = trim($_POST ['lastname']);
-	$email = trim($_POST ['email']);
+	$email = strtolower(trim($_POST ['email']));
 	$password = trim($_POST ['password']);
 	$password2 = trim($_POST ['password2']);
 	$engine = trim($_POST ['engine']);

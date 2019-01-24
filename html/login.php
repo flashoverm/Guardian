@@ -17,7 +17,7 @@ $variables = array (
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 
-	$email = trim ( $_POST ['email'] );
+    $email = strtolower(trim ( $_POST ['email'] ));
 	$password = trim ( $_POST ['password'] );
 
 	if (login_enabled ( $email )) {
