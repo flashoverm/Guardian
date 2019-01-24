@@ -16,6 +16,7 @@ if (! count ( $reports )) {
 				<th class="text-center">Zuständig</th>
 				<th class="text-center">Vorkomnisse</th>
 				<th class="text-center">Bericht</th>
+				<th class="text-center">Löschen</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,6 +51,30 @@ if (! count ( $reports )) {
 						action="<?= "report_details.php?id=".$row->uuid ?>">
 						<input type="submit" value="Bericht"
 							class="btn btn-primary btn-sm" />
+					</form>
+				</td>
+				<td class="text-center">
+					<form method="post" action="">
+						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
+						
+						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Bericht wirklich löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
 					</form>
 				</td>
 			</tr>

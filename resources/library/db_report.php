@@ -86,6 +86,23 @@ function get_report($report_uuid) {
     }
 }
 
+function delete_report($uuid) {
+    global $db;
+    
+    $statement = $db->prepare("DELETE FROM report WHERE uuid= ?");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
+        
+    if ($result) {
+        // echo "Record ".$uuid." removed successfully";
+        return true;
+    } else {
+        // echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
 function create_table_report() {
     global $db;
     
