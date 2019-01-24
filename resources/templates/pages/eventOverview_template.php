@@ -55,11 +55,7 @@ if (!isset($events) || ! count ( $events ) ) {
 					?>
 				</td>
 				<td class="text-center">
-					<form method="post"
-						action="<?= "event_details.php?id=".$row->uuid ?>">
-						<input type="submit" value="Details"
-							class="btn btn-primary btn-sm" />
-					</form>
+					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">

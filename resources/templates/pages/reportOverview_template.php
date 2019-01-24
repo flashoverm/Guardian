@@ -47,11 +47,7 @@ if (! count ( $reports )) {
 					?>
 				</td>
 				<td class="text-center">
-					<form method="post"
-						action="<?= "report_details.php?id=".$row->uuid ?>">
-						<input type="submit" value="Bericht"
-							class="btn btn-primary btn-sm" />
-					</form>
+					<a class="btn btn-primary btn-sm" href="<?= "report_details.php?id=".$row->uuid ?>">Bericht</a>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">
