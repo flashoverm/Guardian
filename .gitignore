@@ -1,5 +1,6 @@
 
 .buildpath
 .project
+.htaccess
 /.settings
 resources/config.php
