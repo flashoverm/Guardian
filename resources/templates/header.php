@@ -124,6 +124,9 @@ if ($loggedIn) {
 	}
 }
 ?>
+			<li class='nav-item'>
+				<a class='nav-link text-light' href="manual.php" data-toggle="tooltip" title="Anleitung">&#9432;</a>
+            </li>
         </ul>
 	</div>
 	</nav> </header>

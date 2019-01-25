@@ -14,11 +14,23 @@ $variables = array (
 );
 
 if(isset($_SESSION ['guardian_userid']) && is_admin($_SESSION ['guardian_userid'])){
+    
+    
+    if (isset ( $_POST ['delete'] )) {
+        $delete_event_uuid = trim ( $_POST ['delete'] );
+        if(delete_event ( $delete_event_uuid )){
+            $variables ['successMessage'] = "Wache gelöscht";
+        } else {
+            $variables ['alertMessage'] = "Wache konnte nicht gelöscht werden";
+        }
+    }
+    
         
     $events = get_all_active_events ();
     $pastEvents = get_all_past_events();
     $variables ['events'] = $events;
     $variables ['pastEvents'] = $pastEvents;
+    
 }
 
 

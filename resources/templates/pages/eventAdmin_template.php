@@ -88,6 +88,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				<th class="text-center">Öffentlich</th>
 				<th class="text-center">Zugewiesen</th>
 				<th class="text-center">Details</th>
+				<th class="text-center">Löschen</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -120,6 +121,30 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
 				<td class="text-center">
 					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
+				</td>
+				<td class="text-center">
+					<form method="post" action="">
+						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
+						
+						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Wache wirklich löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
+					</form>
 				</td>
 			</tr>
 <?php

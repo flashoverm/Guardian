@@ -9,7 +9,7 @@ require_once '../resources/library/mail_controller.php';
 
 $eventtypes = get_eventtypes ();
 $staffpositions = get_staffpositions();
-$engines = get_engines_without_office();
+$engines = get_engines();
 
 // Pass variables (as an array) to template
 $variables = array (

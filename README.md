@@ -6,7 +6,6 @@ Bugs:
 
 To Do: 
 
-- Manual with ?-Symbol in navigation
 
 - "Working-copy aus Seitentitel entfernen"?
 
@@ -15,8 +14,9 @@ New feature:
 - Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
 - Event-Detail page: Some field editable, especially "comment", other fields eventually
 
+- Check dates - New event could not be in past
 
-- Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
+
 
 - Event import function from excel
 
@@ -39,6 +39,10 @@ Refactoring:
 
 
 Done:
+- Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
+- Manual with i-Symbol in navigation
+
+
 - Toolstipps for no obvious fields (Zuständiger Löschzug, Veröffentlichen)
 - Save reports on server (List view + report page)
 - Reminder 10 days before event if not full
