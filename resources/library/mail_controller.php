@@ -1,13 +1,12 @@
 <?php
-require_once 'mail.php';
-require_once 'mail_body.php';
-require_once 'db_connect.php';
-require_once 'db_engines.php';
-require_once 'db_user.php';
-require_once 'db_event.php';
-require_once 'db_eventtypes.php';
-
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
+require_once LIBRARY_PATH . "/db_eventtypes.php";
+require_once LIBRARY_PATH . "/db_event.php";
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/db_connect.php";
+require_once LIBRARY_PATH . "/mail_body.php";
+require_once LIBRARY_PATH . "/mail.php";
 
 require_once LIBRARY_PATH . '/class/EventReport.php';
 require_once LIBRARY_PATH . '/class/ReportUnit.php';

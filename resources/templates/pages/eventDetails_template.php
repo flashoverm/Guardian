@@ -65,7 +65,7 @@ if(strtotime($event->date) >= $now){
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
 					if ($entry->user == NULL and $relevant) {
-						echo "<a class='btn btn-primary btn-sm' href='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>Eintragen</a>";
+						echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>Eintragen</a>";
 					}
 					if ($entry->user != NULL and $isCreator and $relevant) {
 						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
@@ -111,8 +111,8 @@ if(strtotime($event->date) >= $now){
 	</table>
 	<?php
 	if($loggedIn){
-	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
-                  <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
+	    echo "<form action='" . $config["urls"]["html"] . "/event_details.php?id=" . $event->uuid . "' method='post'>
+                  <a href='" . $config["urls"]["html"] . "/event_overview.php' class='btn btn-primary'>Zurück</a>";
 	    if(!$event->published){
 	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>

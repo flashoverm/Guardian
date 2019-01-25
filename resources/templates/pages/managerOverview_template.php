@@ -2,7 +2,7 @@
 require_once '../resources/library/db_engines.php';
 
 if (! $isAdmin) {
-	showAlert ( "Kein Administrator angemeldet - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>" );
+	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/event_overview.php\" class=\"alert-link\">Zurück</a>" );
 } else {
 	if (! count ( $manager )) {
 		showInfo ( "Es sind keine Wachbeauftragten angelegt" );
@@ -84,7 +84,7 @@ if (! $isAdmin) {
 		?>
 			</tbody>
 	</table>
-	<a href='manager_create.php' class="btn btn-primary">Wachbeauftragten anlegen</a>
+	<a href='<?= $config["urls"]["html"]?>/manager_create.php' class="btn btn-primary">Wachbeauftragten anlegen</a>
 </div>
 
 <?php

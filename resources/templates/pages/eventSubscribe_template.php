@@ -37,7 +37,7 @@
 	<input type="submit" value="Eintragen" class="btn btn-primary">
 <?php 
 if (isset ( $eventUUID )) {
-	echo "<a href='event_details.php?id=" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
+	echo "<a href='" . $config["urls"]["html"] . "/event_details.php?id=" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
 }
 ?>
 </form>

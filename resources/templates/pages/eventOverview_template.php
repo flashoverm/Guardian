@@ -55,7 +55,7 @@ if (!isset($events) || ! count ( $events ) ) {
 					?>
 				</td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "/event_details.php?id=".$row->uuid ?>">Details</a>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">
@@ -138,7 +138,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 					?>
 				</td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "/event_details.php?id=".$row->uuid ?>">Details</a>
 				</td>
 			</tr>
 <?php

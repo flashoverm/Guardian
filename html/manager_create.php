@@ -1,9 +1,9 @@
 <?php
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
-require_once '../resources/library/db_engines.php';
-require_once '../resources/library/db_user.php';
-require_once '../resources/library/mail_controller.php';
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/mail_controller.php";
 
 $engines = get_engines ();
 
@@ -33,7 +33,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST 
 
 		if ($result) {
 			mail_add_manager ( $email, $password );
-			$variables ['successMessage'] = 'Wachbeauftragter erfolgreich angelegt - <a href="manager_overview.php" class="alert-link">Zurück zur Übersicht</a>';
+			$variables ['successMessage'] = 'Wachbeauftragter erfolgreich angelegt - <a href="' . $config["urls"]["html"] . '/manager_overview.php" class="alert-link">Zurück zur Übersicht</a>';
 		} else {
 		    $variables ['alertMessage'] = 'Beim Abspeichern ist leider ein Fehler aufgetreten';
 		}

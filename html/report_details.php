@@ -1,7 +1,7 @@
 <?php
 require_once realpath(dirname(__FILE__) . "/../resources/config.php");
 require_once LIBRARY_PATH . "/template.php";
-require_once '../resources/library/db_report.php';
+require_once LIBRARY_PATH . "/db_report.php";
 
 if(isset($_SESSION ['guardian_userid'])){
         

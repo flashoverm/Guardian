@@ -1,8 +1,8 @@
 <?php
-require_once 'db_connect.php';
-require_once 'mail.php';
-require_once 'password.php';
-require_once 'db_engines.php';
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/password.php";
+require_once LIBRARY_PATH . "/mail.php";
+require_once LIBRARY_PATH . "/db_connect.php";
 
 create_table_user ();
 

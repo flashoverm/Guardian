@@ -1,7 +1,8 @@
 <?php
 require_once realpath(dirname(__FILE__) . "/../resources/config.php");
-require_once '../resources/library/db_event.php';
-require_once '../resources/library/db_eventtypes.php';
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/db_eventtypes.php";
+require_once LIBRARY_PATH . "/db_event.php";
 
 if (isset($_GET['id'])) {
 

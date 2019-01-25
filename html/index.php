@@ -1,3 +1,4 @@
 <?php
-header ( "Location: login.php" ); // redirects
+require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
+header ( "Location: " . $config["urls"]["html"] . "/login.php" ); // redirects
 ?>

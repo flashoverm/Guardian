@@ -1,8 +1,7 @@
 <?php
-
 require_once realpath ( dirname ( __FILE__ ) . "/../../resources/config.php" );
-require_once 'db_event.php';
-require_once 'mail_controller.php';
+require_once LIBRARY_PATH . "/mail_controller.php";
+require_once LIBRARY_PATH . "/db_event.php";
 
 $events = get_all_active_events();
 

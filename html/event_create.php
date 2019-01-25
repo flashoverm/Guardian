@@ -1,11 +1,11 @@
 <?php
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
-require_once '../resources/library/db_eventtypes.php';
-require_once '../resources/library/db_event.php';
-require_once '../resources/library/db_staffpositions.php';
-require_once '../resources/library/db_engines.php';
-require_once '../resources/library/mail_controller.php';
+require_once LIBRARY_PATH . "/db_event.php";
+require_once LIBRARY_PATH . "/db_staffpositions.php";
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/mail_controller.php";
+require_once LIBRARY_PATH . "/db_eventtypes.php";
 
 $eventtypes = get_eventtypes ();
 $staffpositions = get_staffpositions();
@@ -73,8 +73,8 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
     	}
     	if(mail_insert_event ( $event_uuid, $creator, $publish)){
     		$variables ['successMessage'] = "Wache angelegt";
-    		
-    		header ( "Location: event_details.php?id=" . $event_uuid ); // redirects
+    		    		
+    		header ( "Location: " . $config["urls"]["html"] . "/event_details.php?id=" . $event_uuid ); // redirects
     	} else {
     		$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
     	}

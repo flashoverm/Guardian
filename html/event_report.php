@@ -33,7 +33,7 @@ if ($config ["settings"] ["reportfunction"]) {
     
 } else {
     $variables ['showFormular'] = false;
-    $variables ['alertMessage'] = "Funktion \"Wachbericht erstellen\" deaktiviert - <a href=\"login.php\" class=\"alert-link\">Zur Startseite</a>";
+    $variables ['alertMessage'] = "Funktion \"Wachbericht erstellen\" deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login.php\" class=\"alert-link\">Zur Startseite</a>";
 }
 
 if (isset ( $_POST ['creator'] )) {

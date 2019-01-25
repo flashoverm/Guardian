@@ -1,6 +1,6 @@
 <?php
 if (!$isAdmin) {
-    showAlert ( "Kein Administrator angemeldet - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>" );
+	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/event_overview.php\" class=\"alert-link\">Zurück</a>" );
 } else if (!isset($events) || ! count ( $events ) ) {
     showInfo ( "Es sind keine Wachen offen" );
 } else {
@@ -58,7 +58,7 @@ if (!$isAdmin) {
 				</td>
 				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "event_details.php?id=".$row->uuid ?>">Details</a>
 				</td>
 			</tr>
 <?php
@@ -120,7 +120,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				</td>
 				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?= "event_details.php?id=".$row->uuid ?>">Details</a>
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "event_details.php?id=".$row->uuid ?>">Details</a>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">

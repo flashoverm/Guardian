@@ -1,7 +1,7 @@
 <?php
 require_once realpath(dirname(__FILE__) . "/../resources/config.php");
 require_once LIBRARY_PATH . "/template.php";
-require_once '../resources/library/db_user.php';
+require_once LIBRARY_PATH . "/db_user.php";
 
 // Pass variables (as an array) to template
 $variables = array(

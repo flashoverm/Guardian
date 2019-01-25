@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
-require_once 'mail_body.php';
+require_once LIBRARY_PATH . "/mail_body.php";
 
 require_once "phpmailer/src/PHPMailer.php";
 require_once "phpmailer/src/SMTP.php";
