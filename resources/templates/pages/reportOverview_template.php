@@ -47,7 +47,7 @@ if (! count ( $reports )) {
 					?>
 				</td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?=$config["urls"]["html"] . "/report/".$row->uuid ?>">Bericht</a>
+					<a class="btn btn-primary btn-sm" href="<?=$config["urls"]["html"] . "/reports/".$row->uuid ?>">Bericht</a>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">
