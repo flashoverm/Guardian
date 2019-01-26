@@ -46,7 +46,7 @@ if(!isset($events) ){
 				    ?>
 				</td>
 				<td class="text-center">
-					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "/event_details.php?id=".$row->uuid ?>">Details</a>
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["html"] . "/events/".$row->uuid ?>">Details</a>
 				</td>
 			</tr>
 <?php

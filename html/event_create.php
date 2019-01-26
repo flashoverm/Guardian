@@ -74,7 +74,7 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
     	if(mail_insert_event ( $event_uuid, $creator, $publish)){
     		$variables ['successMessage'] = "Wache angelegt";
     		    		
-    		header ( "Location: " . $config["urls"]["html"] . "/event_details.php?id=" . $event_uuid ); // redirects
+    		header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
     	} else {
     		$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
     	}

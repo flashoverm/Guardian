@@ -48,9 +48,9 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		if($user_uuid){
     			if(add_staff_user ( $staffUUID, $user_uuid )){
     				mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID, $sendMail);
-    				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
     				$variables ['showFormular'] = false;
-    				header ( "Location: " . $config["urls"]["html"] . "/event_details.php?id=".$eventUUID); // redirects
+    				header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
     				
     			} else {
     				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";

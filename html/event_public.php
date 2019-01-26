@@ -17,7 +17,7 @@ if($config["settings"]["publicevents"]){
 	$events = get_public_events();
 	$variables ['events'] = $events;
 } else {
-	$variables ['alertMessage'] = "Öffentliche Wachen deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login.php\" class=\"alert-link\">Zum Login</a>";
+	$variables ['alertMessage'] = "Öffentliche Wachen deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login\" class=\"alert-link\">Zum Login</a>";
 }
 
 

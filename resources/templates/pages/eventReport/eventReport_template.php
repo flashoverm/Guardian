@@ -1,6 +1,6 @@
 <?php include('eventReportUnit_template.php'); ?>
 
-<form onsubmit="showLoader()" action="event_report.php" method="post" >
+<form onsubmit="showLoader()" action="<?=$config["urls"]["html"]?>/reports/new" method="post" >
 
 	<div class="row">
 		<div class="col">

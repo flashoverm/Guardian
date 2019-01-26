@@ -52,8 +52,8 @@ if ($loggedIn) {
 						Wachen
 					</a>
         			<div class='dropdown-menu bg-dark'>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/event_overview.php'>Wachübersicht</a>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/event_create.php'>Wache anlegen</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/events'>Wachübersicht</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/events/new'>Wache anlegen</a>
 					</div>
 				</li>
 				<li class='nav-item dropdown'>
@@ -61,8 +61,8 @@ if ($loggedIn) {
 						Wachberichte
 					</a>
         			<div class='dropdown-menu bg-dark'>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/report_overview.php'>Berichtsübersicht</a>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/event_report.php'>Bericht anlegen</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/reports'>Berichtsübersicht</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/reports/new'>Bericht anlegen</a>
 					</div>
 				</li>
 			</ul>
@@ -70,12 +70,12 @@ if ($loggedIn) {
 } else {
 	if($config ["settings"] ["publicevents"]){
 		echo "	<li class='nav-item mx-1'>
-	        		<a class='nav-link text-light' href='" . $config["urls"]["html"]. "/event_public.php'>Öffentliche Wachen</a>
+	        		<a class='nav-link text-light' href='" . $config["urls"]["html"]. "/events/public'>Öffentliche Wachen</a>
 				</li>";
 	}
 	if($config ["settings"] ["reportfunction"]){
 	    echo "<li class='nav-item mx-1'>
-		        	<a class='nav-link text-light' href='" . $config["urls"]["html"]. "/event_report.php'>Wachbericht erstellen</a>
+		        	<a class='nav-link text-light' href='" . $config["urls"]["html"]. "/reports/new'>Wachbericht erstellen</a>
 			  </li>";  
 	}
 	?>
@@ -96,8 +96,8 @@ if ($loggedIn) {
 						Administration
 					</a>
         			<div class='dropdown-menu bg-dark'>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/manager_overview.php'>Wachbeauftragte</a>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/event_admin.php'>Alle Wachen</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/manager'>Wachbeauftragte</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/events/admin'>Alle Wachen</a>
 					</div>
 				</li>";
 	}
@@ -108,24 +108,24 @@ if ($loggedIn) {
 	        	<div class='dropdown-menu dropdown-menu-right bg-dark'>
 					<a class='dropdown-item disabled text-secondary'>" . $_SESSION ['guardian_engine'] . "</a>
 					<div class='dropdown-divider'></div>
-					<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/change_password.php'>Passwort ändern</a>
-					<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/logout.php'>Abmelden</a>
+					<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/change_password'>Passwort ändern</a>
+					<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/logout'>Abmelden</a>
 				</div>
 			</li>
 ";
 } else {
 	echo " 	<li class='nav-item'>
-                <a class='nav-link text-light' href='" . $config["urls"]["html"]. "/login.php'>Anmelden</a>
+                <a class='nav-link text-light' href='" . $config["urls"]["html"]. "/login'>Anmelden</a>
             </li>";
 	if ($config ["settings"] ["selfregistration"]) {
 		echo " 	<li class='nav-item'>
-                <a class='nav-link text-light' href='" . $config["urls"]["html"]. "/register.php'>Registrierung</a>
+                <a class='nav-link text-light' href='" . $config["urls"]["html"]. "/register'>Registrierung</a>
             </li>";
 	}
 }
 ?>
 			<li class='nav-item'>
-				<a class='nav-link text-light' href="<?= $config["urls"]["html"]?>/manual.php" data-toggle="tooltip" title="Anleitung">&#9432;</a>
+				<a class='nav-link text-light' href="<?= $config["urls"]["html"]?>/manual" data-toggle="tooltip" title="Anleitung">&#9432;</a>
             </li>
         </ul>
 	</div>

@@ -18,7 +18,7 @@ if ($config ["settings"] ["selfregistration"]) {
 	$variables ['engines'] = $engines;
 } else {
 	$variables ['showFormular'] = false;
-	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login.php\" class=\"alert-link\">Zum Login</a>";
+	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login\" class=\"alert-link\">Zum Login</a>";
 }
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
@@ -49,7 +49,7 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 		}
 
 		if ($result) {			
-			header ( "Location: " . $config["urls"]["html"] . "/login.php" ); // redirects
+			header ( "Location: " . $config["urls"]["html"] . "/login" ); // redirects
 		} else {
 			$variables ['alertMessage'] = "Ein unbekannter Fehler ist aufgetreten";
 		}

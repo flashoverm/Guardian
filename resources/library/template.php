@@ -26,7 +26,7 @@ function renderLayoutWithContentFile($contentFile, $variables = array()) {
 	echo "<div class=\"container\" id=\"container\">\n" . "\t<div id=\"content\">\n";
 
 	if ($secured && ! $loggedIn) {
-		showAlert ( 'Bitte zuerst <a href="' . $config["urls"]["html"] . '/login.php" class="alert-link">einloggen</a>' );
+		showAlert ( 'Bitte zuerst <a href="' . $config["urls"]["html"] . '/login" class="alert-link">einloggen</a>' );
 	} else {	
 		
 		if(isset($alertMessage)){

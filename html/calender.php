@@ -33,8 +33,8 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:wachverwaltung@feuerwehr-landshut.de
 LOCATION:' . addslashes($type) . '
-DESCRIPTION:' . addslashes("Weitere Infos unter " . $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid) . '
-URL;VALUE=URI:' . $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid . '
+DESCRIPTION:' . addslashes("Weitere Infos unter " . $config ["urls"] ["baseUrl"] . "/events/".$event->uuid) . '
+URL;VALUE=URI:' . $config ["urls"] ["baseUrl"] . "/events/".$event->uuid . '
 SUMMARY:' . addslashes($type . " " . $event->title) . '
 DTSTART:' . dateToCal($event->date, $event->start_time) . '
 DTEND:' . dateToCal($event->date, $event->end_time) . '

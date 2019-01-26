@@ -1,6 +1,6 @@
 <?php
 if (! $isAdmin) {
-	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/event_overview.php\" class=\"alert-link\">Zurück</a>" );
+	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/events\" class=\"alert-link\">Zurück</a>" );
 } else {
 
 ?><form onsubmit="showLoader()" action="" method="post">
