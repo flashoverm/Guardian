@@ -204,7 +204,11 @@
 		var dateReg = /^\d{2}[.]\d{2}[.]\d{4}$/
 		var unitdate = form.querySelector("#unitdate").value;
 		if(unitdate.match(dateReg)){
-			var unitdate = getDateFromFormat(unitdate, "dd.MM.yyyy");
+			var parts =unitdate.split('.');
+			var unitdate = new Date(parts[2], parts[1] - 1, parts[0]); 
+
+			//no support for IE
+			//var unitdate = getDateFromFormat(unitdate, "dd.MM.yyyy");
 		}
 		unitdate = new Date(unitdate).toLocaleDateString("de-DE");
 		
