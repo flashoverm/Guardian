@@ -2,7 +2,7 @@
 require_once '../resources/library/db_engines.php';
 
 if (! $isAdmin) {
-	showAlert ( "Kein Administrator angemeldet - <a href=\"event_overview.php\" class=\"alert-link\">Zurück</a>" );
+	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/events\" class=\"alert-link\">Zurück</a>" );
 } else {
 	if (! count ( $manager )) {
 		showInfo ( "Es sind keine Wachbeauftragten angelegt" );
@@ -68,10 +68,10 @@ if (! $isAdmin) {
 			<?php
 			if($row->uuid != $_SESSION ['guardian_userid']){
 				if ($row->loginenabled) {
-					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
+					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='" . $config["urls"]["html"] . "\manager' value='" . $row->uuid . "'/>";
 					echo "<input type=\"submit\" value=\"Deaktivieren\"  class=\"btn btn-outline-primary btn-sm\"/>";
 				} else {
-					echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" action='\manager_overview.php' value='" . $row->uuid . "'/>";
+					echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" action='" . $config["urls"]["html"] . "\manager' value='" . $row->uuid . "'/>";
 					echo "<input type=\"submit\" value=\"Aktivieren\"  class=\"btn btn-primary btn-sm\"/>";
 				}
 			}
@@ -84,7 +84,7 @@ if (! $isAdmin) {
 		?>
 			</tbody>
 	</table>
-	<a href='manager_create.php' class="btn btn-primary">Wachbeauftragten anlegen</a>
+	<a href='<?= $config["urls"]["html"]?>/manager/new' class="btn btn-primary">Wachbeauftragten anlegen</a>
 </div>
 
 <?php

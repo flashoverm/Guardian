@@ -1,5 +1,5 @@
 <form onsubmit="showLoader()"
-	action="<?= "event_subscribe.php?id=".$eventUUID."&staffid=".$staffUUID ?>"
+	action="<?= $config["urls"]["html"] . "/events/".$eventUUID."/subscribe/".$staffUUID ?>"
 	method="post">
 	<div class="form-group">
 		<label>Vorname:</label> <input type="text" class="form-control"
@@ -37,7 +37,7 @@
 	<input type="submit" value="Eintragen" class="btn btn-primary">
 <?php 
 if (isset ( $eventUUID )) {
-	echo "<a href='event_details.php?id=" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
+	echo "<a href='" . $config["urls"]["html"] . "/events/" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
 }
 ?>
 </form>

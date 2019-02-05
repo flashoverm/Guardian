@@ -1,13 +1,12 @@
 <?php
-require_once 'mail.php';
-require_once 'mail_body.php';
-require_once 'db_connect.php';
-require_once 'db_engines.php';
-require_once 'db_user.php';
-require_once 'db_event.php';
-require_once 'db_eventtypes.php';
-
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
+require_once LIBRARY_PATH . "/db_eventtypes.php";
+require_once LIBRARY_PATH . "/db_event.php";
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/db_connect.php";
+require_once LIBRARY_PATH . "/mail_body.php";
+require_once LIBRARY_PATH . "/mail.php";
 
 require_once LIBRARY_PATH . '/class/EventReport.php';
 require_once LIBRARY_PATH . '/class/ReportUnit.php';
@@ -15,13 +14,11 @@ require_once LIBRARY_PATH . '/class/ReportUnitStaff.php';
 
 
 function mail_insert_event($event_uuid, $creator_uuid, $publish) {
-	global $config;
 	global $bodies;
 
-	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "Neue Wache eingestellt" . event_subject($event_uuid);
 	
-	$body =  $bodies["event_insert"] . $link;
+	$body =  $bodies["event_insert"] . get_link($event_uuid);
 
 	$creator = get_user( $creator_uuid );
 
@@ -41,13 +38,11 @@ function mail_insert_event($event_uuid, $creator_uuid, $publish) {
 }
 
 function mail_assigned_event($event) {
-    global $config;
     global $bodies;
     
-    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event->uuid;
     $subject = "Neue Wache zugewiesen" . event_subject($event->uuid);
     
-    $body = $bodies["event_assign"] . $link;
+    $body = $bodies["event_assign"] . get_link($event->uuid);
     
     $recipients = get_manager_of_engine($event->engine);
     
@@ -55,13 +50,11 @@ function mail_assigned_event($event) {
 }
 
 function mail_publish_event($event_uuid, $creator_uuid) {
-	global $config;
 	global $bodies;
 		
-	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "Neue Wache veröffentlicht" . event_subject($event_uuid);
 	
-	$body = $bodies["event_publish"] . $link;
+	$body = $bodies["event_publish"] . get_link($event_uuid);
 	
 	$event = get_event( $event_uuid );
 		
@@ -74,17 +67,16 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	global $config;
 	global $bodies;
 	
-	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "In Wache eingeschrieben" . event_subject($event_uuid);
 	
-	$body = $bodies["event_subscribe"] . $link;
+	$body = $bodies["event_subscribe"] . get_link($event_uuid);
 
 	if($config ["settings"] ["usermailonsubscription"] && $send_mail){
 		send_mail ( $user_email, $subject, $body );
 	}
 
 	if ($config ["settings"] ["enginemgrmailonsubscription"]) {
-		$body = $bodies["event_subscribe_manager"] . $link;
+		$body = $bodies["event_subscribe_manager"] . get_link($event_uuid);
 
 		$recipients = get_manager_of_engine($user_engine_uuid);
 		send_mails($recipients, $subject, $body);
@@ -93,11 +85,11 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 	if (is_event_full($event_uuid)) {
 	    $subject = "Wache voll belegt" . event_subject($event_uuid);
 		
-		$body = $bodies["event_full"] . $link;
+	    $body = $bodies["event_full"] . get_link($event_uuid);
 		
 	} else if ($config ["settings"] ["creatormailonsubscription"]) {
 		
-		$body = $bodies["event_subscribe_engine"] . $link;
+		$body = $bodies["event_subscribe_engine"] . get_link($event_uuid);
 		
 	} else {
 		return;
@@ -108,13 +100,11 @@ function mail_subscribe_staff_user($event_uuid, $user_email, $user_engine_uuid, 
 }
 
 function mail_not_full($event_uuid) {
-    global $config;
     global $bodies;
     
-    $link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
     $subject = "Erinnerung: Wache nicht voll belegt" . event_subject($event_uuid);
     
-    $body = $bodies["event_not_full"] . $link;
+    $body = $bodies["event_not_full"] . get_link($event_uuid);
         
     $creator = get_events_creator($event_uuid);
     return send_mail($creator->email, $subject, $body);
@@ -141,13 +131,11 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 }
 
 function mail_delete_event($event_uuid) {
-	global $config;
 	global $bodies;
 	
-	$link = $config ["urls"] ["baseUrl"] . "/event_details.php?id=" . $event_uuid;
 	$subject = "Wache abgesagt" . event_subject($event_uuid);
 	
-	$body = $bodies["event_delete"] . $link;
+	$body = $bodies["event_delete"] . get_link($event_uuid);
 	
 	$recipients = get_events_staff($event_uuid);
 	send_mails($recipients, $subject, $body);
@@ -197,5 +185,11 @@ function event_subject($event_uuid){
                 . get_eventtype($event->type)->type;
     
     return $subject;
+}
+
+
+function get_link($event_uuid){
+	global $config;
+	return $config ["urls"] ["baseUrl"] . "/events/" . $event_uuid;
 }
 ?>

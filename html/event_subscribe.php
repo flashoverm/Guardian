@@ -1,10 +1,10 @@
 <?php
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
-require_once '../resources/library/db_event.php';
-require_once '../resources/library/db_engines.php';
-require_once '../resources/library/db_user.php';
-require_once '../resources/library/mail_controller.php';
+require_once LIBRARY_PATH . "/db_event.php";
+require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/mail_controller.php";
 
 // Pass variables (as an array) to template
 $variables = array (
@@ -48,9 +48,10 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		if($user_uuid){
     			if(add_staff_user ( $staffUUID, $user_uuid )){
     				mail_subscribe_staff_user ( $eventUUID, $email, $engineUUID, $sendMail);
-    				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"event_details.php?id=" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    				$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
     				$variables ['showFormular'] = false;
-    				header ( "Location: event_details.php?id=".$eventUUID); // redirects
+    				header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
+    				
     			} else {
     				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
     			}

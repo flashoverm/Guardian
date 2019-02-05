@@ -5,7 +5,7 @@ require_once LIBRARY_PATH . "/db_user.php";
 require_once LIBRARY_PATH . "/db_engines.php";
 
 if (isset ( $_SESSION ['guardian_userid'] )) {
-	header ( "Location: event_overview.php" ); // redirects
+	header ( "Location: " . $config["urls"]["html"] . "/events" ); // redirects	
 }
 
 // Pass variables (as an array) to template
@@ -26,7 +26,8 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 			$_SESSION ['guardian_userid'] = $uuid;
 			$_SESSION ['guardian_usermail'] = $email;
 			$_SESSION ['guardian_engine'] = get_engine(get_engine_of_user($uuid))->name;
-			header ( "Location: event_overview.php" ); // redirects
+			
+			header ( "Location: " . $config["urls"]["html"] . "/events" ); // redirects
 		}
 	}
 	$variables ['alertMessage'] = "E-Mail oder Passwort ungültig";

@@ -1,7 +1,8 @@
 <?php
 require_once realpath(dirname(__FILE__) . "/../resources/config.php");
-require_once '../resources/library/db_event.php';
-require_once '../resources/library/db_eventtypes.php';
+require_once LIBRARY_PATH . "/db_user.php";
+require_once LIBRARY_PATH . "/db_eventtypes.php";
+require_once LIBRARY_PATH . "/db_event.php";
 
 if (isset($_GET['id'])) {
 
@@ -32,8 +33,8 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:wachverwaltung@feuerwehr-landshut.de
 LOCATION:' . addslashes($type) . '
-DESCRIPTION:' . addslashes("Weitere Infos unter " . $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid) . '
-URL;VALUE=URI:' . $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid . '
+DESCRIPTION:' . addslashes("Weitere Infos unter " . $config ["urls"] ["baseUrl"] . "/events/".$event->uuid) . '
+URL;VALUE=URI:' . $config ["urls"] ["baseUrl"] . "/events/".$event->uuid . '
 SUMMARY:' . addslashes($type . " " . $event->title) . '
 DTSTART:' . dateToCal($event->date, $event->start_time) . '
 DTEND:' . dateToCal($event->date, $event->end_time) . '

@@ -1,0 +1,22 @@
+RewriteEngine on
+
+RewriteRule ^html/events/new/?$ /guardian/html/event_create.php
+RewriteRule ^html/events/public/?$ /guardian/html/event_public.php
+RewriteRule ^html/events/admin/?$ /guardian/html/event_admin.php
+RewriteRule ^html/events/([^/]*)/subscribe/?([^/]*)/?$ /guardian/html/event_subscribe.php?id=$1&staffid=$2
+RewriteRule ^html/events/([^/]*)/?$ /guardian/html/event_details.php?id=$1
+RewriteRule ^html/events/?$ /guardian/html/event_overview.php
+
+RewriteRule ^html/reports/new/?$ /guardian/html/event_report.php
+RewriteRule ^html/reports/([^/]*)/?$ /guardian/html/report_details.php?id=$1
+RewriteRule ^html/reports/?$ /guardian/html/report_overview.php
+
+RewriteRule ^html/?$ /guardian/html/report_overview.php
+
+RewriteRule ^html/manager/new/?$ /guardian/html/manager_create.php
+RewriteRule ^html/manager/?$ /guardian/html/manager_overview.php
+
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php

@@ -65,10 +65,10 @@ if(strtotime($event->date) >= $now){
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
 					if ($entry->user == NULL and $relevant) {
-						echo "<a class='btn btn-primary btn-sm' href='event_subscribe.php?id=" . $event->uuid . "&staffid=" . $entry->uuid . "'>Eintragen</a>";
+						echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
 					}
 					if ($entry->user != NULL and $isCreator and $relevant) {
-						echo "<form method='post' action='event_details.php?id=" . $event->uuid . "'>
+						echo "<form method='post' action='" . $config["urls"]["html"] . "/events/" . $event->uuid . "'>
 								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
 								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe" . $entry->uuid ."'>Austragen</button>
 								
@@ -100,9 +100,9 @@ if(strtotime($event->date) >= $now){
 				<tr>
 				<td colspan="3">
 					<b>Link:&nbsp;</b> 
-					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/event_details.php?id=".$event->uuid; ?></p>
+					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/events/".$event->uuid; ?></p>
 					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-primary btn-sm'>Link kopieren</button>
-					<a href='<?= $config ["urls"] ["html"] . '/calender.php?id=' . $event->uuid; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag</a>
+					<a href='<?= $config ["urls"] ["html"] . '/events/' . $event->uuid . "/calender"; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag</a>
 					
 				</td>
 				
@@ -111,8 +111,8 @@ if(strtotime($event->date) >= $now){
 	</table>
 	<?php
 	if($loggedIn){
-	    echo "<form action='event_details.php?id=" . $event->uuid . "' method='post'>
-                  <a href='event_overview.php' class='btn btn-primary'>Zurück</a>";
+	    echo "<form action='" . $config["urls"]["html"] . "/events/" . $event->uuid . "' method='post'>
+                  <a href='" . $config["urls"]["html"] . "/events' class='btn btn-primary'>Zurück</a>";
 	    if(!$event->published){
 	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
