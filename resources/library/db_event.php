@@ -158,7 +158,7 @@ function get_staff($event_uuid) {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM staff WHERE event = ?");
+	$statement = $db->prepare("SELECT staff.uuid, event, user, staff.position FROM staff, staffposition WHERE event = ? AND staff.position = staffposition.uuid ORDER BY list_index");
 	$statement->bind_param('s', $event_uuid);
 	
 	if ($statement->execute()) {

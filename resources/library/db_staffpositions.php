@@ -3,12 +3,12 @@ require_once LIBRARY_PATH . "/db_connect.php";
 
 create_table_staffposition ();
 
-function insert_staffposition($position, $vehicle) {
+function insert_staffposition($position, $list_index) {
 	global $db;
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO staffposition (uuid, position, vehicle) VALUES (?, ?, ?)");
-	$statement->bind_param('ssi', $uuid, $position, $vehicle);
+	$statement = $db->prepare("INSERT INTO staffposition (uuid, position, list_index) VALUES (?, ?, ?)");
+	$statement->bind_param('ssi', $uuid, $position, $list_index);
 		
 	$result = $statement->execute();
 	
@@ -43,7 +43,7 @@ function get_staffpositions() {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM staffposition ORDER BY position");
+	$statement = $db->prepare("SELECT * FROM staffposition ORDER BY list_index");
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -64,18 +64,18 @@ function create_table_staffposition() {
 	$statement = $db->prepare("CREATE TABLE staffposition (
                           uuid CHARACTER(36) NOT NULL,
 						  position VARCHAR(64) NOT NULL,
-                          vehicle  BOOLEAN NOT NULL,
+                          list_index TINYINT NULL,
                           PRIMARY KEY  (uuid)
                           )");
 	
 	$result = $statement->execute();
 
 	if ($result) {
-	    insert_staffposition ( "Dienstgrad (LM)", TRUE );
-	    insert_staffposition ( "Dienstgrad (HFM)", TRUE );
-	    insert_staffposition ( "Maschinist", TRUE );
-	    insert_staffposition ( "Atemschutzträger", TRUE );
-	    insert_staffposition ( "Wachmann", TRUE );
+	    insert_staffposition ( "Dienstgrad (LM)", 0 );
+	    insert_staffposition ( "Dienstgrad (HFM)", 1 );
+	    insert_staffposition ( "Maschinist", 2 );
+	    insert_staffposition ( "Atemschutzträger", 3 );
+	    insert_staffposition ( "Wachmann", 4 );
 	    
 		return true;
 	} else {
