@@ -4,7 +4,7 @@ require_once '../resources/library/db_user.php';
 require_once '../resources/library/db_staffpositions.php';
 
 if ($isCreator) { 
-    showInfo ( "Du bist Ersteller dieser Wache" );
+    showInfo ( "Du bist Ersteller dieser Wache - <a href='" . $config["urls"]["html"] . "/event_edit.php?id=" . $event->uuid . "'>Bearbeiten</a>" );
     if($otherEngine != null){
         showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
     }
@@ -60,7 +60,7 @@ if(strtotime($event->date) >= $now){
 						$name = $user->firstname . " " . $user->lastname . " (" . $engine->name . ")";
 					}
 					?>
-					<tr>
+			<tr>
 				<td><?= get_staffposition($entry->position)->position; ?></td>
 				<td><?php if($entry->user != NULL){echo $name; }?></td>
 				<td><?php
@@ -117,7 +117,7 @@ if(strtotime($event->date) >= $now){
 	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
                     <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
-				  	     <button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+				  	     <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
                     </span>
 
 					<div class='modal' id='confirmPublish" . $event->uuid ."'>
@@ -138,10 +138,10 @@ if(strtotime($event->date) >= $now){
 					  </div>
 					</div>";
 	        } else {
-	            echo "&nbsp;<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
+	            echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
 	        }
 		} else {
-		    echo "&nbsp;<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
+		    echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
 		}
 	    echo "</form>";
 	}
