@@ -13,44 +13,61 @@ $engines = get_engines();
 
 // Pass variables (as an array) to template
 $variables = array (
-		'title' => 'Wache bearbeiten',
 		'secured' => true,
 		'eventtypes' => $eventtypes,
         'staffpositions' => $staffpositions,
         'engines' => $engines,
 );
 
+if(isset($_SESSION ['guardian_userid'])){
+	$user = $_SESSION ['guardian_userid'];
+	$usersEngine = get_engine_of_user($user);
+	
+	$variables ['usersEngine'] = $usersEngine;
+}
+
+//Display event if uuid is parameter
 if (isset($_GET['id'])) {
     
+	$variables['title'] = 'Wache bearbeiten';
+	
     $uuid = trim($_GET['id']);
     $event = get_event($uuid);
     
     if($event){
-        
-        if (isset($_SESSION['guardian_userid']) && strcmp($event->creator, $_SESSION['guardian_userid']) == 0) {
-            $staff = get_staff($uuid);
-            $variables['event'] = $event;
-            $variables['staff'] = $staff;
-            
-            
-            
-            
-        } else {
-            $variables ['alertMessage'] = "Sie sind nicht der Ersteller dieser Wache - Bearbeitung nicht möglich";
-            $variables ['showFormular'] = false;
-        }
+    	
+    	$dateNow = getdate();
+    	$now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
+    	if(strtotime($event->date) >= $now){
+
+    		if (isset($_SESSION['guardian_userid']) && strcmp($event->creator, $_SESSION['guardian_userid']) == 0) {
+	            $staff = get_staff($uuid);
+	            $variables['event'] = $event;
+	            $variables['staff'] = $staff;
+	            
+	        } else {
+	            $variables ['alertMessage'] = "Sie sind nicht der Ersteller dieser Wache - Bearbeitung nicht möglich";
+	            $variables ['showFormular'] = false;
+	        }
+	        
+    	} else {
+    		$variables ['alertMessage'] = "Diese Wache hat bereits stattgefunden - Bearbeitung nicht mehr möglich";
+    		$variables ['showFormular'] = false;
+    	}
+    	
     } else {
         $variables ['alertMessage'] = "Wache nicht gefunden";
         $variables ['showFormular'] = false;
     }
+    
 } else {
-    $variables ['alertMessage'] = "Wache kann nicht angezeigt werden";
-    $variables ['showFormular'] = false;
+	//Display empty form	
+	$variables['title'] = 'Neue Wache anlegen';
 }
     
-
-if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
-
+//Update or Insert is set
+if (isset ( $_POST ['type'] ) ) {
+	
 	$date = trim ( $_POST ['date'] );
 	$start = trim ( $_POST ['start'] );
 	$end = trim ( $_POST ['end'] );
@@ -74,7 +91,8 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	
 	$comment = "";
 	$inform = false;
-
+	$publish = false;
+	
 	$creator = $_SESSION ['guardian_userid'];
 	
 	if (isset ( $_POST ['comment'] )) {
@@ -83,27 +101,69 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	if(isset($_POST ['inform'])){
 	    $inform = true;
 	}
+	if(isset($_POST ['publish'])){
+		$publish = true;
+	}
 	
-	update_event ($uuid, $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator );
+	if(isset($_POST ['eventid'])){
+		$event_uuid = $_POST ['eventid'];
+		
+		$updateSuccess = update_event ($event_uuid, $date, $start, $end, $type, $typeOther, $title, $comment, $engine);
+		
+		foreach($staff as $entry):
+			if(!isset($_POST [$entry->uuid])){
+				//Remove entry from db!
+				if($entry->user != null){
+					mail_remove_staff_user($entry->uuid, $event_uuid);
+				}
+				delete_staff_entry($entry->uuid);
+			}
+		endforeach;
+	} else {
+		$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator, $publish);
+	}
 	
-    if($event_uuid){
-    	$position = 1;
-    	while ( isset ( $_POST ["staff" . $position] ) ) {
-    		$staffPosition = trim ( $_POST ["staff" . $position] );
-    		$position += 1;
-    		insert_staff ( $event_uuid, $staffPosition );
-    	}
-    	if(mail_insert_event ( $event_uuid, $creator, $publish)){
-    		$variables ['successMessage'] = "Wache angelegt";
-    		    		
-    		header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
-    	} else {
-    		$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
-    	}
-    } else {
-    	$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
-    }
-
+	if($event_uuid){
+		$count = $_POST ['positionCount'];
+		for ($i = 0; $i <= $count; $i++) {
+			if(isset($_POST ["staff" . $i])){
+				insert_staff ( $event_uuid, $_POST ["staff" . $i]);
+			}
+		}
+	}
+	
+	if(isset($_POST ['eventid'])){
+		if($updateSuccess){
+			$variables ['successMessage'] = "Wache aktualisiert";
+			
+			if($inform){
+				if(!mail_event_updates($event_uuid)){
+					$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
+				} else{
+					//header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
+				}
+			} else {
+				//header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
+			}
+		}
+	} else{
+		
+		if($event_uuid){
+			if(mail_insert_event ( $event_uuid, $creator, $publish)){
+				$variables ['successMessage'] = "Wache angelegt";
+				
+				header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
+			} else {
+				$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
+			}
+		} else {
+			$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
+		}
+	}
+	$event = get_event($uuid);
+	$staff = get_staff($uuid);
+	$variables['event'] = $event;
+	$variables['staff'] = $staff;
 }
 
 renderLayoutWithContentFile ( "eventEdit_template.php", $variables );

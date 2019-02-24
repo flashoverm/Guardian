@@ -23,6 +23,16 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
+
+<script>
+	function isDateSupported() {
+		var input = document.createElement('input');
+		var value = 'a';
+		input.setAttribute('type', 'date');
+		input.setAttribute('value', value);
+		return (input.value !== value);
+	};
+</script>
 	
 <title><?= $title ?></title>
 

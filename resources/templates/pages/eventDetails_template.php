@@ -3,22 +3,31 @@ require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
 require_once '../resources/library/db_staffpositions.php';
 
-if ($isCreator) { 
-    showInfo ( "Du bist Ersteller dieser Wache - <a href='" . $config["urls"]["html"] . "/event_edit.php?id=" . $event->uuid . "'>Bearbeiten</a>" );
-    if($otherEngine != null){
-        showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
-    }
-}
+
 
 $relevant = false;
 $dateNow = getdate();
 $now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
 
 if(strtotime($event->date) >= $now){
-    $relevant = true;
+	$relevant = true;
 } else {
-    showInfo("Diese Wache hat bereits stattgefunden - Bearbeitung nicht mehr möglich");
+	showInfo("Diese Wache hat bereits stattgefunden - Bearbeitung nicht mehr möglich");
 }
+
+if ($isCreator) {
+	if($relevant){
+		showInfo ( "Du bist Ersteller dieser Wache - <a href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>" );
+	} else {
+		showInfo ( "Du bist Ersteller dieser Wache" );
+	}
+		
+	if($otherEngine != null){
+		showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
+	}
+}
+
+
 
 ?>
 
@@ -112,7 +121,8 @@ if(strtotime($event->date) >= $now){
 	<?php
 	if($loggedIn){
 	    echo "<form action='" . $config["urls"]["html"] . "/events/" . $event->uuid . "' method='post'>
-                  <a href='" . $config["urls"]["html"] . "/events' class='btn btn-primary'>Zurück</a>";
+                  <a href='" . $config["urls"]["html"] . "/events' class='btn btn-outline-primary'>Zurück</a>";
+	    
 	    if(!$event->published){
 	        if($isCreator and $relevant) {
             echo "	<input type='hidden' name='publish' id='publish' value='publish'/>

@@ -88,8 +88,7 @@
 		<input type="checkbox" class="form-check-input" id="publish" name="publish"> 
 		<label for="publish">Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
 	</div>
-	<input type="submit" value="Anlegen" class="btn btn-primary"><br> <input
-		type="hidden" name="action" value="save">
+	<input type="submit" value="Anlegen" class="btn btn-primary">
 </form>
 
 

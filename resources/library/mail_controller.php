@@ -37,6 +37,18 @@ function mail_insert_event($event_uuid, $creator_uuid, $publish) {
 	return $sendOK;
 }
 
+function mail_event_updates($event_uuid){
+	global $bodies;
+	
+	$subject = "Wache aktualisiert" . event_subject($event_uuid);
+
+	$body =  $bodies["event_update"] . get_link($event_uuid);
+	
+	$recipients = get_personal($event_uuid);
+	
+	return send_mails($recipients, $subject, $body);
+}
+
 function mail_assigned_event($event) {
     global $bodies;
     
@@ -118,7 +130,7 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	$subject = "Aus Wache entfernt" . event_subject($event_uuid);
 	
 	$body = $bodies["event_unscribe"] . $link;
-
+	
 	$user = get_staff_user($staff_uuid);
 	send_mail ( $user->email, $subject, $body );
 	

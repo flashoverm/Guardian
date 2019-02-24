@@ -158,7 +158,8 @@ function get_staff($event_uuid) {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT staff.uuid, event, user, staff.position FROM staff, staffposition WHERE event = ? AND staff.position = staffposition.uuid ORDER BY list_index");
+	$statement = $db->prepare("SELECT staff.uuid, event, user, staff.position 
+		FROM staff, staffposition WHERE event = ? AND staff.position = staffposition.uuid ORDER BY list_index");
 	$statement->bind_param('s', $event_uuid);
 	
 	if ($statement->execute()) {
@@ -173,7 +174,6 @@ function get_staff($event_uuid) {
 	}
 	return $data;
 }
-
 
 function get_occupancy($event_uuid){
     
@@ -290,6 +290,46 @@ function get_staff_user($staff_uuid){
 	}
 }
 
+
+function get_personal($event_uuid){
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM user, staff WHERE event = ? AND staff.user = user.uuid");
+	$statement->bind_param('s', $event_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
+function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE event 
+		SET date = ?, start_time = ?, end_time = ?, type = ?, type_other = ?, title = ?, comment = ?, engine = ?
+		WHERE uuid = ?");
+	$statement->bind_param('sssssssss', $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $event_uuid);
+
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "New event record created successfully";
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
 function add_staff_user($uuid, $user) {
 	global $db;
 	
@@ -339,6 +379,23 @@ function publish_event($uuid){
         // echo "Error: " . $query . "<br>" . $db->error;
         return false;
     }
+}
+
+function delete_staff_entry($staff_uuid) {
+	global $db;
+	
+	$statement = $db->prepare("DELETE FROM staff WHERE uuid= ?");
+	$statement->bind_param('s', $staff_uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "Record ".$uuid." updated successfully";
+		return true;
+	} else {
+		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
 }
 
 function delete_event($uuid) {

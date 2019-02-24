@@ -1,5 +1,17 @@
 #guardian
 
+Change htaccess:
+	
+RewriteRule ^html/events/new/?$ /guardian/html/event_edit.php
+RewriteRule ^html/events/public/?$ /guardian/html/event_public.php
+RewriteRule ^html/events/admin/?$ /guardian/html/event_admin.php
+
+RewriteRule ^html/events/([^/]+)/edit/?$ /guardian/html/event_edit.php?id=$1
+
+RewriteRule ^html/events/([^/]+)/subscribe/?([^/]*)/?$ /guardian/html/event_subscribe.php?id=$1&staffid=$2
+
+
+
 Bugs:
 
 - 

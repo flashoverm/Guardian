@@ -32,12 +32,10 @@
 		for='noMail'>Keine Bestätigung per E-Mail senden</label>
 		</div>";
 	}
+	if (isset ( $eventUUID )) {
+		echo "<a href='" . $config["urls"]["html"] . "/events/" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
+	}
 	?>
-
 	<input type="submit" value="Eintragen" class="btn btn-primary">
-<?php 
-if (isset ( $eventUUID )) {
-	echo "<a href='" . $config["urls"]["html"] . "/events/" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
-}
-?>
+
 </form>
