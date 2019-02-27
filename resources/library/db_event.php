@@ -330,6 +330,25 @@ function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other,
 	}
 }
 
+function update_staff($staff_uuid, $position){
+    global $db;
+    
+    $statement = $db->prepare("UPDATE staff
+		SET position = ?
+		WHERE uuid = ?");
+    $statement->bind_param('ss', $position, $staff_uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        // echo "New event record created successfully";
+        return true;
+    } else {
+        //echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
 function add_staff_user($uuid, $user) {
 	global $db;
 	

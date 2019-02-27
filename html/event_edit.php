@@ -117,7 +117,9 @@ if (isset ( $_POST ['type'] ) ) {
 					mail_remove_staff_user($entry->uuid, $event_uuid);
 				}
 				delete_staff_entry($entry->uuid);
-			}
+		} else {
+		    update_staff($entry->uuid, $_POST [$entry->uuid]);
+		}
 		endforeach;
 	} else {
 		$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator, $publish);

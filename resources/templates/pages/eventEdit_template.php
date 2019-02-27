@@ -1,5 +1,5 @@
 
-<form onsubmit="showLoader()" action="" method="post">
+<form id="eventForm" onsubmit="showLoader()" action="" method="post">
 	<?php
 	$staffId = 0;
 	if(isset($event) ){
@@ -32,7 +32,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Ende:</label> <input type="time" required="required" 
+				<label>Ende:</label> <input type="time"
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($event) ){
@@ -119,7 +119,7 @@
 						if(isset($event) ){
 							echo "<th>Personal</th>";
 						}?>
-						<th class="py-0 text-center align-middle">
+						<th class="py-0 text-center align-middle" style="width:  8%">
 							<button type="button" class="btn btn-sm btn-primary" onClick="eventAddStaff()">+</button>
 						</th>
 					</tr>
@@ -141,7 +141,7 @@
 						if(isset($event) ){
 							echo "<td class='py-0 align-middle'></td>";
 						}?>
-						<td class="p-0 text-center align-middle">
+						<td class="p-0 text-center align-middle" style="width:  8%">
 							<button type="button" class="btn btn-sm btn-primary">X</button>
 						</td>
 					</tr>
@@ -178,8 +178,32 @@
 							<td class='py-0 align-middle'>
 								<?php if($entry->user != NULL){ echo $name; }?>
 							</td>
-							<td class="p-0 text-center align-middle">
-								<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveLastStaff(<?= $staffId; ?>)">X</button>
+							<td class="p-0 text-center align-middle" style="width:  8%">								
+								<?php
+								if($entry->user != NULL){
+                                ?>								 
+									<button type="button" class="btn btn-sm btn-primary" data-toggle='modal' data-target='#confirmDeleteStaff<?= $entry->uuid ?>'>X</button>
+									<div class='modal' id='confirmDeleteStaff<?= $entry->uuid ?>'>
+    								  <div class='modal-dialog'>
+    								    <div class='modal-content'>
+    				    
+    								      <div class='modal-header'>
+    								        <h4 class='modal-title'>Mit Entfernen dieses Eintrags wird auch die Person ausgetragen!</h4>
+    								        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+    								      </div>
+    				    
+    								      <div class='modal-footer'>
+    								      	<input type='submit' value='Fortfahren' class='btn btn-primary' data-dismiss='modal' onClick='eventRemoveLastStaff(<?= $staffId; ?>)'/>
+    								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+    								      </div>
+    				    
+    								    </div>
+    								  </div>
+    								</div>
+								<?php 
+								} else {
+								    echo '<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveLastStaff(' . $staffId . ')">X</button>';
+								}?>
 							</td>
 						</tr>
 						<?php
@@ -214,6 +238,9 @@
 				</tbody>
 			</table>
 			<input type="hidden" id="positionCount" name="positionCount" value="<?= $staffId; ?>">
+			<div id="staffAlert" class="alert alert-danger alert-dismissible">
+  				<a class="close" onClick="setStaffAlert(false)" > &times; </a>Es muss mindestens eine Funktion eingetragen werden!
+			</div>
 		</div>	
 	</div>
 
@@ -233,23 +260,58 @@
 			echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["html"] . '/events/' . $event->uuid . ">Zurück</a>";
 		}
 		?>
-	<input type="submit" class="btn btn-primary"
+				
+	<button type="button" class="btn btn-primary" onclick="processForm()">
 		<?php
 		if(isset($event)){
-			echo " value='Aktualisieren' "; 
+			//echo " value='Aktualisieren' ";
+		    echo " Aktualisieren";
 		}else{
-			echo " value='Anlegen' ";
+			//echo " value='Anlegen' ";
+			echo " Anlegen";
 		}?>
-		>
+		</button>
 </form>
 
 
 <script type='text/javascript'>
+
 	var absolutCount = <?= $staffId; ?>;
 	var positionCount = <?= $staffId; ?>;
 	
 	showHideTypeOtherCreate();
+	setStaffAlert(false);
 
+
+	function setStaffAlert(visible) {
+	  var x = document.getElementById("staffAlert");
+	  /*
+	  if (x.style.display === "none") {
+	    x.style.display = "block";
+	  } else {
+	    x.style.display = "none";
+	  }
+	  */
+	  
+	  if(visible){
+		  x.style.display = "block";
+	  } else {
+		  x.style.display = "none";
+	  }
+	  
+	} 
+
+    function processForm() {
+        if(absolutCount < 1){
+
+        	setStaffAlert(true)
+            
+        } else {
+            setStaffAlert(false);
+        	document.forms["eventForm"].submit();
+        }
+    }
+    
 	if(!isDateSupported()){
 		var dateElement = document.getElementById("date");
 		var date = new Date(dateElement.value);		
@@ -288,18 +350,19 @@
 		positionCountInput.value = positionCount;
 
 		absolutCount = absolutCount +1;
+
+		setStaffAlert(false);
 		
 		container.appendChild(newPosition);
 	}
 	
-	function eventRemoveLastStaff(id){
-		if(absolutCount > 1){
-			
-			var staffElement = document.getElementById("staffEntry"+id);
-			staffElement.parentNode.removeChild(staffElement);
-			absolutCount = absolutCount -1;
-		} else {
-			
+	function eventRemoveLastStaff(id){			
+		var staffElement = document.getElementById("staffEntry"+id);
+		staffElement.parentNode.removeChild(staffElement);
+		absolutCount = absolutCount -1;
+		
+		if(absolutCount < 1){
+			setStaffAlert(true)
 		}
 	}
 
