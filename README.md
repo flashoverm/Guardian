@@ -6,6 +6,7 @@ RewriteRule ^html/events/new/?$ /guardian/html/event_edit.php
 
 RewriteRule ^html/events/([^/]+)/edit/?$ /guardian/html/event_edit.php?id=$1
 
+SQL: ALTER TABLE `event` CHANGE `end_time` `end_time` TIME NULL; 
 
 
 Bugs:
@@ -14,37 +15,31 @@ Bugs:
 
 To Do: 
 
-- Masseneingabe
+- positions, eventtypes, engine as statics
+- Niederbayernschau, LAho als Wachtyp
 
-- Wachende optional
-
-- Wachbericht 
-
+- Report in detail (not text)
+ 
 - Geschäftszimmer in Verwaltung ändern
 
-- Wachbericht export als Excel Tablelle
-
-- Templates für Personal pro Wachtyp
-
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
-
-- Niederbayernschau, LAho als Wachtyp
- 
 
 - Home Button für "Intranet.Feuerwehr-Landshut.de"
 
 - "Working-copy aus Seitentitel entfernen"?
 
+
 New feature:
 
-- Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
-- Event-Detail page: Some field editable, especially "comment", other fields eventually
+- Templates für Personal pro Wachtyp
+
+- Masseneingabe
 
 - Check dates - New event could not be in past
 
-
-
 - Event import function from excel
+
+- Event Report Export in Invoice-Style for Administration
 
 
 Low prio:
@@ -65,6 +60,11 @@ Refactoring:
 
 
 Done:
+
+- Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
+- Event-Detail page: Some field editable, especially "comment", other fields eventually
+
+
 - Landing Page "intranet.feuerwehr-landshut.de" -> "Wachverwaltung" | "Hydranten"
 - Manual with i-Symbol in navigation
 

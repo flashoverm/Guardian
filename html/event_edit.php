@@ -79,6 +79,10 @@ if (isset ( $_POST ['type'] ) ) {
 	    $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
 	}
 	
+	if($end == ""){
+		$end = null;
+	}
+	
 	$typeOther = null;
 	if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
 		$typeOther = trim( $_POST ['typeOther'] );
@@ -107,7 +111,7 @@ if (isset ( $_POST ['type'] ) ) {
 	
 	if(isset($_POST ['eventid'])){
 		$event_uuid = $_POST ['eventid'];
-		
+				
 		$updateSuccess = update_event ($event_uuid, $date, $start, $end, $type, $typeOther, $title, $comment, $engine);
 		
 		foreach($staff as $entry):
@@ -162,8 +166,8 @@ if (isset ( $_POST ['type'] ) ) {
 			$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
 		}
 	}
-	$event = get_event($uuid);
-	$staff = get_staff($uuid);
+	$event = get_event($event_uuid);
+	$staff = get_staff($event_uuid);
 	$variables['event'] = $event;
 	$variables['staff'] = $staff;
 }

@@ -18,7 +18,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Ende:</label> <input type="time" required="required" 
+				<label>Ende:</label> <input type="time"
 				placeholder="--:--" title="--:--" class="form-control" 
 				name="end" id="end" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>

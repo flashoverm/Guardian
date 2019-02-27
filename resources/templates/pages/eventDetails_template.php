@@ -76,37 +76,34 @@ if ($isCreator) {
 					if ($entry->user == NULL and $relevant) {
 						echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
 					}
-					if ($entry->user != NULL and $isCreator and $relevant) {
-						echo "<form method='post' action='" . $config["urls"]["html"] . "/events/" . $event->uuid . "'>
-								<input type='hidden' name='staffid' id='staffid' value='" . $entry->uuid . "'/>
-								<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe" . $entry->uuid ."'>Austragen</button>
-								
-								<div class='modal' id='confirmUnscribe" . $entry->uuid . "'>
-								  <div class='modal-dialog'>
-								    <div class='modal-content'>
-								
-								      <div class='modal-header'>
-								        <h4 class='modal-title'>Personal wirklich austragen?</h4>
-								        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-								      </div>
-								
-								      <div class='modal-footer'>
-								      	<input type='submit' value='Austragen' class='btn btn-primary' onClick='showLoader()'/>
-								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-								      </div>
-								
-								    </div>
-								  </div>
-								</div> 
-							</form>";
-					
-					}
-					?></td>
+					if ($entry->user != NULL and $isCreator and $relevant) {?>
+						<form method='post' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
+							<input type='hidden' name='staffid' id='staffid' value='<?= $event->uuid ?>'/>
+							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $event->uuid ?>'>Austragen</button>
+							
+							<div class='modal' id='confirmUnscribe<?= $event->uuid ?>'>
+							  <div class='modal-dialog'>
+							    <div class='modal-content'>
+							
+							      <div class='modal-header'>
+							        <h4 class='modal-title'>Personal wirklich austragen?</h4>
+							        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+							      </div>
+							
+							      <div class='modal-footer'>
+							      	<input type='submit' value='Austragen' class='btn btn-primary' onClick='showLoader()'/>
+							      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+							      </div>
+							
+							    </div>
+							  </div>
+							</div> 
+						</form>
+					<?php } ?>
+				</td>
 			</tr>
-				<?php
-				}
-				?>
-				<tr>
+			<?php } ?>
+			<tr>
 				<td colspan="3">
 					<b>Link:&nbsp;</b> 
 					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/events/".$event->uuid; ?></p>
@@ -114,7 +111,6 @@ if ($isCreator) {
 					<a href='<?= $config ["urls"] ["html"] . '/events/' . $event->uuid . "/calender"; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag</a>
 					
 				</td>
-				
 			</tr>
 		</tbody>
 	</table>
@@ -124,13 +120,13 @@ if ($isCreator) {
                   <a href='" . $config["urls"]["html"] . "/events' class='btn btn-outline-primary'>Zurück</a>";
 	    
 	    if(!$event->published){
-	        if($isCreator and $relevant) {
-            echo "	<input type='hidden' name='publish' id='publish' value='publish'/>
+	        if($isCreator and $relevant) {?>
+            	<input type='hidden' name='publish' id='publish' value='publish'/>
                     <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
-				  	     <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+				  	&nbsp;<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
                     </span>
 
-					<div class='modal' id='confirmPublish" . $event->uuid ."'>
+					<div class='modal' id='confirmPublish<?= $event->uuid ?>'>
 					  <div class='modal-dialog'>
 					    <div class='modal-content'>
 			
@@ -146,7 +142,9 @@ if ($isCreator) {
 			
 					    </div>
 					  </div>
-					</div>";
+					</div>
+            	<a class='btn btn-primary float-right' href='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
+            <?php 
 	        } else {
 	            echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
 	        }

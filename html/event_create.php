@@ -1,4 +1,10 @@
+
 <?php
+
+/*
+ * File depricated - replaced by event_edit.php
+ */
+
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once LIBRARY_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_event.php";
@@ -39,6 +45,10 @@ if (isset ( $_POST ['type'] ) and isset ( $_POST ['staff1'] )) {
 	if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $date)) {
 	    //European date format -> change to yyyy-mm-dd
 	    $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
+	}
+	
+	if($end == ""){
+		$end = null;
 	}
 	
 	$typeOther = null;

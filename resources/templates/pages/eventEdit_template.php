@@ -1,5 +1,5 @@
 
-<form id="eventForm" onsubmit="showLoader()" action="" method="post">
+<form id="eventForm" action="" method="post">
 	<?php
 	$staffId = 0;
 	if(isset($event) ){
@@ -35,10 +35,10 @@
 				<label>Ende:</label> <input type="time"
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
-				if(isset($event) ){
-					echo "value='" . substr($event->end_time, 0, strlen($event->end_time)-3) . "'";
+				if(isset($event) && $event->end_time != null){
+					//echo "value='" . substr($event->end_time, 0, strlen($event->end_time)-3) . "'";
 				}?>
-				name="end" id="end" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
+				name="end" id="end" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
 		</div>
 	</div>
@@ -261,16 +261,16 @@
 		}
 		?>
 				
-	<button type="button" class="btn btn-primary" onclick="processForm()">
+	<input type="submit" class="btn btn-primary"
 		<?php
 		if(isset($event)){
-			//echo " value='Aktualisieren' ";
-		    echo " Aktualisieren";
+			echo " value='Aktualisieren' ";
+		    //echo " Aktualisieren";
 		}else{
-			//echo " value='Anlegen' ";
-			echo " Anlegen";
+			echo " value='Anlegen' ";
+			//echo " Anlegen";
 		}?>
-		</button>
+		>
 </form>
 
 
@@ -281,6 +281,13 @@
 	
 	showHideTypeOtherCreate();
 	setStaffAlert(false);
+	
+	var form = document.getElementById('eventForm');
+	if (form.attachEvent) {
+	    form.attachEvent("submit", processForm);
+	} else {
+	    form.addEventListener("submit", processForm);
+	}
 
 
 	function setStaffAlert(visible) {
@@ -301,15 +308,18 @@
 	  
 	} 
 
-    function processForm() {
+    function processForm(e) {
         if(absolutCount < 1){
-
+    	    if (e.preventDefault) e.preventDefault();
+			
         	setStaffAlert(true)
             
         } else {
             setStaffAlert(false);
+            showLoader();
         	document.forms["eventForm"].submit();
         }
+        return false;
     }
     
 	if(!isDateSupported()){
