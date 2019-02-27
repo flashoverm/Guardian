@@ -1,17 +1,8 @@
 #guardian
 
-Change htaccess:
-	
-RewriteRule ^html/events/new/?$ /guardian/html/event_edit.php
-
-RewriteRule ^html/events/([^/]+)/edit/?$ /guardian/html/event_edit.php?id=$1
-
-SQL: ALTER TABLE `event` CHANGE `end_time` `end_time` TIME NULL; 
-
-
 Bugs:
 
-- 
+- On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
 To Do: 
 

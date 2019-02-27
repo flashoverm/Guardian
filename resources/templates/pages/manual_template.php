@@ -15,6 +15,7 @@
 			<li><a href="#event">Wache anlegen</a></li>
 			<li><a href="#publish">Wache veröffentlichen</a></li>
 			<li><a href="#eventOrg">Eingestellte Wachen verwalten</a></li>
+			<li><a href="#edit">Wache bearbeiten</a></li>
 			<li><a href="#warn">Warnfunktion</a></li>
 			<li><a href="#reportOrg">Wachberichte verwalten</a></li>
 		</ul>
@@ -163,12 +164,12 @@
 				der sie besetzen soll (bei Schülerwachen ist das Geschäftszimmer zu
 				verwenden). Standardmäßig wieder hier der eigene Löschzug
 				ausgewählt.
-		
+			<li>Die Felder "Ende" und "Titel" sind optional</li>
 		</ul>
 
 		<p>Am Ende des Formulars können die Positionen, die besetzt werden
 			müssen, erfasst werden. Mehr Positionen können über das „+“
-			hinzugefügt bzw. mit „–“ wieder entfernt werden.</p>
+			hinzugefügt bzw. mit „X“ wieder entfernt werden.</p>
 		<p id="publish">Veröffentlicht man die Wache, soll nicht nur die
 			Mannschaft des eigenen Zuges die Wache absolvieren können, sondern
 			auch Personen anderer Züge. Genau bedeutet dies, dass die Wache unter
@@ -231,6 +232,21 @@
 			src="images/manual/Event_Overview.jpg" style="width: 75%;">
 
 	</div>
+	
+	<div class="mt-5" id="edit">
+		<h4>
+			Wache bearbeiten <a href="#">&uarr;</a>
+		</h4>
+		<p>In der Detailansicht kann der Ersteller der Wache diese Bearbeiten. Es 
+		können alle Felder und die nötigen Funktionen angepasst werden.</p>
+		
+		<p>Am Ende des Forumlars besteht die Möglichkeit, alle eingetragenen Personen, 
+		sofern vorhanden, über die Änderungen zu informieren. Wurden Funktionen entfernt, 
+		bei denen eine Person eingetragen war, wird diese in jedem Fall benachrichtigt.</p>
+		
+		<img class="img-fluid rounded mb-2 mx-auto d-block border"
+			src="images/manual/Event_Edit.jpg" style="width: 75%;">
+	</div>
 
 	<div class="mt-5" id="warn">
 		<h4>
@@ -238,7 +254,7 @@
 		</h4>
 		<p>Die Anwendung verfügt über eine Warnfunktion, die den Erstelle der
 			Wache 10 Tage vor der Veranstaltung per E-Mail informiert, wenn noch
-			nicht alle Positionen besetzt wurde.</p>
+			nicht alle Positionen besetzt wurden.</p>
 	</div>
 
 	<div class="mt-5" id="reportOrg">

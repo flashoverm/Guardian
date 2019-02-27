@@ -32,7 +32,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Ende:</label> <input type="time"
+				<label>Ende (optional):</label> <input type="time"
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($event) && $event->end_time != null){
@@ -64,7 +64,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label>Titel:</label> <input type="text"
+		<label>Titel (optional):</label> <input type="text"
 			class="form-control" name="title" id="title"
 			<?php
 			if(isset($event) && $event->title != null){
