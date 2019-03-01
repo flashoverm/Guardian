@@ -6,6 +6,8 @@ require_once LIBRARY_PATH . "/db_staffpositions.php";
 require_once LIBRARY_PATH . "/db_engines.php";
 require_once LIBRARY_PATH . "/mail_controller.php";
 require_once LIBRARY_PATH . "/db_eventtypes.php";
+require_once LIBRARY_PATH . "/db_staff_template.php";
+
 
 $eventtypes = get_eventtypes ();
 $staffpositions = get_staffpositions();
