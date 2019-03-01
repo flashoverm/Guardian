@@ -80,7 +80,7 @@ function get_engines_without_office() {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM engine WHERE NOT name = 'Geschäftszimmer'  ORDER BY name");
+    $statement = $db->prepare("SELECT * FROM engine WHERE NOT name = 'Verwaltung'  ORDER BY name");
     
     if ($statement->execute()) {
         $result = $statement->get_result();
@@ -107,7 +107,7 @@ function create_table_engine() {
 	$result = $statement->execute();
 
 	if ($result) {
-		insert_engine( "Geschäftszimmer" );
+		insert_engine( "Verwaltung" );
 		insert_engine ( "Löschzug 1/2" );
 		insert_engine ( "Löschzug 3" );
 		insert_engine ( "Löschzug 4" );

@@ -49,7 +49,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label>Zuständiger Löschzug/Geschäftszimmer:</label> <select
+		<label>Zuständiger Löschzug/Verwaltung:</label> <select
 			class="form-control" name="engine" required="required">
 			<option value="" disabled selected>Bitte auswählen</option>
 			<?php foreach ( $engines as $option ) : ?>

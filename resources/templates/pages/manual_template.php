@@ -87,7 +87,7 @@
 			<li>Wählt man als Typ „Sonstige Wache“ aus, muss der Typ in einem
 				eigenen Feld näher definiert werden</li>
 			<li>Mit „Zuständiger Löschzug“ weißt man den Bericht einem Löschzug
-				bzw. dem Geschäftszimmer zu (z.B. bei Schülerwachen)</li>
+				bzw. der Verwaltung (Geschäftszimmer) zu (z.B. bei Schülerwachen)</li>
 			<li>Wurde für die Wache ein Eintrag durch die ILS angelegt, kann auch
 				die durch setzen des Häkchens erfasst werden</li>
 		</ul>
@@ -109,7 +109,7 @@
 			Kilometer eingeben werden.</p>
 		<p>Fahrzeug bzw. Personal wird an den Bericht angefügt und kann durch
 			„Entfernen“ wieder entfernt werden.</p>
-		<p>Der Bericht wird gespeichert und kann vom Geschäftszimmer und vom
+		<p>Der Bericht wird gespeichert und kann von der Verwaltung (Geschäftszimmer) und vom
 			Wachbeauftragen des zuständigen Zugs eingesehen werden. Letzterer
 			erhält den Bericht auch per E-Mail zugesandt.</p>
 
@@ -161,7 +161,7 @@
 				eigenen Feld näher definiert werden
 			
 			<li>Mit „Zuständiger Löschzug“ weißt man die Wache dem Löschzug zu,
-				der sie besetzen soll (bei Schülerwachen ist das Geschäftszimmer zu
+				der sie besetzen soll (bei Schülerwachen ist die Verwaltung (Geschäftszimmer) zu
 				verwenden). Standardmäßig wieder hier der eigene Löschzug
 				ausgewählt.
 			<li>Die Felder "Ende" und "Titel" sind optional</li>
@@ -264,7 +264,7 @@
 		<p>Unter „Wachberichte“ – „Berichtsübersicht“ erhält man eine
 			Übersicht über alle Wachberichte, die dem eigenen Zug zugewiesen
 			wurde.</p>
-		<p>Benutzer, die dem Geschäftszimmer zugewiesen wurde, sehen die
+		<p>Benutzer, die der Verwaltung (Geschäftszimmer) zugewiesen wurde, sehen die
 			Berichte aller Züge.</p>
 		<p>Die Berichte (in Textform) werden unter „Bericht“ angezeigt und
 			können mit „Löschen“ gelöscht werden. Versehentliches Löschen wird
