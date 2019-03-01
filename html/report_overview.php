@@ -24,7 +24,7 @@ if(isset($_SESSION ['guardian_userid'])){
         }
     }
     
-    if($usersEngine->name == 'Verwaltung'){
+    if($usersEngine->isadministration == true){
         $variables ['reports'] = get_reports();
     } else {
         $variables ['reports'] = get_filtered_reports($usersEngine->uuid);

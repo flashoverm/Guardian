@@ -3,12 +3,12 @@ require_once LIBRARY_PATH . "/db_connect.php";
 
 create_table_engine ();
 
-function insert_engine($name) {
+function insert_engine($name, $isadministration) {
 	global $db;
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO engine (uuid, name) VALUES (?, ?)");
-	$statement->bind_param('ss', $uuid, $name);
+	$statement = $db->prepare("INSERT INTO engine (uuid, name, isadministration) VALUES (?, ?, ?)");
+	$statement->bind_param('ssi', $uuid, $name, $isadministration);
 	
 	$result = $statement->execute();
 
@@ -80,7 +80,7 @@ function get_engines_without_office() {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM engine WHERE NOT name = 'Verwaltung'  ORDER BY name");
+    $statement = $db->prepare("SELECT * FROM engine WHERE NOT isadministration =  FALSE ORDER BY name");
     
     if ($statement->execute()) {
         $result = $statement->get_result();
@@ -101,21 +101,22 @@ function create_table_engine() {
 	$statement = $db->prepare("CREATE TABLE engine (
                           uuid CHARACTER(36) NOT NULL,
 						  name VARCHAR(32) NOT NULL,
+                          isadministration BOOLEAN NOT NULL,
                           PRIMARY KEY  (uuid)
                           )");
 	
 	$result = $statement->execute();
 
 	if ($result) {
-		insert_engine( "Verwaltung" );
-		insert_engine ( "Löschzug 1/2" );
-		insert_engine ( "Löschzug 3" );
-		insert_engine ( "Löschzug 4" );
-		insert_engine ( "Löschzug 5" );
-		insert_engine ( "Löschzug 6" );
-		insert_engine ( "Löschzug 7" );
-		insert_engine ( "Löschzug 8" );
-		insert_engine ( "Löschzug 9" );
+		insert_engine( "Verwaltung", true );
+		insert_engine ( "Löschzug 1/2", false );
+		insert_engine ( "Löschzug 3", false );
+		insert_engine ( "Löschzug 4", false );
+		insert_engine ( "Löschzug 5", false );
+		insert_engine ( "Löschzug 6", false );
+		insert_engine ( "Löschzug 7", false );
+		insert_engine ( "Löschzug 8", false );
+		insert_engine ( "Löschzug 9", false );
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";

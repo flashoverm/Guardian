@@ -123,7 +123,7 @@ if (isset ( $_POST ['creator'] )) {
     if(mail_send_report ($eventReport)){
     	$variables ['successMessage'] = "Bericht versendet";
     } else {
-    	$variables ['alertMessage'] = "Bericht konnte nicht versendet werden";
+    	$variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
     }
 
 }
