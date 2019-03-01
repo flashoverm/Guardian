@@ -3,12 +3,12 @@ require_once LIBRARY_PATH . "/db_connect.php";
 
 create_table_eventtype ();
 
-function insert_eventtype($type) {
+function insert_eventtype($type, $isseries) {
 	global $db;
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO eventtype (uuid, type) VALUES (?, ?)");
-	$statement->bind_param('ss', $uuid, $type);
+	$statement = $db->prepare("INSERT INTO eventtype (uuid, type, isseries) VALUES (?, ?, ?)");
+	$statement->bind_param('ssi', $uuid, $type, $isseries);
 		
 	$result = $statement->execute();
 
@@ -64,6 +64,7 @@ function create_table_eventtype() {
 	$statement = $db->prepare("CREATE TABLE eventtype (
                           uuid CHARACTER(36) NOT NULL,
 						  type VARCHAR(64) NOT NULL,
+                          isseries BOOLEAN NOT NULL,
                           PRIMARY KEY  (uuid)
                           )");
 	
@@ -72,17 +73,17 @@ function create_table_eventtype() {
 	if ($result) {
 		// echo "Table created<br>";	    
 	    
-		insert_eventtype ( "Theaterwache" );
-		insert_eventtype ( "Theaterwache Schüler" );
-		insert_eventtype ( "Theaterwache Prantlgarten" );
-		insert_eventtype ( "Residenzwache" );
-		insert_eventtype ( "Rathauswache" );
-		insert_eventtype ( "Wache Sparkassenarena" );
-		insert_eventtype ( "Burgwache" );
-		insert_eventtype ( "Dultwache" );
-		insert_eventtype ( "Wache Niederbayern-Schau" );
-		insert_eventtype ( "Wache Landshuter Hochzeit" );
-		insert_eventtype ( "Sonstige Wache" );
+	    insert_eventtype ( "Theaterwache", true );
+	    insert_eventtype ( "Theaterwache Schüler", true  );
+		insert_eventtype ( "Theaterwache Prantlgarten", true  );
+		insert_eventtype ( "Residenzwache", false );
+		insert_eventtype ( "Rathauswache", false );
+		insert_eventtype ( "Wache Sparkassenarena", false );
+		insert_eventtype ( "Burgwache", false );
+		insert_eventtype ( "Dultwache", true  );
+		insert_eventtype ( "Wache Niederbayern-Schau", true  );
+		insert_eventtype ( "Wache Landshuter Hochzeit", true  );
+		insert_eventtype ( "Sonstige Wache", false );
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
