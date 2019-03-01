@@ -1,4 +1,4 @@
-<p><b>Freiwillige Feuerwehr Stadt Landshut</b>
+<p><b>Freiwillige Feuerwehr Stadt Landshut e.V.</b>
 <br>Niedermayerstraße 6
 <br>84028 Landshut
 <br>Telefon: 0871 / 96577200
