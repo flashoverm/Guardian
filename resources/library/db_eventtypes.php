@@ -71,6 +71,10 @@ function create_table_eventtype() {
 
 	if ($result) {
 		// echo "Table created<br>";
+		
+	    INSERT INTO eventtype (uuid, type) VALUES (?, ?)
+	    
+	    
 		insert_eventtype ( "Theaterwache" );
 		insert_eventtype ( "Theaterwache Schüler" );
 		insert_eventtype ( "Theaterwache Prantlgarten" );
@@ -79,6 +83,8 @@ function create_table_eventtype() {
 		insert_eventtype ( "Wache Sparkassenarena" );
 		insert_eventtype ( "Burgwache" );
 		insert_eventtype ( "Dultwache" );
+		insert_eventtype ( "Wache Niederbayern-Schau" );
+		insert_eventtype ( "Wache Landshuter Hochzeit" );
 		insert_eventtype ( "Sonstige Wache" );
 		return true;
 	} else {
