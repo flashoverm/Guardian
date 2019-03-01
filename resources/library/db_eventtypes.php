@@ -70,10 +70,7 @@ function create_table_eventtype() {
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "Table created<br>";
-		
-	    INSERT INTO eventtype (uuid, type) VALUES (?, ?)
-	    
+		// echo "Table created<br>";	    
 	    
 		insert_eventtype ( "Theaterwache" );
 		insert_eventtype ( "Theaterwache Schüler" );
