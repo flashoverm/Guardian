@@ -47,12 +47,16 @@
 		}
 		?>
 	</div>
+	
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarMainContent">
 		<span class="navbar-toggler-icon"></span>
 	</button>
+		
+	<?php if(!isset($noNav) || $noNav == false) {?>
+	
 	<div class='collapse navbar-collapse w-100' id='navbarMainContent'>
 		<ul class='navbar-nav'>
 <?php
@@ -139,5 +143,7 @@ if ($loggedIn) {
             </li>
         </ul>
 	</div>
-	</nav> </header>
+	</nav> 
+	<?php }?>
+	</header>
 	
