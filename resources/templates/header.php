@@ -39,13 +39,28 @@
 </head>
 <body>
 	<header>
-	<div class="jumbotron text-center">
-		<h1><?= $title ?></h1>
-		<?php
-		if(isset($subtitle)){
-			echo "<h5>".$subtitle."</h5>";
-		}
-		?>
+	<div class="jumbotron py-3">
+		<div class="row">
+			<div class="col">
+				<a href="https://intranet.feuerwehr-landshut.de">
+					<img class="img-fluid d-block"
+						src="<?= $config["urls"]["html"] ?>/images/layout/shortheader_new-1.png">
+				</a>
+					 
+			</div>
+			<div class="col d-flex align-items-center justify-content-center">
+				<span class="">
+    				<h1 class="text-center"><?= $title ?></h1>
+    				<?php
+    		          if(isset($subtitle)){
+    			         echo "<h5 class='text-center'>".$subtitle."</h5>";
+    		          }
+    		        ?>
+		        </span>
+			</div>
+			<div class="col">
+			</div>
+		</div>
 	</div>
 	
 
