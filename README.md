@@ -6,18 +6,11 @@ Bugs:
 
 To Do: 
 
-- positions, eventtypes, engine as statics
-- Niederbayernschau, LAho als Wachtyp
-
 - Report in detail (not text)
- 
-- Geschäftszimmer in Verwaltung ändern
 
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
 
 - Home Button für "Intranet.Feuerwehr-Landshut.de"
-
-- "Working-copy aus Seitentitel entfernen"?
 
 
 New feature:
@@ -51,6 +44,8 @@ Refactoring:
 
 
 Done:
+- Geschäftszimmer in Verwaltung ändern
+
 
 - Event-Detail page: send update/info to subscribers - button (better: automatically of event details change) -> Mail with "event updated" to subscribers ("Personal infomieren") 
 - Event-Detail page: Some field editable, especially "comment", other fields eventually
