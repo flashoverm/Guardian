@@ -19,8 +19,7 @@ if (isset($_GET['uuid'])) {
 		//header('Content-Type: application/json');
 		
 	} else {
-		echo "test";
-		//http_response_code(404);
+		http_response_code(404);
 	}
 } else {
 	http_response_code(400);

@@ -115,7 +115,7 @@
 					<tr>
 						<th>Funktion	
 							<span>
-								<button type="button" id="loadTemplate" class='btn btn-primary btn-sm float-right' onClick='getStaffTemplate()'>Lade Personal-Vorschlag</button>
+								<button type="button" id="loadTemplate" class='btn btn-primary btn-sm float-right' onClick='getStaffTemplate()'>Personalvorschlag laden</button>
 							</span>
 						</th>
 						<?php
@@ -391,7 +391,7 @@
 	}
 
 	function showHideTypeOtherCreate(){
-		document.getElementById("loadTemplate").innerHTML = "Personal-Vorschlag laden";
+		document.getElementById("loadTemplate").innerHTML = "Personalvorschlag laden";
 		
 		var type = document.getElementById("type");
 		var selectedType = type.options[type.selectedIndex].text;

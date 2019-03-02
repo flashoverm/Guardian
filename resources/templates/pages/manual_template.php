@@ -109,9 +109,10 @@
 			Kilometer eingeben werden.</p>
 		<p>Fahrzeug bzw. Personal wird an den Bericht angefügt und kann durch
 			„Entfernen“ wieder entfernt werden.</p>
-		<p>Der Bericht wird gespeichert und kann von der Verwaltung (Geschäftszimmer) und vom
-			Wachbeauftragen des zuständigen Zugs eingesehen werden. Letzterer
-			erhält den Bericht auch per E-Mail zugesandt.</p>
+		<p>Der Bericht wird gespeichert und kann von der Verwaltung
+			(Geschäftszimmer) und vom Wachbeauftragen des zuständigen Zugs
+			eingesehen werden. Letzterer erhält den Bericht auch per E-Mail
+			zugesandt.</p>
 
 		<img class="img-fluid rounded mb-2 mx-auto d-block border"
 			src="images/manual/Report_Create.jpg" style="width: 75%;"> <img
@@ -161,10 +162,14 @@
 				eigenen Feld näher definiert werden
 			
 			<li>Mit „Zuständiger Löschzug“ weißt man die Wache dem Löschzug zu,
-				der sie besetzen soll (bei Schülerwachen ist die Verwaltung (Geschäftszimmer) zu
-				verwenden). Standardmäßig wieder hier der eigene Löschzug
-				ausgewählt.
+				der sie besetzen soll (bei Schülerwachen ist die Verwaltung
+				(Geschäftszimmer) zu verwenden). Standardmäßig wieder hier der
+				eigene Löschzug ausgewählt.
+			
 			<li>Die Felder "Ende" und "Titel" sind optional</li>
+			<li>Über den Button "Personalvorschlag laden" kann, sofern vorhanden,
+				ein Vorschlag für die Besetzung geladen werden. Dabei werden alle
+				Einträge überschrieben!"</li>
 		</ul>
 
 		<p>Am Ende des Formulars können die Positionen, die besetzt werden
@@ -232,18 +237,22 @@
 			src="images/manual/Event_Overview.jpg" style="width: 75%;">
 
 	</div>
-	
+
 	<div class="mt-5" id="edit">
 		<h4>
 			Wache bearbeiten <a href="#">&uarr;</a>
 		</h4>
-		<p>In der Detailansicht kann der Ersteller der Wache diese Bearbeiten. Es 
-		können alle Felder und die nötigen Funktionen angepasst werden.</p>
-		
-		<p>Am Ende des Forumlars besteht die Möglichkeit, alle eingetragenen Personen, 
-		sofern vorhanden, über die Änderungen zu informieren. Wurden Funktionen entfernt, 
-		bei denen eine Person eingetragen war, wird diese in jedem Fall benachrichtigt.</p>
-		
+		<p>In der Detailansicht kann der Ersteller der Wache diese Bearbeiten.
+			Es können alle Felder und die nötigen Funktionen angepasst werden.</p>
+
+		<li>Beim Laden des Personalvorschlags werden alle Einträge
+			überschrieben. Eingetragene Personen werden entfernt!"</li>
+
+		<p>Am Ende des Forumlars besteht die Möglichkeit, alle eingetragenen
+			Personen, sofern vorhanden, über die Änderungen zu informieren.
+			Wurden Funktionen entfernt, bei denen eine Person eingetragen war,
+			wird diese in jedem Fall benachrichtigt.</p>
+
 		<img class="img-fluid rounded mb-2 mx-auto d-block border"
 			src="images/manual/Event_Edit.jpg" style="width: 75%;">
 	</div>
@@ -264,8 +273,8 @@
 		<p>Unter „Wachberichte“ – „Berichtsübersicht“ erhält man eine
 			Übersicht über alle Wachberichte, die dem eigenen Zug zugewiesen
 			wurde.</p>
-		<p>Benutzer, die der Verwaltung (Geschäftszimmer) zugewiesen wurde, sehen die
-			Berichte aller Züge.</p>
+		<p>Benutzer, die der Verwaltung (Geschäftszimmer) zugewiesen wurde,
+			sehen die Berichte aller Züge.</p>
 		<p>Die Berichte (in Textform) werden unter „Bericht“ angezeigt und
 			können mit „Löschen“ gelöscht werden. Versehentliches Löschen wird
 			durch ein Bestätigungsfenster verhindert.</p>
