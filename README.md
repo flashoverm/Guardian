@@ -1,5 +1,10 @@
 #guardian
 
+RewriteRule ^html/templates/?$ /guardian/html/stafftemplate_edit.php
+RewriteRule ^html/templates/([^/]+)/?$ /guardian/html/stafftemplate_edit.php?eventtype=$1
+
+RewriteRule ^html/ajax/templates/([^/]+)/?$ /guardian/html/ajax/staff_template.php?uuid=$1
+
 Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
@@ -15,7 +20,6 @@ To Do:
 
 New feature:
 
-- Templates für Personal pro Wachtyp
 
 - Masseneingabe
 
@@ -44,6 +48,7 @@ Refactoring:
 
 
 Done:
+- Templates für Personal pro Wachtyp
 - Geschäftszimmer in Verwaltung ändern
 
 

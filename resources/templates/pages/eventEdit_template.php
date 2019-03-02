@@ -113,8 +113,11 @@
 			<table class="table table-bordered">
 				<tbody id="staffContainer">
 					<tr>
-						<th>Funktion</th>
-						<!-- if event is set, display column "Personal" -->
+						<th>Funktion	
+							<span>
+								<button type="button" id="loadTemplate" class='btn btn-primary btn-sm float-right' onClick='getStaffTemplate()'>Lade Personal-Vorschlag</button>
+							</span>
+						</th>
 						<?php
 						if(isset($event) ){
 							echo "<th>Personal</th>";
@@ -193,7 +196,7 @@
     								      </div>
     				    
     								      <div class='modal-footer'>
-    								      	<input type='submit' value='Fortfahren' class='btn btn-primary' data-dismiss='modal' onClick='eventRemoveLastStaff(<?= $staffId; ?>)'/>
+    								      	<input type='submit' value='Fortfahren' class='btn btn-primary' data-dismiss='modal' onClick='eventRemoveStaff(<?= $staffId; ?>)'/>
     								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
     								      </div>
     				    
@@ -202,7 +205,7 @@
     								</div>
 								<?php 
 								} else {
-								    echo '<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveLastStaff(' . $staffId . ')">X</button>';
+								    echo '<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveStaff(' . $staffId . ')">X</button>';
 								}?>
 							</td>
 						</tr>
@@ -228,7 +231,7 @@
 								echo "<td class='py-0 align-middle'></td>";
 							}?>
 							<td class="p-0 text-center align-middle">
-								<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveLastStaff(1)">X</button>
+								<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveStaff(1)">X</button>
 							</td>
 						</tr>
 						<?php 
@@ -288,7 +291,6 @@
 	} else {
 	    form.addEventListener("submit", processForm);
 	}
-
 
 	function setStaffAlert(visible) {
 	  var x = document.getElementById("staffAlert");
@@ -353,7 +355,7 @@
 		
 		var removeButton = newPosition.getElementsByTagName("button");
 		removeButton[0].onclick = function(){
-				eventRemoveLastStaff(thisPositionCount);
+				eventRemoveStaff(thisPositionCount);
 			};
 
 		var positionCountInput = document.getElementById("positionCount");
@@ -364,19 +366,33 @@
 		setStaffAlert(false);
 		
 		container.appendChild(newPosition);
+
+		return select[0];
 	}
 	
-	function eventRemoveLastStaff(id){			
+	function eventRemoveStaff(id){			
 		var staffElement = document.getElementById("staffEntry"+id);
-		staffElement.parentNode.removeChild(staffElement);
-		absolutCount = absolutCount -1;
-		
-		if(absolutCount < 1){
-			setStaffAlert(true)
+		if(staffElement != null){
+			staffElement.parentNode.removeChild(staffElement);
+			absolutCount = absolutCount -1;
+			
+			if(absolutCount < 1){
+				setStaffAlert(true)
+			}
+		}
+
+	}
+
+	function clearStaff(){
+
+		for(var i=1; i<=positionCount; i++){
+			eventRemoveStaff(i);
 		}
 	}
 
 	function showHideTypeOtherCreate(){
+		document.getElementById("loadTemplate").innerHTML = "Personal-Vorschlag laden";
+		
 		var type = document.getElementById("type");
 		var selectedType = type.options[type.selectedIndex].text;
 
@@ -391,4 +407,59 @@
 			groupTypeOther.style.display = "none";
 		}
 	}
+
+	var xhr = getXmlHttpRequestObject();
+	
+	function getXmlHttpRequestObject()
+	{
+	    if(window.XMLHttpRequest) 
+	    {
+	        return new XMLHttpRequest();
+	    } 
+	    else if(window.ActiveXObject) 
+	    {
+	        return new ActiveXObject("Microsoft.XMLHTTP");
+	    } 
+	    else 
+	    {
+	        alert('Ajax funktioniert bei Ihnen nicht!');
+	    }
+	}
+
+	function getStaffTemplate()
+	{
+	    if(xhr.readyState == 4 || xhr.readyState == 0) 
+	    {
+		    var type = document.getElementById("type");
+		    xhr.open('GET', '<?= $config["urls"]["html"] ?>/ajax/templates/' + type.value, true);
+		    xhr.setRequestHeader("Content-Type","text/plain");
+		    xhr.onreadystatechange = setTemplate;
+		    xhr.send(null);
+	    }
+	}
+
+	function setTemplate(){
+	    if(xhr.readyState == 4) 
+	    {
+	    	if(xhr.status == 200){
+		    	
+	        	var response = eval('(' + xhr.responseText + ')' );
+			    console.log(response.length);
+
+			    var count = absolutCount;
+
+			    clearStaff();
+			    
+	        	for(var i = 0; i < response.length; i++) {
+	        		var select = eventAddStaff();
+	        		select.value = response[i].uuid;
+	        		console.log(response[i].uuid + " " + response[i].position);
+	        	}
+	    	} else {
+		    	var button = document.getElementById("loadTemplate");
+		    	button.innerHTML = "Vorschlag nicht gefunden";
+	    	}
+	    }
+	}
+	
 </script>

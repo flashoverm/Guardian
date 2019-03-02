@@ -4,6 +4,29 @@ require_once LIBRARY_PATH . "/db_connect.php";
 create_table_staff_template();
 
 function insert_template($eventtype, $staffposition){
+	global $db;
+	
+	$uuid = getGUID();
+	
+	
+	$statement = $db->prepare("INSERT INTO stafftemplate (uuid, eventtype, staffposition)
+		VALUES (?, ?, ?)");
+	
+	$statement->bind_param('sss', $uuid, $eventtype, $staffposition);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "New event record created successfully";
+		return $uuid;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+	
+}
+
+function insert_template_description($eventtype, $staffposition){
     global $db;
     
     $uuid = getGUID();
@@ -33,9 +56,9 @@ function get_staff_template($eventtype_uuid){
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT staffposition.uuid, staffposition.position 
-            FROM eventtype, stafftemplate 
-            WHERE eventtype.uuid = stafftype.eventtype AND stafftype.eventtype = ?
+    $statement = $db->prepare("SELECT stafftemplate.uuid AS template ,staffposition.uuid, staffposition.position 
+            FROM stafftemplate, staffposition 
+            WHERE staffposition.uuid = stafftemplate.staffposition AND stafftemplate.eventtype = ?
             ORDER BY staffposition.list_index");
     $statement->bind_param('s', $eventtype_uuid);
         
@@ -50,6 +73,42 @@ function get_staff_template($eventtype_uuid){
         }
     }
     return $data;
+}
+
+function update_template_entry($template_uuid, $position_uuid){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE stafftemplate
+		SET staffposition = ?
+		WHERE uuid = ?");
+	$statement->bind_param('ss', $position_uuid, $template_uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "New event record created successfully";
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
+function delete_template_entry($entry_uuid){
+	global $db;
+	
+	$statement = $db->prepare("DELETE FROM stafftemplate WHERE uuid= ?");
+	$statement->bind_param('s', $entry_uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "Record ".$uuid." updated successfully";
+		return true;
+	} else {
+		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
 }
 
 function create_table_staff_template(){
@@ -68,22 +127,22 @@ function create_table_staff_template(){
     
     if ($result) {
         // echo "Table created<br>";
-        insert_template("Theaterwache","Dienstgrad (HFM)");
-        insert_template("Theaterwache","Wachmann");
-        insert_template("Theaterwache","Wachmann");
+    	insert_template_description("Theaterwache","Dienstgrad (HFM)");
+    	insert_template_description("Theaterwache","Wachmann");
+    	insert_template_description("Theaterwache","Wachmann");
         
-        insert_template("Theaterwache Schüler","Dienstgrad (HFM)");
-        insert_template("Theaterwache Schüler","Wachmann");
-        insert_template("Theaterwache Schüler","Wachmann");
+    	insert_template_description("Theaterwache Schüler","Dienstgrad (HFM)");
+    	insert_template_description("Theaterwache Schüler","Wachmann");
+        insert_template_description("Theaterwache Schüler","Wachmann");
         
-        insert_template("Theaterwache Prantlgarten","Dienstgrad (HFM)");
-        insert_template("Theaterwache Prantlgarten","Wachmann");
-        insert_template("Theaterwache Prantlgarten","Wachmann");
+        insert_template_description("Theaterwache Prantlgarten","Dienstgrad (HFM)");
+        insert_template_description("Theaterwache Prantlgarten","Wachmann");
+        insert_template_description("Theaterwache Prantlgarten","Wachmann");
 
-        insert_template("Dultwache","Dienstgrad (LM)");
-        insert_template("Dultwache","Maschinist");
-        insert_template("Dultwache","Atemschutzträger");
-        insert_template("Dultwache","Atemschutzträger");
+        insert_template_description("Dultwache","Dienstgrad (LM)");
+        insert_template_description("Dultwache","Maschinist");
+        insert_template_description("Dultwache","Atemschutzträger");
+        insert_template_description("Dultwache","Atemschutzträger");
         
         return true;
     } else {
