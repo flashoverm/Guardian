@@ -16,7 +16,10 @@ if (! $isAdmin) {
 				endforeach; ?>
 			</select>
 		</div>    
-	
+		<?php 
+		$staffId = 0;
+		if(isset($template)){
+		?>
 		<div class="form-group">
 			<label>Benötigtes Wachpersonal:</label>
 			<div class="table-responsive">
@@ -47,11 +50,9 @@ if (! $isAdmin) {
 						</tr>
 						
 						<?php
-						$staffId = 0;
-						if(isset($template) && sizeof($template) > 0){
-							foreach ( $template as $entry ) {
-								$staffId = $staffId +1;
-								?>
+						foreach ( $template as $entry ) {
+							$staffId = $staffId +1;
+							?>
 							<tr id="staffEntry<?= $staffId; ?>">
 								<td class="p-0">
 										<select class="select-cornered" name="<?= $entry->template ?>" required="required" id="<?= $entry->template ?>">
@@ -74,8 +75,7 @@ if (! $isAdmin) {
 									<button type="button" class="btn btn-sm btn-primary" onClick="eventRemoveStaff(<?= $staffId ?>)">X</button>
 								</td>
 							</tr>
-							<?php
-							}
+						<?php
 						}
 						?>					
 					</tbody>
@@ -84,6 +84,9 @@ if (! $isAdmin) {
 			</div>	
 		</div>
 		<input type="submit" class="btn btn-primary" value="Speichern">
+		<?php 
+		}
+		?>
 	</form>
 <?php
 } 
