@@ -9,22 +9,22 @@ create_table_report();
 create_table_reportUnit();
 create_table_reportStaff();
 
-function insert_report_short($date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $noIncidents, $report) {
+function insert_report_short($date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $noIncidents, $ilsEntry, $report) {
     global $db;
     
     $uuid = getGUID ();
     
     if($noIncidents){
         
-        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, report)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?)");
-        $statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $report);
+        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)");
+        $statement->bind_param('sssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $ilsEntry, $report);
         
     } else {
         
-        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, report)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?)");
-        $statement->bind_param('ssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $report);
+        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)");
+        $statement->bind_param('sssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $ilsEntry, $report);
         
     }
     
@@ -44,11 +44,11 @@ function insert_report_detail($report_uuid, EventReport $report_object){
 	
 	foreach($units as $unit){
 		$unit_uuid = insert_report_unit(
-				$report_object->date, 
-				$report_object->beginn, 
-				$report_object->end,
-				(isset($report_object->unit) ? $report_object->unit : null),
-				(isset($report_object->km) ? $report_object->km : null),
+				$unit->date, 
+				$unit->beginn, 
+				$unit->end,
+				(isset($unit->unit) ? $unit->unit : null),
+				(isset($unit->km) ? $unit->km : null),
 				$report_uuid);
 		
 		$staff = $unit->staffList;
@@ -67,7 +67,7 @@ function insert_report_unit($date, $beginn, $end, $unit, $km, $report_uuid){
 	global $db;
 	
 	$uuid = getGUID ();
-	
+		
 	$statement = $db->prepare("INSERT INTO report_unit (uuid, date, start_time, end_time, unit, km, report)
 		VALUES (?, ?, ?, ?, ?, ?, ?)");	
 	$statement->bind_param('sssssis', $uuid, $date, $beginn, $end, $unit, $km, $report_uuid);
@@ -241,6 +241,7 @@ function create_table_report() {
                           engine CHARACTER(36) NOT NULL,
 						  creator VARCHAR(128) NOT NULL,
                           noIncidents BOOLEAN NOT NULL,
+                          ilsEntry BOOLEAN NOT NULL,
                           report TEXT,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (type) REFERENCES eventtype(uuid),

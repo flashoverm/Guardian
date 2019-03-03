@@ -50,8 +50,10 @@ class ReportUnit {
 			. " (km: ". $this->km . ")";
 		}
 		
+		$parts = explode('-', $this->date);
+		
 		$string = $string
-				. "\nDatum: \t" . $this->date 
+		. "\nDatum: \t" . $parts[2] . "." . $parts[1] . "." . $parts[0]
 				. "\nWachbeginn: \t" . $this->beginn 
 				. "\nEnde: \t\t" . $this->end
 				. "\n\n";

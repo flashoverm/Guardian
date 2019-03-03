@@ -43,8 +43,7 @@ if (isset ( $_POST ['creator'] )) {
     $end = trim ( $_POST ['end'] );
     $type = trim ( $_POST ['type'] );
     $typeMail = trim ( $_POST ['type'] );
-    
-    
+        
     if (preg_match("/^(0[1-9]|[1-2][0-9]|3[0-1]).(0[1-9]|1[0-2]).[0-9]{4}$/", $date)) {
         //European date format -> change to yyyy-mm-dd
         $date = date_create_from_format('d.m.Y', $date)->format('Y-m-d');
@@ -118,7 +117,7 @@ if (isset ( $_POST ['creator'] )) {
     }
     
     $report_uuid = insert_report_short($date, $beginn, $end, $type, $typeOther,
-        $title, $engine, $creator, $noIncidents, nl2br($eventReport->toMail()));
+    		$title, $engine, $creator, $noIncidents, $ilsEntry, $report);
     
     insert_report_detail($report_uuid, $eventReport);
         

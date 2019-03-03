@@ -5,13 +5,17 @@ RewriteRule ^html/templates/([^/]+)/?$ /guardian/html/stafftemplate_edit.php?eve
 
 RewriteRule ^html/ajax/templates/([^/]+)/?$ /guardian/html/ajax/staff_template.php?uuid=$1
 
+
+RewriteRule ^html/reports/([^/]+)/?$ /guardian/html/report_details_table.php?id=$1
+(Add _table)
+
+ALTER TABLE `report` ADD `ilsEntry` TINYINT(1) NOT NULL AFTER `noIncidents`; 
+
 Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
 To Do: 
-
-- Report in detail (not text)
 
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
 
@@ -48,6 +52,7 @@ Refactoring:
 
 
 Done:
+- Report in detail (not text)
 - use path variables for user-, event-id, ...
 - Templates für Personal pro Wachtyp
 - Geschäftszimmer in Verwaltung ändern
