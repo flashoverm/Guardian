@@ -117,8 +117,10 @@ if (isset ( $_POST ['creator'] )) {
         $unitCount += 1;
     }
     
-    insert_report($date, $beginn, $end, $type, $typeOther,
+    $report_uuid = insert_report_short($date, $beginn, $end, $type, $typeOther,
         $title, $engine, $creator, $noIncidents, nl2br($eventReport->toMail()));
+    
+    insert_report_detail($report_uuid, $eventReport);
         
     if(mail_send_report ($eventReport)){
     	$variables ['successMessage'] = "Bericht versendet";

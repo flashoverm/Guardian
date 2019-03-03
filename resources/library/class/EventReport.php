@@ -49,7 +49,7 @@ class EventReport {
 						. "<br><br>";
 						
 						foreach ($this->units as $value) {
-							$string = $string . $value->toString();
+							$string = $string . $value->toHTML();
 						}
 						
 						return $string . "<br>";

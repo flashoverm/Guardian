@@ -35,7 +35,7 @@ class ReportUnit {
 				. "";
 
 		foreach ($this->staffList as $value) {
-			$string = $string . $value->toString();
+			$string = $string . $value->toHTML();
 		}
 		
 		return $string . "<br";

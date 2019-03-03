@@ -33,6 +33,7 @@ New feature:
 Low prio:
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+
 - Edit-function for units in event report
 	
 - Send HTML mails with infos about events
@@ -40,7 +41,6 @@ Low prio:
 
 Refactoring: 
 
-- use path variables for user-, event-id, ...
 - report date format from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
@@ -48,6 +48,7 @@ Refactoring:
 
 
 Done:
+- use path variables for user-, event-id, ...
 - Templates für Personal pro Wachtyp
 - Geschäftszimmer in Verwaltung ändern
 
