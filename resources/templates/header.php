@@ -127,6 +127,7 @@ if ($loggedIn) {
         			<div class='dropdown-menu bg-dark'>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/manager'>Wachbeauftragte</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/events/admin'>Alle Wachen</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/reports/admin'>Alle Wachberichte</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["html"]. "/templates'>Personalvorlagen</a>
 					</div>
 				</li>";

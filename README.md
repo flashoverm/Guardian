@@ -1,5 +1,8 @@
 #guardian
 
+RewriteRule ^html/reports/admin?$ /guardian/html/report_admin.php
+Add before html/reports/admin...
+
 RewriteRule ^html/templates/?$ /guardian/html/stafftemplate_edit.php
 RewriteRule ^html/templates/([^/]+)/?$ /guardian/html/stafftemplate_edit.php?eventtype=$1
 
@@ -9,7 +12,7 @@ RewriteRule ^html/ajax/templates/([^/]+)/?$ /guardian/html/ajax/staff_template.p
 RewriteRule ^html/reports/([^/]+)/?$ /guardian/html/report_details_table.php?id=$1
 (Add _table)
 
-ALTER TABLE `report` ADD `ilsEntry` TINYINT(1) NOT NULL AFTER `noIncidents`; 
+ALTER TABLE report ADD ilsEntry BOOLEAN NOT NULL AFTER noIncidents; 
 
 Bugs:
 
