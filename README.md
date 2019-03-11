@@ -5,6 +5,8 @@ Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
+- E-Mail reminder to assigned engine of the event, not creator
+
 To Do: 
 
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
