@@ -3,8 +3,6 @@ require_once '../resources/library/db_engines.php';
 require_once '../resources/library/db_user.php';
 require_once '../resources/library/db_staffpositions.php';
 
-
-
 $relevant = false;
 $dateNow = getdate();
 $now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
@@ -12,7 +10,7 @@ $now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
 if(strtotime($event->date) >= $now){
 	$relevant = true;
 } else {
-	showInfo("Diese Wache hat bereits stattgefunden - Bearbeitung nicht mehr möglich");
+    showInfo("Diese Wache hat bereits stattgefunden, Bearbeitung nicht mehr möglich");
 }
 
 if ($isCreator) {
@@ -26,8 +24,6 @@ if ($isCreator) {
 		showInfo("Diese Wache ist " . $otherEngine->name . " zugewiesen");
 	}
 }
-
-
 
 ?>
 
@@ -112,6 +108,17 @@ if ($isCreator) {
 					
 				</td>
 			</tr>
+			<?php
+			if(!$isCreator && (get_engine_of_user($_SESSION['guardian_userid']) == $event->engine || $isAdmin)){
+			    $creator = get_user($event->creator);
+			?>
+			    <tr>
+			         <th colspan="1">Erstellt von</th>
+			         <td colspan="2"><?= $creator->firstname . " " . $creator->lastname ?></td>
+				</tr>
+			<?php 
+			}
+			?>
 		</tbody>
 	</table>
 	<?php

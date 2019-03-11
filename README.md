@@ -1,16 +1,5 @@
 #guardian
 
-RewriteRule ^html/templates/?$ /guardian/html/stafftemplate_edit.php
-RewriteRule ^html/templates/([^/]+)/?$ /guardian/html/stafftemplate_edit.php?eventtype=$1
-
-RewriteRule ^html/ajax/templates/([^/]+)/?$ /guardian/html/ajax/staff_template.php?uuid=$1
-
-
-RewriteRule ^html/reports/([^/]+)/?$ /guardian/html/report_details_table.php?id=$1
-(Add _table)
-
-ALTER TABLE `report` ADD `ilsEntry` TINYINT(1) NOT NULL AFTER `noIncidents`; 
-
 Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
@@ -21,9 +10,9 @@ To Do:
 
 - Home Button für "Intranet.Feuerwehr-Landshut.de"
 
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
 New feature:
-
 
 - Masseneingabe
 
@@ -36,8 +25,6 @@ New feature:
 
 Low prio:
 
-- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
-
 - Edit-function for units in event report
 	
 - Send HTML mails with infos about events
@@ -48,7 +35,6 @@ Refactoring:
 - report date format from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
-- methods for updating database structure and content (staffpositions, eventtypes)
 
 
 Done:
