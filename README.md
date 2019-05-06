@@ -11,15 +11,28 @@ To Do:
 
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
 
-- Home Button für "Intranet.Feuerwehr-Landshut.de"
-
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+
+- Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
+
+- Mail, durch selbst druchgeführte Maßnahmen nur optional:
+	Person trägt sich ein: Keine Mail an diese Person (mit optionalem Haken)
+	Wachhabender trägt ein: Keine Mail an diesen Wachhabenden (mit optionalem Haken)
+	usw.
+
+- Wache löschen - Datensatz behalten, markieren, festhalten, wer die Wache gelöscht hat
+
+- Bestätigen-Fenster: Wache gelöscht - Info in Bestätigenfenster: Bitte benachrichte die eingetragenen Personen ...
+
+ Infos mit 2-3 Terminen wegen Vorstellung
 
 New feature:
 
 - Masseneingabe
 
 - Check dates - New event could not be in past
+
+- Eine Person darf nicht zwei Positionen belegen
 
 - Event import function from excel
 
