@@ -4,3 +4,5 @@
 .htaccess
 /.settings
 resources/config.php
+.htaccess
+Mod_Rewrite.md
