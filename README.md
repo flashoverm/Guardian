@@ -15,8 +15,6 @@ To Do:
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
-- Confirmation of attendence of an event by manager of assigned engine
-
 - Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
 
 - Mail, durch selbst druchgeführte Maßnahmen nur optional:
@@ -60,6 +58,9 @@ Refactoring:
 - move javascript in own js-file
 
 Done:
+- Confirmation of attendence of an event by manager of assigned engine
+
+
 - Report in detail (not text)
 - use path variables for user-, event-id, ...
 - Templates für Personal pro Wachtyp

@@ -122,6 +122,7 @@ function mail_not_full($event_uuid) {
     return send_mail($creator->email, $subject, $body);
 }
 
+
 function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	global $config;
 	global $bodies;
@@ -135,11 +136,25 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 	send_mail ( $user->email, $subject, $body );
 	
 	$body = $bodies["event_unscribe_engine"] . $link;
-
+	
 	if ($config ["settings"] ["enginemgrmailonsubscription"]) {
 		$recipients = get_manager_of_engine($user->engine);
 		send_mails($recipients, $subject, $body);
 	}
+}
+
+
+function mail_confirm_staff_user($staff_uuid, $event_uuid) {
+	global $config;
+	global $bodies;
+	
+	$link = $config ["urls"] ["baseUrl"] . "/guardian/event_details.php?id=" . $event_uuid;
+	$subject = "Wachteilnahme bestätigt" . event_subject($event_uuid);
+	
+	$body = $bodies["event_staff_confirmed"] . $link;
+	
+	$user = get_staff_user($staff_uuid);
+	send_mail ( $user->email, $subject, $body );
 }
 
 function mail_delete_event($event_uuid) {

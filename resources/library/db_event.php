@@ -6,7 +6,7 @@ require_once LIBRARY_PATH . "/db_user.php";
 create_table_event ();
 create_table_staff ();
 
-function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $published) {
+function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $published, $staff_confirmation) {
 	global $db;
 
 	$uuid = getGUID ();
@@ -14,15 +14,15 @@ function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $com
 
 	if($published){
 	    
-	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, hash)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?)");
-	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $hash);
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, staff_confirmation, hash)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)");
+	    $statement->bind_param('ssssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $staff_confirmation, $hash);
 	    
 	} else {
 	    
-	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, hash)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?)");
-	    $statement->bind_param('sssssssssss', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $hash);
+	    $statement = $db->prepare("INSERT INTO event (uuid, date, start_time, end_time, type, type_other, title, comment, engine, creator, published, staff_confirmation, hash)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)");
+	    $statement->bind_param('ssssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $creator, $staff_confirmation, $hash);
 	    
 	}
 
@@ -37,12 +37,12 @@ function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $com
 	}
 }
 
-function insert_staff($event_uuid, $position_uuid) {
+function insert_staff($event_uuid, $position_uuid, $unconfirmed) {
 	global $db;
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO staff (uuid, position, event, user) VALUES (?, ?, ?, NULL)");
-	$statement->bind_param('sss', $uuid, $position_uuid, $event_uuid);
+	$statement = $db->prepare("INSERT INTO staff (uuid, position, event, user, unconfirmed) VALUES (?, ?, ?, NULL, ?)");
+	$statement->bind_param('sssi', $uuid, $position_uuid, $event_uuid, $unconfirmed);
 	
 	$result = $statement->execute();
 
@@ -158,7 +158,7 @@ function get_staff($event_uuid) {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT staff.uuid, event, user, staff.position 
+	$statement = $db->prepare("SELECT staff.uuid, event, user, staff.position, unconfirmed 
 		FROM staff, staffposition WHERE event = ? AND staff.position = staffposition.uuid ORDER BY list_index");
 	$statement->bind_param('s', $event_uuid);
 	
@@ -311,13 +311,13 @@ function get_personal($event_uuid){
 	return $data;
 }
 
-function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine){
+function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $staff_confirmation){
 	global $db;
 	
 	$statement = $db->prepare("UPDATE event 
-		SET date = ?, start_time = ?, end_time = ?, type = ?, type_other = ?, title = ?, comment = ?, engine = ?
+		SET date = ?, start_time = ?, end_time = ?, type = ?, type_other = ?, title = ?, comment = ?, engine = ?, staff_confirmation = ?
 		WHERE uuid = ?");
-	$statement->bind_param('sssssssss', $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $event_uuid);
+	$statement->bind_param('sssssssssi', $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $staff_confirmation, $event_uuid);
 
 	$result = $statement->execute();
 	
@@ -347,6 +347,25 @@ function update_staff($staff_uuid, $position){
         //echo "Error: " . $query . "<br>" . $db->error;
         return false;
     }
+}
+
+function confirm_staff_user($staff_uuid){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE staff
+		SET unconfirmed = FALSE
+		WHERE uuid = ?");
+	$statement->bind_param('s', $staff_uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "New event record created successfully";
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
 }
 
 function add_staff_user($uuid, $user) {
@@ -454,6 +473,7 @@ function create_table_event() {
                           engine CHARACTER(36) NOT NULL,
 						  creator CHARACTER(36) NOT NULL,
                           published BOOLEAN NOT NULL,
+						  staff_confirmation BOOLEAN NOT NULL,
 						  hash VARCHAR(64) NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (creator) REFERENCES user(uuid),
@@ -480,6 +500,7 @@ function create_table_staff() {
                           position CHARACTER(36) NOT NULL,
                           event CHARACTER(36) NOT NULL,
 						  user CHARACTER(36),
+						  unconfirmed BOOLEAN NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (user) REFERENCES user(uuid),
 						  FOREIGN KEY (event) REFERENCES event(uuid),
