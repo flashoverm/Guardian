@@ -1,5 +1,7 @@
 #guardian
 
+ALTER TABLE `event` ADD `staff_confirmation` BOOLEAN NOT NULL AFTER `published`; 
+ALTER TABLE `staff` ADD `unconfirmed` BOOLEAN NOT NULL AFTER `user`; 
 
 Bugs:
 
@@ -14,6 +16,8 @@ To Do:
 - Home Button für "Intranet.Feuerwehr-Landshut.de"
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+
+- Confirmation of attendence of an event by manager of assigned engine
 
 New feature:
 
@@ -38,7 +42,7 @@ Refactoring:
 - report date format from config, not hard coded
 - rename files and functions in camel case?
 - consistent usage of " and '
-
+- move javascript in own js-file
 
 Done:
 - Report in detail (not text)
