@@ -224,7 +224,7 @@ function is_admin($uuid) {
 	return FALSE;
 }
 
-function is_admin($uuid) {
+function is_manager($uuid) {
 	global $db;
 	
 	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ?");

@@ -313,8 +313,14 @@ function mail_send_report($report){
 	$subject = "Wachbericht";
 	$body = $report->toMail();
 	
-	$engine = get_engine_from_name($report->engine);
+	//send report to administration if event is no series
+	if(!get_eventtype_from_name($report->type)->isseries){
+		$administration = get_user_of_engine(get_administration()->uuid);
+		send_mails($administration, $subject, $body);
+	}
 	
+	//send report to manager of the assigned engine
+	$engine = get_engine_from_name($report->engine);
 	$managerList = get_manager_of_engine($engine->uuid);
 	if(sizeof($managerList) > 0){
 		send_mails($managerList, $subject, $body);

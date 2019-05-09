@@ -39,6 +39,24 @@ function get_eventtype($uuid) {
 	return false;
 }
 
+function get_eventtype_from_name($name) {
+	global $db;
+	
+	$statement = $db->prepare("SELECT * FROM eventtype WHERE type = ?");
+	$statement->bind_param('s', $name);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_object ();
+			$result->free ();
+			return $data;
+		}
+	}
+	return false;
+}
+
 function get_eventtypes() {
 	global $db;
 	$data = array ();

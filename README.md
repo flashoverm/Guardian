@@ -3,6 +3,7 @@
 ALTER TABLE `event` ADD `staff_confirmation` BOOLEAN NOT NULL AFTER `published`; 
 ALTER TABLE `event` ADD `deleted_by` CHAR(36) NULL AFTER `staff_confirmation`; 
 ALTER TABLE `staff` ADD `unconfirmed` BOOLEAN NOT NULL AFTER `user`; 
+ALTER TABLE `eventtype` ADD `isseries` BOOLEAN NOT NULL AFTER `type`; 
 
 RewriteRule ^html/events/([^/]+)/assign/?([^/]*)/?$ /guardian/html/event_assign.php?id=$1&staffid=$2
 RewriteRule ^html/ajax/user/([^/]+)/?$ /guardian/html/ajax/user.php?uuid=$1
