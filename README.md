@@ -21,6 +21,8 @@ To Do:
  
 New feature:
 
+- Make position available after assigned (Mark as "released")
+
 - Masseneingabe
 
 - Check dates - New event could not be in past
