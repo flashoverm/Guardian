@@ -475,7 +475,6 @@
 	        	for(var i = 0; i < response.length; i++) {
 	        		var select = eventAddStaff();
 	        		select.value = response[i].uuid;
-	        		console.log(response[i].uuid + " " + response[i].position);
 	        	}
 	    	} else {
 		    	var button = document.getElementById("loadTemplate");

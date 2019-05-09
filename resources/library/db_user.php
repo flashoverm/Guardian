@@ -76,11 +76,50 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	}
 }
 
+function get_all_user() {
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM user ORDER BY lastname");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
 function get_all_manager() {
 	global $db;
 	$data = array ();
 	
 	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
+function get_user_of_engine($engine_uuid){
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE engine = ?");
+	$statement->bind_param('s', $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -171,6 +210,24 @@ function is_admin($uuid) {
 	global $db;
 	
 	$statement = $db->prepare("SELECT isadmin FROM user WHERE isadmin = TRUE AND uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_row ();
+			$result->free ();
+			return $data [0];
+		}
+	}
+	return FALSE;
+}
+
+function is_admin($uuid) {
+	global $db;
+	
+	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ?");
 	$statement->bind_param('s', $uuid);
 	
 	if ($statement->execute()) {

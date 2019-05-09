@@ -16,7 +16,6 @@ $variables = array (
 if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 
 	$staffUUID = trim ( $_GET ['staffid'] );
-	$engines = get_engines ();
 	$eventUUID = trim ( $_GET ['id'] );
 	
 	$event = get_event($eventUUID);
@@ -26,22 +25,30 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 	    $variables ['showFormular'] = true;
 	    
     	$variables ['title'] = "In " . get_eventtype($event->type)->type . " einteilen";
-    	$variables ['engines'] = $engines;
+    	$variables ['engines'] = get_engines ();
+    	$variables ['user'] = get_user_of_engine(get_engine_of_user($_SESSION ['guardian_userid']));
     	$variables ['eventUUID'] = $eventUUID;
     	$variables ['staffUUID'] = $staffUUID;
     	$variables ['subtitle'] = date($config ["formats"] ["date"], strtotime($event->date)) 
     	. " - " . date($config ["formats"] ["time"], strtotime($event->start_time)) . " " . $staffposition->position;
-    
+        		
     	if (isset ( $_POST ['firstname'] ) and isset ( $_POST ['lastname'] ) && isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] )) {
-    
+    		
+    		$user_uuid = null;
+    		if(isset($_POST ['user_uuid'])){
+    			$user_uuid = $_POST ['user_uuid'];
+    		}
+    		
     		$firstname = trim ( $_POST ['firstname'] );
     		$lastname = trim ( $_POST ['lastname'] );
     		$email = strtolower(trim ( $_POST ['email'] ));
-    		$engineUUID = trim ( $_POST ['engine'] );
+    		$engineUUID = trim ( $_POST ['engine_hid'] );
     		
-    		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
-    		if($user_uuid){
-    					    			
+    		if($user_uuid == null){
+    			$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
+    		}
+    		
+    		if($user_uuid){			
     			if(add_staff_user ( $staffUUID, $user_uuid )){
     				mail_add_staff_user ($eventUUID, $user_uuid);
     				

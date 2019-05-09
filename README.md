@@ -5,6 +5,7 @@ ALTER TABLE `event` ADD `deleted_by` CHAR(36) NULL AFTER `staff_confirmation`;
 ALTER TABLE `staff` ADD `unconfirmed` BOOLEAN NOT NULL AFTER `user`; 
 
 RewriteRule ^html/events/([^/]+)/assign/?([^/]*)/?$ /guardian/html/event_assign.php?id=$1&staffid=$2
+RewriteRule ^html/ajax/user/([^/]+)/?$ /guardian/html/ajax/user.php?uuid=$1
 
 Bugs:
 
@@ -17,8 +18,6 @@ To Do:
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
-
-- Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
 
 
  Infos mit 2-3 Terminen wegen Vorstellung
@@ -58,6 +57,7 @@ Done:
 	Person trägt sich ein: Keine Mail an diese Person (mit optionalem Haken)
 	Wachhabender trägt ein: Keine Mail an diesen Wachhabenden (mit optionalem Haken)
 	usw.
+- Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
 
 
 - Report in detail (not text)
