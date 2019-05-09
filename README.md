@@ -1,7 +1,10 @@
 #guardian
 
 ALTER TABLE `event` ADD `staff_confirmation` BOOLEAN NOT NULL AFTER `published`; 
+ALTER TABLE `event` ADD `deleted_by` CHAR(36) NULL AFTER `staff_confirmation`; 
 ALTER TABLE `staff` ADD `unconfirmed` BOOLEAN NOT NULL AFTER `user`; 
+
+RewriteRule ^html/events/([^/]+)/assign/?([^/]*)/?$ /guardian/html/event_assign.php?id=$1&staffid=$2
 
 Bugs:
 
@@ -16,15 +19,6 @@ To Do:
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
 - Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
-
-- Mail, durch selbst druchgeführte Maßnahmen nur optional:
-	Person trägt sich ein: Keine Mail an diese Person (mit optionalem Haken)
-	Wachhabender trägt ein: Keine Mail an diesen Wachhabenden (mit optionalem Haken)
-	usw.
-
-- Wache löschen - Datensatz behalten, markieren, festhalten, wer die Wache gelöscht hat
-
-- Bestätigen-Fenster: Wache gelöscht - Info in Bestätigenfenster: Bitte benachrichte die eingetragenen Personen ...
 
 
  Infos mit 2-3 Terminen wegen Vorstellung
@@ -59,6 +53,11 @@ Refactoring:
 
 Done:
 - Confirmation of attendence of an event by manager of assigned engine
+- Wache löschen - Datensatz behalten, markieren, festhalten, wer die Wache gelöscht hat
+- Mail, durch selbst druchgeführte Maßnahmen nur optional:
+	Person trägt sich ein: Keine Mail an diese Person (mit optionalem Haken)
+	Wachhabender trägt ein: Keine Mail an diesen Wachhabenden (mit optionalem Haken)
+	usw.
 
 
 - Report in detail (not text)

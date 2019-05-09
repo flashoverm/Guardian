@@ -109,6 +109,18 @@
 	
 	<div class="form-group">
 		<label>Benötigtes Wachpersonal:</label>
+			<?php 
+			if($config["settings"]["staffconfirmation"]){
+			?>
+			<div class="form-check">
+				<?php if(isset($event) && $event->staff_confirmation) { ?>
+					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation" checked> 
+				<?php } else { ?>
+					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation">
+				<?php }?>
+				<label for="confirmation">Personal muss bestätigt werden</label>
+			</div>
+			<?php } ?>
 		<div class="table-responsive">
 			<table class="table table-bordered">
 				<tbody id="staffContainer">
@@ -253,19 +265,6 @@
 			</div>
 		</div>	
 	</div>
-	<?php 
-	if($config["settings"]["staffconfirmation"]){
-	?>
-	<div class="form-check">
-		<?php if(isset($event) && $event->staff_confirmation) { ?>
-			<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation" checked> 
-		<?php } else { ?>
-			<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation">
-		<?php }?>
-		<label for="confirmation">Personal muss bestätigt werden</label>
-	</div>
-	<?php } ?>
-
 		<?php
 		if(isset($event)){
 			echo "	<div class='form-check'>
@@ -276,6 +275,10 @@
 			echo "	<div class='form-check'>
 						<input type='checkbox' class='form-check-input' id='publish' name='publish'>
 						<label for='publish'>Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
+					</div>
+					<div class='form-check'>
+						<input type='checkbox' class='form-check-input' name='informMe' id='informMe' checked> 
+						<label for='informMe'>Information über angelegte Wache an eigene E-Mail-Adresse</label>
 					</div>";
 		}
 		if(isset($event)){

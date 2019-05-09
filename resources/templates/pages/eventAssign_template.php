@@ -1,9 +1,6 @@
-<?php
-if (! $isAdmin) {
-	showAlert ( "Kein Administrator angemeldet - <a href=\"" . $config["urls"]["html"] . "/events\" class=\"alert-link\">Zurück</a>" );
-} else {
-
-?><form onsubmit="showLoader()" action="" method="post">
+<form onsubmit="showLoader()"
+	action="<?= $config["urls"]["html"] . "/events/".$eventUUID."/assign/".$staffUUID ?>"
+	method="post">
 	<div class="form-group">
 		<label>Vorname:</label> <input type="text" class="form-control"
 			required="required" name="firstname" id="firstname"
@@ -21,17 +18,19 @@ if (! $isAdmin) {
 	</div>
 	<div class="form-group">
 		<label>Löschzug:</label> 
-			<select class="form-control" name="engine" required="required">
+		<select class="form-control" name="engine" required="required">
 			<option value="" disabled selected>Löschzug auswählen</option>
 			<?php foreach ( $engines as $option ) : ?>
-				<option value="<?= $option->uuid; ?>"><?= $option->name; ?></option>
+			<option value="<?=  $option->uuid; ?>"><?= $option->name; ?></option>
 			<?php endforeach; ?>
-			
 		</select>
 	</div>
-	<input type="submit" value="Anlegen" class="btn btn-primary">
-	<a href='<?= $config["urls"]["html"]?>/manager' class='btn btn-outline-primary'>Zurück</a>
+	
+	<?php
+	if (isset ( $eventUUID )) {
+		echo "<a href='" . $config["urls"]["html"] . "/events/" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
+	}
+	?>
+	<input type="submit" value="Einteilen" class="btn btn-primary">
+
 </form>
-<?php 
-}
-?>

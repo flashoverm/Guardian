@@ -25,12 +25,12 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 	if(isset($event) and isset($staffposition)) {
 	    $variables ['showFormular'] = true;
 	    
-    	$variables ['title'] = "In " . get_eventtype($event->type)->type . " eintragen";
+    	$variables ['title'] = "In " . get_eventtype($event->type)->type . " einteilen";
     	$variables ['engines'] = $engines;
-    	$variables ['event'] = $event;
+    	$variables ['eventUUID'] = $eventUUID;
     	$variables ['staffUUID'] = $staffUUID;
     	$variables ['subtitle'] = date($config ["formats"] ["date"], strtotime($event->date)) 
-    	. " - " . date($config ["formats"] ["time"], strtotime($event->start_time)) . " als " . $staffposition->position;
+    	. " - " . date($config ["formats"] ["time"], strtotime($event->start_time)) . " " . $staffposition->position;
     
     	if (isset ( $_POST ['firstname'] ) and isset ( $_POST ['lastname'] ) && isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] )) {
     
@@ -39,25 +39,19 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		$email = strtolower(trim ( $_POST ['email'] ));
     		$engineUUID = trim ( $_POST ['engine'] );
     		
-    		$informMe = false;
-    		if(isset($_POST ['informMe'])){
-    			$informMe = true;
-    		}
-    		
     		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
     		if($user_uuid){
-
-    			if(subscribe_staff_user ( $staffUUID, $user_uuid )){
+    					    			
+    			if(add_staff_user ( $staffUUID, $user_uuid )){
+    				mail_add_staff_user ($eventUUID, $user_uuid);
     				
-    				mail_subscribe_staff_user ( $eventUUID, $user_uuid, $informMe);
-	    			
-	    			$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
-	    			$variables ['showFormular'] = false;
-	    			header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
-	    			
+    				$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    				$variables ['showFormular'] = false;
+    				header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
     			} else {
     				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
     			}
+
     		} else {
     			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
     		}
@@ -67,5 +61,5 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     $variables ['alertMessage'] = "Fehlende Parameter";
 }
 
-renderLayoutWithContentFile ( "eventSubscribe_template.php", $variables );
+renderLayoutWithContentFile ( "eventAssign_template.php", $variables );
 ?>

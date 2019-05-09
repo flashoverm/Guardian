@@ -78,7 +78,13 @@ if ($isCreator) {
 				</td>
 				<td><?php
 					if ($entry->user == NULL and $relevant) {
-						echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
+						
+						if(isset($_SESSION['guardian_userid']) && is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid'])){
+							echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/assign/" . $entry->uuid . "'>Einteilen</a>";
+							
+						} else {
+							echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
+						}
 					}
 					
 					
@@ -171,7 +177,7 @@ if ($isCreator) {
 	        if($isCreator and $relevant) {?>
             	<input type='hidden' name='publish' id='publish' value='publish'/>
                     <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
-				  	&nbsp;<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+				  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
                     </span>
 
 					<div class='modal' id='confirmPublish<?= $event->uuid ?>'>
@@ -191,13 +197,16 @@ if ($isCreator) {
 					    </div>
 					  </div>
 					</div>
-            	<a class='btn btn-primary float-right' href='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
+            	<a class='btn btn-primary float-right mr-1' href='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
             <?php 
 	        } else {
 	            echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
 	        }
 		} else {
 		    echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
+		    if($isCreator and $relevant) {
+		    	echo "<a class='btn btn-primary float-right mr-1' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>";
+		    }
 		}
 	    echo "</form>";
 	}

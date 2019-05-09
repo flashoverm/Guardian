@@ -161,7 +161,12 @@ if (isset ( $_POST ['type'] ) ) {
 	} else{
 		
 		if($event_uuid){
-			if(mail_insert_event ( $event_uuid, $creator, $publish)){
+			$informMe = false;
+			if(isset($_POST ['informMe'])){
+				$informMe = true;
+			}
+			
+			if(mail_insert_event ( $event_uuid, $informMe, $publish)){
 				$variables ['successMessage'] = "Wache angelegt";
 				
 				header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects

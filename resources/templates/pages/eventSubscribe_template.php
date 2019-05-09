@@ -1,5 +1,5 @@
 <form onsubmit="showLoader()"
-	action="<?= $config["urls"]["html"] . "/events/".$eventUUID."/subscribe/".$staffUUID ?>"
+	action="<?= $config["urls"]["html"] . "/events/".$event->uuid."/subscribe/".$staffUUID ?>"
 	method="post">
 	<div class="form-group">
 		<label>Vorname:</label> <input type="text" class="form-control"
@@ -26,14 +26,22 @@
 		</select>
 	</div>
 	<?php
-	if($config ["settings"] ["usermailonsubscription"]){
-		echo "<div class='form-check'>
-		<input type='checkbox' class='form-check-input' name='noMail' id='noMail'> <label
-		for='noMail'>Keine Bestätigung per E-Mail senden</label>
-		</div>";
+	if($event->staff_confirmation){
+		echo "<p>Sie werden per E-Mail informiert, sobald der Wachbeauftragte ihre Teilnahme bestätigt hat.</p>";
+	} else {
+		?>
+		<div class='form-check'>
+			<input type='checkbox' class='form-check-input' name='informMe' id='informMe'> 
+			<label for='informMe'>Benachrichtung an eigene E-Mail-Adresse senden</label>
+		</div>
+		<?php 
 	}
-	if (isset ( $eventUUID )) {
-		echo "<a href='" . $config["urls"]["html"] . "/events/" . $eventUUID . "' class=\"btn btn-outline-primary\">Zurück</a>";
+	?>
+
+	
+	<?php
+	if (isset ( $event->uuid )) {
+		echo "<a href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "' class=\"btn btn-outline-primary\">Zurück</a>";
 	}
 	?>
 	<input type="submit" value="Eintragen" class="btn btn-primary">
