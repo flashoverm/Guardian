@@ -16,11 +16,6 @@ Bugs:
 
 To Do: 
 
-- Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
-
-- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
-
-
  Infos mit 2-3 Terminen wegen Vorstellung
 
  
@@ -36,6 +31,7 @@ New feature:
 
 - Event Report Export in Invoice-Style for Administration
 
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 
 Low prio:
 
@@ -59,6 +55,7 @@ Done:
 	Wachhabender trägt ein: Keine Mail an diesen Wachhabenden (mit optionalem Haken)
 	usw.
 - Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
+- Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
 
 
 - Report in detail (not text)
