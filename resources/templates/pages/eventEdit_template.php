@@ -6,6 +6,8 @@
 		echo "<input type='hidden' name='eventid' id='eventid' value='" . $event->uuid . "'/>";
 	}
 	?>
+	<input type='hidden' name='forwardToEvent' id='forwardToEvent' value=1/>
+	
 	<div class="row">
 		<div class="col">
 			<div class="form-group">
@@ -296,6 +298,10 @@
 			//echo " Anlegen";
 		}?>
 		>
+	<?php if(!isset($event)){
+	    echo "<button type='button' class='btn btn-primary float-right' onClick='submitMutible()'>Anlegen (Mehrfacheingabe)</button>";
+	}?>
+	
 </form>
 
 
@@ -312,6 +318,14 @@
 	    form.attachEvent("submit", processForm);
 	} else {
 	    form.addEventListener("submit", processForm);
+	}
+
+	function submitMutible(){
+		var forwardToEvent = document.getElementById("forwardToEvent");
+		forwardToEvent.value = 0;		
+
+		var form = document.getElementById('eventForm');
+		form.submit();
 	}
 
 	function setStaffAlert(visible) {

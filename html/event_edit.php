@@ -169,7 +169,13 @@ if (isset ( $_POST ['type'] ) ) {
 			if(mail_insert_event ( $event_uuid, $informMe, $publish)){
 				$variables ['successMessage'] = "Wache angelegt";
 				
-				header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
+				if(isset($_POST ['forwardToEvent']) && $_POST ['forwardToEvent'] == 1){
+				    header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects
+				} else {
+				    $event_uuid = null;
+				}
+				
+				
 			} else {
 				$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
 			}
@@ -177,10 +183,12 @@ if (isset ( $_POST ['type'] ) ) {
 			$variables ['alertMessage'] = "Wache konnte nicht angelegt werden";
 		}
 	}
-	$event = get_event($event_uuid);
-	$staff = get_staff($event_uuid);
-	$variables['event'] = $event;
-	$variables['staff'] = $staff;
+	if($event_uuid != null){
+	    $event = get_event($event_uuid);
+	    $staff = get_staff($event_uuid);
+	    $variables['event'] = $event;
+	    $variables['staff'] = $staff;
+	}
 }
 
 renderLayoutWithContentFile ( "eventEdit_template.php", $variables );

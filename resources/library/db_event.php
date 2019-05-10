@@ -32,7 +32,7 @@ function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $com
 		// echo "New event record created successfully";
 		return $uuid;
 	} else {
-		//echo "Error: " . $query . "<br>" . $db->error;
+		//echo "Error: " . "<br>" . $db->error;
 		return false;
 	}
 }
@@ -524,7 +524,7 @@ function create_table_event() {
                           uuid CHARACTER(36) NOT NULL,
 						  date DATE NOT NULL,
                           start_time TIME NOT NULL,
-                          end_time TIME NOT NULL,
+                          end_time TIME,
                           type CHARACTER(36) NOT NULL,
                           type_other VARCHAR(96),
 						  title VARCHAR(96),
