@@ -88,8 +88,7 @@
 			<?php } endforeach; ?>
 		</select>
 	</div>
-	
-	
+		
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" name="ilsEntry" id="ilsEntry"> <label
 			for="ilsEntry">Wache durch ILS angelegt</label>

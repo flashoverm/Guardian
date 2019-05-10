@@ -17,16 +17,22 @@ $bodies = array (
     
 		"event_publish" => $util["head"] . "eine neue Wache wurde veröffentlicht: \n\n",	
 		
+		"event_staff_confirmed" => $util["head"] . "sie können an einer Wache teilnehmen, bei der sie sich eingetragen haben: \n\n",
+		
 		"event_delete" => $util["head"] . "eine Wache, bei der Sie sich eingetragen haben, wurde abgesagt: \n\n",
 		
-		"event_subscribe" => $util["head"] . "sie haben sich in eine Wache eingeschrieben oder wurden eingeteilt: \n\n",
+		"event_subscribe" => $util["head"] . "sie haben sich in eine Wache eingeschrieben: \n\n",
 		
-		"event_subscribe_manager" => $util["head"] . "jemand aus Ihrem Zug hat sich in eine Wache eingeschrieben oder wurde eingeteilt: \n\n",
+		"event_staff_add" => $util["head"] . "sie wurden in eine Wache eingeteilt: \n\n",
 		
-		"event_full" => $util["head"] . "eine von Ihnen erstellte Wache ist voll belegt: \n\n",
+		"event_subscribe_manager" => $util["head"] . "jemand aus Ihrem Zug nimmt an einer Wache teil: \n\n",
 		
-		"event_subscribe_engine" => $util["head"] . "jemand hat sich in eine von Ihnen erstellte Wache eingeschrieben oder wurde eingeteilt: \n\n",
+		"event_full" => $util["head"] . "eine Wache ist voll belegt: \n\n",
+		
+		"event_subscribe_engine" => $util["head"] . "jemand hat sich in eine Ihrem Zug zugewiesene Wache eingeschrieben: \n\n",
     
+		"event_subscribe_engine_confirm" => $util["head"] . "jemand hat sich in eine Ihrem Zug zugewiesene Wache eingeschrieben und muss bestätigt werden: \n\n",
+		
         "event_not_full" => $util["head"] . "eine Wache findet in ".$config ["settings"] ["reminderAtDay"]." Tagen statt und hat noch nicht die nötige Besetzung erreicht: \n\n",
 		
 		"event_unscribe" => $util["head"] . "sie wurden durch den Wachbeauftragten von der Wache entfernt: \n\n",

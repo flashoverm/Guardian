@@ -67,17 +67,64 @@ if ($isCreator) {
 					?>
 			<tr>
 				<td><?= get_staffposition($entry->position)->position; ?></td>
-				<td><?php if($entry->user != NULL){echo $name; }?></td>
+				<td><?php 
+						if($entry->user != NULL){
+							echo $name; 
+							if($event->staff_confirmation && $entry->unconfirmed){
+								echo "<br><i>Bestätigung ausstehend</i>";
+							}
+						}
+					?>
+				</td>
 				<td><?php
 					if ($entry->user == NULL and $relevant) {
-						echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
-					}
-					if ($entry->user != NULL and $isCreator and $relevant) {?>
-						<form method='post' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
-							<input type='hidden' name='staffid' id='staffid' value='<?= $event->uuid ?>'/>
-							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $event->uuid ?>'>Austragen</button>
+						
+						if(isset($_SESSION['guardian_userid']) && is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid'])){
+							echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/assign/" . $entry->uuid . "'>Einteilen</a>";
 							
-							<div class='modal' id='confirmUnscribe<?= $event->uuid ?>'>
+						} else {
+							echo "<a class='btn btn-primary btn-sm' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/subscribe/" . $entry->uuid . "'>Eintragen</a>";
+						}
+					}
+					
+					
+					if ($entry->user != NULL and $isCreator and $relevant and $event->staff_confirmation) {
+						if($entry->unconfirmed){
+						?>
+							<form method='post' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
+								<input type='hidden' name='confirmstaffid' id='confirmstaffid' value='<?= $entry->uuid ?>'/>
+								<button type='button' class='btn btn-primary btn-sm mb-1' data-toggle='modal' data-target='#confirmConfirmation<?= $entry->uuid ?>'>Bestätigen</button>
+								
+								<div class='modal' id='confirmConfirmation<?= $entry->uuid ?>'>
+								  <div class='modal-dialog'>
+								    <div class='modal-content'>
+								
+								      <div class='modal-header'>
+								        <h4 class='modal-title'>Personal wirklich bestätigen?</h4>
+								        <button type='button' class='close' data-dismiss='modal'>&times;</button>
+								      </div>
+								
+								      <div class='modal-footer'>
+								      	<input type='submit' value='Bestätigen' class='btn btn-primary' onClick='showLoader()'/>
+								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+								      </div>
+								
+								    </div>
+								  </div>
+								</div> 
+							</form>
+					<?php 	} else { ?>
+							<button type='button' class='btn btn-outline-primary btn-sm' disabled>Bestätigt</button>
+					<?php 	}
+					} 
+					
+					
+					if ($entry->user != NULL and $isCreator and $relevant) {?>
+						<form method='post' style='display:inline' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
+							<input type='hidden' name='removestaffid' id='removestaffid' value='<?= $entry->uuid ?>'/>
+							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $entry->uuid ?>'>Austragen</button>
+							
+							<div class='modal' id='confirmUnscribe<?= $entry->uuid ?>'>
 							  <div class='modal-dialog'>
 							    <div class='modal-content'>
 							
@@ -109,7 +156,7 @@ if ($isCreator) {
 				</td>
 			</tr>
 			<?php
-			if(!$isCreator && (get_engine_of_user($_SESSION['guardian_userid']) == $event->engine || $isAdmin)){
+			if(isset($_SESSION['guardian_userid']) && !$isCreator && (get_engine_of_user($_SESSION['guardian_userid']) == $event->engine || $isAdmin)){
 			    $creator = get_user($event->creator);
 			?>
 			    <tr>
@@ -130,7 +177,7 @@ if ($isCreator) {
 	        if($isCreator and $relevant) {?>
             	<input type='hidden' name='publish' id='publish' value='publish'/>
                     <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
-				  	&nbsp;<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
+				  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
                     </span>
 
 					<div class='modal' id='confirmPublish<?= $event->uuid ?>'>
@@ -150,13 +197,16 @@ if ($isCreator) {
 					    </div>
 					  </div>
 					</div>
-            	<a class='btn btn-primary float-right' href='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
+            	<a class='btn btn-primary float-right mr-1' href='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
             <?php 
 	        } else {
 	            echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
 	        }
 		} else {
 		    echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
+		    if($isCreator and $relevant) {
+		    	echo "<a class='btn btn-primary float-right mr-1' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>";
+		    }
 		}
 	    echo "</form>";
 	}

@@ -76,6 +76,25 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	}
 }
 
+function get_all_user() {
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM user ORDER BY lastname");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
 function get_all_manager() {
 	global $db;
 	$data = array ();
@@ -95,12 +114,12 @@ function get_all_manager() {
 	return $data;
 }
 
-function get_manager_except_engine_and_creator($engine_uuid, $creator_uuid){
+function get_user_of_engine($engine_uuid){
 	global $db;
 	$data = array ();
-		
-	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND NOT engine = ? AND NOT uuid = ?");
-	$statement->bind_param('ss', $engine_uuid, $creator_uuid);
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE engine = ?");
+	$statement->bind_param('s', $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -192,6 +211,42 @@ function is_admin($uuid) {
 	
 	$statement = $db->prepare("SELECT isadmin FROM user WHERE isadmin = TRUE AND uuid = ?");
 	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_row ();
+			$result->free ();
+			return $data [0];
+		}
+	}
+	return FALSE;
+}
+
+function is_manager($uuid) {
+	global $db;
+	
+	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_row ();
+			$result->free ();
+			return $data [0];
+		}
+	}
+	return FALSE;
+}
+
+function is_manager_of($user_uuid, $engine_uuid){
+	global $db;
+	
+	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ? AND engine = ?");
+	$statement->bind_param('ss', $user_uuid, $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();

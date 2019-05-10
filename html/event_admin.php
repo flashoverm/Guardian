@@ -17,7 +17,7 @@ if(isset($_SESSION ['guardian_userid']) && is_admin($_SESSION ['guardian_userid'
     
     if (isset ( $_POST ['delete'] )) {
         $delete_event_uuid = trim ( $_POST ['delete'] );
-        if(delete_event ( $delete_event_uuid )){
+        if(delete_event ( $delete_event_uuid, $_SESSION ['guardian_userid'] )){
             $variables ['successMessage'] = "Wache gelöscht";
         } else {
             $variables ['alertMessage'] = "Wache konnte nicht gelöscht werden";

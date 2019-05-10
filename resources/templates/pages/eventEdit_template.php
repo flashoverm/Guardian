@@ -36,7 +36,7 @@
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($event) && $event->end_time != null){
-					//echo "value='" . substr($event->end_time, 0, strlen($event->end_time)-3) . "'";
+					echo "value='" . substr($event->end_time, 0, strlen($event->end_time)-3) . "'";
 				}?>
 				name="end" id="end" pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
@@ -109,6 +109,18 @@
 	
 	<div class="form-group">
 		<label>Benötigtes Wachpersonal:</label>
+			<?php 
+			if($config["settings"]["staffconfirmation"]){
+			?>
+			<div class="form-check">
+				<?php if(isset($event) && $event->staff_confirmation) { ?>
+					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation" checked> 
+				<?php } else { ?>
+					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation">
+				<?php }?>
+				<label for="confirmation">Personal muss bestätigt werden</label>
+			</div>
+			<?php } ?>
 		<div class="table-responsive">
 			<table class="table table-bordered">
 				<tbody id="staffContainer">
@@ -179,7 +191,14 @@
 									</select>
 							</td>
 							<td class='py-0 align-middle'>
-								<?php if($entry->user != NULL){ echo $name; }?>
+								<?php 
+									if($entry->user != NULL){
+										echo $name; 
+										if($event->staff_confirmation && $entry->unconfirmed){
+											echo "<br><i>Bestätigung ausstehend</i>";
+										}
+									}
+								?>
 							</td>
 							<td class="p-0 text-center align-middle" style="width:  8%">								
 								<?php
@@ -216,15 +235,15 @@
 						?>
 						<tr id="staffEntry1">
 							<td class="p-0">
-									<select class="select-cornered" name="staff1" required="required" id="staff1">
-										<option value="" disabled selected>Funktion auswählen</option>
-										<?php foreach ( $staffpositions as $option ) : 
-										?>
-											<option value="<?=  $option->uuid; ?>"><?= $option->position; ?></option>
-										<?php
-										endforeach; 
-							            ?>
-									</select>
+								<select class="select-cornered" name="staff1" required="required" id="staff1">
+									<option value="" disabled selected>Funktion auswählen</option>
+									<?php foreach ( $staffpositions as $option ) : 
+									?>
+										<option value="<?=  $option->uuid; ?>"><?= $option->position; ?></option>
+									<?php
+									endforeach; 
+						            ?>
+								</select>
 							</td>
 							<?php
 							if(isset($event) ){
@@ -246,7 +265,6 @@
 			</div>
 		</div>	
 	</div>
-
 		<?php
 		if(isset($event)){
 			echo "	<div class='form-check'>
@@ -257,6 +275,10 @@
 			echo "	<div class='form-check'>
 						<input type='checkbox' class='form-check-input' id='publish' name='publish'>
 						<label for='publish'>Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
+					</div>
+					<div class='form-check'>
+						<input type='checkbox' class='form-check-input' name='informMe' id='informMe' checked> 
+						<label for='informMe'>Information über angelegte Wache an eigene E-Mail-Adresse</label>
 					</div>";
 		}
 		if(isset($event)){
@@ -453,7 +475,6 @@
 	        	for(var i = 0; i < response.length; i++) {
 	        		var select = eventAddStaff();
 	        		select.value = response[i].uuid;
-	        		console.log(response[i].uuid + " " + response[i].position);
 	        	}
 	    	} else {
 		    	var button = document.getElementById("loadTemplate");

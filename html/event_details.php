@@ -45,14 +45,24 @@ if (! isset($_GET['id'])) {
     		$variables['subtitle'] = $event->type_other;
     	}
     	
-    	if (isset($_POST['staffid'])) {
-    		$staff_uuid = trim($_POST['staffid']);
+    	if (isset($_POST['removestaffid'])) {
+    		$staff_uuid = trim($_POST['removestaffid']);
     		mail_remove_staff_user($staff_uuid, $uuid);
     		if(remove_staff_user($staff_uuid)){
     			$variables['successMessage'] = "Personal-Eintrag entfernt";
     		} else {
     			$variables['alertMessage'] = "Eintrag konnte nicht entfernt werden";
     		}	
+    	}
+    	
+    	if (isset($_POST['confirmstaffid'])) {
+    		$staff_uuid = trim($_POST['confirmstaffid']);
+    		mail_confirm_staff_user($staff_uuid, $uuid);
+    		if(confirm_staff_user($staff_uuid)){
+    			$variables['successMessage'] = "Personal bestätigt";
+    		} else {
+    			$variables['alertMessage'] = "Personal konnte nicht bestätigt werden";
+    		}
     	}
     	
     	if (isset($_POST['publish']) && $event->engine != NULL) {

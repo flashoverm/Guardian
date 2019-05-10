@@ -76,7 +76,24 @@ function get_engines() {
 	return $data;
 }
 
-function get_engines_without_office() {
+function get_administration() {
+	global $db;
+	
+	$statement = $db->prepare("SELECT * FROM engine WHERE isadministration =  TRUE");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_object ();
+			$result->free ();
+			return $data;
+		}
+	}
+	return false;
+}
+
+function get_engines_without_administration() {
     global $db;
     $data = array ();
     

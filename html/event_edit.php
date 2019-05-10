@@ -98,6 +98,7 @@ if (isset ( $_POST ['type'] ) ) {
 	$comment = "";
 	$inform = false;
 	$publish = false;
+	$staff_confirmation = false;
 	
 	$creator = $_SESSION ['guardian_userid'];
 	
@@ -110,11 +111,14 @@ if (isset ( $_POST ['type'] ) ) {
 	if(isset($_POST ['publish'])){
 		$publish = true;
 	}
+	if(isset($_POST ['confirmation'])){
+		$staff_confirmation = true;
+	}
 	
 	if(isset($_POST ['eventid'])){
 		$event_uuid = $_POST ['eventid'];
 				
-		$updateSuccess = update_event ($event_uuid, $date, $start, $end, $type, $typeOther, $title, $comment, $engine);
+		$updateSuccess = update_event ($event_uuid, $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $staff_confirmation);
 		
 		foreach($staff as $entry):
 			if(!isset($_POST [$entry->uuid])){
@@ -128,14 +132,14 @@ if (isset ( $_POST ['type'] ) ) {
 		}
 		endforeach;
 	} else {
-		$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator, $publish);
+		$event_uuid = insert_event ( $date, $start, $end, $type, $typeOther, $title, $comment, $engine, $creator, $publish, $staff_confirmation);
 	}
 	
 	if($event_uuid){
 		$count = $_POST ['positionCount'];
 		for ($i = 0; $i <= $count; $i++) {
 			if(isset($_POST ["staff" . $i])){
-				insert_staff ( $event_uuid, $_POST ["staff" . $i]);
+				insert_staff ( $event_uuid, $_POST ["staff" . $i], $staff_confirmation);
 			}
 		}
 	}
@@ -157,7 +161,12 @@ if (isset ( $_POST ['type'] ) ) {
 	} else{
 		
 		if($event_uuid){
-			if(mail_insert_event ( $event_uuid, $creator, $publish)){
+			$informMe = false;
+			if(isset($_POST ['informMe'])){
+				$informMe = true;
+			}
+			
+			if(mail_insert_event ( $event_uuid, $informMe, $publish)){
 				$variables ['successMessage'] = "Wache angelegt";
 				
 				header ( "Location: " . $config["urls"]["html"] . "/events/" . $event_uuid ); // redirects

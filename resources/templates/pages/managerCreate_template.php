@@ -30,6 +30,7 @@ if (! $isAdmin) {
 		</select>
 	</div>
 	<input type="submit" value="Anlegen" class="btn btn-primary">
+	<a href='<?= $config["urls"]["html"]?>/manager' class='btn btn-outline-primary'>Zurück</a>
 </form>
 <?php 
 }
