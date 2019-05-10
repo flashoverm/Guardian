@@ -17,23 +17,21 @@ Bugs:
 To Do: 
 
  Infos mit 2-3 Terminen wegen Vorstellung
-
+ 
+ - Masseneingabe
+ 
  
 New feature:
 
 - Make position available after assigned (Mark as "released")
 
-- Masseneingabe
-
-- Check dates - New event could not be in past
-
-- Eine Person darf nicht zwei Positionen belegen
+- Check dates - New event could not be in past, report not in future
 
 - Event import function from excel
 
 - Event Report Export in Invoice-Style for Administration
 
-- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)
 
 Low prio:
 
@@ -50,6 +48,8 @@ Refactoring:
 - move javascript in own js-file
 
 Done:
+ - Eine Person darf nicht zwei Positionen belegen
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt
 - Confirmation of attendence of an event by manager of assigned engine
 - Wache löschen - Datensatz behalten, markieren, festhalten, wer die Wache gelöscht hat
 - Mail, durch selbst druchgeführte Maßnahmen nur optional:

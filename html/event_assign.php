@@ -32,7 +32,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     	$variables ['subtitle'] = date($config ["formats"] ["date"], strtotime($event->date)) 
     	. " - " . date($config ["formats"] ["time"], strtotime($event->start_time)) . " " . $staffposition->position;
         		
-    	if (isset ( $_POST ['firstname'] ) and isset ( $_POST ['lastname'] ) && isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] )) {
+    	if (isset ( $_POST ['firstname'] ) and isset ( $_POST ['lastname'] ) && isset ( $_POST ['email'] ) && isset ( $_POST ['engine_hid'] )) {
     		
     		$user_uuid = null;
     		if(isset($_POST ['user_uuid'])){
@@ -48,16 +48,24 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     			$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
     		}
     		
-    		if($user_uuid){			
-    			if(add_staff_user ( $staffUUID, $user_uuid )){
-    				mail_add_staff_user ($eventUUID, $user_uuid);
-    				
-    				$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
-    				$variables ['showFormular'] = false;
-    				header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
-    			} else {
-    				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
-    			}
+    		if($user_uuid){	
+    		    
+    		    //if uuid is already in event -> error
+    		    if(is_user_already_staff($eventUUID, $user_uuid)){
+    		        
+        			if(add_staff_user ( $staffUUID, $user_uuid )){
+        				mail_add_staff_user ($eventUUID, $user_uuid);
+        				
+        				$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+        				$variables ['showFormular'] = false;
+        				//header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
+        			} else {
+        				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+        			}
+        			
+    		    } else {
+    		        $variables ['alertMessage'] = "Eintragen nicht möglich - Person besetzt bereits eine Position";
+    		    }
 
     		} else {
     			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";

@@ -46,18 +46,26 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		
     		$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
     		if($user_uuid){
-
-    			if(subscribe_staff_user ( $staffUUID, $user_uuid )){
-    				
-    				mail_subscribe_staff_user ( $eventUUID, $user_uuid, $informMe);
-	    			
-	    			$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
-	    			$variables ['showFormular'] = false;
-	    			header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
-	    			
-    			} else {
-    				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
-    			}
+    		    
+    		    //if uuid is already in event -> error
+    		    if(is_user_already_staff($eventUUID, $user_uuid)){
+    		        
+        			if(subscribe_staff_user ( $staffUUID, $user_uuid )){
+        				
+        				mail_subscribe_staff_user ( $eventUUID, $user_uuid, $informMe);
+    	    			
+    	    			$variables ['successMessage'] = "Als Wachteilnehmer eingetragen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    	    			$variables ['showFormular'] = false;
+    	    			header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
+    	    			
+        			} else {
+        				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+        			}
+        			
+        		} else {
+        		    $variables ['alertMessage'] = "Eintragen nicht möglich - Person besetzt bereits eine Position";
+        		}
+    			
     		} else {
     			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
     		}
