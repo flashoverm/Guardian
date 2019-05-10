@@ -30,6 +30,11 @@ if ($config ["settings"] ["reportfunction"]) {
     $variables ['eventtypes'] = $eventtypes;
     $variables ['staffpositions'] = $staffpositions;
     
+    if(isset($_GET['event'])){
+        $event = get_event($_GET['event']);
+        $variables['event'] = $event;
+    }
+
     
 } else {
     $variables ['showFormular'] = false;

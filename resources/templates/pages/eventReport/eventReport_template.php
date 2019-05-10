@@ -8,6 +8,10 @@
 				<label>Datum:</label> <input type="date" required="required" 
 				placeholder="TT.MM.JJJJ" title="TT.MM.JJJJ"	class="form-control" 
 				name="date" id="date" 
+				<?php
+				if(isset($event) ){
+					echo "value='" . $event->date . "'";
+				}?>
 				required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}">
 			</div>
 		</div>
@@ -16,6 +20,10 @@
 				<label>Wachbeginn:</label> <input type="time" required="required" 
 				placeholder="--:--" title="--:--" class="form-control" 
 				name="start" id="start" 
+				<?php
+				if(isset($event) ){
+					echo "value='" . $event->start_time . "'";
+				}?>
 				required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
 		</div>
@@ -23,6 +31,10 @@
 			<div class="form-group">
 				<label>Ende:</label> <input type="time" required="required" 
 				placeholder="--:--" title="--:--" class="form-control" 
+				<?php
+				if(isset($event) && $event->end_time != null ){
+				    echo "value='" . $event->end_time . "'";
+				}?>
 				name="end" id="end" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
 		</div>
@@ -30,21 +42,34 @@
 	
 	<div class="form-group">
 		<label>Typ:</label> <select class="form-control" name="type" id="type" onchange="showHideTypeOther()">
-				<?php foreach ( $eventtypes as $type ) : ?>
-					<option value="<?= $type->uuid; ?>"><?= $type->type; ?></option>
-				<?php endforeach; ?>
-			</select>
+			<?php foreach ( $eventtypes as $type ) : 	
+			if(isset($event) && $type->uuid == $event->type) {
+			    ?>
+				<option value="<?= $type->uuid; ?>" selected><?= $type->type; ?></option>
+			<?php } else {?>
+				<option value="<?= $type->uuid; ?>"><?= $type->type; ?></option>
+			<?php }
+			endforeach; ?>
+		</select>
 	</div>
 	
 	<div class="form-group" id="groupTypeOther" style=>
 		<label>Sonstiger Wachtyp:</label> <input type="text" required="required"
 			class="form-control" name="typeOther" id="typeOther"
+			<?php
+			if(isset($event) && $event->type_other != null){
+			    echo "value='" . $event->type_other . "'";
+			}?>
 			placeholder="Wachtyp eingeben">
 	</div>
 		
 	<div class="form-group">
-		<label>Titel:</label> <input type="text"
+		<label>Titel (optional):</label> <input type="text"
 			class="form-control" name="title" id="title"
+		    <?php
+			if(isset($event) && $event->title != null){
+				echo "value='" . $event->title . "'";
+			}?>
 			placeholder="Titel eingeben">
 	</div>
 	
@@ -52,9 +77,15 @@
 		<label>Zuständiger Löschzug/Verwaltung:</label> <select
 			class="form-control" name="engine" required="required">
 			<option value="" disabled selected>Bitte auswählen</option>
-			<?php foreach ( $engines as $option ) : ?>
+			<?php foreach ( $engines as $option ) :
+			if(isset($event) && $option->uuid == $event->engine){
+			?>
+			<option value="<?=  $option->uuid; ?> " selected><?= $option->name; ?></option>
+			<?php 
+			}else{
+		    ?>
 			<option value="<?=  $option->uuid; ?> "><?= $option->name; ?></option>
-			<?php endforeach; ?>
+			<?php } endforeach; ?>
 		</select>
 	</div>
 	
