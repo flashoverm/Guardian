@@ -44,29 +44,29 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		$email = strtolower(trim ( $_POST ['email'] ));
     		$engineUUID = trim ( $_POST ['engine_hid'] );
     		
-    		if($user_uuid == null){
-    			$user_uuid = insert_user ( $firstname, $lastname, $email, $engineUUID );
-    		}
+    		$user = insert_user ( $firstname, $lastname, $email, $engineUUID );
     		
-    		if($user_uuid){	
-    		    
-    		    //if uuid is already in event -> error
-    		    if(is_user_already_staff($eventUUID, $user_uuid)){
-    		        
-        			if(add_staff_user ( $staffUUID, $user_uuid )){
-        				mail_add_staff_user ($eventUUID, $user_uuid);
-        				
-        				$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
-        				$variables ['showFormular'] = false;
-        				//header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
-        			} else {
-        				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
-        			}
-        			
+    		if($user){	
+    			
+    			if($user->active){
+    				//if uuid is already in event -> error
+    				if(is_user_already_staff($eventUUID, $user->uuid)){
+    					
+    					if(add_staff_user ( $staffUUID, $user->uuid )){
+    						mail_add_staff_user ($eventUUID, $user->uuid);
+    						
+    						$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["html"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    						$variables ['showFormular'] = false;
+    						header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
+    					} else {
+    						$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+    					}
+    				} else {
+    					$variables ['alertMessage'] = "Eintragen nicht möglich - Person besetzt bereits eine Position";
+    				}
     		    } else {
-    		        $variables ['alertMessage'] = "Eintragen nicht möglich - Person besetzt bereits eine Position";
+    		    	$variables ['alertMessage'] = "Eintragen nicht möglich - Person ist nicht für Wachen freigegeben";
     		    }
-
     		} else {
     			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
     		}

@@ -68,10 +68,10 @@ if (! $isAdmin) {
 			<?php
 			if($row->uuid != $_SESSION ['guardian_userid']){
 				if ($row->loginenabled) {
-					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" action='" . $config["urls"]["html"] . "\manager' value='" . $row->uuid . "'/>";
+					echo "<input type=\"hidden\" name=\"disable\" id=\"disable\" value='" . $row->uuid . "'/>";
 					echo "<input type=\"submit\" value=\"Deaktivieren\"  class=\"btn btn-outline-primary btn-sm\"/>";
 				} else {
-					echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" action='" . $config["urls"]["html"] . "\manager' value='" . $row->uuid . "'/>";
+					echo "<input type=\"hidden\" name=\"enable\" id=\"enable\" value='" . $row->uuid . "'/>";
 					echo "<input type=\"submit\" value=\"Aktivieren\"  class=\"btn btn-primary btn-sm\"/>";
 				}
 			}

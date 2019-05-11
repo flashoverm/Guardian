@@ -18,20 +18,27 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_object ();
 			$result->free ();
-			return $data->uuid;
+			return $data;
 		}
 	}
 
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, NULL, FALSE, FALSE, FALSE, ?)");
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
+		VALUES (?, ?, ?, ?, NULL, FALSE, FALSE, FALSE, ?, TRUE)");
 	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $email, $engine_uuid);
 	
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "New record created successfully";
-	    return $uuid;
+		
+		$statement = $db->prepare("SELECT * FROM user WHERE uuid = ?");
+		$statement->bind_param('s', $uuid);
+		$statement->execute();
+		$data = $statement->get_result()->fetch_object ();
+		$result->free ();
+		return $data;
+		
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
 		return false;
@@ -43,7 +50,8 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) 
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, ?, FALSE, TRUE, TRUE, ?)");
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
+		VALUES (?, ?, ?, ?, ?, FALSE, TRUE, TRUE, ?, TRUE)");
 	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
 	
 	$result = $statement->execute();
@@ -62,7 +70,8 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine) VALUES (?, ?, ?, ?, ?, TRUE, TRUE, TRUE, ?)");
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
+		VALUES (?, ?, ?, ?, ?, TRUE, TRUE, TRUE, ?, TRUE)");
 	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
 	
 	$result = $statement->execute();
@@ -81,6 +90,25 @@ function get_all_user() {
 	$data = array ();
 	
 	$statement = $db->prepare("SELECT * FROM user ORDER BY lastname");
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
+}
+
+function get_all_active_user() {
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE active = TRUE ORDER BY lastname");
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -118,7 +146,7 @@ function get_user_of_engine($engine_uuid){
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE engine = ?");
+	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND active = TRUE");
 	$statement->bind_param('s', $engine_uuid);
 	
 	if ($statement->execute()) {
@@ -305,7 +333,7 @@ function deactivate_manager($uuid) {
 	$statement->bind_param('s', $uuid);
 	
 	$result = $statement->execute();
-
+	
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
 		return true;
@@ -319,6 +347,40 @@ function reactivate_manager($uuid) {
 	global $db;
 	
 	$statement = $db->prepare("UPDATE user SET loginenabled = TRUE WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		// echo "Record ".$uuid." updated successfully";
+		return true;
+	} else {
+		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
+function deactivate_user($uuid) {
+	global $db;
+	
+	$statement = $db->prepare("UPDATE user SET active = FALSE WHERE uuid= ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
+
+	if ($result) {
+		// echo "Record ".$uuid." updated successfully";
+		return true;
+	} else {
+		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
+function reactivate_user($uuid) {
+	global $db;
+	
+	$statement = $db->prepare("UPDATE user SET active = TRUE WHERE uuid= ?");
 	$statement->bind_param('s', $uuid);
 	
 	$result = $statement->execute();

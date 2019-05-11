@@ -120,7 +120,11 @@
 				<?php } else { ?>
 					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation">
 				<?php }?>
-				<label for="confirmation">Personal muss bestätigt werden</label>
+				
+				<span class='d-inline-block' data-toggle='tooltip' title='Eingetragenes Personal muss durch Wachbeauftragten bestätigt werden'>
+					<label for="confirmation">Personal muss bestätigt werden</label>
+				</span>
+             
 			</div>
 			<?php } ?>
 		<div class="table-responsive">
