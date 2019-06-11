@@ -36,7 +36,6 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 		$statement->bind_param('s', $uuid);
 		$statement->execute();
 		$data = $statement->get_result()->fetch_object ();
-		$result->free ();
 		return $data;
 		
 	} else {

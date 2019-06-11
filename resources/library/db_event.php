@@ -398,17 +398,21 @@ function confirm_staff_user($staff_uuid){
 function subscribe_staff_user($uuid, $user_uuid) {
 	global $db;
 	
-	$statement = $db->prepare("UPDATE staff SET user = ? WHERE uuid = ?");
+	$statement = $db->prepare("UPDATE staff SET user = ? WHERE user IS NULL AND uuid = ?");
 	$statement->bind_param('ss', $user_uuid, $uuid);
 	
 	$result = $statement->execute();
 	
 	if ($result) {
+		
+		if($db->affected_rows == 0){
+			return 0;
+		}
 		// echo "Record ".$uuid." updated successfully";
-		return true;
+		return 1;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
+		return -1;
 	}
 }
 

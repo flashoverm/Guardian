@@ -16,10 +16,15 @@ Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
+- On SQL-Update: Check if condition is fullfilled
 
-To Do: 
+To Do:
+
+ Ausführlicher Testbetrieb! 
 
  Infos mit 2-3 Terminen wegen Vorstellung
+ 
+ Logging
   
 New feature:
 
@@ -48,6 +53,8 @@ Refactoring:
 - move javascript in own js-file
 
 Done:
+- Added Test-Warning-Text
+
 - E-Mail reminder to assigned engine of the event, not creator
 - Admin can block user for event participation 
 - Masseneingabe

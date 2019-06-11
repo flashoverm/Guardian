@@ -51,8 +51,10 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     			if($user->active){
 	    		    //if uuid is already in event -> error
 	    			if(is_user_already_staff($eventUUID, $user->uuid)){
+	    				
+	    				$result = subscribe_staff_user ( $staffUUID, $user->uuid );
 	    		        
-	    				if(subscribe_staff_user ( $staffUUID, $user->uuid )){
+	    				if($result == 1){
 	        				
 	    					mail_subscribe_staff_user ( $eventUUID, $user->uuid, $informMe);
 	    	    			
@@ -60,9 +62,11 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
 	    	    			$variables ['showFormular'] = false;
 	    	    			header ( "Location: " . $config["urls"]["html"] . "/events/".$eventUUID); // redirects
 	    	    			
-	        			} else {
-	        				$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
-	        			}
+	    				} else if ($result == 0) {
+	    					$variables ['alertMessage'] = "Eintragen nicht möglich - Position bereits belegt";
+	    				} else {
+	    					$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+	    				}
 	        		} else {
 	        		    $variables ['alertMessage'] = "Eintragen nicht möglich - Sie besetzen bereits eine Position";
 	        		}
