@@ -1,17 +1,5 @@
 #guardian
 
-ALTER TABLE `event` ADD `staff_confirmation` BOOLEAN NOT NULL AFTER `published`; 
-ALTER TABLE `event` ADD `deleted_by` CHAR(36) NULL AFTER `staff_confirmation`; 
-ALTER TABLE `staff` ADD `unconfirmed` BOOLEAN NOT NULL AFTER `user`; 
-ALTER TABLE `eventtype` ADD `isseries` BOOLEAN NOT NULL AFTER `type`; 
-ALTER TABLE `event` CHANGE `end_time` `end_time` TIME NULL; 
-ALTER TABLE `user` ADD `active` BOOLEAN NOT NULL AFTER `ismanager`; 
-UPDATE `user` SET active = TRUE
-
-RewriteRule ^html/events/([^/]+)/assign/?([^/]*)/?$ /guardian/html/event_assign.php?id=$1&staffid=$2
-RewriteRule ^html/ajax/user/([^/]+)/?$ /guardian/html/ajax/user.php?uuid=$1
-RewriteRule ^html/user/?$ /guardian/html/user_overview.php
-
 Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/

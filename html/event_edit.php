@@ -42,13 +42,13 @@ if (isset($_GET['id'])) {
     	$now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
     	if(strtotime($event->date) >= $now){
 
-    		if (isset($_SESSION['guardian_userid']) && strcmp($event->creator, $_SESSION['guardian_userid']) == 0) {
+    	    if (is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid'])){
 	            $staff = get_staff($uuid);
 	            $variables['event'] = $event;
 	            $variables['staff'] = $staff;
 	            
 	        } else {
-	            $variables ['alertMessage'] = "Sie sind nicht der Ersteller dieser Wache - Bearbeitung nicht möglich";
+	            $variables ['alertMessage'] = "Sie sind nicht berechtigt, diese Wache zu bearbeiten";
 	            $variables ['showFormular'] = false;
 	        }
 	        
