@@ -16,15 +16,13 @@ Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
-- On SQL-Update: Check if condition is fullfilled
-
 To Do:
 
- Ausführlicher Testbetrieb! 
+- Ausführlicher Testbetrieb! 
 
- Infos mit 2-3 Terminen wegen Vorstellung
+- Infos mit 2-3 Terminen wegen Vorstellung
  
- Logging
+- Logging (differentiate between application (added, removed...) and errors)
   
 New feature:
 
@@ -41,9 +39,10 @@ New feature:
 Low prio:
 
 - Edit-function for units in event report
-	
-- Send HTML mails with infos about events
 
+- Send HTML mails with infos about events or subscriber etc.
+
+- Verify-Link for new user - Delete account if not verified
 
 Refactoring: 
 
@@ -53,6 +52,8 @@ Refactoring:
 - move javascript in own js-file
 
 Done:
+- Fix: On SQL-Update: Check if condition is fullfilled (subscribe)
+- Fix: Engine-Manager can edit etc. an event
 - Added Test-Warning-Text
 
 - E-Mail reminder to assigned engine of the event, not creator

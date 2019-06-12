@@ -88,7 +88,7 @@ if ($isCreator) {
 					}
 					
 					
-					if ($entry->user != NULL and $isCreator and $relevant and $event->staff_confirmation) {
+					if ($entry->user != NULL and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant and $event->staff_confirmation) {
 						if($entry->unconfirmed){
 						?>
 							<form method='post' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
@@ -119,7 +119,7 @@ if ($isCreator) {
 					} 
 					
 					
-					if ($entry->user != NULL and $isCreator and $relevant) {?>
+					if ($entry->user != NULL and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
 						<form method='post' style='display:inline' action='<?= $config["urls"]["html"] ?>/events/<?= $event->uuid ?>'>
 							<input type='hidden' name='removestaffid' id='removestaffid' value='<?= $entry->uuid ?>'/>
 							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $entry->uuid ?>'>Austragen</button>
@@ -174,7 +174,7 @@ if ($isCreator) {
                   <a href='" . $config["urls"]["html"] . "/events' class='btn btn-outline-primary'>Zurück</a>";
 	    
 	    if(!$event->published){
-	        if($isCreator and $relevant) {?>
+	        if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
             	<input type='hidden' name='publish' id='publish' value='publish'/>
                     <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
 				  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish" . $event->uuid ."'>Veröffentlichen</button>
@@ -204,7 +204,7 @@ if ($isCreator) {
 	        }
 		} else {
 		    echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
-		    if($isCreator and $relevant) {
+		    if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {
 		    	echo "<a class='btn btn-primary float-right mr-1' href='" . $config["urls"]["html"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>";
 		    }
 		}
