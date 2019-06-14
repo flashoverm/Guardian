@@ -24,6 +24,8 @@ New feature:
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)
 
+- Bestätigung, dass Person zugiesene Wache zur Kentniss genommen hat
+
 Low prio:
 
 - Edit-function for units in event report
@@ -57,6 +59,7 @@ Done:
 	usw.
 - Autovervollständigen bei "Eintragen" von Personal aus bisherigen Eingaben bzw. MP-Feuerwehr
 - Wachbericht erstellt, E-Mail an Geschäftszimmer (Burg, Rathaus, Residenz, Sonstige, Sparkasse)
+
 
 
 - Report in detail (not text)
