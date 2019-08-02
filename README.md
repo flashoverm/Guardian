@@ -11,6 +11,8 @@ To Do:
 - Infos mit 2-3 Terminen wegen Vorstellung
  
 - Logging (differentiate between application (added, removed...) and errors)
+
+
   
 New feature:
 
@@ -26,6 +28,9 @@ New feature:
 
 - Bestätigung, dass Person zugiesene Wache zur Kentniss genommen hat
 
+- Kleidungsordnung: Uniform (Standard), Tagesdienst, Schutzanzug, Zivil, Sonstiges
+
+
 Low prio:
 
 - Edit-function for units in event report
@@ -40,6 +45,7 @@ Refactoring:
 - rename files and functions in camel case?
 - consistent usage of " and '
 - move javascript in own js-file
+ - Get Street from hydrant table (SELECT DISTINCT street FROM hydrant)
 
 Done:
 - Fix: On SQL-Update: Check if condition is fullfilled (subscribe)
