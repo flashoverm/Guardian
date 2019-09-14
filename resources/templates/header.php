@@ -20,7 +20,7 @@
 	   </div>
 		<div class="row">
 			<div class="col">
-				<a href="<?= $config["urls"]["base_url"]?>">
+				<a href="<?= $config["urls"]["baseUrl"]?>">
 					<img class="img-fluid d-block"
 						src="<?= $config["urls"]["intranet_home"] ?>/images/layout/shortheader_new-1.png">
 				</a>
