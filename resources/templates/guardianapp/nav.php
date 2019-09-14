@@ -76,7 +76,7 @@ if ($loggedIn) {
 					<a class='dropdown-item disabled text-secondary'>" . get_engine_obj_of_user($_SESSION ['guardian_userid'])->name . "</a>
 					<div class='dropdown-divider'></div>
 					<a class='dropdown-item text-light' href='" . $config["urls"]["intranet_home"]. "/change_password'>Passwort ändern</a>
-		        	<a class='dropdown-item text-light' href='" . $config["urls"] ["intranet_home"] . "'>Intranet Home</a>
+		        	<a class='dropdown-item text-light' href='" . $config["urls"] ["baseUrl"] . "'>Intranet Home</a>
 					<a class='dropdown-item text-light' href='" . $config["urls"]["intranet_home"]. "/logout'>Abmelden</a>
 				</div>
 			</li>
