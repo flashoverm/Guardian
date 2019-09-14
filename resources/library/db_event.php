@@ -29,7 +29,6 @@ function insert_event($date, $start, $end, $type_uuid, $type_other, $title, $com
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "New event record created successfully";
 		return $uuid;
 	} else {
 		//echo "Error: " . "<br>" . $db->error;
@@ -47,7 +46,6 @@ function insert_staff($event_uuid, $position_uuid, $unconfirmed) {
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "New staff record created successfully";
 	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -349,7 +347,6 @@ function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other,
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "New event record created successfully";
 		return true;
 	} else {
 		//echo "Error: " . $query . "<br>" . $db->error;
@@ -368,7 +365,6 @@ function update_staff($staff_uuid, $position){
     $result = $statement->execute();
     
     if ($result) {
-        // echo "New event record created successfully";
         return true;
     } else {
         //echo "Error: " . $query . "<br>" . $db->error;
@@ -387,7 +383,6 @@ function confirm_staff_user($staff_uuid){
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "New event record created successfully";
 		return true;
 	} else {
 		//echo "Error: " . $query . "<br>" . $db->error;
@@ -408,7 +403,6 @@ function subscribe_staff_user($uuid, $user_uuid) {
 		if($db->affected_rows == 0){
 			return 0;
 		}
-		// echo "Record ".$uuid." updated successfully";
 		return 1;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -425,7 +419,6 @@ function add_staff_user($uuid, $user) {
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
 		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -442,7 +435,6 @@ function remove_staff_user($uuid) {
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
 	    return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -459,7 +451,6 @@ function publish_event($uuid){
     $result = $statement->execute();
     
     if ($result) {
-        // echo "Record ".$uuid." updated successfully";
         return true;
     } else {
         // echo "Error: " . $query . "<br>" . $db->error;
@@ -476,7 +467,6 @@ function delete_staff_entry($staff_uuid) {
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
 		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -487,33 +477,12 @@ function delete_staff_entry($staff_uuid) {
 function delete_event($uuid, $user_uuid) {
 	global $db;
 	
-	/*
-	$statement = $db->prepare("DELETE FROM staff WHERE event= ?");
-	$statement->bind_param('s', $uuid);
-	
-	$result1 = $statement->execute();
-	
-	$statement = $db->prepare("DELETE FROM event WHERE uuid= ?");
-	$statement->bind_param('s', $uuid);
-	
-	$result2 = $statement->execute();
-
-	if ($result1 && $result2) {
-		// echo "Record ".$uuid." removed successfully";
-	    return true;
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-	*/
-	
 	$statement = $db->prepare("UPDATE event SET deleted_by = ? WHERE uuid= ?");
 	$statement->bind_param('ss', $user_uuid, $uuid);
 	
 	$result = $statement->execute();
 	
 	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
 		return true;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
@@ -548,7 +517,6 @@ function create_table_event() {
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "Table created<br>";
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
@@ -574,7 +542,6 @@ function create_table_staff() {
 	$result = $statement->execute();
 
 	if ($result) {
-		// echo "Table created<br>";
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";

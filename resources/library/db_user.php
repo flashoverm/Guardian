@@ -24,8 +24,8 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 
 	$uuid = getGUID ();
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
-		VALUES (?, ?, ?, ?, NULL, FALSE, FALSE, FALSE, ?, TRUE)");
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
+		VALUES (?, ?, ?, ?, NULL, ?, NULL, FALSE, TRUE)");
 	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $email, $engine_uuid);
 	
 	$result = $statement->execute();
@@ -48,10 +48,12 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) 
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
-	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
-		VALUES (?, ?, ?, ?, ?, FALSE, TRUE, TRUE, ?, TRUE)");
-	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
+	$rights[] = EVENTMANAGER;
+	$rightsJson = json_encode($rights);
+		
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
+	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid, $rightsJson);
 	
 	$result = $statement->execute();
 
@@ -68,10 +70,12 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
+	$rights[] = EVENTADMIN;
+	$rightsJson = json_encode($rights);
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, isadmin, ismanager, loginenabled, engine, active) 
-		VALUES (?, ?, ?, ?, ?, TRUE, TRUE, TRUE, ?, TRUE)");
-	$statement->bind_param('ssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid);
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available)
+		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
+	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid, $rightsJson);
 	
 	$result = $statement->execute();
 
@@ -103,11 +107,11 @@ function get_all_user() {
 	return $data;
 }
 
-function get_all_active_user() {
+function get_all_available_user() {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE active = TRUE ORDER BY lastname");
+	$statement = $db->prepare("SELECT * FROM user WHERE available = TRUE ORDER BY lastname");
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -126,7 +130,9 @@ function get_all_manager() {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE");
+	$right = '%' . EVENTMANAGER . '%';
+	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ?");
+	$statement->bind_param('s', $right);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -145,7 +151,7 @@ function get_user_of_engine($engine_uuid){
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND active = TRUE");
+	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND available = TRUE");
 	$statement->bind_param('s', $engine_uuid);
 	
 	if ($statement->execute()) {
@@ -165,8 +171,9 @@ function get_manager_of_engine($engine_uuid) {
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE ismanager = TRUE AND engine = ?");
-	$statement->bind_param('s', $engine_uuid);
+	$right = '%' . EVENTMANAGER . '%';
+	$statement = $db->prepare("SELECT * FROM user WHERE right LIKE ? AND engine = ?");
+	$statement->bind_param('ss', $right, $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -217,10 +224,30 @@ function get_engine_of_user($user_uuid){
     return false;
 }
 
+
+function get_engine_obj_of_user($user_uuid){
+    global $db;
+    
+    $statement = $db->prepare("SELECT * FROM engine, user WHERE user.engine = engine.uuid AND user.uuid = ?");
+    $statement->bind_param('s', $user_uuid);
+    
+    if ($statement->execute()) {
+        
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            $data = $result->fetch_object();
+            $result->free ();
+            return $data;
+        }
+    }
+    return false;
+}
+
 function email_in_use($email) {
 	global $db;
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement = $db->prepare("SELECT * FROM user WHERE email = ?");
 	$statement->bind_param('s', $email);
 	
 	if ($statement->execute()) {
@@ -234,46 +261,19 @@ function email_in_use($email) {
 }
 
 function is_admin($uuid) {
-	global $db;
-	
-	$statement = $db->prepare("SELECT isadmin FROM user WHERE isadmin = TRUE AND uuid = ?");
-	$statement->bind_param('s', $uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_row ();
-			$result->free ();
-			return $data [0];
-		}
-	}
-	return FALSE;
+    return hasRight($uuid, EVENTADMIN);
 }
 
 function is_manager($uuid) {
-	global $db;
-	
-	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ?");
-	$statement->bind_param('s', $uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_row ();
-			$result->free ();
-			return $data [0];
-		}
-	}
-	return FALSE;
+    return hasRight($uuid, EVENTMANAGER);
 }
 
 function is_manager_of($user_uuid, $engine_uuid){
 	global $db;
 	
-	$statement = $db->prepare("SELECT ismanager FROM user WHERE ismanager = TRUE AND uuid = ? AND engine = ?");
-	$statement->bind_param('ss', $user_uuid, $engine_uuid);
+	$right = '%' . EVENTMANAGER . '%';
+	$statement = $db->prepare("SELECT ismanager FROM user WHERE rights LIKE ? AND uuid = ? AND engine = ?");
+	$statement->bind_param('sss', $right, $user_uuid, $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -290,7 +290,7 @@ function is_manager_of($user_uuid, $engine_uuid){
 function login_enabled($email) {
 	global $db;
 	
-	$statement = $db->prepare("SELECT loginenabled FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement = $db->prepare("SELECT loginenabled FROM user WHERE email = ?");
 	$statement->bind_param('s', $email);
 		
 	if ($statement->execute()) {
@@ -305,10 +305,46 @@ function login_enabled($email) {
 	return false;
 }
 
+function get_rights($uuid){
+    global $db;
+    $statement = $db->prepare("SELECT rights FROM user WHERE uuid = ?");
+    $statement->bind_param('s', $uuid);
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            $data = $result->fetch_object();
+            $result->free ();
+            if($data){
+                return json_decode($data->rights);
+            }
+        }
+    }
+    return false;
+}
+
+function hasRight($uuid, $right){
+    $rights = get_rights($uuid);
+    if($rights){
+        if(in_array($right, $rights)){
+            return true;
+        }
+    }
+    return false;
+}
+
+function userHasRight($right){
+    if(isset ($_SESSION ['intranet_userid'])){
+        return hasRight($_SESSION ['intranet_userid'], $right);
+    }
+    return false;
+}
+
 function check_password($email, $password) {
 	global $db;
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE (isadmin = TRUE OR ismanager = TRUE) AND email = ?");
+	$statement = $db->prepare("SELECT * FROM user WHERE email = ?");
 	$statement->bind_param('s', $email);
 	
 	if ($statement->execute()) {
@@ -325,7 +361,7 @@ function check_password($email, $password) {
 	return false;
 }
 
-function deactivate_manager($uuid) {
+function deactivate_user($uuid) {
 	global $db;
 	
 	$statement = $db->prepare("UPDATE user SET loginenabled = FALSE WHERE uuid= ?");
@@ -342,7 +378,7 @@ function deactivate_manager($uuid) {
 	}
 }
 
-function reactivate_manager($uuid) {
+function reactivate_user($uuid) {
 	global $db;
 	
 	$statement = $db->prepare("UPDATE user SET loginenabled = TRUE WHERE uuid= ?");
@@ -359,10 +395,10 @@ function reactivate_manager($uuid) {
 	}
 }
 
-function deactivate_user($uuid) {
+function hide_user($uuid) {
 	global $db;
 	
-	$statement = $db->prepare("UPDATE user SET active = FALSE WHERE uuid= ?");
+	$statement = $db->prepare("UPDATE user SET available = FALSE WHERE uuid= ?");
 	$statement->bind_param('s', $uuid);
 	
 	$result = $statement->execute();
@@ -376,10 +412,10 @@ function deactivate_user($uuid) {
 	}
 }
 
-function reactivate_user($uuid) {
+function show_user($uuid) {
 	global $db;
 	
-	$statement = $db->prepare("UPDATE user SET active = TRUE WHERE uuid= ?");
+	$statement = $db->prepare("UPDATE user SET available = TRUE WHERE uuid= ?");
 	$statement->bind_param('s', $uuid);
 	
 	$result = $statement->execute();
@@ -448,6 +484,59 @@ function change_password($uuid, $old_password, $new_passwort) {
 	return false;
 }
 
+function addRight($uuid, $right){
+    global $db;
+    
+    $rights = get_rights($uuid);
+    if($rights){
+        if(!in_array ($right, $rights)){
+            $rights[] = $right;
+        }
+    } else {
+        $rights = array();
+        $rights[] = $right;
+    }
+    $rightsJson = json_encode($rights);
+    
+    $statement = $db->prepare("UPDATE user SET rights = ? WHERE uuid = ?");
+    $statement->bind_param('ss', $rightsJson, $uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        return true;
+    } else {
+        //echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
+function removeRight($uuid, $right){
+    global $db;
+    
+    $rights = get_rights($uuid);
+    if($rights && in_array ($right, $rights)){
+        $idx = array_search($right, $rights);
+        unset($rights[$idx]);
+    } else {
+        $rights = array();
+    }
+    
+    $rightsJson = json_encode($rights);
+    
+    $statement = $db->prepare("UPDATE user SET rights = ? WHERE uuid = ?");
+    $statement->bind_param('ss', $rightsJson, $uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        return true;
+    } else {
+        //echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
 function create_table_user() {
 	global $db;
 	
@@ -457,10 +546,10 @@ function create_table_user() {
                           lastname VARCHAR(64) NOT NULL,
                           email VARCHAR(96) NOT NULL,
                           password VARCHAR(255),
-                          isadmin BOOLEAN NOT NULL,
-						  ismanager BOOLEAN NOT NULL,
-						  loginenabled BOOLEAN NOT NULL,
 						  engine CHARACTER(36) NOT NULL,
+						  rights VARCHAR(255),
+						  loginenabled BOOLEAN NOT NULL,
+                          available BOOLEAN NOT NULL,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (engine) REFERENCES engine(uuid)
                           )");

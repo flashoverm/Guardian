@@ -3,9 +3,9 @@ require_once LIBRARY_PATH . "/db_connect.php";
 
 create_table_eventtype ();
 
-function insert_eventtype($type, $isseries) {
+function insert_eventtype($uuid, $type, $isseries) {
 	global $db;
-	$uuid = getGUID ();
+	//$uuid = getGUID ();
 	
 	$statement = $db->prepare("INSERT INTO eventtype (uuid, type, isseries) VALUES (?, ?, ?)");
 	$statement->bind_param('ssi', $uuid, $type, $isseries);
@@ -91,17 +91,17 @@ function create_table_eventtype() {
 	if ($result) {
 		// echo "Table created<br>";	    
 	    
-	    insert_eventtype ( "Theaterwache", true );
-	    insert_eventtype ( "Theaterwache Schüler", true  );
-		insert_eventtype ( "Theaterwache Prantlgarten", true  );
-		insert_eventtype ( "Residenzwache", false );
-		insert_eventtype ( "Rathauswache", false );
-		insert_eventtype ( "Wache Sparkassenarena", false );
-		insert_eventtype ( "Burgwache", false );
-		insert_eventtype ( "Dultwache", true  );
-		insert_eventtype ( "Wache Niederbayern-Schau", true  );
-		insert_eventtype ( "Wache Landshuter Hochzeit", true  );
-		insert_eventtype ( "Sonstige Wache", false );
+	    insert_eventtype ("325FF3CA-62BE-3F3E-88D8-A1C932BE600B", "Theaterwache", true );
+	    insert_eventtype ("C5503C1D-E08C-4850-27CB-563302EC9318", "Theaterwache Schüler", true  );
+		insert_eventtype ("00155A58-8720-29CF-42F0-713895C7BFDA", "Theaterwache Prantlgarten", true  );
+		insert_eventtype ("84D42DC4-0BCD-3DD4-C4D4-7D68CAB559D0", "Residenzwache", false );
+		insert_eventtype ("5B3243FF-2D65-A0E6-E92D-0B2B8DC38D32", "Rathauswache", false );
+		insert_eventtype ("7C5B9E95-0EC0-DFD5-ED7E-9A736BAD0AD1", "Wache Sparkassenarena", false );
+		insert_eventtype ("E438FF03-C5FA-EB29-59F4-CD76B11054C3", "Burgwache", false );
+		insert_eventtype ("D5156566-8F0D-FC74-983E-92B82A5F2917", "Dultwache", true  );
+		insert_eventtype ("38579dc9-3c32-11e9-a62d-0800272f1758", "Wache Niederbayern-Schau", true  );
+		insert_eventtype ("25d9b1d7-3c32-11e9-a62d-0800272f1758", "Wache Landshuter Hochzeit", true  );
+		insert_eventtype ("3D79FB4B-C85E-DF81-863B-60C0DB7601C9", "Sonstige Wache", false );
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";

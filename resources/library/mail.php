@@ -33,11 +33,7 @@ function send_mail($to, $subject, $body) {
 	$mail->addAddress ( $to );
 	$mail->Subject = $subject;
 	$mail->Body = $body . $util["footer"];
-	
-	//echo "Mail to '" . $to . "' with subject '" . $subject . "'<br><br>Body: " . $body . $util["footer"] . "<br>";
-    //echo "Mail to '" . $to . "<br>";
-	
-	
+		
 	try{
 		if(!$mail->send ()){
 			throw new Exception;

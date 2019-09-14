@@ -1,6 +1,6 @@
 <?php
 require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
-require_once LIBRARY_PATH . "/template.php";
+require_once TEMPLATES_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_user.php";
 require_once LIBRARY_PATH . "/db_engines.php";
 
@@ -18,7 +18,7 @@ if ($config ["settings"] ["selfregistration"]) {
 	$variables ['engines'] = $engines;
 } else {
 	$variables ['showFormular'] = false;
-	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"" . $config["urls"]["html"] . "/login\" class=\"alert-link\">Zum Login</a>";
+	$variables ['alertMessage'] = "Selbstregistrierung deaktiviert - <a href=\"" . $config["urls"]["intranet_home"] . "/login\" class=\"alert-link\">Zum Login</a>";
 }
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POST ['password2'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
@@ -49,12 +49,12 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] ) && isset ( $_POS
 		}
 
 		if ($result) {			
-			header ( "Location: " . $config["urls"]["html"] . "/login" ); // redirects
+			header ( "Location: " . $config["urls"]["intranet_home"] . "/login" ); // redirects
 		} else {
 			$variables ['alertMessage'] = "Ein unbekannter Fehler ist aufgetreten";
 		}
 	}
 }
 
-renderLayoutWithContentFile ( "register_template.php", $variables );
+renderLayoutWithContentFile ($config["apps"]["landing"], "register_template.php", $variables );
 ?>

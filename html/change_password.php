@@ -1,6 +1,6 @@
 <?php
 require_once realpath(dirname(__FILE__) . "/../resources/config.php");
-require_once LIBRARY_PATH . "/template.php";
+require_once TEMPLATES_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_user.php";
 
 // Pass variables (as an array) to template
@@ -24,13 +24,13 @@ if (isset($_POST['password_old']) && isset($_POST['password']) && isset($_POST['
 
     if (! $error) {
     	if(change_password($uuid, $password_old, $password)){
-    		$variables['successMessage'] = "Password erfolgreich geändert";
+    		$variables['successMessage'] = "Password erfolgreich geandert";
     	} else {
     		$variables['alertMessage'] = "Passwort konnte nicht geändert werden!";
     	}
     }
 }
 
-renderLayoutWithContentFile("changePassword_template.php", $variables);
+renderLayoutWithContentFile($config["apps"]["landing"], "changePassword_template.php", $variables);
 
 ?>

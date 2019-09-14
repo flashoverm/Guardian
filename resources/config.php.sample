@@ -1,0 +1,74 @@
+<?php
+
+//DONT FORGET TO CHANGE config.sample.php
+
+$config = array (
+        "db" => array (
+                "dbname" => "xxxxxxxx",
+                "username" => "xxxxxxxx",
+                "password" => "xxxxxxxx",
+                "host" => "localhost"
+        ),
+        "mail" => array (
+                "host" => "xxxxxxxx",
+                "username" => "xxxxxxxx",
+                "password" => "xxxxxxxx",
+                "secure" => "ssl",
+                "port" => 465,
+                "fromaddress" => "xxxxxxxx",
+                "fromname" => "Wachverwaltung Feuerwehr Landshut"
+        ),
+        "apps" => array(
+            "landing" => "",
+            "guardian" => "guardianapp"
+        ),
+        "urls" => array (
+            "intranet_home" => "/guardian/html",
+            "guardianapp_home" => "/guardian/html/guardian",
+            
+            "baseUrl" => "http://127.0.0.1/guardian/html"
+        ),
+        "paths" => array (
+                "resources" => $_SERVER ['DOCUMENT_ROOT'] . "../resources",
+                "images" => array (
+                        "content" => $_SERVER ["DOCUMENT_ROOT"] . "/images/content",
+                        "layout" => $_SERVER ["DOCUMENT_ROOT"] . "/images/layout"
+                )
+        ),
+        "formats" => array (
+            "date" => "d.m.Y",
+            "time" => "H:i",
+            "datetime" => "d.m.Y H:i"
+        ),
+        "settings" => array (
+                "reminderAtDay" => 10,                  //days before "not-full-reminder" is sent
+                "selfregistration" => true,                    //enables self registration of managers
+                "autoadmin" => true,                                   //manager is always admin
+                "reportfunction" => true,                               //enalbes function to create event report
+                "publicevents" => true,                                 //enables list of public events
+                "staffconfirmation" => true,
+
+                "enginemgrmailonsubscription" => false,  //Send mail to all managers of the users engine  on subscription
+                "creatormailonsubscription" => true,    //Send mail to creator of the event (if event is full, a mail is always sent)
+                "usermailonsubscription" => true,               //Send mail to subscribing user on subscribing a event
+        )
+);
+
+//Restrictions
+define("EVENTMANAGER", "EVENTMANAGER");
+define("EVENTADMIN", "EVENTADMIN");
+
+
+
+
+defined ( "LIBRARY_PATH" ) or define ( "LIBRARY_PATH", realpath ( dirname ( __FILE__ ) . '/library' ) );
+
+defined ( "TEMPLATES_PATH" ) or define ( "TEMPLATES_PATH", realpath ( dirname ( __FILE__ ) . '/templates' ) );
+
+/*
+ * Error reporting.
+ */
+ini_set ( "error_reporting", "true" );
+error_reporting ( E_ALL | E_STRCT );
+
+?>

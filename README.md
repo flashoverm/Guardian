@@ -10,28 +10,34 @@ To Do:
 
 - Infos mit 2-3 Terminen wegen Vorstellung
  
-- Logging (differentiate between application (added, removed...) and errors)
-
-
+- Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
   
 New feature:
 
-- Make position available after assigned (Mark as "released")
+- Freitextfeld in Position (Makes Vehicles possible)
+
+- Bestätigung, dass Person zugiesene Wache zur Kentniss genommen hat (Link klicken)
+
+- Add address of event location and display in report
+
+- ICS als Anhang bei angelegter Wache
+
+- Make position available after assigned (Mark as "released"), so other users can subscribe
 
 - Check dates - New event could not be in past, report not in future
 
-- Event import function from excel
+- Kleidungsordnung: Uniform (Standard), Tagesdienst, Schutzanzug, Zivil, Sonstiges
+
+- Wachbericht muss durch Wachbeauftragten freigegben werden, dann PDF mit Berichtszimmer an Geschäftszimmer und Wachbeauftragte -> Angehängt an Bericht: Adresse von Theater|Rathaus|... (aus Tabelle)
+
+
+Low prio:
 
 - Event Report Export in Invoice-Style for Administration
 
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)
 
-- Bestätigung, dass Person zugiesene Wache zur Kentniss genommen hat
-
-- Kleidungsordnung: Uniform (Standard), Tagesdienst, Schutzanzug, Zivil, Sonstiges
-
-
-Low prio:
+- Event import function from excel
 
 - Edit-function for units in event report
 
@@ -42,15 +48,18 @@ Low prio:
 Refactoring: 
 
 - report date format from config, not hard coded
-- rename files and functions in camel case?
+- rename files and functions: xy_z.php and function xy_z()
 - consistent usage of " and '
-- move javascript in own js-file
- - Get Street from hydrant table (SELECT DISTINCT street FROM hydrant)
+- move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Rebrush: Tables with Bootstrap Table
+
+
 - Fix: On SQL-Update: Check if condition is fullfilled (subscribe)
 - Fix: Engine-Manager can edit etc. an event
 - Added Test-Warning-Text
+
 
 - E-Mail reminder to assigned engine of the event, not creator
 - Admin can block user for event participation 
