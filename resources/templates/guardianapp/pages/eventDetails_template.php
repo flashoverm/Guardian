@@ -88,7 +88,7 @@ if ($isCreator) {
 					}
 					
 					
-					if ($entry->user != NULL and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant and $event->staff_confirmation) {
+					if ($entry->user != NULL and isset($_SESSION['guardian_userid']) and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant and $event->staff_confirmation) {
 						if($entry->unconfirmed){
 						?>
 							<form method='post' action='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>'>
