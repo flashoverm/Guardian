@@ -213,6 +213,16 @@ function get_report_staff($unit_uuid){
 function delete_report($uuid) {
     global $db;
     
+    $statement = $db->prepare("DELETE FROM report_staff WHERE unit IN (SELECT uuid FROM report_unit WHERE report = ?)");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
+    
+    $statement = $db->prepare("DELETE FROM report_unit WHERE report = ?");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
+    
     $statement = $db->prepare("DELETE FROM report WHERE uuid= ?");
     $statement->bind_param('s', $uuid);
     
