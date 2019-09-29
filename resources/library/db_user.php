@@ -272,7 +272,7 @@ function is_manager_of($user_uuid, $engine_uuid){
 	global $db;
 	
 	$right = '%' . EVENTMANAGER . '%';
-	$statement = $db->prepare("SELECT ismanager FROM user WHERE rights LIKE ? AND uuid = ? AND engine = ?");
+	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ? AND uuid = ? AND engine = ?");
 	$statement->bind_param('sss', $right, $user_uuid, $engine_uuid);
 	
 	if ($statement->execute()) {

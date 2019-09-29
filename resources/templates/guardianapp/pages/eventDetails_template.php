@@ -119,7 +119,7 @@ if ($isCreator) {
 					} 
 					
 					
-					if ($entry->user != NULL and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
+					if ($entry->user != NULL and isset($_SESSION['guardian_userid']) and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
 						<form method='post' style='display:inline' action='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>'>
 							<input type='hidden' name='removestaffid' id='removestaffid' value='<?= $entry->uuid ?>'/>
 							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $entry->uuid ?>'>Austragen</button>
