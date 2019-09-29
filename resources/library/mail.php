@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 require_once (realpath ( dirname ( __FILE__ ) . "/../config.php" ));
 require_once LIBRARY_PATH . "/mail_body.php";
+require_once LIBRARY_PATH . "/log.php";
 
 require_once "phpmailer/src/PHPMailer.php";
 require_once "phpmailer/src/SMTP.php";
@@ -27,7 +28,7 @@ function init_mail() {
 
 function send_mail($to, $subject, $body) {
 	global $util;
-	
+		
 	$mail = init_mail ();
 
 	$mail->addAddress ( $to );
@@ -38,7 +39,11 @@ function send_mail($to, $subject, $body) {
 		if(!$mail->send ()){
 			throw new Exception;
 		}
+		log_message("Mail sent to " . $to . ": " . $subject);
+		
 	}catch(Exception $e){
+	    log_message("Cant send mail to " . $to . ": " . $subject);
+	    
 		echo "<script language='javascript'> 
 				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";
@@ -65,7 +70,11 @@ function send_html_mail($to, $subject, $body) {
 		if(!$mail->send ()){
 			throw new Exception;
 		}
+		log_message("Mail sent to " . $to . ": " . $subject);
+		
 	}catch(Exception $e){	
+	    log_message("Cant send mail to " . $to . ": " . $subject);
+	    
 		echo "<script language='javascript'>
 				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";

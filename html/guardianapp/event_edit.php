@@ -152,10 +152,10 @@ if (isset ( $_POST ['type'] ) ) {
 				if(!mail_event_updates($event_uuid)){
 					$variables ['alertMessage'] = "Mindestens eine E-Mail konnte nicht versendet werden";
 				} else{
-				    //header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events/" . $event_uuid ); // redirects
+				    header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events/" . $event_uuid ); // redirects
 				}
 			} else {
-			    //header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events/" . $event_uuid ); // redirects
+			    header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events/" . $event_uuid ); // redirects
 			}
 		}
 	} else{

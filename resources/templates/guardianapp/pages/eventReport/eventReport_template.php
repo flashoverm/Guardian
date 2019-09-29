@@ -1,6 +1,6 @@
 <?php include('eventReportUnit_template.php'); ?>
 
-<form onsubmit="showLoader()" action="<?=$config["urls"]["guardianapp_home"]?>/reports/new" method="post" >
+<form onsubmit="showLoader()" method="post" >
 
 	<div class="row">
 		<div class="col">

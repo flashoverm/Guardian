@@ -259,7 +259,7 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 
 function get_link($event_uuid){
 	global $config;
-	return $config ["urls"] ["baseUrl"] . "/events/" . $event_uuid;
+	return $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/events/" . $event_uuid;
 }
 
 function event_subject($event_uuid){

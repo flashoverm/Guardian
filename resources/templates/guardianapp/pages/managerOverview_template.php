@@ -84,10 +84,12 @@ if (! $isAdmin) {
 		?>
 			</tbody>
 	</table>
-	<a href='<?= $config["urls"]["guardianapp_home"]?>/manager/new' class="btn btn-primary">Wachbeauftragten anlegen</a>
 </div>
 
 <?php
 	}
+?>
+<a href='<?= $config["urls"]["guardianapp_home"]?>/manager/new' class="btn btn-primary">Wachbeauftragten anlegen</a>
+<?php
 }
 ?>

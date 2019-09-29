@@ -149,7 +149,7 @@ if ($isCreator) {
 			<tr>
 				<td colspan="3">
 					<b>Link:&nbsp;</b> 
-					<p id="link"><?= $config ["urls"] ["baseUrl"] . "/events/".$event->uuid; ?></p>
+					<p id="link"><?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/events/".$event->uuid; ?></p>
 					<button id="btnCpy" onClick='copyToClipBoard()' class='btn btn-primary btn-sm'>Link kopieren</button>
 					<a href='<?= $config ["urls"] ["guardianapp_home"] . '/events/' . $event->uuid . "/calender"; ?>' target="_blank" class='btn btn-primary btn-sm'>Kalendereintrag</a>
 					

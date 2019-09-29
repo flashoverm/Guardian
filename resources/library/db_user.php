@@ -172,7 +172,7 @@ function get_manager_of_engine($engine_uuid) {
 	$data = array ();
 	
 	$right = '%' . EVENTMANAGER . '%';
-	$statement = $db->prepare("SELECT * FROM user WHERE right LIKE ? AND engine = ?");
+	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ? AND engine = ?");
 	$statement->bind_param('ss', $right, $engine_uuid);
 	
 	if ($statement->execute()) {

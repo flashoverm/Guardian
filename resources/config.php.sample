@@ -3,6 +3,7 @@
 //DONT FORGET TO CHANGE config.sample.php
 
 $config = array (
+        "logdir" => "D:/environments/xampp/apache/logs/",
         "db" => array (
                 "dbname" => "xxxxxxxx",
                 "username" => "xxxxxxxx",
