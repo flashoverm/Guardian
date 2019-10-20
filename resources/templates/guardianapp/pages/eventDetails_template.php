@@ -10,7 +10,7 @@ $now = strtotime( $dateNow['year']."-".$dateNow['mon']."-".($dateNow['mday']) );
 if(strtotime($event->date) >= $now){
 	$relevant = true;
 } else {
-    showInfo("Diese Wache hat bereits stattgefunden, Bearbeitung nicht mehr möglich - <a href='" . $config["urls"]["guardianapp_home"] . "/event_report.php?event=" . $event->uuid . "'>Bericht erstellen</a>");
+    showInfo("Diese Wache hat bereits stattgefunden, Bearbeitung nicht mehr möglich - <a href='" . $config["urls"]["guardianapp_home"] . "/reports/new/" . $event->uuid . "'>Bericht erstellen</a>");
 }
 
 if ($isCreator) {

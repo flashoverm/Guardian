@@ -296,14 +296,12 @@
 		<?php
 		if(isset($event)){
 			echo " value='Aktualisieren' ";
-		    //echo " Aktualisieren";
 		}else{
-			echo " value='Anlegen' ";
-			//echo " Anlegen";
+			echo " value='Speichern' ";
 		}?>
 		>
 	<?php if(!isset($event)){
-	    echo "<button type='button' class='btn btn-primary float-right' onClick='submitMutible()'>Anlegen (Mehrfacheingabe)</button>";
+	    echo "<button type='button' class='btn btn-primary float-right' onClick='submitMutible()'>Nächste Wache anlegen</button>";
 	}?>
 	
 </form>

@@ -9,6 +9,10 @@
 	
 	<div class='collapse navbar-collapse w-100' id='navbarMainContent'>
 		<ul class='navbar-nav'>
+			<li class='nav-item mx-1'>
+				<a class='nav-link text-light' href='<?= $config["urls"] ["baseUrl"] ?>'>Home</a>
+			</li>
+			
 <?php
 if ($loggedIn) {
 	echo "      <li class='nav-item dropdown'>
@@ -76,7 +80,6 @@ if ($loggedIn) {
 					<a class='dropdown-item disabled text-secondary'>" . get_engine_obj_of_user($_SESSION ['guardian_userid'])->name . "</a>
 					<div class='dropdown-divider'></div>
 					<a class='dropdown-item text-light' href='" . $config["urls"]["intranet_home"]. "/change_password'>Passwort ändern</a>
-		        	<a class='dropdown-item text-light' href='" . $config["urls"] ["baseUrl"] . "'>Intranet Home</a>
 					<a class='dropdown-item text-light' href='" . $config["urls"]["intranet_home"]. "/logout'>Abmelden</a>
 				</div>
 			</li>
