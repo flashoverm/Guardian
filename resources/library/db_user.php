@@ -558,6 +558,7 @@ function create_table_user() {
 
 	if ($result) {
 		// echo "Table created<br>";
+		insert_admin("Admin", "Admin", "admin@guardian.de", "admin", "2BAA144B-F946-1524-E60E-7DD485FE1881");
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
