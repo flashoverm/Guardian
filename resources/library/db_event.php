@@ -342,7 +342,7 @@ function update_event($event_uuid, $date, $start, $end, $type_uuid, $type_other,
 	$statement = $db->prepare("UPDATE event 
 		SET date = ?, start_time = ?, end_time = ?, type = ?, type_other = ?, title = ?, comment = ?, engine = ?, staff_confirmation = ?
 		WHERE uuid = ?");
-	$statement->bind_param('sssssssssi', $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $staff_confirmation, $event_uuid);
+	$statement->bind_param('ssssssssis', $date, $start, $end, $type_uuid, $type_other, $title, $comment, $engine, $staff_confirmation, $event_uuid);
 
 	$result = $statement->execute();
 	

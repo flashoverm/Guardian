@@ -3,6 +3,7 @@ RewriteEngine on
 RewriteRule ^html/guardian/events/new/?$		/guardian/html/guardianapp/event_edit.php
 RewriteRule ^html/guardian/events/public/?$ 	/guardian/html/guardianapp/event_public.php
 RewriteRule ^html/guardian/events/admin/?$ 		/guardian/html/guardianapp/event_admin.php
+RewriteRule ^html/guardian/events/([^/]*)/calender?$ 	/guardian/html/guardianapp/calender.php?id=$1
 RewriteRule ^html/guardian/events/([^/]*)/edit?$ 	/guardian/html/guardianapp/event_edit.php?id=$1
 RewriteRule ^html/guardian/events/([^/]*)/assign/?([^/]*)/?$		/guardian/html/guardianapp/event_assign.php?id=$1&staffid=$2
 RewriteRule ^html/guardian/events/([^/]*)/subscribe/?([^/]*)/?$ 	/guardian/html/guardianapp/event_subscribe.php?id=$1&staffid=$2

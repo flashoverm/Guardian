@@ -7,12 +7,12 @@ Bugs:
 To Do:
 
 - Ausführlicher Testbetrieb! 
-
-- Infos mit 2-3 Terminen wegen Vorstellung
  
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
   
 New feature:
+
+- Reports as PDF like hydrants - Send via mail attachment
 
 - Freitextfeld in Position (Makes Vehicles possible)
 
