@@ -15,7 +15,7 @@ if (isset ( $_POST ['disable'] )) {
 	$manager_uuid = trim ( $_POST ['disable'] );
 	if($manager_uuid == $_SESSION ['guardian_userid']){
 		$variables ['alertMessage'] = "Eigenes Konto kann nicht deaktiviert werden";
-	} else if(deactivate_manager ( $manager_uuid )) {
+	} else if(deactivate_user ( $manager_uuid )) {
 		$variables ['successMessage'] = "Wachbeauftragter deaktiviert";	
 	} else {
 		$variables ['alertMessage'] = "Deaktivieren des Wachbeauftragten fehlgeschlagen";
@@ -25,7 +25,7 @@ if (isset ( $_POST ['enable'] )) {
 	$manager_uuid = trim ( $_POST ['enable'] );
 	if($manager_uuid == $_SESSION ['guardian_userid']){
 		$variables ['alertMessage'] = "Eigenes Konto kann nicht aktiviert werden";
-	} else if(reactivate_manager ( $manager_uuid )){
+	} else if(reactivate_user ( $manager_uuid )){
 		$variables ['successMessage'] = "Wachbeauftragter aktiviert";
 	} else {
 		$variables ['alertMessage'] = "Aktivieren des Wachbeauftragten fehlgeschlagen";

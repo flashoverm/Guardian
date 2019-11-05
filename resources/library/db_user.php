@@ -361,6 +361,7 @@ function check_password($email, $password) {
 	return false;
 }
 
+
 function deactivate_user($uuid) {
 	global $db;
 	
@@ -536,6 +537,7 @@ function removeRight($uuid, $right){
         return false;
     }
 }
+
 
 function create_table_user() {
 	global $db;

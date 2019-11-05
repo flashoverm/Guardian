@@ -13,7 +13,7 @@ $variables = array (
 
 if (isset ( $_POST ['disable'] )) {
 	$user_uuid = trim ( $_POST ['disable'] );
-	if(deactivate_user ( $user_uuid )) {
+	if(hide_user ( $user_uuid )) {
 		$variables ['successMessage'] = "Für Wachen gesperrt";	
 	} else {
 		$variables ['alertMessage'] = "Sperren fehlgeschlagen";
@@ -21,7 +21,7 @@ if (isset ( $_POST ['disable'] )) {
 }
 if (isset ( $_POST ['enable'] )) {
 	$user_uuid = trim ( $_POST ['enable'] );
-	if(reactivate_user ( $user_uuid )){
+	if(show_user ( $user_uuid )){
 		$variables ['successMessage'] = "Für Wachen freigegeben";
 	} else {
 		$variables ['alertMessage'] = "Freigabe fehlgeschlagen";
