@@ -18,6 +18,7 @@ if (!$isAdmin) {
 				<th data-sortable="true" class="text-center">Öffentlich</th>
 				<th data-sortable="true" class="text-center">Zugewiesen</th>
 				<th class="text-center">Details</th>
+				<th class="text-center">Löschen (DB)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -60,6 +61,30 @@ if (!$isAdmin) {
 				<td class="text-center">
 					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["guardianapp_home"] . "/events/".$row->uuid ?>">Details</a>
 				</td>
+				<td class="text-center">
+					<form method="post" action="">
+						<input type="hidden" name="deletedb" id="deletedb" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDeleteDB<?= $row->uuid; ?>">Löschen (DB)</button>
+						
+						<div class="modal" id="confirmDeleteDB<?= $row->uuid; ?>">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Wache wirklich entgültig löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
+					</form>
+				</td>
 			</tr>
 <?php
 	}
@@ -89,6 +114,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				<th data-sortable="true" class="text-center">Zugewiesen</th>
 				<th class="text-center">Details</th>
 				<th class="text-center">Löschen</th>
+				<th class="text-center">Löschen (DB)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -133,6 +159,119 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 						
 						      <div class="modal-header">
 						        <h4 class="modal-title">Wache wirklich löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
+					</form>
+				</td>
+				<td class="text-center">
+					<form method="post" action="">
+						<input type="hidden" name="deletedb" id="deletedb" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDeleteDB<?= $row->uuid; ?>">Löschen (DB)</button>
+						
+						<div class="modal" id="confirmDeleteDB<?= $row->uuid; ?>">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Wache wirklich entgültig löschen?</h4>
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+						      </div>
+						
+						      <div class="modal-footer">
+						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
+						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
+						      </div>
+						
+						    </div>
+						  </div>
+						</div> 
+					</form>
+				</td>
+			</tr>
+<?php
+	}
+?>
+		</tbody>
+	</table>
+</div>
+
+<?php
+}
+if ( isset($deletedEvents) && count ( $deletedEvents )) {
+    ?>
+<button class="btn btn-outline-primary my-2" type="button" data-toggle="collapse" data-target="#deletedevents">
+    Gelöschte Wachen
+</button>
+
+<div class="table-responsive collapse" id="deletedevents">
+	<table class="table table-striped" data-toggle="table" data-pagination="true"  data-search="true">
+		<thead>
+			<tr>
+				<th data-sortable="true" class="text-center">Datum</th>
+				<th data-sortable="true" class="text-center">Wachbeginn</th>
+				<th data-sortable="true" class="text-center">Ende</th>
+				<th data-sortable="true" class="text-center">Typ</th>
+				<th data-sortable="true" class="text-center">Titel</th>
+				<th data-sortable="true" class="text-center">Öffentlich</th>
+				<th data-sortable="true" class="text-center">Zugewiesen</th>
+				<th data-sortable="true" class="text-center">Gelöscht von</th>
+				<th class="text-center">Details</th>
+				<th class="text-center">Löschen (DB)</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+	<?php
+	foreach ( $deletedEvents as $row ) {
+		?>
+				<tr>
+				<td class="text-center"><?= date($config ["formats"] ["date"], strtotime($row->date)); ?></td>
+				<td class="text-center"><?= date($config ["formats"] ["time"], strtotime($row->start_time)); ?></td>
+				<td class="text-center">
+	<?php
+		if ($row->end_time != 0) {
+		    echo date($config ["formats"] ["time"], strtotime($row->end_time));
+		} else {
+			echo " - ";
+		}
+		?></td>
+				<td class="text-center"><?= get_eventtype($row->type)->type; ?></td>
+				<td class="text-center"><?= $row->title; ?></td>
+				<td class="text-center">
+					<?php
+					if($row->published){
+					    echo " X ";
+					} else {
+					    echo " - ";
+					}
+					?>
+				</td>
+				<td class="text-center"><?= get_engine($row->engine)->name; ?></td>
+				<td class="text-center"><?= get_user($row->deleted_by)->email; ?></td>
+				<td class="text-center">
+					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["guardianapp_home"] . "/events/".$row->uuid ?>">Details</a>
+				</td>
+
+				<td class="text-center">
+					<form method="post" action="">
+						<input type="hidden" name="deletedb" id="deletedb" value="<?= $row->uuid ?>" />
+						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDeleteDB<?= $row->uuid; ?>">Löschen (DB)</button>
+						
+						<div class="modal" id="confirmDeleteDB<?= $row->uuid; ?>">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						
+						      <div class="modal-header">
+						        <h4 class="modal-title">Wache wirklich entgültig löschen?</h4>
 						        <button type="button" class="close" data-dismiss="modal">&times;</button>
 						      </div>
 						

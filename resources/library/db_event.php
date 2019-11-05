@@ -152,6 +152,25 @@ function get_past_events($user_uuid) {
     return $data;
 }
 
+function get_all_deleted_events(){
+    global $db;
+    $data = array ();
+    
+    $statement = $db->prepare("SELECT * FROM event WHERE NOT deleted_by IS NULL ORDER BY date ASC");
+    
+    if ($statement->execute()) {
+        $result = $statement->get_result();
+        
+        if (mysqli_num_rows ( $result )) {
+            while ( $date = $result->fetch_object () ) {
+                $data [] = $date;
+            }
+            $result->free ();
+        }
+    }
+    return $data;
+}
+
 function get_staff($event_uuid) {
 	global $db;
 	$data = array ();
@@ -458,6 +477,22 @@ function publish_event($uuid){
     }
 }
 
+function mark_event_as_deleted($uuid, $user_uuid) {
+    global $db;
+    
+    $statement = $db->prepare("UPDATE event SET deleted_by = ? WHERE uuid= ?");
+    $statement->bind_param('ss', $user_uuid, $uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        return true;
+    } else {
+        // echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
 function delete_staff_entry($staff_uuid) {
 	global $db;
 	
@@ -474,20 +509,27 @@ function delete_staff_entry($staff_uuid) {
 	}
 }
 
-function delete_event($uuid, $user_uuid) {
-	global $db;
-	
-	$statement = $db->prepare("UPDATE event SET deleted_by = ? WHERE uuid= ?");
-	$statement->bind_param('ss', $user_uuid, $uuid);
-	
-	$result = $statement->execute();
-	
-	if ($result) {
-		return true;
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
+function delete_event($uuid){
+    global $db;
+    
+    $statement = $db->prepare("DELETE FROM staff WHERE event = ?");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        
+        $statement = $db->prepare("DELETE FROM event WHERE uuid = ?");
+        $statement->bind_param('s', $uuid);
+        
+        $result = $statement->execute();
+        
+        if ($result) {
+            return true;
+        }
+    }
+    // echo "Error: " . $query . "<br>" . $db->error;
+    return false;
 }
 
 function create_table_event() {
