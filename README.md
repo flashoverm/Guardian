@@ -6,9 +6,14 @@ Bugs:
 
 To Do:
 
-- Ausführlicher Testbetrieb! 
- 
+- Bericht durch Wachbeauftragten freigeben -> Geschäftszimmer
+- Alle Bericht ans Geschäftszimmer
+
+- Hydrantenbeauftragten anlegen (wenn bereits vorhanden -> Benutzer mit Passwort/Rechten aktualisieren)
+
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
+
+- ICS auf Android prüfen
   
 New feature:
 
