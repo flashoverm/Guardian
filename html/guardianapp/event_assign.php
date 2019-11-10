@@ -44,9 +44,14 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		$email = strtolower(trim ( $_POST ['email'] ));
     		$engineUUID = trim ( $_POST ['engine_hid'] );
     		
-    		$user = insert_user ( $firstname, $lastname, $email, $engineUUID );
     		
-    		if($user){	
+    		if(!email_in_use($email) ){
+    			$user = insert_user ( $firstname, $lastname, $email, $engineUUID );
+    		} else {
+    			$user = get_user_by_data($firstname, $lastname, $email, $engineUUID);
+    		}
+    		//if user exists with these name/engine ok - else message: Please select user!
+    		if($user){
     			
     			if($user->available){
     				//if uuid is already in event -> error
@@ -68,7 +73,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     		    	$variables ['alertMessage'] = "Eintragen nicht möglich - Person ist nicht für Wachen freigegeben";
     		    }
     		} else {
-    			$variables ['alertMessage'] = "Eintragen fehlgeschlagen";
+    			$variables ['alertMessage'] = "E-Mail-Adresse bereits mit anderem Namen/Zug in Verwendung! Bitte Eingaben kontrollieren oder Auswahl verwenden";
     		}
     	}
 	}

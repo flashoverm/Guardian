@@ -8,19 +8,6 @@ create_table_user ();
 
 function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	global $db;
-	
-	$statement = $db->prepare("SELECT * FROM user WHERE firstname = ? AND lastname = ? AND email = ? AND engine = ?");
-	$statement->bind_param('ssss', $firstname, $lastname, $email, $engine_uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_object ();
-			$result->free ();
-			return $data;
-		}
-	}
 
 	$uuid = getGUID ();
 	
@@ -206,6 +193,24 @@ function get_user($uuid) {
 	return false;
 }
 
+function get_user_by_data($firstname, $lastname, $email, $engine_uuid){
+	global $db;
+	
+	$statement = $db->prepare("SELECT * FROM user WHERE firstname = ? AND lastname = ? AND email = ? AND engine = ?");
+	$statement->bind_param('ssss', $firstname, $lastname, $email, $engine_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			$data = $result->fetch_object ();
+			$result->free ();
+			return $data;
+		}
+	}
+	return false;
+}
+
 function get_engine_of_user($user_uuid){
     global $db;
     
@@ -299,7 +304,6 @@ function login_enabled($email) {
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_row ();
 			$result->free ();
-			echo $data [0];
 			return $data [0];
 		}
 	}
@@ -538,7 +542,6 @@ function removeRight($uuid, $right){
         return false;
     }
 }
-
 
 function create_table_user() {
 	global $db;
