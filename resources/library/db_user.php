@@ -299,6 +299,7 @@ function login_enabled($email) {
 		if (mysqli_num_rows ( $result )) {
 			$data = $result->fetch_row ();
 			$result->free ();
+			echo $data [0];
 			return $data [0];
 		}
 	}

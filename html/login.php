@@ -3,6 +3,7 @@ require_once realpath ( dirname ( __FILE__ ) . "/../resources/config.php" );
 require_once TEMPLATES_PATH . "/template.php";
 require_once LIBRARY_PATH . "/db_user.php";
 require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/log.php";
 
 if (isset ( $_SESSION ['guardian_userid'] )) {
 	header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events" ); // redirects	
@@ -28,7 +29,9 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['password'] )) {
 			
 			header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events" ); // redirects
 		}
+		log_message ("Login failed for " . $email);
 	}
+	log_message ("Login for " . $email . " disabled or mail not in db");
 	$variables ['alertMessage'] = "E-Mail oder Passwort ungültig";
 }
 
