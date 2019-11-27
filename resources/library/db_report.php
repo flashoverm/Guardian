@@ -210,6 +210,22 @@ function get_report_staff($unit_uuid){
 	return $data;
 }
 
+function set_ems_entry($uuid){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE report SET emsEntry = TRUE WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
 function delete_report($uuid) {
     global $db;
     
@@ -252,6 +268,7 @@ function create_table_report() {
 						  creator VARCHAR(128) NOT NULL,
                           noIncidents BOOLEAN NOT NULL,
                           ilsEntry BOOLEAN NOT NULL,
+						  emsEntry BOOLEAN NOT NULL,
                           report TEXT,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (type) REFERENCES eventtype(uuid),

@@ -51,7 +51,7 @@ if (!$isAdmin) {
 				<td class="text-center">
 					<?php
 					if($row->published){
-					    echo " X ";
+					    echo " &#10003; ";
 					} else {
 					    echo " - ";
 					}
@@ -138,7 +138,7 @@ if ( isset($pastEvents) && count ( $pastEvents )) {
 				<td class="text-center">
 					<?php
 					if($row->published){
-					    echo " X ";
+					    echo " &#10003; ";
 					} else {
 					    echo " - ";
 					}
@@ -249,7 +249,7 @@ if ( isset($deletedEvents) && count ( $deletedEvents )) {
 				<td class="text-center">
 					<?php
 					if($row->published){
-					    echo " X ";
+					    echo " &#10003; ";
 					} else {
 					    echo " - ";
 					}

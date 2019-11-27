@@ -36,6 +36,16 @@ if (! isset($_GET['id'])) {
 						'report' => $report,
 						'units' => $units
 				);
+				
+				if(isset($_POST['emsEntry'])){
+					if(set_ems_entry($uuid)){
+						$variables['successMessage'] = "Bericht aktualisiert";
+					} else {
+						$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+					}
+					$variables['report'] = get_report($uuid);
+				}
+				
 			} else {
 				$variables = array(
 						'title' => 'Sie haben keine Zugriffsrechte auf diesen Bericht',

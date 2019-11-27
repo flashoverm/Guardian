@@ -15,6 +15,7 @@ if (! count ( $reports )) {
 				<th data-sortable="true" class="text-center">Titel</th>
 				<th data-sortable="true" class="text-center">Zuständig</th>
 				<th data-sortable="true" class="text-center">Vorkomnisse</th>
+				<th data-sortable="true" class="text-center">EMS-Eintrag</th>
 				<th class="text-center">Bericht</th>
 				<th class="text-center">Löschen</th>
 			</tr>
@@ -43,6 +44,15 @@ if (! count ( $reports )) {
 					    echo " keine ";
 					} else {
 					    echo " siehe Bericht ";
+					}
+					?>
+				</td>
+				<td class="text-center">
+					<?php
+					if($row->emsEntry){
+					    echo " &#10003; ";
+					} else {
+					    echo " - ";
 					}
 					?>
 				</td>
