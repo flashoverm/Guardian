@@ -15,7 +15,7 @@ if (! count ( $reports )) {
 				<th data-sortable="true" class="text-center">Titel</th>
 				<th data-sortable="true" class="text-center">Zuständig</th>
 				<th data-sortable="true" class="text-center">Vorkomnisse</th>
-				<th data-sortable="true" class="text-center">EMS-Eintrag</th>
+				<th data-sortable="true" class="text-center">EMS</th>
 				<th class="text-center">Bericht</th>
 				<th class="text-center">Löschen</th>
 			</tr>
