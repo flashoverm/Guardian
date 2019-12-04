@@ -111,19 +111,19 @@
 <form action='<?=$config["urls"]["guardianapp_home"]?>/reports/<?=$report->uuid?>' method='post'>
 	<a href='<?=$config["urls"]["guardianapp_home"] ?>/reports' class='btn btn-outline-primary'>Zurück</a>
 	<?php
-	if($report->emsEntry){
-		echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >EMS-Eintrag erstellt</button>";
+	if(!$report->emsEntry){
+		echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Bericht nicht in EMS</button>";
 	} else {
 		?>
-		<input type='hidden' name='emsEntry' id='emsEntry' value='emsEntry'/>
-		<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#confirmEms<?= $report->uuid ?>'>EMS-Eintrag bestätigen</button>
+		<input type='hidden' name='emsEntryRemoved' id='emsEntryRemoved' value='<?= $report->uuid ?>'/>
+		<button type='button' class='btn btn-primary float-right' data-toggle='modal' data-target='#removeEms<?= $report->uuid ?>'>EMS-Eintrag entfernen</button>
 	
-		<div class='modal' id='confirmEms<?= $report->uuid ?>'>
+		<div class='modal' id='removeEms<?= $report->uuid ?>'>
 		  <div class='modal-dialog'>
 		    <div class='modal-content'>
 
 		      <div class='modal-header'>
-		        <h4 class='modal-title'>EMS-Eintrag erfolgt?</h4>
+		        <h4 class='modal-title'>EMS-Eintrag entfernt?</h4>
 		        <button type='button' class='close' data-dismiss='modal'>&times;</button>
 		      </div>
 

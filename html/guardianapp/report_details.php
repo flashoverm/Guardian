@@ -37,8 +37,8 @@ if (! isset($_GET['id'])) {
 						'units' => $units
 				);
 				
-				if(isset($_POST['emsEntry'])){
-					if(set_ems_entry($uuid)){
+				if(isset($_POST['emsEntryRemoved'])){
+				    if(delete_ems_entry($_POST['emsEntryRemoved'])){
 						$variables['successMessage'] = "Bericht aktualisiert";
 					} else {
 						$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";

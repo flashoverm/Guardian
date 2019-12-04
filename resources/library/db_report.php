@@ -226,6 +226,22 @@ function set_ems_entry($uuid){
 	}
 }
 
+function delete_ems_entry($uuid){
+    global $db;
+    
+    $statement = $db->prepare("UPDATE report SET emsEntry = FALSE WHERE uuid = ?");
+    $statement->bind_param('s', $uuid);
+    
+    $result = $statement->execute();
+    
+    if ($result) {
+        return true;
+    } else {
+        //echo "Error: " . $query . "<br>" . $db->error;
+        return false;
+    }
+}
+
 function delete_report($uuid) {
     global $db;
     

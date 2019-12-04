@@ -24,6 +24,14 @@ if(isset($_SESSION ['guardian_userid'])){
         }
     }
     
+    if (isset ( $_POST ['emsEntry'] )) {
+        if(set_ems_entry($_POST ['emsEntry'])){
+            $variables['successMessage'] = "Bericht aktualisiert";
+        } else {
+            $variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+        }
+    }
+        
     if($usersEngine->isadministration == true){
         $variables ['reports'] = get_reports();
     } else {
