@@ -11,7 +11,8 @@ $engines = get_engines ();
 $variables = array (
     'title' => "Wachbeauftragten anlegen",
     'secured' => true,
-    'engines' => $engines
+	'engines' => $engines,
+	'right' => EVENTADMIN
 );
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
@@ -21,18 +22,35 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST 
 	$email = strtolower(trim($_POST ['email']));
 	$engine = trim($_POST ['engine']);
 	
-	$error = false;
 	if (email_in_use ( $email )) {
-	    $variables ['alertMessage'] = 'Diese E-Mail-Adresse ist bereits vergeben';
-		$error = true;
-	}
+		$user = get_user_by_data($firstname, $lastname, $email, $engine);
+		
+		if($user){
+			
+			if(hasRight($user->uuid, EVENTMANAGER)){
+				$variables ['successMessage'] = 'Dieser Benutzer ist bereits Wachbeauftragter';
+				
+			} else {
+				$variables ['successMessage'] = 'Diese E-Mail-Adresse ist bereits angelegt. Der Benutzer wurde zum Wachbeauftragten ernannt';
+				
+				addRight($user->uuid, EVENTMANAGER);
+				reactivate_user($user->uuid);
+				$password = reset_password($user->uuid);
+				
+				//Send mail
+			}
 
-	if (! $error) {
+		} else {
+			$variables ['alertMessage'] = 'Diese E-Mail-Adresse wird bereits von einem anderen Benutzer verwendet - Die eingegebenen Daten stimmen nicht überein';
+		}
+		
+	} else {
+
 		$password = random_password ();
 		$result = insert_manager ( $firstname, $lastname, $email, $password, $engine );
 
 		if ($result) {
-			mail_add_manager ( $email, $password );
+			//mail_add_manager ( $email, $password );
 			$variables ['successMessage'] = 'Wachbeauftragter erfolgreich angelegt - <a href="' . $config["urls"]["guardianapp_home"] . '/manager" class="alert-link">Zurück zur Übersicht</a>';
 		} else {
 		    $variables ['alertMessage'] = 'Beim Abspeichern ist leider ein Fehler aufgetreten';

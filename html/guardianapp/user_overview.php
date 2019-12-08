@@ -9,6 +9,7 @@ require_once LIBRARY_PATH . "/mail_controller.php";
 $variables = array (
 		'title' => "Übersicht Benutzer",
 		'secured' => true,
+		'right' => EVENTADMIN
 );
 
 if (isset ( $_POST ['disable'] )) {

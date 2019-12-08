@@ -1,1 +1,6 @@
-ALTER TABLE 'report' ADD 'emsEntry' BOOLEAN NOT NULL AFTER 'ilsEntry'; 
+Idempotent:
+
+ALTER TABLE 'report' ADD 'emsEntry' BOOLEAN NOT NULL AFTER 'ilsEntry';
+
+ALTER TABLE `user` ADD UNIQUE(`email`); 
+
