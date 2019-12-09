@@ -66,4 +66,4 @@ if (! isset($_GET['id'])) {
 	}
 }
 
-renderLayoutWithContentFile($config["apps"]["guardian"], "reportDetails_template.php", $variables);
+renderLayoutWithContentFile($config["apps"]["guardian"], "reportDetails/reportDetails_template.php", $variables);

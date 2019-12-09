@@ -5,6 +5,37 @@ require_once LIBRARY_PATH . '/db_user.php';
 
 session_start ();
 
+function renderContentFile($app, $contentFile, $variables = array()){
+    global $config;
+    
+    $contentFileFullPath = TEMPLATES_PATH . "/" . $app .  "/pages/" . $contentFile;
+    
+    // making sure passed in variables are in scope of the template
+    // each key in the $variables array will become a variable
+    if (count ( $variables ) > 0) {
+        foreach ( $variables as $key => $value ) {
+            if (strlen ( $key ) > 0) {
+                ${$key} = $value;
+            }
+        }
+    }
+    
+    if (file_exists ( $contentFileFullPath )) {
+        if(!isset($showFormular) || $showFormular){
+            require_once ($contentFileFullPath);
+        }
+    } else {
+        /*
+         * If the file isn't found the error can be handled in lots of ways.
+         * In this case we will just include an error template.
+         */
+        require_once (TEMPLATES_PATH . "/error.php");
+    }
+    
+}
+
+
+
 function renderLayoutWithContentFile($app, $contentFile, $variables = array()) {
 	global $config;
 	
