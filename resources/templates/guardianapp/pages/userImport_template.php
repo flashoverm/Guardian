@@ -13,7 +13,7 @@
 	<div class="form-group">
     	<input type="file" class="form-control-file" name="import" id="import" required="required">
 	</div>
-	<p>*Format: Vorname; Nachname; E-Mail</p>
+	<p>*Kein Header - Format Zeile: Vorname; Nachname; E-Mail</p>
 	<input class="btn btn-primary" type="submit" value="Importieren">
 	<a href='<?= $config["urls"]["guardianapp_home"]?>/user' class="btn btn-primary">Zurück</a>
 </form>
