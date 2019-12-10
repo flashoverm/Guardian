@@ -61,5 +61,8 @@ if (! $isAdmin) {
 
 <?php
 	}
+?>
+<a href='<?= $config["urls"]["guardianapp_home"]?>/user/import' class="btn btn-primary">Benutzer importieren</a>
+<?php
 }
 ?>

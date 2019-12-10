@@ -10,10 +10,11 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	global $db;
 
 	$uuid = getGUID ();
+	$mail = strtolower($email);
 	
 	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
 		VALUES (?, ?, ?, ?, NULL, ?, NULL, FALSE, TRUE)");
-	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $email, $engine_uuid);
+	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $mail, $engine_uuid);
 	
 	$result = $statement->execute();
 
@@ -35,12 +36,13 @@ function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) 
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
+	$mail = strtolower($email);
 	$rights[] = EVENTMANAGER;
 	$rightsJson = json_encode($rights);
 		
 	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
 		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
-	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid, $rightsJson);
+	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $mail, $pwhash, $engine_uuid, $rightsJson);
 	
 	$result = $statement->execute();
 
@@ -57,12 +59,13 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 	global $db;
 	$uuid = getGUID ();
 	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
+	$mail = strtolower($email);
 	$rights[] = EVENTADMIN;
 	$rightsJson = json_encode($rights);
 	
 	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available)
 		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
-	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $email, $pwhash, $engine_uuid, $rightsJson);
+	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $mail, $pwhash, $engine_uuid, $rightsJson);
 	
 	$result = $statement->execute();
 
@@ -251,9 +254,10 @@ function get_engine_obj_of_user($user_uuid){
 
 function email_in_use($email) {
 	global $db;
+	$mail = strtolower($email);
 	
 	$statement = $db->prepare("SELECT * FROM user WHERE email = ?");
-	$statement->bind_param('s', $email);
+	$statement->bind_param('s', $mail);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -294,9 +298,10 @@ function is_manager_of($user_uuid, $engine_uuid){
 
 function login_enabled($email) {
 	global $db;
+	$mail = strtolower($email);
 	
 	$statement = $db->prepare("SELECT loginenabled FROM user WHERE email = ?");
-	$statement->bind_param('s', $email);
+	$statement->bind_param('s', $mail);
 		
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -339,18 +344,19 @@ function hasRight($uuid, $right){
     return false;
 }
 
-function userHasRight($right){
-    if(isset ($_SESSION ['intranet_userid'])){
-        return hasRight($_SESSION ['intranet_userid'], $right);
+function userHasRight($right){	
+    if(isset ($_SESSION ['guardian_userid'])){
+        return hasRight($_SESSION ['guardian_userid'], $right);
     }
     return false;
 }
 
 function check_password($email, $password) {
 	global $db;
+	$mail = strtolower($email);
 	
 	$statement = $db->prepare("SELECT * FROM user WHERE email = ?");
-	$statement->bind_param('s', $email);
+	$statement->bind_param('s', $mail);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
