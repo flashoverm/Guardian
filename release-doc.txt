@@ -1,6 +1,3 @@
-Idempotent:
-
-ALTER TABLE 'report' ADD 'emsEntry' BOOLEAN NOT NULL AFTER 'ilsEntry';
-
-ALTER TABLE `user` ADD UNIQUE(`email`); 
-
+Config update: Paths
+        "reports" => $_SERVER ["DOCUMENT_ROOT"] . "/ffla-intranet/resources/reports/",
+        "nodejs" => "D:/runtimes/nodejs/node.exe"

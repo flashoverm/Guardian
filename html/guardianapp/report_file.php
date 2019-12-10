@@ -6,25 +6,25 @@ require_once LIBRARY_PATH . "/db_report.php";
 require_once LIBRARY_PATH . "/db_eventtypes.php";
 require_once LIBRARY_PATH . "/db_staffpositions.php";
 require_once LIBRARY_PATH . "/util.php";
+require_once LIBRARY_PATH . "/file_create_report.php";
 
 
-/*
 if(isset($_GET['render']) && $_SERVER['HTTP_HOST'] == "localhost"){
-    renderPDF($_GET['inspection']);
+    renderPDF($_GET['report']);
     
 } else {
     if(	isset ( $_SESSION ['guardian_userid'] ) ){
-        if(!userHasRight(ENGINEHYDRANTMANANGER)){
+        if(!userHasRight(EVENTMANAGER)){
             showAlert("Sie haben keine Berechtigung diese Seite anzuzeigen");
         } else if(isset($_GET['report'])){
             
             $uuid = $_GET['report'];
             
-            $fullpath = $config["paths"]["report"] . basename($uuid) . ".pdf";
+            $fullpath = $config["paths"]["reports"] . basename($uuid) . ".pdf";
             
             $error = false;
             if (!file_exists($fullpath) || isset($_GET['force'])) {
-                //$error = createInspectionFile($uuid);
+            	$error = createReportFile($uuid);
             }
             
             if($error){
@@ -42,7 +42,7 @@ if(isset($_GET['render']) && $_SERVER['HTTP_HOST'] == "localhost"){
 
 function prepareResponse($fullpath, $uuid){
     header("Content-type: application/pdf");
-    header('Content-Disposition: inline; filename="Prüfbericht_' . $uuid . '"');
+    header('Content-Disposition: inline; filename="Wachbericht_' . $uuid . '"');
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate');
@@ -56,8 +56,7 @@ function prepareResponse($fullpath, $uuid){
 function renderPDF(){
 
     global $config;
-    global $hydrant_criteria;
-*/    
+    
     $variables = array(
         'title' => "Wachbericht",
         'report' => get_report($_GET['report']),
@@ -65,4 +64,4 @@ function renderPDF(){
     );
     
     renderContentFile($config["apps"]["guardian"], "reportDetails/reportPDF_template.php", $variables);
-//}
+}

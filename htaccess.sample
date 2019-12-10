@@ -14,12 +14,15 @@ RewriteRule ^html/guardian/events/?$ 			/guardian/html/guardianapp/event_overvie
 RewriteRule ^html/guardian/reports/admin/?$ 	/guardian/html/guardianapp/report_admin.php
 RewriteRule ^html/guardian/reports/new/?$ 		/guardian/html/guardianapp/event_report.php
 RewriteRule ^html/guardian/reports/new/([^/]*)?$ /guardian/html/guardianapp/event_report.php?event=$1
+RewriteRule ^html/guardian/reports/file/([^/]*)/render?$ 	/guardian/html/guardianapp/report_file.php?report=$1&render=true
+RewriteRule ^html/guardian/reports/file/([^/]*)/?$ 	/guardian/html/guardianapp/report_file.php?report=$1
 RewriteRule ^html/guardian/reports/([^/]*)/?$ 	/guardian/html/guardianapp/report_details.php?id=$1
 RewriteRule ^html/guardian/reports/?$ 			/guardian/html/guardianapp/report_overview.php
 
 RewriteRule ^html/guardian/manager/new/?$ 		/guardian/html/guardianapp/manager_create.php
 RewriteRule ^html/guardian/manager/?$ 			/guardian/html/guardianapp/manager_overview.php
 
+RewriteRule ^html/guardian/user/import?$ 		/guardian/html/guardianapp/user_import.php
 RewriteRule ^html/guardian/user/?$ 				/guardian/html/guardianapp/user_overview.php
 
 RewriteRule ^html/guardian/templates/?$ 		/guardian/html/guardianapp/stafftemplate_edit.php
