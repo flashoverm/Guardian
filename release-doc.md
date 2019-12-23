@@ -24,6 +24,7 @@ apt install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 lib
 
 Install nodejs
 Change nodejs path in config file
-Run in folder .../resources/library/puppeteer/
-	npm init #set name to fflaintranet
+Run in folder {application}/resources/library/puppeteer/
+	npm init 
+	(set name to fflaintranet)
 	npm i --save puppeteer

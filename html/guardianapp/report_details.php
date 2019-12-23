@@ -24,36 +24,45 @@ if (! isset($_GET['id'])) {
 	if($report){
 		
 		if(isset($_SESSION ['guardian_userid'])){
-			
-			$user = get_user($_SESSION ['guardian_userid']);
-			
-			if($report->engine == $user->engine || is_administration($user->engine) || is_admin($user->uuid)){
-				
-				$variables = array(
-						'title' => "Wachbericht",
-						'secured' => true,
-						'showFormular' => true,
-						'report' => $report,
-						'units' => $units
-				);
-				
-				if(isset($_POST['emsEntryRemoved'])){
-				    if(delete_ems_entry($_POST['emsEntryRemoved'])){
-						$variables['successMessage'] = "Bericht aktualisiert";
-					} else {
-						$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
-					}
-					$variables['report'] = get_report($uuid);
-				}
-				
-			} else {
-				$variables = array(
-						'title' => 'Sie haben keine Zugriffsrechte auf diesen Bericht',
-						'secured' => true,
-						'showFormular' => false,
-						'alertMessage' => "Sie haben keine Zugriffsrechte auf diesen Bericht"
-				);
-			}
+		    if(!userHasRight(EVENTMANAGER)){
+		        $variables = array(
+		            'title' => 'Sie haben keine Berechtigung diese Seite anzuzeigen',
+		            'secured' => true,
+		            'showFormular' => false,
+		            'alertMessage' => "Sie haben keine Berechtigung diese Seite anzuzeigen"
+		        );
+		    } else {
+		        
+		        $user = get_user($_SESSION ['guardian_userid']);
+		        
+		        if($report->engine == $user->engine || is_administration($user->engine) || is_admin($user->uuid)){
+		            
+		            $variables = array(
+		                'title' => "Wachbericht",
+		                'secured' => true,
+		                'showFormular' => true,
+		                'report' => $report,
+		                'units' => $units
+		            );
+		            
+		            if(isset($_POST['emsEntryRemoved'])){
+		                if(delete_ems_entry($_POST['emsEntryRemoved'])){
+		                    $variables['successMessage'] = "Bericht aktualisiert";
+		                } else {
+		                    $variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		                }
+		                $variables['report'] = get_report($uuid);
+		            }
+		            
+		        } else {
+		            $variables = array(
+		                'title' => 'Sie haben keine Zugriffsrechte auf diesen Bericht',
+		                'secured' => true,
+		                'showFormular' => false,
+		                'alertMessage' => "Sie haben keine Zugriffsrechte auf diesen Bericht"
+		            );
+		        }   
+		    }
 		}
 
 	} else {
