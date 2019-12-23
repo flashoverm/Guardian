@@ -2,3 +2,7 @@
 .htaccess
 resources/config.php
 
+resources/reports/*
+
+resources/library/puppeteer/node_modules/
+.htaccess

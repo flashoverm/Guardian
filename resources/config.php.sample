@@ -34,7 +34,9 @@ $config = array (
                 "images" => array (
                         "content" => $_SERVER ["DOCUMENT_ROOT"] . "/images/content",
                         "layout" => $_SERVER ["DOCUMENT_ROOT"] . "/images/layout"
-                )
+                ),
+        "reports" => $_SERVER ["DOCUMENT_ROOT"] . "/guardian/resources/reports/",
+        "nodejs" => "D:/runtimes/nodejs/node.exe"
         ),
         "formats" => array (
             "date" => "d.m.Y",
