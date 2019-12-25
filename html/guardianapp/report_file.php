@@ -9,7 +9,7 @@ require_once LIBRARY_PATH . "/util.php";
 require_once LIBRARY_PATH . "/file_create_report.php";
 
 
-if(isset($_GET['render']) && $_SERVER['HTTP_HOST'] == "localhost"){
+if(isset($_GET['render'])){
     renderPDF($_GET['report']);
     
 } else {

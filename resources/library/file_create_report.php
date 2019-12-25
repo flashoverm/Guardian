@@ -8,7 +8,7 @@ function createReportFile($uuid){
 	
 	$jsPath = LIBRARY_PATH . "/puppeteer/topdf_portrait.js";
 	
-	$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://localhost" . $config['urls']['guardianapp_home'] . "/reports/file/" . $uuid . "/render";
+	$url = $config['urls']['baseUrl'] . "/guardian/reports/file/" . $uuid . "/render";
 	
 	$outfile = $config["paths"]["reports"] . "/" . $uuid . '.pdf';
 	
