@@ -54,7 +54,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     				
     			if($user->available){
     				//if uuid is already in event -> error
-    				if(is_user_already_staff($eventUUID, $user->uuid)){
+    				if(!is_user_already_staff($eventUUID, $user->uuid)){
     						
     					$result = subscribe_staff_user ( $staffUUID, $user->uuid );
     						

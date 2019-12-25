@@ -214,7 +214,7 @@ function is_user_already_staff($event_uuid, $user_uuid){
     
     $result = $statement->execute();
     
-    if ($result && mysqli_num_rows ( $statement->get_result() ) == 0) {
+    if ($result && mysqli_num_rows ( $statement->get_result() ) > 0) {
         return true;
     } else {
         return false;

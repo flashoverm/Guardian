@@ -141,7 +141,7 @@ function get_user_of_engine($engine_uuid){
 	global $db;
 	$data = array ();
 	
-	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND available = TRUE");
+	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND available = TRUE ORDER BY lastname");
 	$statement->bind_param('s', $engine_uuid);
 	
 	if ($statement->execute()) {
