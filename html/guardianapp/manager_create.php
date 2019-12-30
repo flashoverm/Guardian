@@ -50,8 +50,11 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST 
 		$result = insert_manager ( $firstname, $lastname, $email, $password, $engine );
 
 		if ($result) {
-			//mail_add_manager ( $email, $password );
+			$mail = mail_add_manager ( $email, $password );
 			$variables ['successMessage'] = 'Wachbeauftragter erfolgreich angelegt - <a href="' . $config["urls"]["guardianapp_home"] . '/manager" class="alert-link">Zurück zur Übersicht</a>';
+			if(!$mail){
+				$variables ['alertMessage'] = 'E-Mail mit Zugangsdaten konnte nicht versendet werden';
+			}
 		} else {
 		    $variables ['alertMessage'] = 'Beim Abspeichern ist leider ein Fehler aufgetreten';
 		}
