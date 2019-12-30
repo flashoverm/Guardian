@@ -130,7 +130,7 @@ if (isset ( $_POST ['creator'] )) {
     createReportFile($report_uuid);
     
         
-    if(mail_send_report ($eventReport)){
+    if(mail_send_report ($report_uuid, $eventReport)){
     	$variables ['successMessage'] = "Bericht versendet";
     } else {
     	$variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";

@@ -19,12 +19,11 @@ require_once LIBRARY_PATH . '/class/ReportUnitStaff.php';
 
 function mail_add_manager($mail_manager, $password) {
 	global $bodies;
-	
 	$subject = "Zugangsdaten Wachbauftragter";
 	
 	$body = $bodies["manager_add"] . $bodies["login"] . $mail_manager . $bodies["password"] . $password . $bodies["manager_add2"];
 	
-	send_mail ( $mail_manager, $subject, $body );
+	return send_mail ( $mail_manager, $subject, $body );
 }
 
 function mail_reset_password($manager_uuid, $password) {
@@ -34,7 +33,7 @@ function mail_reset_password($manager_uuid, $password) {
 	$body = $bodies["manager_reset_password"] . $bodies["password"] . $password . $bodies["manager_reset_password2"];
 	
 	$manager = get_user($manager_uuid);
-	send_mail ($manager->email, $subject, $body );
+	return send_mail ($manager->email, $subject, $body );
 }
 
 
@@ -309,21 +308,26 @@ function inform_users_manager($event_uuid, $user){
 }
 
 
-function mail_send_report($report){	
+function mail_send_report($report_uuid, $report){	
+	global $config;
+	global $bodies;
+	
 	$subject = "Wachbericht";
-	$body = $report->toMail();
+	$body = $bodies["event_report"] . $report->toMail();
+	
+	$file = $config["paths"]["reports"] . $report_uuid . ".pdf";
 	
 	//send report to administration if event is no series
 	if(!get_eventtype_from_name($report->type)->isseries){
 		$administration = get_user_of_engine(get_administration()->uuid);
-		send_mails($administration, $subject, $body);
+		send_mails($administration, $subject, $body, $file);
 	}
 	
 	//send report to manager of the assigned engine
 	$engine = get_engine_from_name($report->engine);
 	$managerList = get_manager_of_engine($engine->uuid);
 	if(sizeof($managerList) > 0){
-		send_mails($managerList, $subject, $body);
+		send_mails($managerList, $subject, $body, $file);
 		return true;
 	}
 	return false;

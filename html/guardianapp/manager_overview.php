@@ -37,8 +37,11 @@ if (isset ( $_POST ['resetpw'] )) {
 	$resetpw_manager_uuid = trim ( $_POST ['resetpw'] );
 	$password = reset_password ( $resetpw_manager_uuid );
 	if($password){
-		mail_reset_password ( $resetpw_manager_uuid, $password );
+		$mail = mail_reset_password ( $resetpw_manager_uuid, $password );
 		$variables ['successMessage'] = "Passwort zurückgesetzt";
+		if(!$mail){
+			$variables ['alertMessage'] = "E-Mail konnte nicht versendet werden";
+		}
 	} else {
 		$variables ['alertMessage'] = "Passwort konnte nicht zurückgesetzt werden";
 	}
