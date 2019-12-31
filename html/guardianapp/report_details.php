@@ -5,6 +5,7 @@ require_once LIBRARY_PATH . "/db_report.php";
 require_once LIBRARY_PATH . "/db_eventtypes.php";
 require_once LIBRARY_PATH . "/db_staffpositions.php";
 require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/mail_controller.php";
 
 if (! isset($_GET['id'])) {
 	
@@ -65,7 +66,8 @@ if (! isset($_GET['id'])) {
 		            
 		            if(isset($_POST['managerApprove'])){
 		            	if(set_approval($uuid)){
-		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            		mail_report_approved($uuid);
+		            		$variables['successMessage'] = "Bericht aktualisiert und an Verwaltung versandt";
 		            	} else {
 		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
 		            	}

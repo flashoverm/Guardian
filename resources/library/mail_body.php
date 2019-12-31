@@ -41,6 +41,8 @@ $bodies = array (
 		
 		"event_report" => $util["head"] . "ein Wachbericht wurde angelegt und ist im Folgenden dargestellt, sowie als Anhang verfügbar:  \n\n",
 		
+		"event_report_approved" => $util["head"] . "ein Wachbericht wurde durch einen Wachbeauftragten überprüft und freigegeben. \n\n Der Bericht befindet sich im Anhang oder unter:  \n\n",
+		
 		"manager_add" => $util["head"] . "für Sie wurde ein Zugang als Wachbeauftragter angelegt:",
 		"login" => "\n\nLogin: ",
 		"password" => "\n\nPasswort: ",

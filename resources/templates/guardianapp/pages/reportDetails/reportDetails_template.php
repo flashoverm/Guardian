@@ -9,7 +9,7 @@
 					<?php if(!$report->managerApproved){ 
 						echo "Bericht wurde nicht vom zuständigen Wachbeauftragten überprüft";
 					} else {
-						echo "Bericht wurde nicht überprüft";
+						echo "Bericht wurde vom Wachbeauftragten überprüft und freigegeben";
 					} ?>
 				</td>
 			</tr>
@@ -17,9 +17,9 @@
 				<th>EMS-Eintrag</th>
 				<td>
 					<?php if(!$report->emsEntry){ 
-						echo "Bericht nicht in EMS angelegt";
+						echo "Bericht ist nicht in EMS angelegt";
 					} else {
-						echo "Bericht in EMS angelegt";
+						echo "Bericht ist in EMS angelegt";
 					} ?>
 				</td>
 			</tr>
