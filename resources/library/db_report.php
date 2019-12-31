@@ -112,8 +112,9 @@ function get_filtered_reports($engine_uuid) {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM report WHERE engine = '" . $engine_uuid . "' ORDER BY date DESC");
-    
+    $statement = $db->prepare("SELECT * FROM report WHERE engine = ? ORDER BY date DESC");
+    $statement->bind_param('s', $engine_uuid);
+
     if ($statement->execute()) {
         $result = $statement->get_result();
         
@@ -242,6 +243,39 @@ function delete_ems_entry($uuid){
     }
 }
 
+function set_approval($uuid){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE report SET managerApproved = TRUE WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
+function delete_approval($uuid){
+	global $db;
+	
+	$statement = $db->prepare("UPDATE report SET managerApproved = FALSE WHERE uuid = ?");
+	$statement->bind_param('s', $uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	} else {
+		//echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
+}
+
+
 function delete_report($uuid) {
     global $db;
     
@@ -285,6 +319,7 @@ function create_table_report() {
                           noIncidents BOOLEAN NOT NULL,
                           ilsEntry BOOLEAN NOT NULL,
 						  emsEntry BOOLEAN NOT NULL,
+						  managerApproved BOOLEAN NOT NULL,
                           report TEXT,
                           PRIMARY KEY  (uuid),
 						  FOREIGN KEY (type) REFERENCES eventtype(uuid),

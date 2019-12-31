@@ -45,13 +45,49 @@ if (! isset($_GET['id'])) {
 		                'units' => $units
 		            );
 		            
-		            if(isset($_POST['emsEntryRemoved'])){
-		                if(delete_ems_entry($_POST['emsEntryRemoved'])){
+		            if(isset($_POST['emsEntry'])){
+		            	if(set_ems_entry($uuid)){
 		                    $variables['successMessage'] = "Bericht aktualisiert";
 		                } else {
 		                    $variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
 		                }
 		                $variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['emsEntryRemoved'])){
+		            	if(delete_ems_entry($uuid)){
+		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['managerApprove'])){
+		            	if(set_approval($uuid)){
+		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['managerApproveRemove'])){
+		            	if(delete_approval($uuid)){
+		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if (isset ( $_POST ['delete'] )) {
+		            	if(delete_report ( $uuid )){
+		            		$variables ['successMessage'] = "Bericht gelöscht";
+		            		header ( "Location: " . $config["urls"]["guardianapp_home"] . "/reports"); // redirects
+		            	} else {
+		            		$variables ['alertMessage'] = "Bericht konnte nicht gelöscht werden";
+		            	}
 		            }
 		            
 		        } else {

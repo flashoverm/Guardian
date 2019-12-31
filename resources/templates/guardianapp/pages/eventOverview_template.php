@@ -31,7 +31,7 @@ if (!isset($events) || ! count ( $events ) ) {
 		if ($row->end_time != 0) {
 		    echo date($config ["formats"] ["time"], strtotime($row->end_time));
 		} else {
-			echo " - ";
+			echo " &ndash; ";
 		}
 		?></td>
 				<td class="text-center"><?= get_eventtype($row->type)->type; ?></td>

@@ -57,7 +57,7 @@ function renderLayoutWithContentFile($app, $contentFile, $variables = array()) {
 
 	require_once (TEMPLATES_PATH . "/header.php");
 
-	echo "<div class=\"container\" id=\"container\">\n" . "\t<div id=\"content\">\n";
+	echo "<div class='container' id='container'>\n" . "\t<div id='content'>\n";
 
 	if ($secured && ! $loggedIn) {
 	    goToLogin();

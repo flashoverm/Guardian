@@ -2,11 +2,7 @@
 Release Documentation
 ******************************
 
-Config update: Paths
-        "reports" => $_SERVER ["DOCUMENT_ROOT"] . "/ffla-intranet/resources/reports/",
-        "nodejs" => "D:/runtimes/nodejs/node.exe"
-        
-htdocs: report/file (2x)
+ALTER TABLE report ADD manager_approved BOOLEAN NOT NULL AFTER emsEntry; 
 
 
 
