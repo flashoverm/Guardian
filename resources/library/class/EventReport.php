@@ -15,6 +15,11 @@ class EventReport {
 	public $creator;
 	public $ilsEntry;
 	
+	public $uuid;
+	public $typeOther;
+	public $emsEntry;
+	public $managerApproved;
+	
 	public $units = array();
 	
 	function __construct($date, $beginn, $end, $type, $title, $engine, 
@@ -43,16 +48,8 @@ class EventReport {
 	}
 	
 	function toHTML(){
-		$string = "Date: " . $this->date . " - Beginn: " . $this->beginn . " - End: " . $this->end . "<br>"
-				. "Type: " . $this->type . " - Title: " . $this->title . " - Engine: " . $this->engine . "<br>"
-						. "NoIncidents: " . $this->noIncidents . " - Reporttext: ". $this->report . " - Creator: " . $this->creator
-						. "<br><br>";
-						
-						foreach ($this->units as $value) {
-							$string = $string . $value->toHTML();
-						}
-						
-						return $string . "<br>";
+		$string = $this->toMail();
+		return nl2br($string);
 	}
 	
 	function toMail(){

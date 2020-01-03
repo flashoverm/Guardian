@@ -24,6 +24,8 @@ if (! isset($_GET['id'])) {
 	
 	if($report){
 		
+		get_report_object($uuid);
+		
 		if(isset($_SESSION ['guardian_userid'])){
 		    if(!userHasRight(EVENTMANAGER)){
 		        $variables = array(

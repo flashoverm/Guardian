@@ -35,7 +35,11 @@ if ($config ["settings"] ["reportfunction"]) {
         $event = get_event($_GET['event']);
         $variables['event'] = $event;
     }
-
+    
+    if(isset($_GET['id'])){
+    	$report = get_report($_GET['id']);
+    	$variables['report'] = $report;
+    }
     
 } else {
     $variables ['showFormular'] = false;

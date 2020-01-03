@@ -162,6 +162,21 @@ function get_report($report_uuid) {
     }
 }
 
+function get_report_object($report_uuid){
+	
+	$db_report = get_report($report_uuid);
+	
+	$report = new EventReport($db_report->date, $db_report->start_time, $db_report->end_time, $db_report->type,
+			$db_report->title, $db_report->engine, $db_report->noIncidents, $db_report->report, $db_report->creator, $db_report->ilsEntry);
+	
+	$units = get_report_units($report_uuid);
+	foreach($units as $unit){
+		$report->addUnit($unit);
+	}
+	
+	echo $report->toHTML();
+}
+
 function get_report_units($report_uuid) {
 	global $db;
 	$data = array ();
