@@ -1,4 +1,6 @@
-<?php require_once 'reportTable.php';?>
+<?php 
+require_once 'reportTable.php';
+?>
 
 <div class="table-responsive">
 	<table class="table table-bordered">
@@ -27,119 +29,34 @@
 	</table>
 </div>
 
-<form action='' method='post'>
-	<a href='<?=$config["urls"]["guardianapp_home"] ?>/reports' class='btn btn-outline-primary'>Zurück</a>
-	<div class="dropdown float-right">
-	  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Berichts-Optionen</button>
-	  <div class="dropdown-menu">
-	    <a class="dropdown-item" target="_blank" href="<?= $config["urls"]["guardianapp_home"] . "/reports/file/". $report->uuid; ?>">PDF anzeigen</a>
-	    <a class="dropdown-item" target="_blank" href="<?= $config["urls"]["guardianapp_home"] . "/reports/file/". $report->uuid . "&force=true"; ?>">PDF neu erzeugen</a>
-    	<div class="dropdown-divider"></div>
+<a href='<?=$config["urls"]["guardianapp_home"] ?>/reports' class='btn btn-outline-primary'>Zurück</a>
+<div class="dropdown float-right">
+	<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Berichts-Optionen</button>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" target="_blank" href="<?= $config["urls"]["guardianapp_home"] . "/reports/file/". $report->uuid; ?>">PDF anzeigen</a>
+		<a class="dropdown-item" target="_blank" href="<?= $config["urls"]["guardianapp_home"] . "/reports/file/". $report->uuid . "&force=true"; ?>">PDF neu erzeugen</a>
+		<div class="dropdown-divider"></div>
 	
 	<?php if(!$report->emsEntry){ ?>
-		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#confirmEms<?= $report->uuid ?>'>Bericht in EMS angelegt</a>
+		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#confirmEms'>Bericht in EMS angelegt</a>
 	<?php } else { ?>
-		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#removeEms<?= $report->uuid ?>'>Bericht in EMS entfernt</a>
+		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#removeEms'>Bericht in EMS entfernt</a>
 	<?php } ?>
 		<div class="dropdown-divider"></div>
 	<?php if(!$report->managerApproved){ ?>
-		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#managerApprove<?= $report->uuid ?>'>Bericht freigeben</a>
+		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#managerApprove'>Bericht freigeben</a>
 	<?php } else { ?>
-		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#managerApproveRemove<?= $report->uuid ?>'>Freigabe entfernen</a>
+		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#managerApproveRemove'>Freigabe entfernen</a>
 	<?php } ?>
 		<div class="dropdown-divider"></div>
-		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#confirmDelete<?= $report->uuid; ?>'>Löschen</a>
-		</div>
+		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#confirmDelete'>Löschen</a>
 	</div>
-		
-	<div class='modal' id='managerApproveRemove<?= $report->uuid ?>'>
-	  <div class='modal-dialog'>
-	    <div class='modal-content'>
-
-	      <div class='modal-header'>
-	        <h4 class='modal-title'>Freigabe für diesen Bericht entfernen?</h4>
-	        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-	      </div>
-
-	      <div class='modal-footer'>
-	      	<input type='submit' name='managerApproveRemove' value='Ja' class='btn btn-primary' onClick='showLoader()'/>
-	      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-	      </div>
-
-	    </div>
-	  </div>
-	</div>	
+</div>
 	
-	<div class='modal' id='managerApprove<?= $report->uuid ?>'>
-	  <div class='modal-dialog'>
-	    <div class='modal-content'>
-	
-	      <div class='modal-header'>
-	        <h4 class='modal-title'>Bericht für Abrechnung freigeben?</h4>
-	        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-	      </div>
-	
-	      <div class='modal-footer'>
-	      	<input type='submit' name='managerApprove' value='Ja' class='btn btn-primary' onClick='showLoader()'/>
-	      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-	      </div>
-	
-	    </div>
-	  </div>
-	</div>
-	
-	<div class='modal' id='confirmEms<?= $report->uuid ?>'>
-	  <div class='modal-dialog'>
-	    <div class='modal-content'>
-
-	      <div class='modal-header'>
-	        <h4 class='modal-title'>Wurde die Wache in EMS angelegt?</h4>
-	        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-	      </div>
-
-	      <div class='modal-footer'>
-	      	<input type='submit' name='emsEntry' value='Ja' class='btn btn-primary' onClick='showLoader()'/>
-	      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-	      </div>
-
-	    </div>
-	  </div>
-	</div>
-	
-	<div class='modal' id='removeEms<?= $report->uuid ?>'>
-	  <div class='modal-dialog'>
-	    <div class='modal-content'>
-
-	      <div class='modal-header'>
-	        <h4 class='modal-title'>Wurde der Eintrag dieser Wache aus EMS entfernt/nicht angelegt?</h4>
-	        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-	      </div>
-
-	      <div class='modal-footer'>
-	      	<input type='submit' name='emsEntryRemoved' value='Ja' class='btn btn-primary' onClick='showLoader()'/>
-	      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-	      </div>
-
-	    </div>
-	  </div>
-	</div>
-	<div class="modal" id="confirmDelete<?= $report->uuid; ?>">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	
-	      <div class="modal-header">
-	        <h4 class="modal-title">Bericht wirklich löschen?</h4>
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	      </div>
-	
-	      <div class="modal-footer">
-	      	<input type="submit" name="delete" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
-	      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
-	      </div>
-	
-	    </div>
-	  </div>
-	</div> 
-						
-</form>	
-
+<?php 
+createDialog('managerApproveRemove', "Freigabe für diesen Bericht entfernen?", "managerApproveRemove");
+createDialog('managerApprove', "Bericht für Abrechnung freigeben?", "managerApprove");
+createDialog('confirmEms', "Wurde die Wache in EMS angelegt?", "emsEntry");
+createDialog('removeEms', "Wurde der Eintrag dieser Wache aus EMS entfernt/nicht angelegt?", "emsEntryRemoved");
+createDialog('confirmDelete', "Bericht wirklich löschen?", "delete");
+?>

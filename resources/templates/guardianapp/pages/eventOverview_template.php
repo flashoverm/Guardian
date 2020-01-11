@@ -58,28 +58,10 @@ if (!isset($events) || ! count ( $events ) ) {
 					<a class="btn btn-primary btn-sm" href="<?= $config["urls"]["guardianapp_home"] . "/events/".$row->uuid ?>">Details</a>
 				</td>
 				<td class="text-center">
-					<form method="post" action="">
-						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
-						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
-						
-						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						
-						      <div class="modal-header">
-						        <h4 class="modal-title">Wache wirklich löschen?</h4>
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						      </div>
-						
-						      <div class="modal-footer">
-						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
-						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
-						      </div>
-						
-						    </div>
-						  </div>
-						</div> 
-					</form>
+					<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
+					<?php 
+					createDialog('confirmDelete' . $row->uuid, "Wache wirklich löschen?", null, "delete", $row->uuid);
+					?>	
 				</td>
 			</tr>
 <?php
