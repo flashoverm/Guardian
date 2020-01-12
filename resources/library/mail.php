@@ -27,29 +27,29 @@ function init_mail() {
 }
 
 function send_mail($to, $subject, $body) {
-	global $util;
-		
-	$mail = init_mail ();
-
-	$mail->addAddress ( $to );
-	$mail->Subject = $subject;
-	$mail->Body = $body . $util["footer"];
-		
-	try{
-		if(!$mail->send ()){
-			throw new Exception;
-		}
-		log_message("Mail sent to " . $to . ": " . $subject);
-		
-	}catch(Exception $e){
-	    log_message("Cant send mail to " . $to . ": " . $subject);
-	    
-		echo "<script language='javascript'> 
+    global $util;
+    	
+    $mail = init_mail ();
+    
+    $mail->addAddress ( $to );
+    $mail->Subject = $subject;
+    $mail->Body = $body . $util["footer"];
+    
+    try{
+        if(!$mail->send ()){
+            throw new Exception;
+        }
+        log_message("Mail sent to " . $to . ": " . $subject);
+        
+    }catch(Exception $e){
+        log_message("Cant send mail to " . $to . ": " . $subject);
+        
+        echo "<script language='javascript'>
 				alert('Eine E-Mail konnte nicht gesendet werden');
 			</script>";
-		return false;
-	}
-	
+        return false;
+    }
+    
 	return true;
 
 }
@@ -109,7 +109,8 @@ function filter_deactivated($unfiltered){
     $filtered = array ();
     
     foreach ($unfiltered as $user) {
-        if($user->loginenabled == 1 && isset($user->password)){
+        #User with password (registered) and login enabled, or unregiered user
+        if( ($user->loginenabled == 1 && isset($user->password) ) || !isset($user->password) ) {
             $filtered [] = $user;
         }
     }
