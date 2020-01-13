@@ -174,7 +174,7 @@ function get_report_object($report_uuid){
 		$report->addUnit($unit);
 	}
 	
-	echo $report->toHTML();
+	//echo $report->toHTML();
 }
 
 function get_report_units($report_uuid) {
