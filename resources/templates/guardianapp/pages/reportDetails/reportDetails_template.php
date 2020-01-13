@@ -49,6 +49,7 @@ require_once 'reportTable.php';
 		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#managerApproveRemove'>Freigabe entfernen</a>
 	<?php } ?>
 		<div class="dropdown-divider"></div>
+		<a class="dropdown-item" href="<?= $config["urls"]["guardianapp_home"] . "/reports/". $report->uuid . "/edit"; ?>">Bearbeiten</a>
 		<a href="#" class="dropdown-item" data-toggle='modal' data-target='#confirmDelete'>Löschen</a>
 	</div>
 </div>
