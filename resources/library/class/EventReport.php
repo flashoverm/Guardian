@@ -59,6 +59,10 @@ class EventReport {
 		$string = "----------------------- Wachbericht -----------------------"
 				. "\n\n" .$this->type;
 		
+		if($this->type_other != null){
+		    $string = $string . " (" . $this->type_other . ")";
+		}
+		
 		if($this->title != null){
 			$string = $string . "\nTitel: \t\t" . $this->title;
 		}

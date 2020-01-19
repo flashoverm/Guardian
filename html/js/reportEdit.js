@@ -256,14 +256,14 @@ function initializeModalEdit(unitnumber){
 	modalUnitStart.value = unitStart.value;
 	modalUnitEnd.value = unitEnd.value;
 
-	if(km.value || unit.value == stationString){
+	if(km.value || unit.value != stationString){
 		modalUnit.value = unit.value;
 		modalUnit.disabled = false;
 		modalKm.disabled = false;
 		modalKm.value = km.value;
 		modalVehicleRow.style.display = 'flex';	
 	} else {
-		modalUnit.value = '';
+		modalUnit.value = stationString;
 		modalUnit.disabled = true;
 		modalKm.disabled = true;
 		modalKm.value = '';
@@ -279,10 +279,13 @@ function initializeModalEdit(unitnumber){
 		
 		addExistingStaffPosition(unitnumber, positionNo);
 	}
+	
+	var unitNo = document.getElementById("unitNo");
+	unitNo.value = unitnumber;
 }
 
 function addExistingStaffPosition(unitnumber, positionNo) {
-	var positionfunction = positionfunction = document.getElementById("unit" + unitnumber + "function" + positionNo);
+	var positionfunction = document.getElementById("unit" + unitnumber + "function" + positionNo);
 	var positionname = document.getElementById("unit" + unitnumber + "name" + positionNo);
 	var positionengine = document.getElementById("unit" + unitnumber + "engine" + positionNo);
 

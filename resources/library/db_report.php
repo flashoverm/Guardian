@@ -9,58 +9,49 @@ create_table_report();
 create_table_reportUnit();
 create_table_reportStaff();
 
-function insert_report_short($date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $noIncidents, $ilsEntry, $report) {
+function insert_report(EventReport $report_object){
     global $db;
     
-    $uuid = getGUID ();
-    
-    if($noIncidents){
-        
-        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE, ?, ?)");
-        $statement->bind_param('sssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $ilsEntry, $report);
-        
+    if($report_object->uuid){
+        $uuid = $report_object->uuid;
     } else {
-        
-        $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, FALSE, ?, ?)");
-        $statement->bind_param('sssssssssis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $ilsEntry, $report);
-        
+        $uuid = getGUID ();
     }
-    
+            
+    $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $statement->bind_param('sssssssssiis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $noIncidents, $ilsEntry, $report);
+
     $result = $statement->execute();
     
     if ($result) {
+        $units = $report_object->units;
+        
+        foreach($units as $unit){
+            $unit_uuid = insert_report_unit(
+                $unit->date,
+                $unit->beginn,
+                $unit->end,
+                (isset($unit->unit) ? $unit->unit : null),
+                (isset($unit->km) ? $unit->km : null),
+                $report_uuid);
+            
+            $staff = $unit->staffList;
+            
+            foreach($staff as $entry){
+                insert_report_staff(
+                    $entry->position,
+                    $entry->name,
+                    $entry->engine,
+                    $unit_uuid);
+            }
+        }
         // echo "New event record created successfully";
         return $uuid;
     } else {
         //echo "Error: " . "<br>" . $db->error;
         return false;
     }
-}
-
-function insert_report_detail($report_uuid, EventReport $report_object){
-	$units = $report_object->units;
-	
-	foreach($units as $unit){
-		$unit_uuid = insert_report_unit(
-				$unit->date, 
-				$unit->beginn, 
-				$unit->end,
-				(isset($unit->unit) ? $unit->unit : null),
-				(isset($unit->km) ? $unit->km : null),
-				$report_uuid);
-		
-		$staff = $unit->staffList;
-		
-		foreach($staff as $entry){
-			insert_report_staff(
-					$entry->position,
-					$entry->name,
-					$entry->engine,
-					$unit_uuid);
-		}
-	}
 }
 
 function insert_report_unit($date, $beginn, $end, $unit, $km, $report_uuid){
@@ -227,6 +218,11 @@ function get_report_staff($unit_uuid){
 		}
 	}
 	return $data;
+}
+
+function update_report(EventReport $report_object){
+    delete_report($report_object->uuid);
+    return insert_report($report_object);
 }
 
 function set_ems_entry($uuid){

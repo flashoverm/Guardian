@@ -38,9 +38,7 @@ if(isset($_GET['id'])){
 }
 
 if (isset($_POST) && isset($_POST ['start'])) {
-    
-    var_dump($_POST);
-    
+       
     $date = trim ( $_POST ['date'] );
     $beginn = trim ( $_POST ['start'] );
     $end = trim ( $_POST ['end'] );
@@ -68,6 +66,7 @@ if (isset($_POST) && isset($_POST ['start'])) {
         $report = trim ( $_POST ['report'] );
     }
     $creator = trim ($_POST ['creator']);
+        
 
     $eventReport = new EventReport($date, $beginn, $end, $type, $typeOther, 
         $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
@@ -99,6 +98,20 @@ if (isset($_POST) && isset($_POST ['start'])) {
         $eventReport->addUnit($unit);
         $unitCount += 1;
     }
+    
+    
+    if(isset($_GET['id'])){
+        //Update
+        update_report($eventReport);
+        
+        
+    } else {
+        insert_report($eventReport);
+        
+        //Insert
+    }
+    
+        
     echo $eventReport->toHTML();
 }
 
