@@ -95,6 +95,7 @@
 					<p class="text-right my-0 mx-0"><sub><em>* Mehr Personal kann mit + eingefügt werden</em></sub></p>
 				</div>
 				<div class="modal-footer">
+					<input type="hidden" id="unitNo" value="">
 					<input type="submit" class="btn btn-primary" id="addUnit" value="Hinzufügen">
 					<button type="button" class="btn btn-default" onClick="clearUnitForm()" data-dismiss="modal">Abbrechen</button>
 				</div>
@@ -189,7 +190,7 @@
 			modalKm.value = km.value;
 			modalVehicleRow.style.display = 'flex';	
 		} else {
-			modalUnit.value = '';
+			modalUnit.value = stationString;
 			modalUnit.disabled = true;
 			modalKm.disabled = true;
 			modalKm.value = '';
@@ -205,6 +206,12 @@
 			
 			addExistingStaffPosition(unitnumber, positionNo);
 		}
+
+		var unitNo = document.getElementById("unitNo");
+		unitNo.value = unitnumber;
+
+		var addButton = document.getElementById("addUnit");
+		addButton.value = "Aktualisieren";
 	}
 
 	function addExistingStaffPosition(unitnumber, positionNo) {
