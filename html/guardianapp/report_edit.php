@@ -37,6 +37,70 @@ if(isset($_GET['id'])){
 	$variables['object'] = $event;
 }
 
+if (isset($_POST) && isset($_POST ['start'])) {
+    
+    var_dump($_POST);
+    
+    $date = trim ( $_POST ['date'] );
+    $beginn = trim ( $_POST ['start'] );
+    $end = trim ( $_POST ['end'] );
+    $type = trim ( $_POST ['type'] );
+    
+    $typeOther = null;
+    if(isset( $_POST ['typeOther'] ) && !empty( $_POST ['typeOther'] ) ){
+        $typeOther = trim( $_POST ['typeOther'] );
+    }
+    $title = trim ( $_POST ['title'] );
+    if(empty ($title)){
+        $title = null;
+    }
+    $engine = trim ($_POST ['engine']);
+    $noIncidents = false;
+    if(isset($_POST ['noIncidents'])){
+        $noIncidents = true;
+    }
+    $ilsEntry = false;
+    if(isset($_POST ['ilsEntry'])){
+        $ilsEntry = true;
+    }
+    $report = "";
+    if (isset ( $_POST ['report'] )) {
+        $report = trim ( $_POST ['report'] );
+    }
+    $creator = trim ($_POST ['creator']);
+
+    $eventReport = new EventReport($date, $beginn, $end, $type, $typeOther, 
+        $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
+    
+    $unitCount = 1;
+    while ( isset ( $_POST ["unit" . $unitCount . "unit"] ) ) {
+        $unitdate = trim ( $_POST ['unit' . $unitCount . 'date' . "field"] );
+        $unitbeginn = trim ( $_POST ['unit' . $unitCount . 'start' . "field"] );
+        $unitend = trim ( $_POST ['unit' . $unitCount . 'end' . "field"] );
+        $unitname = trim ( $_POST ['unit' . $unitCount . 'unit'] );
+        
+        $unit = new ReportUnit($unitname, $unitdate, $unitbeginn, $unitend);
+        if(isset ( $_POST ['unit' . $unitCount . 'km'] ) && $_POST ['unit' . $unitCount . 'km'] != ""){
+            $unitkm = trim ( $_POST ['unit' . $unitCount . 'km'] );
+            $unit->setKM($unitkm);
+        }
+        
+        $position = 1;
+        while ( isset ( $_POST ["unit" . $unitCount . "function" . $position . "field"] ) ) {
+            $function = trim ( $_POST ["unit" . $unitCount . "function" . $position . "field"] );
+            $name = trim ( $_POST ["unit" . $unitCount . "name" . $position . "field"] );
+            $engineUnit = trim ( $_POST ["unit" . $unitCount . "engine" . $position . "field"] );
+
+            $unit->addStaff(new ReportUnitStaff($function, $name, $engineUnit));
+            
+            $position += 1;
+        }
+        
+        $eventReport->addUnit($unit);
+        $unitCount += 1;
+    }
+    echo $eventReport->toHTML();
+}
 
 
 renderLayoutWithContentFile ($config["apps"]["guardian"], "reportEdit/reportEdit_template.php", $variables );

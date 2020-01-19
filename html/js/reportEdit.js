@@ -48,6 +48,13 @@ function addUnit(){
 	inputs[3].value = unit;
 	nameField(inputs[4], "unit" + reportUnitCount + "km");
 	inputs[4].value = km;
+	
+	nameField(inputs[5], "unit" + reportUnitCount + "datefield");
+	inputs[5].value = unitdate;
+	nameField(inputs[6], "unit" + reportUnitCount + "startfield");
+	inputs[6].value = unitstart;
+	nameField(inputs[7], "unit" + reportUnitCount + "endfield");
+	inputs[7].value = unitend;
 
 	var personalContainer = newUnit.getElementsByClassName("personalContainer");
 	
@@ -63,6 +70,13 @@ function addUnit(){
 		nameField(inputs[0], "unit" + reportUnitCount + "name" + i);
 		inputs[0].value = position.querySelector("#positionname").value;
 
+		nameField(inputs[1], "unit" + reportUnitCount + "function" + i + "field");
+		inputs[1].value = position.querySelector("#positionfunction").value;
+		nameField(inputs[2], "unit" + reportUnitCount + "name" + i + "field");
+		inputs[2].value = position.querySelector("#positionname").value;
+		nameField(inputs[3], "unit" + reportUnitCount + "engine" + i + "field");
+		inputs[3].value = position.querySelector("#positionengine").value;
+		
 		var selects = newPersonal.getElementsByTagName("select");
 		nameField(selects[0], "unit" + reportUnitCount + "function" + i)
 		selects[0].selectedIndex = position.querySelector("#positionfunction").selectedIndex;
@@ -156,5 +170,108 @@ function clearUnitForm(){
 	var km = document.getElementById("km");
 	unit.disabled = false;
 	km.disabled = false;
+}
+
+
+
+function initializeModal(){
+
+	initializeModalVehicle();
+	
+	var vehicleRow = document.getElementById("vehiclerow");
+	var unit = document.getElementById("unit");
+	var km = document.getElementById("km");
+	
+
+	unit.value = stationString;
+	unit.disabled = true;
+	km.disabled = true;
+	vehicleRow.style.display = 'none';	
+}
+
+function initializeModalVehicle(){
+
+	var vehicleRow = document.getElementById("vehiclerow");
+	var unit = document.getElementById("unit");
+	var km = document.getElementById("km");
+	
+
+	unit.value = '';
+	unit.disabled = false;
+	km.disabled = false;
+	vehicleRow.style.display = 'flex';	
+	
+	var date = document.getElementById("date").value;
+	var start = document.getElementById("start").value;
+	var end = document.getElementById("end").value;
+	reportEngine = document.getElementById("engine").selectedIndex;
+
+	var form = document.getElementById("addUnitForm");
+
+	if(date != ""){
+		form.querySelector("#unitdate").value = date;
+	}
+	if(start != ""){
+		form.querySelector("#unitstart").value = start;
+	}
+	if(end != ""){
+		form.querySelector("#unitend").value = end;
+	}
+	form.querySelector("#positionengine").selectedIndex = reportEngine;
+}
+
+function initializeModalEdit(unitnumber){
+
+	var unit = document.getElementById("unit" + unitnumber + "unit");
+	var km = document.getElementById("unit" + unitnumber + "km");
+	var unitDate = document.getElementById("unit" + unitnumber + "date");
+	var unitStart = document.getElementById("unit" + unitnumber + "start");
+	var unitEnd = document.getElementById("unit" + unitnumber + "end");
+	
+	var modalVehicleRow = document.getElementById("vehiclerow");
+	var modalUnit = document.getElementById("unit");
+	var modalKm = document.getElementById("km");
+	var modalUnitDate = document.getElementById("unitdate");
+	var modalUnitStart = document.getElementById("unitstart");
+	var modalUnitEnd = document.getElementById("unitend");
+
+	modalUnitDate.value = unitDate.value;
+	modalUnitStart.value = unitStart.value;
+	modalUnitEnd.value = unitEnd.value;
+
+	if(km.value || unit.value == stationString){
+		modalUnit.value = unit.value;
+		modalUnit.disabled = false;
+		modalKm.disabled = false;
+		modalKm.value = km.value;
+		modalVehicleRow.style.display = 'flex';	
+	} else {
+		modalUnit.value = '';
+		modalUnit.disabled = true;
+		modalKm.disabled = true;
+		modalKm.value = '';
+		modalVehicleRow.style.display = 'none';
+	}
+
+	var positionNo = 1;
+	addExistingStaffPosition(unitnumber, positionNo);
+
+	while(positionfunction = document.getElementById("unit" + unitnumber + "function" + (positionNo+1)) ) {
+		positionNo ++;
+		addReportStaffPosition();
+		
+		addExistingStaffPosition(unitnumber, positionNo);
+	}
+}
+
+function addExistingStaffPosition(unitnumber, positionNo) {
+	var positionfunction = positionfunction = document.getElementById("unit" + unitnumber + "function" + positionNo);
+	var positionname = document.getElementById("unit" + unitnumber + "name" + positionNo);
+	var positionengine = document.getElementById("unit" + unitnumber + "engine" + positionNo);
+
+	var position = form.querySelector("#position" + positionNo);
+	position.querySelector("#positionname").value = positionname.value;
+	position.querySelector("#positionfunction").selectedIndex = positionfunction.selectedIndex;
+	position.querySelector("#positionengine").selectedIndex = positionengine.selectedIndex;
 }
 	

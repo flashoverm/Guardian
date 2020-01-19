@@ -68,7 +68,7 @@
 									<select class="form-control" name="positionfunction" required="required" id="positionfunction">
 										<option value="" disabled selected>Funktion auswählen</option>
 										<?php foreach ( $staffpositions as $option ) : ?>
-										<option value="<?=  $option->position;  //Change to $option->uuid for database usage ?>"><?= $option->position; ?></option>
+										<option value="<?=  $option->uuid; ?>"><?= $option->position; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -85,7 +85,7 @@
 										id="positionengine">
 										<option value="" disabled selected>Löschzug auswählen</option>
 										<?php foreach ( $engines as $option ) : ?>
-										<option value="<?=  $option->name;  //Change to $option->uuid for database usage ?>"><?= $option->name; ?></option>
+										<option value="<?=  $option->uuid; ?>"><?= $option->name; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -116,107 +116,6 @@
     var reportEngine = "";
     var stationString = "Stationäre Wache"
 
-    
-	function initializeModal(){
-
-		initializeModalVehicle();
-		
-		var vehicleRow = document.getElementById("vehiclerow");
-		var unit = document.getElementById("unit");
-		var km = document.getElementById("km");
-		
-
-		unit.value = stationString;
-		unit.disabled = true;
-		km.disabled = true;
-		vehicleRow.style.display = 'none';	
-	}
-
-	function initializeModalVehicle(){
-
-		var vehicleRow = document.getElementById("vehiclerow");
-		var unit = document.getElementById("unit");
-		var km = document.getElementById("km");
-		
-
-		unit.value = '';
-		unit.disabled = false;
-		km.disabled = false;
-		vehicleRow.style.display = 'flex';	
-		
-		var date = document.getElementById("date").value;
-		var start = document.getElementById("start").value;
-		var end = document.getElementById("end").value;
-		reportEngine = document.getElementById("engine").selectedIndex;
-
-		var form = document.getElementById("addUnitForm");
-
-		if(date != ""){
-			form.querySelector("#unitdate").value = date;
-		}
-		if(start != ""){
-			form.querySelector("#unitstart").value = start;
-		}
-		if(end != ""){
-			form.querySelector("#unitend").value = end;
-		}
-		form.querySelector("#positionengine").selectedIndex = reportEngine;
-	}
-
-	function initializeModalEdit(unitnumber){
-
-		var unit = document.getElementById("unit" + unitnumber + "unit");
-		var km = document.getElementById("unit" + unitnumber + "km");
-		var unitDate = document.getElementById("unit" + unitnumber + "date");
-		var unitStart = document.getElementById("unit" + unitnumber + "start");
-		var unitEnd = document.getElementById("unit" + unitnumber + "end");
-		
-		var modalVehicleRow = document.getElementById("vehiclerow");
-		var modalUnit = document.getElementById("unit");
-		var modalKm = document.getElementById("km");
-		var modalUnitDate = document.getElementById("unitdate");
-		var modalUnitStart = document.getElementById("unitstart");
-		var modalUnitEnd = document.getElementById("unitend");
-
-		modalUnitDate.value = unitDate.value;
-		modalUnitStart.value = unitStart.value;
-		modalUnitEnd.value = unitEnd.value;
-
-		if(km.value || unit.value == stationString){
-			modalUnit.value = unit.value;
-			modalUnit.disabled = false;
-			modalKm.disabled = false;
-			modalKm.value = km.value;
-			modalVehicleRow.style.display = 'flex';	
-		} else {
-			modalUnit.value = '';
-			modalUnit.disabled = true;
-			modalKm.disabled = true;
-			modalKm.value = '';
-			modalVehicleRow.style.display = 'none';
-		}
-
-		var positionNo = 1;
-		addExistingStaffPosition(unitnumber, positionNo);
-
-		while(positionfunction = document.getElementById("unit" + unitnumber + "function" + (positionNo+1)) ) {
-			positionNo ++;
-			addReportStaffPosition();
-			
-			addExistingStaffPosition(unitnumber, positionNo);
-		}
-	}
-
-	function addExistingStaffPosition(unitnumber, positionNo) {
-		var positionfunction = positionfunction = document.getElementById("unit" + unitnumber + "function" + positionNo);
-		var positionname = document.getElementById("unit" + unitnumber + "name" + positionNo);
-		var positionengine = document.getElementById("unit" + unitnumber + "engine" + positionNo);
-
-		var position = form.querySelector("#position" + positionNo);
-		position.querySelector("#positionname").value = positionname.value;
-		position.querySelector("#positionfunction").selectedIndex = positionfunction.selectedIndex;
-		position.querySelector("#positionengine").selectedIndex = positionengine.selectedIndex;
-	}
 
 	function processForm(e) {
 	    if (e.preventDefault) e.preventDefault();

@@ -19,21 +19,21 @@ function createUnitCard($number, $unit = null) {
     			<div class="col-sm">
     				<label>Datum:</label>
         			<input class="form-control bg-white" id="unit<?= $number ?>date" name="unit<?= $number ?>date" 
-        				type="date" disabled required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}"
+        				disabled type="date" required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}"
         				<?php if(isset($unit)){ echo "value=" . $unit->date; } ?>
         				>
         		</div>
         		<div class="col-sm">
         			<label>Wachbeginn:</label>
         			<input class="form-control  bg-white" id="unit<?= $number ?>start" name="unit<?= $number ?>start" 
-        				type="time" disabled required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"
+        				disabled type="time" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"
         				<?php if(isset($unit)){ echo "value=" . $unit->beginn; } ?>
         				>
         		</div>
         		<div class="col-sm">
         			<label>Ende:</label>
         			<input class="form-control bg-white" id="unit<?= $number ?>end" name="unit<?= $number ?>end" 
-        				type="time" disabled required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"
+        				disabled type="time" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])"
         				<?php if(isset($unit)){ echo "value=" . $unit->end; } ?>
         				>
         		</div>
@@ -44,6 +44,16 @@ function createUnitCard($number, $unit = null) {
         	<input id="unit<?= $number ?>km" name="unit<?= $number ?>km" type="hidden"
         	   <?php if(isset($unit)){ echo "value=" . $unit->km; } ?>
         		>
+        	<input id="unit<?= $number ?>datefield" name="unit<?= $number ?>datefield" type="hidden" 
+        	   <?php if(isset($unit)){ echo "value=" . $unit->date; } ?>
+        		>
+        	<input id="unit<?= $number ?>startfield" name="unit<?= $number ?>startfield" type="hidden" 
+        	   <?php if(isset($unit)){ echo "value=" . $unit->beginn; } ?>
+        		>
+        	<input id="unit<?= $number ?>endfield" name="unit<?= $number ?>endfield" type="hidden" 
+        	   <?php if(isset($unit)){ echo "value=" . $unit->end; } ?>
+        		>
+        		
         	<label>Personal:</label>
         	<div class="personalContainer">
         		<?php 
@@ -73,8 +83,8 @@ function createUnitStaff($unitNumber, $staffNumber, $staff = null) {
 <div class="row form-group unitpersonaltemplate" <?php if(!isset($staff)) { echo 'style="display:none;"'; } ?>>
 	<div class="col-sm">
 		<select class="form-control bg-white" id="unit<?= $unitNumber ?>function<?= $staffNumber ?>" 
-			name="unit<?= $unitNumber ?>function<?= $staffNumber ?>" required="required" id="positionfunction" disabled>
-			<option value="" disabled selected>Funktion auswählen</option>
+			disabled name="unit<?= $unitNumber ?>function<?= $staffNumber ?>" required="required" id="positionfunction">
+			<option value="" selected>Funktion auswählen</option>
 			<?php foreach ( $staffpositions as $option ) : ?>
 			<option value="<?=  $option->uuid; ?>"
 				<?php if(isset($staff) && $staff->position == $option->uuid){ echo "selected"; } ?>>
@@ -85,14 +95,14 @@ function createUnitStaff($unitNumber, $staffNumber, $staff = null) {
 	</div>
 	<div class="col-sm">
 		<input class="form-control bg-white" id="unit<?= $unitNumber ?>name<?= $staffNumber ?>" 
-			name="unit<?= $unitNumber ?>name<?= $staffNumber ?>" type="text"" disabled 
+			disabled name="unit<?= $unitNumber ?>name<?= $staffNumber ?>" type="text"" 
 			<?php if(isset($staff)){ echo "value=" . $staff->name; } ?>
         	>
 	</div>
 	<div class="col-sm">
 		<select class="form-control bg-white" id="unit<?= $unitNumber ?>engine<?= $staffNumber ?>" 
-			name="unit<?= $unitNumber ?>engine<?= $staffNumber ?>" required="required" id="positionengine" disabled>
-			<option value="" disabled selected>Löschzug auswählen</option>
+			disabled name="unit<?= $unitNumber ?>engine<?= $staffNumber ?>" required="required" id="positionengine">
+			<option value="" selected>Löschzug auswählen</option>
 			<?php foreach ( $engines as $option ) : ?>
 			<option value="<?=  $option->uuid; ?>"
 				<?php if(isset($staff) && $staff->engine == $option->uuid){ echo "selected"; } ?>>
@@ -101,6 +111,16 @@ function createUnitStaff($unitNumber, $staffNumber, $staff = null) {
 			<?php endforeach; ?>
 		</select>
 	</div>
+	
+	<input id="unit<?= $unitNumber ?>function<?= $staffNumber ?>field" name="unit<?= $unitNumber ?>function<?= $staffNumber ?>field" type="hidden" 
+	   <?php if(isset($staff)){ echo "value=" . $staff->position; } ?>
+        >
+    <input id="unit<?= $unitNumber ?>name<?= $staffNumber ?>field" name="unit<?= $unitNumber ?>name<?= $staffNumber ?>field" type="hidden" 
+        <?php if(isset($staff)){ echo "value=" . $staff->name; } ?>
+        >
+    <input id="unit<?= $unitNumber ?>engine<?= $staffNumber ?>field" name="unit<?= $unitNumber ?>engine<?= $staffNumber ?>field" type="hidden" 
+        <?php if(isset($staff)){ echo "value=" . $staff->engine; } ?>
+        >
 </div>
 <?php
 }
