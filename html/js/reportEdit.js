@@ -102,8 +102,15 @@ function addUnit(){
 	buttons[1].setAttribute("onclick", "initializeModalEdit("+ reportUnitCount +");");
 	buttons[2].setAttribute("onclick", "removeUnit("+ reportUnitCount +");");
 
-	var container = document.getElementById("unitlist");
-	container.appendChild(newUnit);
+	var unitNo = document.getElementById("unitNo");
+	if(unitNo.value != ""){
+		var unitElement = document.getElementById("unit" + unitNo.value);
+		insertAfter(newUnit, unitElement);
+		unitElement.parentNode.removeChild(unitElement);
+	} else {
+		var container = document.getElementById("unitlist");
+		container.appendChild(newUnit);
+	}
 
 	buttons[0].click();
 	
@@ -170,6 +177,16 @@ function clearUnitForm(){
 	var km = document.getElementById("km");
 	unit.disabled = false;
 	km.disabled = false;
+	
+	var unitNo = document.getElementById("unitNo");
+	unitNo.value = "";
+
+	var addButton = document.getElementById("addUnit");
+	addButton.value = "Hinzufügen";
+}
+
+function insertAfter(newNode, referenceNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
 

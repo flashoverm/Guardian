@@ -95,6 +95,7 @@
 					<p class="text-right my-0 mx-0"><sub><em>* Mehr Personal kann mit + eingefügt werden</em></sub></p>
 				</div>
 				<div class="modal-footer">
+					<input type="hidden" id="unitNo" value="">
 					<input type="submit" class="btn btn-primary" id="addUnit" value="Hinzufügen">
 					<button type="button" class="btn btn-default" onClick="clearUnitForm()" data-dismiss="modal">Abbrechen</button>
 				</div>
@@ -115,7 +116,6 @@
     var reportPositionCount = 1;
     var reportEngine = "";
     var stationString = "Stationäre Wache"
-
 
 	function processForm(e) {
 	    if (e.preventDefault) e.preventDefault();
