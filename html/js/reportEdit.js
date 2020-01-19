@@ -1,216 +1,4 @@
 
-function addStaff(){
-	currentPosition += 1;
-	var container = document.getElementById("staffContainer");
-	var input = document.createElement("input");
-	input.className ="form-control";
-	input.type = "text";
-	input.name = "staff" + currentPosition;
-	input.id = "staff" + currentPosition;
-	input.required = "required";
-	input.placeholder="Funktionsbezeichnung eingeben";
-	container.appendChild(input);
-}
-
-function removeLast(){
-	if(currentPosition != 1){
-		var lastStaffRow = document.getElementById("staff"+currentPosition);
-		lastStaffRow.parentNode.removeChild(lastStaffRow);
-		currentPosition -= 1;
-	}
-}
-
-function addReportUnit(){
-	reportUnitCount += 1;
-
-	var unit = document.getElementById("unit").value;
-	var km = document.getElementById("km").value;
-
-	if(km == ""){
-		var headerString = unit;
-	} else {
-		var headerString = unit + " (" + km + " km)";
-	}
-	
-	addUnitCard(reportUnitCount, headerString);
-	
-	if(reportUnitCount == 1){
-		var div = document.getElementById("submitPlaceholder");
-		var input1 = document.createElement("input");
-		input1.id = "formSubmit";
-		input1.type = "submit";
-		input1.value = "Abschicken";
-		input1.className ="btn btn-primary";
-		div.appendChild(input1);
-		var input2 = document.createElement("input");
-		input2.id = "formSend";
-		input2.type = "hidden";
-		input2.value = "send";
-		input2.name ="action";
-		div.appendChild(input2);			
-	}
-}
-
-
-function removeLastReportUnit(){
-	if(reportUnitCount != 0){
-		var lastUnit = document.getElementById("unit"+reportUnitCount);
-		lastUnit.parentNode.removeChild(lastUnit);
-		reportUnitCount -= 1;
-
-		if(reportUnitCount == 0){
-			var formSubmit = document.getElementById("formSubmit");
-			var formSend = document.getElementById("formSend");
-			formSubmit.parentNode.removeChild(formSubmit);
-			formSend.parentNode.removeChild(formSend);
-		}
-	}
-}
-
-function addUnitCard(position, title){
-	var container = document.getElementById("unitlist");
-	
-	var card = document.createElement("div");
-	card.className ="card";
-	card.id = "unit" + position;
-
-	var cardHeader = document.createElement("div");
-	cardHeader.className ="card-header";
-
-	var h5 = document.createElement("h5");
-	h5.className ="mb-0";
-
-	var button = document.createElement("button");
-	button.className = "btn btn-link";
-	button.type = "button";
-	button.setAttribute("data-toggle", "collapse");
-	button.setAttribute("data-target", "#collapse" + position);
-
-	var headername = document.createTextNode(title);
-	
-	button.appendChild(headername);
-	h5.appendChild(button);
-	cardHeader.appendChild(h5);
-	card.appendChild(cardHeader);
-
-	var collapse = document.createElement("div");
-	collapse.className = "collapse";
-	collapse.id = "collapse" + position;
-	collapse.setAttribute("data-parent", "#unitlist");
-
-	var cardBody = document.createElement("div");
-	cardBody.className = "card-body";
-	
-	addUnitCardBody(cardBody);
-
-	collapse.appendChild(cardBody);
-	card.appendChild(collapse);
-	
-	container.appendChild(card);
-
-	var removeUnit = document.getElementById("unit"+reportUnitCount+"delete");
-	removeUnit.onclick = removeLastReportUnit;
-
-	//var editUnit = document.getElementById("unit"+reportUnitCount+"edit");
-	//editUnit.onclick = 
-	
-	button.click();
-}
-
-
-function addUnitCardBody(cardBody){
-	var form = document.getElementById("addUnitForm");
-
-	var dateReg = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
-	var unitdate = form.querySelector("#unitdate").value;
-
-	if(unitdate.match(dateReg)){
-		var parts =unitdate.split('-');
-		unitdate = parts[2] + "." + parts[1] + "." + parts[0];
-	}
-			
-	var unitstart = form.querySelector("#unitstart").value;
-	var unitend = form.querySelector("#unitend").value;
-	
-	var row = document.createElement("div");
-	row.className = "row form-group";
-	cardBody.appendChild(row);
-	
-	appendInput(row, "unit"+reportUnitCount+"date", unitdate, "Datum:");
-	
-	appendInput(row, "unit"+reportUnitCount+"start", unitstart, "Wachbeginn:");
-	appendInput(row, "unit"+reportUnitCount+"end", unitend, "Ende:");
-
-	var unit = document.getElementById("unit").value;
-	var km = document.getElementById("km").value;
-
-	var unitField = document.createElement("input");
-	unitField.id = "unit"+reportUnitCount+"unit";
-	unitField.name = "unit"+reportUnitCount+"unit";
-	unitField.type = "text";
-	unitField.value = unit;
-	unitField.type = "hidden";
-	cardBody.appendChild(unitField);
-
-	var kmField = document.createElement("input");
-	kmField.id = "unit"+reportUnitCount+"km";
-	kmField.name = "unit"+reportUnitCount+"km";
-	kmField.type = "text";
-	kmField.value = km;
-	kmField.type = "hidden";
-	cardBody.appendChild(kmField);
-	
-	var label = document.createElement("label");
-	label.innerHTML = "Personal:";
-	cardBody.appendChild(label);
-	
-	for (i = 1; i <= reportPositionCount; i++) {
-		var rowStaff = document.createElement("div");
-		rowStaff.className = "row form-group";
-		
-		var position = form.querySelector("#position" + i);
-		var posFunction = position.querySelector("#positionfunction").value;
-		var posName = position.querySelector("#positionname").value;
-		var posEngine = position.querySelector("#positionengine").value;
-		
-		appendInput(rowStaff, "unit"+reportUnitCount+"function"+i, posFunction, null);
-		appendInput(rowStaff, "unit"+reportUnitCount+"name"+i, posName, null);
-		appendInput(rowStaff, "unit"+reportUnitCount+"engine"+i, posEngine, null);
-		
-		cardBody.appendChild(rowStaff);
-	}
-	
-	var remove = document.createElement("button");
-	remove.id = "unit"+reportUnitCount+"delete"
-	remove.type = "button";
-	remove.className = "btn btn-outline-primary btn-sm";
-	remove.appendChild(document.createTextNode("Entfernen"));
-	cardBody.appendChild(remove);
-}
-
-function appendInput(parent, name, value, labeltext){
-	var col = document.createElement("div");
-	col.className = "col-sm";
-	
-	if(labeltext != null){
-		var label = document.createElement("label");
-		label.innerHTML = labeltext;
-		col.appendChild(label);
-	}
-	
-	var input = document.createElement("input");
-	input.className = "form-control  bg-white";
-	input.id = name;
-	input.name = name;
-	input.type = "text";
-	input.readOnly = true;
-	input.value = value;
-
-	col.appendChild(input);
-
-	parent.appendChild(col);
-}
-
 function showHideTypeOther(){
 	var type = document.getElementById("type");
 	var selectedType = type.options[type.selectedIndex].text;
@@ -226,3 +14,147 @@ function showHideTypeOther(){
 		groupTypeOther.style.display = "none";
 	}
 }
+
+
+function addUnit(){
+
+	var form = document.getElementById("addUnitForm");
+
+	var unit = document.getElementById("unit").value;
+	var km = document.getElementById("km").value;
+
+	var unitdate = form.querySelector("#unitdate").value;
+			
+	var unitstart = form.querySelector("#unitstart").value;
+	var unitend = form.querySelector("#unitend").value;
+
+	reportUnitCount += 1;
+
+	var template = document.getElementById("unit0");
+
+	var newUnit = template.cloneNode(true);
+
+	newUnit.id = "unit" + reportUnitCount;
+	newUnit.style.display = null;	
+
+	var inputs = newUnit.getElementsByTagName("input");
+	nameField(inputs[0], "unit" + reportUnitCount + "date");
+	inputs[0].value = unitdate;
+	nameField(inputs[1], "unit" + reportUnitCount + "start");
+	inputs[1].value = unitstart;
+	nameField(inputs[2], "unit" + reportUnitCount + "end");
+	inputs[2].value = unitend;
+	nameField(inputs[3], "unit" + reportUnitCount + "unit");
+	inputs[3].value = unit;
+	nameField(inputs[4], "unit" + reportUnitCount + "km");
+	inputs[4].value = km;
+
+	var personalContainer = newUnit.getElementsByClassName("personalContainer");
+	
+	for (i = 1; i <= reportPositionCount; i++) {
+		var personalTemplate = newUnit.getElementsByClassName("unitpersonaltemplate");
+
+		var newPersonal = personalTemplate[0].cloneNode(true);
+		newPersonal.style.display = null;	
+
+		var position = form.querySelector("#position" + i);
+		
+		var inputs = newPersonal.getElementsByTagName("input");
+		nameField(inputs[0], "unit" + reportUnitCount + "name" + i);
+		inputs[0].value = position.querySelector("#positionname").value;
+
+		var selects = newPersonal.getElementsByTagName("select");
+		nameField(selects[0], "unit" + reportUnitCount + "function" + i)
+		selects[0].selectedIndex = position.querySelector("#positionfunction").selectedIndex;
+		nameField(selects[1], "unit" + reportUnitCount + "engine" + i)
+		selects[1].selectedIndex = position.querySelector("#positionengine").selectedIndex;
+		
+		personalContainer[0].appendChild(newPersonal);
+	}
+
+	var cardbody = newUnit.getElementsByClassName("unittemplateBody");
+	cardbody[0].id = "collapse" + reportUnitCount;
+
+	var buttons = newUnit.getElementsByTagName("button");
+	buttons[0].setAttribute("data-target", "#collapse" + reportUnitCount);
+
+	if(km == ""){
+		var headerString = unit;
+	} else {
+		var headerString = unit + " (" + km + " km)";
+	}
+	buttons[0].appendChild(document.createTextNode(headerString));
+
+	buttons[1].setAttribute("onclick", "initializeModalEdit("+ reportUnitCount +");");
+	buttons[2].setAttribute("onclick", "removeUnit("+ reportUnitCount +");");
+
+	var container = document.getElementById("unitlist");
+	container.appendChild(newUnit);
+
+	buttons[0].click();
+	
+	displaySubmitButton();	
+}
+
+function displaySubmitButton(){
+	
+	if(reportUnitCount == 1){
+		var submitButton = document.getElementById("submitReport");
+		submitButton.style.display = "block";
+		var div = document.getElementById("submitPlaceholder");			
+	}
+}
+
+function removeUnit(number){
+	var unit = documentgetElementById("unit" + number);
+	unit.parentNode.removeChild(unit);
+}
+
+function nameField(field, name){
+	field.name = name;
+	field.id = name;
+}
+
+
+function addReportStaffPosition(){
+	reportPositionCount += 1;
+	
+	var container = document.getElementById("staffContainer");
+
+	var position1 = document.getElementById("position1");
+	var newPosition =  position1.cloneNode(true);
+	newPosition.id = "position" + reportPositionCount;
+	if(newPosition.querySelector("#positionfunction").value != ""){
+		newPosition.querySelector("#positionfunction").value = "";
+	}
+	if(newPosition.querySelector("#positionname").value != ""){
+		newPosition.querySelector("#positionname").value = "";
+	}
+	newPosition.querySelector("#positionengine").selectedIndex=reportEngine;
+	
+	container.appendChild(newPosition);
+}
+
+function removeLastReportStaffPosition(){
+	if(reportPositionCount != 1){
+		var lastStaffRow = document.getElementById("position"+reportPositionCount);
+		lastStaffRow.parentNode.removeChild(lastStaffRow);
+		reportPositionCount -= 1;
+	}
+}
+
+function clearUnitForm(){
+	var form = document.getElementById("addUnitForm");
+
+	while(reportPositionCount > 1){
+		removeLastReportStaffPosition();
+	}
+
+	form.reset();
+
+	var unit = document.getElementById("unit");
+	var km = document.getElementById("km");
+	unit.disabled = false;
+	km.disabled = false;
+}
+	

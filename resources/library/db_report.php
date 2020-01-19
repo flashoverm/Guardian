@@ -166,15 +166,18 @@ function get_report_object($report_uuid){
 	
 	$db_report = get_report($report_uuid);
 	
-	$report = new EventReport($db_report->date, $db_report->start_time, $db_report->end_time, $db_report->type,
-			$db_report->title, $db_report->engine, $db_report->noIncidents, $db_report->report, $db_report->creator, $db_report->ilsEntry);
+	$report = new EventReport($db_report->date, $db_report->start_time, $db_report->end_time, 
+	    $db_report->type, $db_report->type_other, $db_report->title, $db_report->engine, 
+	    $db_report->noIncidents, $db_report->report, $db_report->creator, $db_report->ilsEntry);
+	$report->uuid = $db_report->uuid;
 	
 	$units = get_report_units($report_uuid);
+	
 	foreach($units as $unit){
 		$report->addUnit($unit);
-	}
-	
+	}	
 	//echo $report->toHTML();
+	return $report;
 }
 
 function get_report_units($report_uuid) {

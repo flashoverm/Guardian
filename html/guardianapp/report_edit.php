@@ -27,7 +27,7 @@ $variables = array (
 if(isset($_GET['id'])){
 	
 	$uuid = trim($_GET['id']);
-	$report = get_report($uuid);
+	$report = get_report_object($uuid);
 	$variables['object'] = $report;
 	
 	$variables['title'] = 'Wachbericht bearbeiten';

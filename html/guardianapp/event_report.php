@@ -145,27 +145,3 @@ if (isset ( $_POST ['creator'] )) {
 renderLayoutWithContentFile ($config["apps"]["guardian"], "eventReport/eventReport_template.php", $variables );
 ?>
 
-<script type='text/javascript'>
-	var currentPosition = 1;
-	
-	function addStaff(){
-		currentPosition += 1;
-		var container = document.getElementById("staffContainer");
-		var input = document.createElement("input");
-		input.className ="form-control";
-		input.type = "text";
-		input.name = "staff" + currentPosition;
-		input.id = "staff" + currentPosition;
-		input.required = "required";
-		input.placeholder="Funktionsbezeichnung eingeben";
-		container.appendChild(input);
-	}
-	
-	function removeLast(){
-		if(currentPosition != 1){
-			var lastStaffRow = document.getElementById("staff"+currentPosition);
-			lastStaffRow.parentNode.removeChild(lastStaffRow);
-			currentPosition -= 1;
-		}
-	}
-</script>

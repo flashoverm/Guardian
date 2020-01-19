@@ -3,10 +3,11 @@
 class EventReport {
 	
 	public $date;
-	public $beginn;
-	public $end;
+	public $start_time;
+	public $end_time;
 	
 	public $type;
+	
 	public $title;
 	public $engine;
 	
@@ -16,20 +17,22 @@ class EventReport {
 	public $ilsEntry;
 	
 	public $uuid;
-	public $typeOther;
+	public $type_other;
 	public $emsEntry;
 	public $managerApproved;
 	
 	public $units = array();
 	
-	function __construct($date, $beginn, $end, $type, $title, $engine, 
+	function __construct($date, $start_time, $end_time, $type, $type_other, $title, $engine, 
 	    $noIncidents, $report, $creator, $ilsEntry) {
 		
 		$this->date = $date;
-		$this->beginn = $beginn;
-		$this->end = $end;
+		$this->start_time = $start_time;
+		$this->end_time = $end_time;
 		
 		$this->type = $type;
+		$this->type_other = $type_other;
+		
 		$this->title = $title;
 		$this->engine = $engine;
 		
@@ -61,8 +64,8 @@ class EventReport {
 		}
 		$string = $string
 		. "\n\nDatum: \t" . date("d.m.Y", strtotime($this->date))
-				. "\nWachbeginn: \t" . $this->beginn 
-				. "\nEnde: \t\t" . $this->end . "\n\n";
+		. "\nWachbeginn: \t" . $this->start_time
+		. "\nEnde: \t\t" . $this->end_time . "\n\n";
 		
 		if($this->ilsEntry){
 		    $string = $string . "Wache durch ILS angelegt!\n\n";

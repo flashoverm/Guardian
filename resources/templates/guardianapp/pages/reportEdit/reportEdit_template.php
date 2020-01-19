@@ -1,4 +1,6 @@
-<?php include('reportEditUnit_template.php'); ?>
+<?php include 'reportEditUnit_template.php'; ?>
+<?php include 'reportCard_template.php'; ?>
+
 <form onsubmit="showLoader()" method="post" >
 	<div class="row">
 		<div class="col">
@@ -51,7 +53,8 @@
 		</select>
 	</div>
 	
-	<div class="form-group" id="groupTypeOther" style=>
+	<div class="form-group" id="groupTypeOther" 
+	<?php if(isset($object) && $object->type_other == null){ echo 'style="display:none;"'; }?>>
 		<label>Sonstiger Wachtyp:</label> <input type="text" required="required"
 			class="form-control" name="typeOther" id="typeOther"
 			<?php
@@ -73,7 +76,7 @@
 	
 	<div class="form-group">
 		<label>Zuständiger Löschzug/Verwaltung:</label> <select
-			class="form-control" name="engine" required="required">
+			class="form-control" name="engine" id="engine" required="required">
 			<option value="" disabled selected>Bitte auswählen</option>
 			<?php foreach ( $engines as $option ) :
 			if(isset($object) && $option->uuid == $object->engine){
@@ -119,21 +122,44 @@
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUnitModal" onClick="initializeModalVehicle()">Mit Fahrzeug</button>
 	<p>
 	<div id="unitlist">
-
+		<?php 
+		createUnitCard(0);
+		if(isset ($object) && property_exists($object, "units")){
+		    $i = 0;
+		    foreach($object->units as $unit){
+		        $i++;
+		        createUnitCard($i, $unit);
+		    }
+		}
+		?>
 	</div>
 	<p>
-	<div id="submitPlaceholder">
+	<div>
+    	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) && $i > 0){ echo 'style="display:none;"'; } ?>
+    		<?php
+    		if(isset($object) && property_exists($object, "report")){
+    			echo " value='Aktualisieren' ";
+    		}else{
+    			echo " value='Abschicken' ";
+    		}?>
+    		>
+    	<?php if(isset($object) && property_exists($object, "report")){
+    	    echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["guardianapp_home"] . '/reports/' . $object->uuid . ">Zurück</a>";
+    	}
+    	?>
 	</div>
 
 </form>
 
 <script src="<?=$config["urls"]["baseUrl"] ?>/js/date.js" type="text/javascript"></script>
 <script src="<?=$config["urls"]["baseUrl"] ?>/js/reportEdit.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 showHideTypeOther();
 
-var reportUnitCount = 0;
+var reportUnitCount = <?= $i ?>;
+
 var currentPosition = 1;
 
 </script>

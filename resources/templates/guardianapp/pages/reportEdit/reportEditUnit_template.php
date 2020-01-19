@@ -56,10 +56,10 @@
 						<div class="btn-group btn-group-sm" role="group"
 							style="float: right">
 							<button type="button" class="btn btn-primary"
-								onClick="removeLastReportPosition()">&minus;</button>
+								onClick="removeLastReportStaffPosition()">&minus;</button>
 							<span class="border-right"></span>
 							<button type="button" class="btn btn-primary "
-								onClick="addReportPosition()">+</button>
+								onClick="addReportStaffPosition()">+</button>
 						</div>
 						</p>
 						<div class="row" id="position1">
@@ -96,7 +96,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" id="addUnit" value="Hinzufügen">
-					<button type="button" class="btn btn-default" onClick="clearForm()" data-dismiss="modal">Abbrechen</button>
+					<button type="button" class="btn btn-default" onClick="clearUnitForm()" data-dismiss="modal">Abbrechen</button>
 				</div>
 			</form>
 		</div>
@@ -105,6 +105,18 @@
 
 <script type='text/javascript'>
 
+    var form = document.getElementById('addUnitForm');
+    if (form.attachEvent) {
+        form.attachEvent("submit", processForm);
+    } else {
+        form.addEventListener("submit", processForm);
+    }
+    
+    var reportPositionCount = 1;
+    var reportEngine = "";
+    var stationString = "Stationäre Wache"
+
+    
 	function initializeModal(){
 
 		initializeModalVehicle();
@@ -114,7 +126,7 @@
 		var km = document.getElementById("km");
 		
 
-		unit.value = "Stationäre Wache";
+		unit.value = stationString;
 		unit.disabled = true;
 		km.disabled = true;
 		vehicleRow.style.display = 'none';	
@@ -135,6 +147,7 @@
 		var date = document.getElementById("date").value;
 		var start = document.getElementById("start").value;
 		var end = document.getElementById("end").value;
+		reportEngine = document.getElementById("engine").selectedIndex;
 
 		var form = document.getElementById("addUnitForm");
 
@@ -147,75 +160,73 @@
 		if(end != ""){
 			form.querySelector("#unitend").value = end;
 		}
+		form.querySelector("#positionengine").selectedIndex = reportEngine;
+	}
 
-		//TODO set false
-		if(false){
-			form.querySelector("#unitdate").value = "2018-10-12";
-			form.querySelector("#unitstart").value = "20:00";
-			form.querySelector("#unitend").value = "22:00";
-			form.querySelector("#unit").value = "Test";
+	function initializeModalEdit(unitnumber){
+
+		var unit = document.getElementById("unit" + unitnumber + "unit");
+		var km = document.getElementById("unit" + unitnumber + "km");
+		var unitDate = document.getElementById("unit" + unitnumber + "date");
+		var unitStart = document.getElementById("unit" + unitnumber + "start");
+		var unitEnd = document.getElementById("unit" + unitnumber + "end");
+		
+		var modalVehicleRow = document.getElementById("vehiclerow");
+		var modalUnit = document.getElementById("unit");
+		var modalKm = document.getElementById("km");
+		var modalUnitDate = document.getElementById("unitdate");
+		var modalUnitStart = document.getElementById("unitstart");
+		var modalUnitEnd = document.getElementById("unitend");
+
+		modalUnitDate.value = unitDate.value;
+		modalUnitStart.value = unitStart.value;
+		modalUnitEnd.value = unitEnd.value;
+
+		if(km.value || unit.value == stationString){
+			modalUnit.value = unit.value;
+			modalUnit.disabled = false;
+			modalKm.disabled = false;
+			modalKm.value = km.value;
+			modalVehicleRow.style.display = 'flex';	
+		} else {
+			modalUnit.value = '';
+			modalUnit.disabled = true;
+			modalKm.disabled = true;
+			modalKm.value = '';
+			modalVehicleRow.style.display = 'none';
 		}
+
+		var positionNo = 1;
+		addExistingStaffPosition(unitnumber, positionNo);
+
+		while(positionfunction = document.getElementById("unit" + unitnumber + "function" + (positionNo+1)) ) {
+			positionNo ++;
+			addReportStaffPosition();
+			
+			addExistingStaffPosition(unitnumber, positionNo);
+		}
+	}
+
+	function addExistingStaffPosition(unitnumber, positionNo) {
+		var positionfunction = positionfunction = document.getElementById("unit" + unitnumber + "function" + positionNo);
+		var positionname = document.getElementById("unit" + unitnumber + "name" + positionNo);
+		var positionengine = document.getElementById("unit" + unitnumber + "engine" + positionNo);
+
+		var position = form.querySelector("#position" + positionNo);
+		position.querySelector("#positionname").value = positionname.value;
+		position.querySelector("#positionfunction").selectedIndex = positionfunction.selectedIndex;
+		position.querySelector("#positionengine").selectedIndex = positionengine.selectedIndex;
 	}
 
 	function processForm(e) {
 	    if (e.preventDefault) e.preventDefault();
 		
-	    addReportUnit();
-	    
-	    clearForm();
+		addUnit();
+  
+		clearUnitForm();
 	    
 	    $('#addUnitModal').modal('hide');
 	    return false;
 	}
-	
-	var form = document.getElementById('addUnitForm');
-	if (form.attachEvent) {
-	    form.attachEvent("submit", processForm);
-	} else {
-	    form.addEventListener("submit", processForm);
-	}
 
-	var reportPositionCount = 1;
-
-	function addReportPosition(){
-		reportPositionCount += 1;
-		
-		var container = document.getElementById("staffContainer");
-
-		var position1 = document.getElementById("position1");
-		var newPosition =  position1.cloneNode(true);
-		newPosition.id = "position" + reportPositionCount;
-		if(newPosition.querySelector("#positionfunction").value != ""){
-			newPosition.querySelector("#positionfunction").value = "";
-		}
-		if(newPosition.querySelector("#positionname").value != ""){
-			newPosition.querySelector("#positionname").value = "";
-		}
-		
-		container.appendChild(newPosition);
-	}
-	
-	function removeLastReportPosition(){
-		if(reportPositionCount != 1){
-			var lastStaffRow = document.getElementById("position"+reportPositionCount);
-			lastStaffRow.parentNode.removeChild(lastStaffRow);
-			reportPositionCount -= 1;
-		}
-	}
-
-	function clearForm(){
-		var form = document.getElementById("addUnitForm");
-
-		while(reportPositionCount > 1){
-			removeLastReportPosition();
-		}
-
-		form.reset();
-
-		var unit = document.getElementById("unit");
-		var km = document.getElementById("km");
-		unit.disabled = false;
-		km.disabled = false;
-	}
-		
 </script>
