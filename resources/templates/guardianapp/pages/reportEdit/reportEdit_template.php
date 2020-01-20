@@ -22,7 +22,7 @@
 				name="start" id="start" 
 				<?php
 				if(isset($object) ){
-					echo "value='" . $object->start_time . "'";
+				    echo "value='" . timeToHm ($object->start_time) . "'";
 				}?>
 				required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
@@ -33,7 +33,7 @@
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($object) && $object->end_time != null ){
-					echo "value='" . $object->end_time . "'";
+				    echo "value='" . timeToHm ($object->end_time) . "'";
 				}?>
 				name="end" id="end" required pattern="(0[0-9]|1[0-9]|2[0-3])(:[0-5][0-9])">
 			</div>
@@ -135,7 +135,7 @@
 	</div>
 	<p>
 	<div>
-    	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) && $i > 0){ echo 'style="display:none;"'; } ?>
+    	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>
     		<?php
     		if(isset($object) && property_exists($object, "report")){
     			echo " value='Aktualisieren' ";

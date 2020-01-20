@@ -22,6 +22,7 @@ $variables = array (
 		'eventtypes' => $eventtypes,
 		'staffpositions' => $staffpositions,
 		'engines' => $engines,
+        'title' => "Wachbericht erstellen",
 );
 
 if(isset($_GET['id'])){
@@ -31,6 +32,7 @@ if(isset($_GET['id'])){
 	$variables['object'] = $report;
 	
 	$variables['title'] = 'Wachbericht bearbeiten';
+	$variables['secured'] = true;
 	
 } else if(isset($_GET['event'])){
 	$event = get_event($_GET['event']);
@@ -102,17 +104,27 @@ if (isset($_POST) && isset($_POST ['start'])) {
     
     if(isset($_GET['id'])){
         //Update
+        $uuid = trim($_GET['id']);
+        $eventReport->uuid = $uuid;
         update_report($eventReport);
+        createReportFile($uuid);
         
-        
+        if(mail_update_report ($eventReport)){
+            $variables ['successMessage'] = "Aktualisierter Bericht versendet";
+        } else {
+            $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
+        }
     } else {
-        insert_report($eventReport);
-        
         //Insert
+        $uuid = insert_report($eventReport);
+        $eventReport->uuid = $uuid;
+        createReportFile($uuid);
+        if(mail_insert_report ($eventReport)){
+            $variables ['successMessage'] = "Bericht versendet";
+        } else {
+            $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
+        }
     }
-    
-        
-    echo $eventReport->toHTML();
 }
 
 

@@ -2,6 +2,10 @@
 Release Documentation
 ******************************
 
+.htaccess 
+	Change report/new from event_report to report_edit
+
+
 ALTER TABLE report ADD manager_approved BOOLEAN NOT NULL AFTER emsEntry; 
 
 

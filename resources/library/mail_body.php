@@ -39,8 +39,10 @@ $bodies = array (
 		
 		"event_unscribe_engine" => $util["head"] . "jemand aus Ihrem Zug wurde durch den Wachbeauftragten von der Wache entfernt:  \n\n",
 		
-		"event_report" => $util["head"] . "ein Wachbericht wurde angelegt und ist im Folgenden dargestellt, sowie als Anhang verfügbar:  \n\n",
+		"event_report" => $util["head"] . "ein Wachbericht wurde angelegt und ist als Anhang verfügbar oder unter:  \n\n",
 		
+        "event_report_update" => $util["head"] . "ein Wachbericht wurde aktualisiert und ist als Anhang verfügbar oder unter: \n\n",
+    
 		"event_report_approved" => $util["head"] . "ein Wachbericht wurde durch einen Wachbeauftragten überprüft und freigegeben. \n\n Der Bericht befindet sich im Anhang oder unter:  \n\n",
 		
 		"manager_add" => $util["head"] . "für Sie wurde ein Zugang als Wachbeauftragter angelegt:",

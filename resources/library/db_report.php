@@ -18,9 +18,17 @@ function insert_report(EventReport $report_object){
         $uuid = getGUID ();
     }
             
-    $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $statement->bind_param('sssssssssiis', $uuid, $date, $start, $end, $type_uuid, $type_other, $title, $engine_uuid, $creator, $noIncidents, $ilsEntry, $report);
+    $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report, emsEntry, managerApproved)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+    echo "Error: " . "<br>" . $db->error;
+    $statement->bind_param('sssssssssiisii', 
+        $uuid, $report_object->date, 
+        $report_object->start_time, $report_object->end_time, 
+        $report_object->type, $report_object->type_other, 
+        $report_object->title, $report_object->engine, 
+        $report_object->creator, $report_object->noIncidents, 
+        $report_object->ilsEntry, $report_object->report,
+        $report_object->emsEntry, $report_object->managerApproved);
 
     $result = $statement->execute();
     
@@ -49,7 +57,7 @@ function insert_report(EventReport $report_object){
         // echo "New event record created successfully";
         return $uuid;
     } else {
-        //echo "Error: " . "<br>" . $db->error;
+        echo "Error: " . "<br>" . $db->error;
         return false;
     }
 }

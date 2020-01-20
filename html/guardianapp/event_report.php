@@ -88,7 +88,7 @@ if (isset ( $_POST ['creator'] )) {
     	$report = trim ( $_POST ['report'] );
     }
     
-    $eventReport = new EventReport($date, $beginn, $end, $typeMail, $title, get_engine($engine)->name, $noIncidents, $report, $creator, $ilsEntry);
+    $eventReport = new EventReport($date, $beginn, $end, $type, $typeOther, $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
 
     $unitCount = 1;
     while ( isset ( $_POST ["unit" . $unitCount . "unit"] ) ) {
@@ -126,15 +126,17 @@ if (isset ( $_POST ['creator'] )) {
         $unitCount += 1;
     }
     
-    $report_uuid = insert_report_short($date, $beginn, $end, $type, $typeOther,
-    		$title, $engine, $creator, $noIncidents, $ilsEntry, $report);
+    $report_uuid = insert_report($eventReport);
     
-    insert_report_detail($report_uuid, $eventReport);
+    //$report_uuid = insert_report_short($date, $beginn, $end, $type, $typeOther,
+    //		$title, $engine, $creator, $noIncidents, $ilsEntry, $report);
+    
+    //insert_report_detail($report_uuid, $eventReport);
     
     createReportFile($report_uuid);
     
         
-    if(mail_send_report ($report_uuid, $eventReport)){
+    if(mail_insert_report ($eventReport)){
     	$variables ['successMessage'] = "Bericht versendet";
     } else {
     	$variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";

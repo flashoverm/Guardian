@@ -40,6 +40,9 @@ class EventReport {
 		$this->report = $report;
 		$this->creator = $creator;
 		$this->ilsEntry = $ilsEntry;
+		
+		$this->emsEntry = false;
+		$this->managerApproved = false;
 	}
 	
 	function addUnit($unit){

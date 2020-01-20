@@ -316,14 +316,14 @@ function inform_users_manager($event_uuid, $user){
  * Reports
  */
 
-function mail_send_report($report_uuid, $report){	
+function mail_insert_report($report){	
 	global $config;
 	global $bodies;
 	
 	$subject = "Wachbericht";
-	$body = $bodies["event_report"] . $report->toMail();
+	$body = $bodies["event_report"] . get_report_link($report->uuid);
 	
-	$file = $config["paths"]["reports"] . $report_uuid . ".pdf";
+	$file = $config["paths"]["reports"] . $report->uuid . ".pdf";
 	
 	//send report to administration if event is no series
 	//if(!get_eventtype_from_name($report->type)->isseries){
@@ -332,13 +332,36 @@ function mail_send_report($report_uuid, $report){
 	//}
 	
 	//send report to manager of the assigned engine
-	$engine = get_engine_from_name($report->engine);
-	$managerList = get_manager_of_engine($engine->uuid);
+	$managerList = get_manager_of_engine($report->engine);
 	if(sizeof($managerList) > 0){
 		send_mails($managerList, $subject, $body, $file);
 		return true;
 	}
 	return false;
+}
+
+function mail_update_report($report){
+    global $config;
+    global $bodies;
+    
+    $subject = "Wachbericht aktualisiert";
+    $body = $bodies["event_report_update"] . get_report_link($report->uuid);
+    
+    $file = $config["paths"]["reports"] . $report->uuid . ".pdf";
+    
+    //send report to administration if event is no series
+    //if(!get_eventtype_from_name($report->type)->isseries){
+    $administration = get_user_of_engine(get_administration()->uuid);
+    send_mails($administration, $subject, $body, $file);
+    //}
+    
+    //send report to manager of the assigned engine
+    $managerList = get_manager_of_engine($report->engine);
+    if(sizeof($managerList) > 0){
+        send_mails($managerList, $subject, $body, $file);
+        return true;
+    }
+    return false;
 }
 
 function mail_report_approved($report_uuid){
