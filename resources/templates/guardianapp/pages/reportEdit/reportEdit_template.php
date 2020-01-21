@@ -92,27 +92,27 @@
 		
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" name="ilsEntry" id="ilsEntry" 
-		<?php if(isset($object) && property_exists($object, "ilsEntry") && $object->ilsEntry) { echo "checked"; } ?>
+		<?php if(isset($object) && $object->ilsEntry) { echo "checked"; } ?>
 		> <label for="ilsEntry">Wache durch ILS angelegt</label>
 	</div>
 	
 	<div class="form-check">
 		<input type="checkbox" class="form-check-input" name="noIncidents" id="noIncidents"
-		<?php if(isset($object) && property_exists($object, "noIncidents") && $object->noIncidents) { echo "checked"; } ?>
+		<?php if(isset($object) && $object->noIncidents) { echo "checked"; } ?>
 		> <label for="noIncidents">Keine Vorkomnisse</label>
 	</div>
 	
 	<div class="form-group">
 		<label>Bericht:</label>
 		<textarea class="form-control" name="report" id="report" placeholder="Bericht"
-		><?php if(isset($object) && property_exists($object, "report")) { echo $object->report; } ?></textarea>
+		><?php if(isset($object)) { echo $object->report; } ?></textarea>
 	</div>
 	
 	<div class="form-group">
 		<label>Ersteller:</label> <input type="text" required="required"
 			class="form-control" name="creator" id="creator"
 			<?php
-			if(isset($object) && property_exists($object, "creator")){
+			if(isset($object)){
 				echo "value='" . $object->creator . "'";
 			}?>
 			placeholder="Namen eintragen">
@@ -124,8 +124,8 @@
 	<div id="unitlist">
 		<?php 
 		createUnitCard(0);
-		if(isset ($object) && property_exists($object, "units")){
-		    $i = 0;
+		$i = 0;
+		if(isset ($object)){
 		    foreach($object->units as $unit){
 		        $i++;
 		        createUnitCard($i, $unit);
@@ -137,13 +137,13 @@
 	<div>
     	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>
     		<?php
-    		if(isset($object) && property_exists($object, "report")){
+    		if(isset($object) && $object->uuid != null){
     			echo " value='Aktualisieren' ";
     		}else{
     			echo " value='Abschicken' ";
     		}?>
     		>
-    	<?php if(isset($object) && property_exists($object, "report")){
+    	<?php if(isset($object) && $object->uuid != null){
     	    echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["guardianapp_home"] . '/reports/' . $object->uuid . ">Zurück</a>";
     	}
     	?>

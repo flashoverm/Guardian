@@ -26,17 +26,36 @@ $variables = array (
 );
 
 if(isset($_GET['id'])){
-	
-	$uuid = trim($_GET['id']);
-	$report = get_report_object($uuid);
-	$variables['object'] = $report;
-	
-	$variables['title'] = 'Wachbericht bearbeiten';
 	$variables['secured'] = true;
 	
+	$uuid = trim($_GET['id']);
+	$eventReport = get_report_object($uuid);
+	if($eventReport){
+		$variables['object'] = $eventReport;
+		$variables['title'] = 'Wachbericht bearbeiten';
+	} else {
+		$variables ['alertMessage'] = "Wachbericht nicht gefunden";
+	}
+	
 } else if(isset($_GET['event'])){
+	$variables['secured'] = true;
+	
 	$event = get_event($_GET['event']);
-	$variables['object'] = $event;
+	if($event != null){
+		
+		if(isset ( $_SESSION ['guardian_userid'] )){
+			$user = get_user($_SESSION ['guardian_userid']);
+			$creator = $user->firstname . " " . $user->lastname;
+		} else {
+			$creator = "";
+		}
+		
+		$staff = get_staff($_GET['event']);
+		$eventReport = EventReport::fromEvent($event, $staff, $creator);
+		$variables['object'] = $eventReport;
+	} else {
+		$variables ['alertMessage'] = "Wache nicht gefunden";
+	}
 }
 
 if (isset($_POST) && isset($_POST ['start'])) {
@@ -63,16 +82,20 @@ if (isset($_POST) && isset($_POST ['start'])) {
     if(isset($_POST ['ilsEntry'])){
         $ilsEntry = true;
     }
-    $report = "";
+    $reportText = "";
     if (isset ( $_POST ['report'] )) {
-        $report = trim ( $_POST ['report'] );
+    	$reportText = trim ( $_POST ['report'] );
     }
     $creator = trim ($_POST ['creator']);
         
+    if(isset($_GET['id'])){
+    	$eventReport->updateReport($date, $beginn, $end, $type, $typeOther,
+    			$title, $engine, $noIncidents, $reportText, $creator, $ilsEntry);
+    } else {
+    	$eventReport = new EventReport($date, $beginn, $end, $type, $typeOther,
+    			$title, $engine, $noIncidents, $reportText, $creator, $ilsEntry);
+    }
 
-    $eventReport = new EventReport($date, $beginn, $end, $type, $typeOther, 
-        $title, $engine, $noIncidents, $report, $creator, $ilsEntry);
-    
     $unitCount = 1;
     while ( isset ( $_POST ["unit" . $unitCount . "unit"] ) ) {
         $unitdate = trim ( $_POST ['unit' . $unitCount . 'date' . "field"] );
@@ -100,30 +123,32 @@ if (isset($_POST) && isset($_POST ['start'])) {
         $eventReport->addUnit($unit);
         $unitCount += 1;
     }
-    
-    
-    if(isset($_GET['id'])){
-        //Update
-        $uuid = trim($_GET['id']);
-        $eventReport->uuid = $uuid;
-        update_report($eventReport);
-        createReportFile($uuid);
         
+    if(isset($_GET['id'])){
+        //Update        
+        update_report($eventReport);
+        /*
+        createReportFile($uuid);
         if(mail_update_report ($eventReport)){
             $variables ['successMessage'] = "Aktualisierter Bericht versendet";
         } else {
-            $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
+           $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
         }
+        */
+        $eventReport = get_report_object($uuid);
+        $variables['object'] = $eventReport;
     } else {
         //Insert
         $uuid = insert_report($eventReport);
         $eventReport->uuid = $uuid;
+        /*
         createReportFile($uuid);
         if(mail_insert_report ($eventReport)){
             $variables ['successMessage'] = "Bericht versendet";
         } else {
             $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
         }
+        */
     }
 }
 

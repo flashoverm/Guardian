@@ -53,6 +53,43 @@ class EventReport {
 		return false;
 	}
 	
+	function updateReport($date, $start_time, $end_time, $type, $type_other,
+			$title, $engine, $noIncidents, $report, $creator, $ilsEntry){
+				
+			$this->date = $date;
+			$this->start_time = $start_time;
+			$this->end_time = $end_time;
+			
+			$this->type = $type;
+			$this->type_other = $type_other;
+			
+			$this->title = $title;
+			$this->engine = $engine;
+			
+			$this->noIncidents = $noIncidents;
+			$this->report = $report;
+			$this->creator = $creator;
+			$this->ilsEntry = $ilsEntry;
+	}
+	
+	static function fromEvent($event, $staff, $creator){
+		
+		 $report = new EventReport($event->date, $event->start_time, $event->end_time, 
+			$event->type, $event->type_other, $event->title, $event->engine, 
+			false, "", $creator, false);
+		 
+		 $unit = new ReportUnit("Stationäre Wache", $event->date, $event->start_time, $event->end_time);
+		 foreach($staff as $position){
+		 	$user = get_user($position->user);
+		 	if($user){
+		 		$unit->addStaff(new ReportUnitStaff($position->position, $user->firstname . " " . $user->lastname, $user->engine));
+		 	}
+		 }
+		 $report->addUnit($unit);
+		 
+		 return $report;
+	}
+	
 	function toHTML(){
 		$string = $this->toMail();
 		return nl2br($string);

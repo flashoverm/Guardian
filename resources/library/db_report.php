@@ -20,7 +20,6 @@ function insert_report(EventReport $report_object){
             
     $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report, emsEntry, managerApproved)
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
-    echo "Error: " . "<br>" . $db->error;
     $statement->bind_param('sssssssssiisii', 
         $uuid, $report_object->date, 
         $report_object->start_time, $report_object->end_time, 
@@ -42,7 +41,7 @@ function insert_report(EventReport $report_object){
                 $unit->end,
                 (isset($unit->unit) ? $unit->unit : null),
                 (isset($unit->km) ? $unit->km : null),
-                $report_uuid);
+            		$uuid);
             
             $staff = $unit->staffList;
             
@@ -77,7 +76,7 @@ function insert_report_unit($date, $beginn, $end, $unit, $km, $report_uuid){
 		// echo "New event record created successfully";
 		return $uuid;
 	} else {
-		//echo "Error: " . "<br>" . $db->error;
+		echo "Error: " . "<br>" . $db->error;
 		return false;
 	}
 }
@@ -88,12 +87,7 @@ function insert_report_staff($position, $name, $engine, $unit_uuid){
 	$uuid = getGUID ();
 	
 	$statement = $db->prepare("INSERT INTO report_staff (uuid, position, name, engine, unit)
-		VALUES (?,
-				(SELECT uuid FROM staffposition WHERE position = ?), 
-				?, 
-				(SELECT uuid FROM engine WHERE name = ?), 
-				?
-		)");	
+		VALUES (?, ?, ?, ?, ?)");
 	$statement->bind_param('sssss', $uuid, $position, $name, $engine, $unit_uuid);
 	
 	$result = $statement->execute();
@@ -102,7 +96,7 @@ function insert_report_staff($position, $name, $engine, $unit_uuid){
 		// echo "New event record created successfully";
 		return $uuid;
 	} else {
-		//echo "Error: " . "<br>" . $db->error;
+		echo "Error: " . "<br>" . $db->error;
 		return false;
 	}
 }
@@ -157,7 +151,7 @@ function get_report($report_uuid) {
     if ($result) {
         return $statement->get_result()->fetch_object ();
     } else {
-        // echo "UUID not found";
+        return false;
     }
 }
 
@@ -165,18 +159,22 @@ function get_report_object($report_uuid){
 	
 	$db_report = get_report($report_uuid);
 	
-	$report = new EventReport($db_report->date, $db_report->start_time, $db_report->end_time, 
-	    $db_report->type, $db_report->type_other, $db_report->title, $db_report->engine, 
-	    $db_report->noIncidents, $db_report->report, $db_report->creator, $db_report->ilsEntry);
-	$report->uuid = $db_report->uuid;
-	
-	$units = get_report_units($report_uuid);
-	
-	foreach($units as $unit){
-		$report->addUnit($unit);
-	}	
-	//echo $report->toHTML();
-	return $report;
+	if($db_report){
+		$report = new EventReport($db_report->date, $db_report->start_time, $db_report->end_time,
+				$db_report->type, $db_report->type_other, $db_report->title, $db_report->engine,
+				$db_report->noIncidents, $db_report->report, $db_report->creator, $db_report->ilsEntry);
+		$report->uuid = $db_report->uuid;
+		$report->emsEntry = $db_report->emsEntry;
+		$report->managerApproved = $db_report->managerApproved;
+		
+		$units = get_report_units($report_uuid);
+		
+		foreach($units as $unit){
+			$report->addUnit($unit);
+		}
+		return $report;
+	}
+	return false;
 }
 
 function get_report_units($report_uuid) {
@@ -296,7 +294,6 @@ function delete_approval($uuid){
 		return false;
 	}
 }
-
 
 function delete_report($uuid) {
     global $db;

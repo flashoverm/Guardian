@@ -17,43 +17,46 @@ function showHideTypeOther(){
 
 
 function addUnit(){
+	
+	var unitNoField = document.getElementById("unitNo");
+	if(unitNoField.value != ""){
+		var unitNo = unitNoField.value;
+	} else {
+		reportUnitCount += 1;
+		var unitNo = reportUnitCount;
+	}
 
 	var form = document.getElementById("addUnitForm");
 
 	var unit = document.getElementById("unit").value;
 	var km = document.getElementById("km").value;
-
 	var unitdate = form.querySelector("#unitdate").value;
-			
 	var unitstart = form.querySelector("#unitstart").value;
 	var unitend = form.querySelector("#unitend").value;
 
-	reportUnitCount += 1;
-
 	var template = document.getElementById("unit0");
-
 	var newUnit = template.cloneNode(true);
 
-	newUnit.id = "unit" + reportUnitCount;
+	newUnit.id = "unit" + unitNo;
 	newUnit.style.display = null;	
 
 	var inputs = newUnit.getElementsByTagName("input");
-	nameField(inputs[0], "unit" + reportUnitCount + "date");
+	nameField(inputs[0], "unit" + unitNo + "date");
 	inputs[0].value = unitdate;
-	nameField(inputs[1], "unit" + reportUnitCount + "start");
+	nameField(inputs[1], "unit" + unitNo + "start");
 	inputs[1].value = unitstart;
-	nameField(inputs[2], "unit" + reportUnitCount + "end");
+	nameField(inputs[2], "unit" + unitNo + "end");
 	inputs[2].value = unitend;
-	nameField(inputs[3], "unit" + reportUnitCount + "unit");
+	nameField(inputs[3], "unit" + unitNo + "unit");
 	inputs[3].value = unit;
-	nameField(inputs[4], "unit" + reportUnitCount + "km");
+	nameField(inputs[4], "unit" + unitNo + "km");
 	inputs[4].value = km;
 	
-	nameField(inputs[5], "unit" + reportUnitCount + "datefield");
+	nameField(inputs[5], "unit" + unitNo + "datefield");
 	inputs[5].value = unitdate;
-	nameField(inputs[6], "unit" + reportUnitCount + "startfield");
+	nameField(inputs[6], "unit" + unitNo + "startfield");
 	inputs[6].value = unitstart;
-	nameField(inputs[7], "unit" + reportUnitCount + "endfield");
+	nameField(inputs[7], "unit" + unitNo + "endfield");
 	inputs[7].value = unitend;
 
 	var personalContainer = newUnit.getElementsByClassName("personalContainer");
@@ -67,30 +70,30 @@ function addUnit(){
 		var position = form.querySelector("#position" + i);
 		
 		var inputs = newPersonal.getElementsByTagName("input");
-		nameField(inputs[0], "unit" + reportUnitCount + "name" + i);
+		nameField(inputs[0], "unit" + unitNo + "name" + i);
 		inputs[0].value = position.querySelector("#positionname").value;
 
-		nameField(inputs[1], "unit" + reportUnitCount + "function" + i + "field");
+		nameField(inputs[1], "unit" + unitNo + "function" + i + "field");
 		inputs[1].value = position.querySelector("#positionfunction").value;
-		nameField(inputs[2], "unit" + reportUnitCount + "name" + i + "field");
+		nameField(inputs[2], "unit" + unitNo + "name" + i + "field");
 		inputs[2].value = position.querySelector("#positionname").value;
-		nameField(inputs[3], "unit" + reportUnitCount + "engine" + i + "field");
+		nameField(inputs[3], "unit" + unitNo + "engine" + i + "field");
 		inputs[3].value = position.querySelector("#positionengine").value;
 		
 		var selects = newPersonal.getElementsByTagName("select");
-		nameField(selects[0], "unit" + reportUnitCount + "function" + i)
+		nameField(selects[0], "unit" + unitNo + "function" + i)
 		selects[0].selectedIndex = position.querySelector("#positionfunction").selectedIndex;
-		nameField(selects[1], "unit" + reportUnitCount + "engine" + i)
+		nameField(selects[1], "unit" + unitNo + "engine" + i)
 		selects[1].selectedIndex = position.querySelector("#positionengine").selectedIndex;
 		
 		personalContainer[0].appendChild(newPersonal);
 	}
 
 	var cardbody = newUnit.getElementsByClassName("unittemplateBody");
-	cardbody[0].id = "collapse" + reportUnitCount;
+	cardbody[0].id = "collapse" + unitNo;
 
 	var buttons = newUnit.getElementsByTagName("button");
-	buttons[0].setAttribute("data-target", "#collapse" + reportUnitCount);
+	buttons[0].setAttribute("data-target", "#collapse" + unitNo);
 
 	if(km == ""){
 		var headerString = unit;
@@ -99,12 +102,11 @@ function addUnit(){
 	}
 	buttons[0].appendChild(document.createTextNode(headerString));
 
-	buttons[1].setAttribute("onclick", "initializeModalEdit("+ reportUnitCount +");");
-	buttons[2].setAttribute("onclick", "removeUnit("+ reportUnitCount +");");
+	buttons[1].setAttribute("onclick", "initializeModalEdit("+ unitNo +");");
+	buttons[2].setAttribute("onclick", "removeUnit("+ unitNo +");");
 
-	var unitNo = document.getElementById("unitNo");
-	if(unitNo.value != ""){
-		var unitElement = document.getElementById("unit" + unitNo.value);
+	if(unitNoField.value != ""){
+		var unitElement = document.getElementById("unit" + unitNo);
 		insertAfter(newUnit, unitElement);
 		unitElement.parentNode.removeChild(unitElement);
 	} else {
@@ -121,13 +123,13 @@ function displaySubmitButton(){
 	
 	if(reportUnitCount == 1){
 		var submitButton = document.getElementById("submitReport");
-		submitButton.style.display = "block";
+		submitButton.style.display = "";
 		var div = document.getElementById("submitPlaceholder");			
 	}
 }
 
 function removeUnit(number){
-	var unit = documentgetElementById("unit" + number);
+	var unit = document.getElementById("unit" + number);
 	unit.parentNode.removeChild(unit);
 }
 

@@ -4,6 +4,7 @@ Release Documentation
 
 .htaccess 
 	Change report/new from event_report to report_edit
+	reports/new/([^/]*)?$ to report_edit.php?event=$1
 
 
 ALTER TABLE report ADD manager_approved BOOLEAN NOT NULL AFTER emsEntry; 
