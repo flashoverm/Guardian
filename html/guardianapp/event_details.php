@@ -67,7 +67,8 @@ if (! isset($_GET['id'])) {
     	
     	if (isset($_POST['publish']) && $event->engine != NULL) {
     		if(publish_event($uuid) ){
-    		    mail_publish_event($uuid, $_SESSION['guardian_userid']);
+    			$event = get_event($uuid);
+    			mail_publish_event($event);
     			$variables['successMessage'] = "Wache veröffentlich - Wachbeauftragte informiert";
     			$event = get_event($uuid);
     		} else {

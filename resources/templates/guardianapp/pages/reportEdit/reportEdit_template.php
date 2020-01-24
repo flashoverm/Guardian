@@ -29,7 +29,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Ende:</label> <input type="time" required="required" 
+				<label>Wachende:</label> <input type="time" required="required" 
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($object) && $object->end_time != null ){

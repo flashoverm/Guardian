@@ -171,12 +171,18 @@ if ($isCreator) {
 	<?php
 	if($loggedIn){
 	    echo "<form action='" . $config["urls"]["guardianapp_home"] . "/events/" . $event->uuid . "' method='post'>
-                  <a href='" . $config["urls"]["guardianapp_home"] . "/events' class='btn btn-outline-primary'>Zurück</a>";
+                  <a href='" . $config["urls"]["guardianapp_home"] . "/events' class='btn btn-outline-primary'>Zurück</a>
+				  <div class='float-right'>";
 	    
+	    if(!$relevant){
+	    	echo "<a class='btn btn-primary' href='" . $config["urls"]["guardianapp_home"] . "/reports/new/" . $event->uuid . "'>Bericht erstellen</a>";
+	    }
 	    if(!$event->published){
 	        if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
+	          	<a class='btn btn-primary' href='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
+	        
             	<input type='hidden' name='publish' id='publish' value='publish'/>
-                    <span class='d-inline-block float-right' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
+                    <span class='d-inline-block' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
 				  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish<?= $event->uuid ?>'>Veröffentlichen</button>
                     </span>
 
@@ -197,18 +203,18 @@ if ($isCreator) {
 					    </div>
 					  </div>
 					</div>
-            	<a class='btn btn-primary float-right mr-1' href='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
             <?php 
 	        } else {
-	            echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist nicht öffentlich</button>";   
+	            echo "<button type='button' class='btn btn-outline-primary ml-1' disabled='disabled' >Wache ist nicht öffentlich</button>";   
 	        }
 		} else {
-		    echo "<button type='button' class='btn btn-outline-primary float-right' disabled='disabled' >Wache ist öffentlich</button>";
-		    if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {
-		    	echo "<a class='btn btn-primary float-right mr-1' href='" . $config["urls"]["guardianapp_home"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>";
-		    }
+			if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {
+				echo "<a class='btn btn-primary' href='" . $config["urls"]["guardianapp_home"] . "/events/" . $event->uuid . "/edit'>Bearbeiten</a>";
+			}
+		    echo "<button type='button' class='btn btn-outline-primary ml-1' disabled='disabled' >Wache ist öffentlich</button>";
+
 		}
-	    echo "</form>";
+	    echo "</div></form>";
 	}
 	?>
 </div>
