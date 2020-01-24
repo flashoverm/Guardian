@@ -135,6 +135,10 @@
 	</div>
 	<p>
 	<div>
+	    <?php if(isset($object) && $object->uuid != null){
+    	    echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["guardianapp_home"] . '/reports/' . $object->uuid . ">Zurück</a>";
+    	}
+    	?>
     	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>
     		<?php
     		if(isset($object) && $object->uuid != null){
@@ -143,10 +147,6 @@
     			echo " value='Abschicken' ";
     		}?>
     		>
-    	<?php if(isset($object) && $object->uuid != null){
-    	    echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["guardianapp_home"] . '/reports/' . $object->uuid . ">Zurück</a>";
-    	}
-    	?>
 	</div>
 
 </form>

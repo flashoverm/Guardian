@@ -123,32 +123,46 @@ if (isset($_POST) && isset($_POST ['start'])) {
         $eventReport->addUnit($unit);
         $unitCount += 1;
     }
-        
+       
+    $ok = false;
     if(isset($_GET['id'])){
         //Update        
-        update_report($eventReport);
-        /*
-        createReportFile($uuid);
-        if(mail_update_report ($eventReport)){
-            $variables ['successMessage'] = "Aktualisierter Bericht versendet";
-        } else {
-           $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
-        }
-        */
-        $eventReport = get_report_object($uuid);
-        $variables['object'] = $eventReport;
+    	if(update_report($eventReport)){
+    		if(!createReportFile($uuid)){
+    			if(mail_update_report ($eventReport)){
+    				$variables ['successMessage'] = "Aktualisierter Bericht versendet";
+    				$ok = true;
+    			} else {
+    				$variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
+    			}
+    		} else {
+    			$variables ['alertMessage'] = "Aktualisiertes PDF konnnte nicht erstellt werden";
+    		}
+    	} else {
+    		$variables ['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+    	}
     } else {
-        //Insert
-        $uuid = insert_report($eventReport);
-        $eventReport->uuid = $uuid;
-        /*
-        createReportFile($uuid);
-        if(mail_insert_report ($eventReport)){
-            $variables ['successMessage'] = "Bericht versendet";
-        } else {
-            $variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
-        }
-        */
+    	//Insert
+    	$uuid = insert_report($eventReport);
+    	if($uuid){
+    		$eventReport->uuid = $uuid;
+    		if(!createReportFile($uuid)){
+    			if(mail_insert_report ($eventReport)){
+    				$variables ['successMessage'] = "Bericht versendet";
+    				$ok = true;
+    			} else {
+    				$variables ['alertMessage'] = "Bericht konnte nicht versendet werden - keine zuständigen Wachbeauftragten";
+    			}
+    		} else {
+    			$variables ['alertMessage'] = "PDF konnnte nicht erstellt werden";
+    		}
+    	} else {
+    		$variables ['alertMessage'] = "Bericht konnte nicht gespeichert";
+    	}
+    }
+    
+    if($ok){
+    	header ( "Location: " . $config["urls"]["guardianapp_home"] . "/reports/" . $uuid ); // redirects
     }
 }
 

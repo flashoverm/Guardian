@@ -70,6 +70,8 @@ class EventReport {
 			$this->report = $report;
 			$this->creator = $creator;
 			$this->ilsEntry = $ilsEntry;
+			
+			$this->units = array();
 	}
 	
 	static function fromEvent($event, $staff, $creator){
