@@ -9,20 +9,12 @@ require_once LIBRARY_PATH . "/db_eventtypes.php";
 $variables = array (
     'title' => "Übersicht Wachberichte",
     'secured' => true,
+	'right' => EVENTMANAGER,
 );
 
 if(isset($_SESSION ['guardian_userid'])){
     $user = $_SESSION ['guardian_userid'];
     $usersEngine = get_engine(get_engine_of_user($user));
-    
-    if (isset ( $_POST ['delete'] )) {
-        $delete_report_uuid = trim ( $_POST ['delete'] );
-        if(delete_report ( $delete_report_uuid )){
-            $variables ['successMessage'] = "Bericht gelöscht";
-        } else {
-            $variables ['alertMessage'] = "Bericht konnte nicht gelöscht werden";
-        }
-    }
     
     if (isset ( $_POST ['emsEntry'] )) {
         if(set_ems_entry($_POST ['emsEntry'])){

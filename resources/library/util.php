@@ -21,12 +21,15 @@ function goToLogin(){
     header("Location: " . $config["urls"]["intranet_home"] . "/login"); // redirects
 }
 
-function endsWith($haystack, $needle)
-{
+function endsWith($haystack, $needle) {
     $length = strlen($needle);
     if ($length == 0) {
         return true;
     }
     
     return (substr($haystack, -$length) === $needle);
+}
+
+function timeToHm ($time){
+    return substr($time, 0, strlen($time)-3);
 }

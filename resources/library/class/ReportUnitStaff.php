@@ -17,12 +17,6 @@ class ReportUnitStaff {
 		. "\n Zug: \t" . $this->engine
 		. "\n\n";
 	}	
-	
-	function toHTML(){
-		return "Position: <br>" . $this->position
-		. "<br> Name: \t" . $this->name
-		. "<br> Zug: \t" . $this->engine
-		. "<br><br>";
-	}
+
 }
 ?>

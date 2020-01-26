@@ -5,6 +5,7 @@ require_once LIBRARY_PATH . "/db_report.php";
 require_once LIBRARY_PATH . "/db_eventtypes.php";
 require_once LIBRARY_PATH . "/db_staffpositions.php";
 require_once LIBRARY_PATH . "/db_engines.php";
+require_once LIBRARY_PATH . "/mail_controller.php";
 
 if (! isset($_GET['id'])) {
 	
@@ -22,6 +23,8 @@ if (! isset($_GET['id'])) {
 	$units = get_report_units($uuid);
 	
 	if($report){
+		
+		get_report_object($uuid);
 		
 		if(isset($_SESSION ['guardian_userid'])){
 		    if(!userHasRight(EVENTMANAGER)){
@@ -45,13 +48,50 @@ if (! isset($_GET['id'])) {
 		                'units' => $units
 		            );
 		            
-		            if(isset($_POST['emsEntryRemoved'])){
-		                if(delete_ems_entry($_POST['emsEntryRemoved'])){
+		            if(isset($_POST['emsEntry'])){
+		            	if(set_ems_entry($uuid)){
 		                    $variables['successMessage'] = "Bericht aktualisiert";
 		                } else {
 		                    $variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
 		                }
 		                $variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['emsEntryRemoved'])){
+		            	if(delete_ems_entry($uuid)){
+		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['managerApprove'])){
+		            	if(set_approval($uuid)){
+		            		mail_report_approved($uuid);
+		            		$variables['successMessage'] = "Bericht aktualisiert und an Verwaltung versandt";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if(isset($_POST['managerApproveRemove'])){
+		            	if(delete_approval($uuid)){
+		            		$variables['successMessage'] = "Bericht aktualisiert";
+		            	} else {
+		            		$variables['alertMessage'] = "Bericht konnte nicht aktualisiert werden";
+		            	}
+		            	$variables['report'] = get_report($uuid);
+		            }
+		            
+		            if (isset ( $_POST ['delete'] )) {
+		            	if(delete_report ( $uuid )){
+		            		$variables ['successMessage'] = "Bericht gelöscht";
+		            		header ( "Location: " . $config["urls"]["guardianapp_home"] . "/reports"); // redirects
+		            	} else {
+		            		$variables ['alertMessage'] = "Bericht konnte nicht gelöscht werden";
+		            	}
 		            }
 		            
 		        } else {

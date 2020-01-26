@@ -6,18 +6,14 @@ Bugs:
 
 To Do:
 
-- Bericht durch Wachbeauftragten freigeben -> Geschäftszimmer
-- Alle Bericht ans Geschäftszimmer
+- Edit Wachbericht
 
-- Hydrantenbeauftragten anlegen (wenn bereits vorhanden -> Benutzer mit Passwort/Rechten aktualisieren)
 
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
 
 - ICS auf Android prüfen
   
 New feature:
-
-- Reports as PDF like hydrants - Send via mail attachment
 
 - Freitextfeld in Position (Makes Vehicles possible)
 
@@ -58,6 +54,12 @@ Refactoring:
 - move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Alle Berichte ans Geschäftszimmer
+- Bericht durch Wachbeauftragten freigeben
+- Reports as PDF like hydrants - Send via mail attachment
+- Wachbeauftragten anlegen (wenn bereits vorhanden -> Benutzer mit Passwort/Rechten aktualisieren)
+
+
 - Rebrush: Tables with Bootstrap Table
 
 

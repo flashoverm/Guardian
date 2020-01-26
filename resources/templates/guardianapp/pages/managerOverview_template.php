@@ -40,28 +40,10 @@ if (! $isAdmin) {
 			?>
 				</td>
 				<td class="text-center">
-					<form method="post" action="">
-						<input type="hidden" name="resetpw" id="resetpw" value="<?=$row->uuid?>" />
-						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmReset<?= $row->uuid; ?>">Passwort zurücksetzen</button>
-						
-						<div class="modal" id="confirmReset<?= $row->uuid; ?>">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						
-						      <div class="modal-header">
-						        <h4 class="modal-title">Passwort wirklich zurücksetzen?</h4>
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						      </div>
-						
-						      <div class="modal-footer">
-						      	<input type="submit" value="Passwort zurücksetzen" class="btn btn-primary" onClick="showLoader()"/>
-						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
-						      </div>
-						
-						    </div>
-						  </div>
-						</div>
-					</form>
+					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmReset<?= $row->uuid; ?>">Passwort zurücksetzen</button>
+					<?php 
+					createDialog('confirmReset' . $row->uuid, "Passwort wirklich zurücksetzen?", null, "resetpw", $row->uuid);
+					?>
 				</td>
 				<td class="text-center">
 					<form method="post" action="">

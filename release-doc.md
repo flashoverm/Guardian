@@ -2,11 +2,13 @@
 Release Documentation
 ******************************
 
-Config update: Paths
-        "reports" => $_SERVER ["DOCUMENT_ROOT"] . "/ffla-intranet/resources/reports/",
-        "nodejs" => "D:/runtimes/nodejs/node.exe"
-        
-htdocs: report/file (2x)
+.htaccess 
+	Change report/new from event_report to report_edit
+	reports/new/([^/]*)?$ to report_edit.php?event=$1
+	reports/([^/]*)/edit?$ 	/guardian/html/guardianapp/report_edit.php?id=$1
+	
+
+ALTER TABLE report ADD event CHAR(36) NULL AFTER uuid; 
 
 
 

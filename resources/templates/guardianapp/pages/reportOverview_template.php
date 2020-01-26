@@ -15,9 +15,9 @@ if (! count ( $reports )) {
 				<th data-sortable="true" class="text-center">Titel</th>
 				<th data-sortable="true" class="text-center">Zuständig</th>
 				<th data-sortable="true" class="text-center">Vorkomnisse</th>
+				<th data-sortable="true" class="text-center">Freigabe</th>
 				<th data-sortable="true" class="text-center">EMS</th>
 				<th class="text-center">Bericht</th>
-				<th class="text-center">Löschen</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -49,61 +49,25 @@ if (! count ( $reports )) {
 				</td>
 				<td class="text-center">
 					<?php
+					if($row->managerApproved){
+					    echo " &#10003; ";
+					} else {
+						echo " &ndash; ";
+					}
+					?>
+				</td>
+				<td class="text-center">
+					<?php
 					if($row->emsEntry){
 					    echo " &#10003; ";
 					} else {
-					    ?>
-					    	<form method='post' action="">
-								<input type="hidden" name="emsEntry" id="emsEntry" value="<?= $row->uuid ?>" />
-					    		<button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#confirmEms<?= $row->uuid ?>'>EMS</button>
-					    		<div class='modal' id='confirmEms<?= $row->uuid ?>'>
-                        		  <div class='modal-dialog'>
-                        		    <div class='modal-content'>
-                        
-                        		      <div class='modal-header'>
-                        		        <h4 class='modal-title'>EMS-Eintrag erfolgt?</h4>
-                        		        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-                        		      </div>
-                        
-                        		      <div class='modal-footer'>
-                        		      	<input type='submit' value='Ja' class='btn btn-primary' onClick='showLoader()'/>
-                        		      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-                        		      </div>
-                        
-                        		    </div>
-                        		  </div>
-                        		</div>
-					    	</form>
-					    <?php 
+						echo "<button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#confirmEms" . $row->uuid . "'>EMS</button>";
+						createDialog("confirmEms" . $row->uuid, "Wurde die Wache in EMS angelegt?", null, "emsEntry", $row->uuid);
 					}
 					?>
 				</td>
 				<td class="text-center">
 					<a class="btn btn-primary btn-sm" href="<?=$config["urls"]["guardianapp_home"] . "/reports/".$row->uuid ?>">Bericht</a>
-				</td>
-				<td class="text-center">
-					<form method="post" action="">
-						<input type="hidden" name="delete" id="delete" value="<?= $row->uuid ?>" />
-						<button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#confirmDelete<?= $row->uuid; ?>">Löschen</button>
-						
-						<div class="modal" id="confirmDelete<?= $row->uuid; ?>">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						
-						      <div class="modal-header">
-						        <h4 class="modal-title">Bericht wirklich löschen?</h4>
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						      </div>
-						
-						      <div class="modal-footer">
-						      	<input type="submit" value="Löschen" class="btn btn-primary" onClick="showLoader()"/>
-						      	<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Abbrechen</button>
-						      </div>
-						
-						    </div>
-						  </div>
-						</div> 
-					</form>
 				</td>
 			</tr>
 	<?php
