@@ -138,15 +138,17 @@
 	    <?php if(isset($object) && $object->uuid != null){
     	    echo '<a class="btn btn-outline-primary" href=' . $config["urls"]["guardianapp_home"] . '/reports/' . $object->uuid . ">Zurück</a>";
     	}
-    	?>
-    	<input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>
+    	
+    	if(isset($object) && $object->uuid != null){
+            ?>
+    	    <input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?> value='Aktualisieren'>
+    	    <?php 
+    	} else{ ?>
+    	    <button type="button" id="submitReport" class="btn btn-primary" data-toggle="modal" data-target="#confirmSubmit" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>>Abschicken</button>
     		<?php
-    		if(isset($object) && $object->uuid != null){
-    			echo " value='Aktualisieren' ";
-    		}else{
-    			echo " value='Abschicken' ";
-    		}?>
-    		>
+    	    createDialog('confirmSubmit', "Bericht absenden", null, null, null, "Abschicken", "Abbrechen", 
+    	        "Bitte überprüfen Sie alle eingebenen Daten.<br>Ist das Wachende korrekt eingetragen (tatsächliches Ende der Wachveranstaltung)?");
+    	} ?>
 	</div>
 
 </form>

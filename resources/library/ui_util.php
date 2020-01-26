@@ -1,6 +1,6 @@
 <?php 
 
-function createDialog($id, $title, $name, $additionalValueName = null, $additionalValue = null, $positiveButton="Ja", $negativeButton="Abbrechen"){
+function createDialog($id, $title, $name, $additionalValueName = null, $additionalValue = null, $positiveButton="Ja", $negativeButton="Abbrechen", $text = null){
 	echo "
 	<div class='modal' id='" . $id . "'>
 		<div class='modal-dialog'>
@@ -9,9 +9,11 @@ function createDialog($id, $title, $name, $additionalValueName = null, $addition
 				<div class='modal-header'>
 					<h4 class='modal-title'>" . $title . "</h4>
 					<button type='button' class='close' data-dismiss='modal'>&times;</button>
-				</div>
-
-				<div class='modal-footer'>
+				</div>";
+	            if($text != null ){
+	                echo "<div class='modal-body'>" . $text . "</div>";
+            	}
+            	echo "<div class='modal-footer'>
 					<form action='' method='post'style='margin-bottom: 0px;'>";
 					if($additionalValueName != null && $additionalValue != null){
 						echo "<input type='hidden' name='" . $additionalValueName . "' value='" . $additionalValue . "' />";
