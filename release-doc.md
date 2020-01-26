@@ -8,7 +8,7 @@ Release Documentation
 	reports/([^/]*)/edit?$ 	/guardian/html/guardianapp/report_edit.php?id=$1
 	
 
-ALTER TABLE `report` ADD `event` CHAR(36) NULL AFTER `uuid`; 
+ALTER TABLE report ADD event CHAR(36) NULL AFTER uuid; 
 
 
 
