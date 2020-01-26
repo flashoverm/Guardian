@@ -5,9 +5,10 @@ Release Documentation
 .htaccess 
 	Change report/new from event_report to report_edit
 	reports/new/([^/]*)?$ to report_edit.php?event=$1
+	reports/([^/]*)/edit?$ 	/guardian/html/guardianapp/report_edit.php?id=$1
+	
 
-
-ALTER TABLE report ADD manager_approved BOOLEAN NOT NULL AFTER emsEntry; 
+ALTER TABLE `report` ADD `event` CHAR(36) NULL AFTER `uuid`; 
 
 
 

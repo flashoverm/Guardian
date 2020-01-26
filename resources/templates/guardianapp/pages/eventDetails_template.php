@@ -91,58 +91,20 @@ if ($isCreator) {
 					if ($entry->user != NULL and isset($_SESSION['guardian_userid']) and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant and $event->staff_confirmation) {
 						if($entry->unconfirmed){
 						?>
-							<form method='post' action='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>'>
-								<input type='hidden' name='confirmstaffid' id='confirmstaffid' value='<?= $entry->uuid ?>'/>
-								<button type='button' class='btn btn-primary btn-sm mb-1' data-toggle='modal' data-target='#confirmConfirmation<?= $entry->uuid ?>'>Bestätigen</button>
-								
-								<div class='modal' id='confirmConfirmation<?= $entry->uuid ?>'>
-								  <div class='modal-dialog'>
-								    <div class='modal-content'>
-								
-								      <div class='modal-header'>
-								        <h4 class='modal-title'>Personal wirklich bestätigen?</h4>
-								        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-								      </div>
-								
-								      <div class='modal-footer'>
-								      	<input type='submit' value='Bestätigen' class='btn btn-primary' onClick='showLoader()'/>
-								      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-								      </div>
-								
-								    </div>
-								  </div>
-								</div> 
-							</form>
+    						<button type='button' class='btn btn-primary btn-sm mb-1' data-toggle='modal' data-target='#confirmConfirmation<?= $entry->uuid ?>'>Bestätigen</button>
+    						<?php 
+    						createDialog('confirmConfirmation' . $entry->uuid, "Personal wirklich bestätigen?", null, "confirmstaffid", $entry->uuid);
+        					?>
 					<?php 	} else { ?>
 							<button type='button' class='btn btn-outline-primary btn-sm' disabled>Bestätigt</button>
 					<?php 	}
 					} 
 					
-					
 					if ($entry->user != NULL and isset($_SESSION['guardian_userid']) and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
-						<form method='post' style='display:inline' action='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>'>
-							<input type='hidden' name='removestaffid' id='removestaffid' value='<?= $entry->uuid ?>'/>
-							<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $entry->uuid ?>'>Austragen</button>
-							
-							<div class='modal' id='confirmUnscribe<?= $entry->uuid ?>'>
-							  <div class='modal-dialog'>
-							    <div class='modal-content'>
-							
-							      <div class='modal-header'>
-							        <h4 class='modal-title'>Personal wirklich austragen?</h4>
-							        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-							      </div>
-							
-							      <div class='modal-footer'>
-							      	<input type='submit' value='Austragen' class='btn btn-primary' onClick='showLoader()'/>
-							      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-							      </div>
-							
-							    </div>
-							  </div>
-							</div> 
-						</form>
-					<?php } ?>
+						<button type='button' class='btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#confirmUnscribe<?= $entry->uuid ?>'>Austragen</button>
+						<?php 
+						createDialog('confirmUnscribe' . $entry->uuid, "Personal wirklich austragen?", null, "removestaffid", $entry->uuid);
+        			} ?>
 				</td>
 			</tr>
 			<?php } ?>
@@ -180,29 +142,12 @@ if ($isCreator) {
 	    if(!$event->published){
 	        if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
 	          	<a class='btn btn-primary' href='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
-	        
-            	<input type='hidden' name='publish' id='publish' value='publish'/>
-                    <span class='d-inline-block' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
-				  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish<?= $event->uuid ?>'>Veröffentlichen</button>
-                    </span>
-
-					<div class='modal' id='confirmPublish<?= $event->uuid ?>'>
-					  <div class='modal-dialog'>
-					    <div class='modal-content'>
-			
-					      <div class='modal-header'>
-					        <h4 class='modal-title'>Wache veröffentlichen <br>(E-Mail an alle Wachbeauftragen)?</h4>
-					        <button type='button' class='close' data-dismiss='modal'>&times;</button>
-					      </div>
-			
-					      <div class='modal-footer'>
-					      	<input type='submit' value='Veröffentlichen' class='btn btn-primary' onClick='showLoader()'/>
-					      	<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
-					      </div>
-			
-					    </div>
-					  </div>
-					</div>
+                <span class='d-inline-block' data-toggle='tooltip' title='Andere Züge über Wache informieren'>
+			  		<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#confirmPublish<?= $event->uuid ?>'>Veröffentlichen</button>
+                </span>
+				<?php 
+				createDialog('confirmPublish' . $event->uuid, "Wache veröffentlichen <br>(E-Mail an alle Wachbeauftragen)?", 'publish');
+				?>
             <?php 
 	        } else {
 	            echo "<button type='button' class='btn btn-outline-primary ml-1' disabled='disabled' >Wache ist nicht öffentlich</button>";   

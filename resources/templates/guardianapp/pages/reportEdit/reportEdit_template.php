@@ -160,6 +160,8 @@ showHideTypeOther();
 
 var reportUnitCount = <?= $i ?>;
 
+openUnit(reportUnitCount);
+
 var currentPosition = 1;
 
 </script>

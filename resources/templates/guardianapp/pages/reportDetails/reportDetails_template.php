@@ -25,6 +25,12 @@ require_once 'reportTable.php';
 					} ?>
 				</td>
 			</tr>
+			<?php if(isset($report->event)){ ?>
+			<tr>
+				<th>Aus Wache generiert</th>
+				<td><a href="<?= $config["urls"]["guardianapp_home"] . "/events/".$report->event ?>">Zur Wache</a></td>
+			</tr>	
+			<?php } ?>
 		</tbody>
 	</table>
 </div>

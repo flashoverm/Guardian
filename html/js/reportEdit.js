@@ -119,6 +119,12 @@ function addUnit(){
 	displaySubmitButton();	
 }
 
+function openUnit(unitnumber) {
+	var unit = document.getElementById("unit" + unitnumber);
+	var buttons = unit.getElementsByTagName("button");
+	buttons[0].click();
+}
+
 function displaySubmitButton(){
 	
 	if(reportUnitCount == 1){

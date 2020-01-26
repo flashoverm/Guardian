@@ -53,6 +53,7 @@ if(isset($_GET['id'])){
 		$staff = get_staff($_GET['event']);
 		$eventReport = EventReport::fromEvent($event, $staff, $creator);
 		$variables['object'] = $eventReport;
+
 	} else {
 		$variables ['alertMessage'] = "Wache nicht gefunden";
 	}
@@ -94,6 +95,9 @@ if (isset($_POST) && isset($_POST ['start'])) {
     } else {
     	$eventReport = new EventReport($date, $beginn, $end, $type, $typeOther,
     			$title, $engine, $noIncidents, $reportText, $creator, $ilsEntry);
+    	if(isset($_GET['event'])){
+    	    $eventReport->event = $_GET['event'];
+    	}
     }
 
     $unitCount = 1;
@@ -143,6 +147,7 @@ if (isset($_POST) && isset($_POST ['start'])) {
     	}
     } else {
     	//Insert
+    	echo $eventReport->toHTML();
     	$uuid = insert_report($eventReport);
     	if($uuid){
     		$eventReport->uuid = $uuid;

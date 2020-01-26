@@ -18,10 +18,10 @@ function insert_report(EventReport $report_object){
         $uuid = getGUID ();
     }
             
-    $statement = $db->prepare("INSERT INTO report (uuid, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report, emsEntry, managerApproved)
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
-    $statement->bind_param('sssssssssiisii', 
-        $uuid, $report_object->date, 
+    $statement = $db->prepare("INSERT INTO report (uuid, event, date, start_time, end_time, type, type_other, title, engine, creator, noIncidents, ilsEntry, report, emsEntry, managerApproved)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+    $statement->bind_param('ssssssssssiisii', 
+        $uuid, $report_object->event, $report_object->date, 
         $report_object->start_time, $report_object->end_time, 
         $report_object->type, $report_object->type_other, 
         $report_object->title, $report_object->engine, 
@@ -327,6 +327,7 @@ function create_table_report() {
     
     $statement = $db->prepare("CREATE TABLE report (
                           uuid CHARACTER(36) NOT NULL,
+                          event CHARACTER(36),
 						  date DATE NOT NULL,
                           start_time TIME NOT NULL,
                           end_time TIME NOT NULL,

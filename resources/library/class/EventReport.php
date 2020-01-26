@@ -1,6 +1,8 @@
 <?php
 
 class EventReport {
+    
+    public $event;
 	
 	public $date;
 	public $start_time;
@@ -56,6 +58,7 @@ class EventReport {
 	function updateReport($date, $start_time, $end_time, $type, $type_other,
 			$title, $engine, $noIncidents, $report, $creator, $ilsEntry){
 				
+			$this->event = null;
 			$this->date = $date;
 			$this->start_time = $start_time;
 			$this->end_time = $end_time;
@@ -80,6 +83,8 @@ class EventReport {
 			$event->type, $event->type_other, $event->title, $event->engine, 
 			false, "", $creator, false);
 		 
+		 $report->event = $event->uuid;
+		 		 
 		 $unit = new ReportUnit("Stationäre Wache", $event->date, $event->start_time, $event->end_time);
 		 foreach($staff as $position){
 		 	$user = get_user($position->user);
@@ -88,7 +93,7 @@ class EventReport {
 		 	}
 		 }
 		 $report->addUnit($unit);
-		 
+		 		 
 		 return $report;
 	}
 	
@@ -128,10 +133,17 @@ class EventReport {
 			$string = $string . $value->toMail();
 		}
 		
-		return $string
+		$string = $string
 				. "-----------------------------------------------------------"
 				. "\n\nZuständiger Zug: \t" . $this->engine
 				. "\n\nErsteller: \t\t" . $this->creator;
+		
+		if(isset($this->event)){
+            $string = $string
+		    . "\n\n Erstellt aus Wache: " . $this->event;
+		}
+	   		
+		return $string;
 	}
 }
 ?>
