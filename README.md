@@ -6,9 +6,6 @@ Bugs:
 
 To Do:
 
-- Edit Wachbericht
-
-
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
 
 - ICS auf Android prüfen
@@ -29,20 +26,14 @@ New feature:
 
 - Kleidungsordnung: Uniform (Standard), Tagesdienst, Schutzanzug, Zivil, Sonstiges
 
-- Wachbericht muss durch Wachbeauftragten freigegben werden, dann PDF mit Berichtszimmer an Geschäftszimmer und Wachbeauftragte -> Angehängt an Bericht: Adresse von Theater|Rathaus|... (aus Tabelle)
+- Angehängt an Bericht: Adresse von Theater|Rathaus|... (aus Tabelle)
 
 
 Low prio:
 
 - Event Report Export in Invoice-Style for Administration
 
-- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)
-
 - Event import function from excel
-
-- Edit-function for units in event report
-
-- Send HTML mails with infos about events or subscriber etc.
 
 - Verify-Link for new user - Delete account if not verified
 
@@ -54,6 +45,11 @@ Refactoring:
 - move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Edit Wachbericht
+- Edit-function for units in event report
+- Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)
+- Wachbericht kann durch Wachbeauftragten freigegben werden, dann PDF mit Berichtszimmer an Geschäftszimmer 
+
 - Alle Berichte ans Geschäftszimmer
 - Bericht durch Wachbeauftragten freigeben
 - Reports as PDF like hydrants - Send via mail attachment
