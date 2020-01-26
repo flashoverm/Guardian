@@ -151,8 +151,8 @@
 
 </form>
 
-<script src="<?=$config["urls"]["baseUrl"] ?>/js/date.js" type="text/javascript"></script>
-<script src="<?=$config["urls"]["baseUrl"] ?>/js/reportEdit.js" type="text/javascript"></script>
+<script src="<?= $config["urls"]["intranet_home"] ?>/js/date.js" type="text/javascript"></script>
+<script src="<?= $config["urls"]["intranet_home"] ?>/js/reportEdit.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
