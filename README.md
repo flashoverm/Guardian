@@ -9,6 +9,10 @@ To Do:
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
 
 - ICS auf Android prüfen
+
+- Internet Explorer Support (Date and Time fields) especially report
+
+- Sort by date in every table does not work correctly (string compare)
   
 New feature:
 
