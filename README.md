@@ -2,13 +2,19 @@
 
 Bugs:
 
-- On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
+- ICS auf Android prüfen
+
+- Internet Explorer Support (Date and Time fields) especially report
+
+- Sort by date in every table does not work correctly (string compare)
+
 
 To Do:
 
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
 
-- ICS auf Android prüfen
+ - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
+  
   
 New feature:
 
@@ -28,6 +34,7 @@ New feature:
 
 - Angehängt an Bericht: Adresse von Theater|Rathaus|... (aus Tabelle)
 
+- Druckfunktion für Wachen mit QR Code neben Wachlink
 
 Low prio:
 

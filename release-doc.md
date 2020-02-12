@@ -2,6 +2,13 @@
 Release Documentation
 ******************************
 
+##### V1.0.1
+
+Updated calender file export
+
+
+##### V1.0.0
+
 .htaccess 
 	Change report/new from event_report to report_edit
 	reports/new/([^/]*)?$ to report_edit.php?event=$1
