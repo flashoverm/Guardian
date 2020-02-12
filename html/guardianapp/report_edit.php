@@ -38,7 +38,6 @@ if(isset($_GET['id'])){
 	}
 	
 } else if(isset($_GET['event'])){
-	$variables['secured'] = true;
 	
 	$event = get_event($_GET['event']);
 	if($event != null){

@@ -91,7 +91,7 @@ if ($isCreator) {
 					if ($entry->user != NULL and isset($_SESSION['guardian_userid']) and is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant and $event->staff_confirmation) {
 						if($entry->unconfirmed){
 						?>
-    						<button type='button' class='btn btn-primary btn-sm mb-1' data-toggle='modal' data-target='#confirmConfirmation<?= $entry->uuid ?>'>Bestätigen</button>
+    						<button type='button' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#confirmConfirmation<?= $entry->uuid ?>'>Bestätigen</button>
     						<?php 
     						createDialog('confirmConfirmation' . $entry->uuid, "Personal wirklich bestätigen?", null, "confirmstaffid", $entry->uuid);
         					?>
@@ -118,12 +118,16 @@ if ($isCreator) {
 				</td>
 			</tr>
 			<?php
-			if(isset($_SESSION['guardian_userid']) && !$isCreator && (get_engine_of_user($_SESSION['guardian_userid']) == $event->engine || $isAdmin)){
+			if(isset($_SESSION['guardian_userid']) && (is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) || $isAdmin)){
 			    $creator = get_user($event->creator);
 			?>
 			    <tr>
 			         <th colspan="1">Erstellt von</th>
 			         <td colspan="2"><?= $creator->firstname . " " . $creator->lastname ?></td>
+				</tr>
+				<tr>
+					<th colspan="1">Bericht erstellen</th>
+					<td colspan="2"><a href='<?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?>' target='_blank'><?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?></a></td>
 				</tr>
 			<?php 
 			}

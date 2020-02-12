@@ -9,6 +9,7 @@ Release Documentation
 	
 
 ALTER TABLE report ADD event CHAR(36) NULL AFTER uuid; 
+ALTER TABLE report ADD managerApproved BOOLEAN NOT NULL AFTER emsEntry; 
 
 
 

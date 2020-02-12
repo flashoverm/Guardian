@@ -171,7 +171,7 @@ function mail_subscribe_staff_user($event_uuid, $user_uuid, $informMe) {
 		
 		if($informMe){
 			$subject = "In Wache eingeschrieben" . event_subject($event_uuid);
-			$body = $bodies["event_subscribe"] . get_link($event_uuid);
+			$body = $bodies["event_subscribe"] . get_link($event_uuid) . $bodies["event_report_link"] . get_report_create_link($event_uuid);
 			
 			$sendOK = $sendOK && send_mail($user->email, $subject, $body);
 		}
@@ -201,7 +201,7 @@ function mail_confirm_staff_user($staff_uuid, $event_uuid) {
 	
 	//send mail to user
 	$subject = "Wachteilnahme bestätigt" . event_subject($event_uuid);
-	$body = $bodies["event_staff_confirmed"] . get_link($event_uuid);
+	$body = $bodies["event_staff_confirmed"] . get_link($event_uuid) . $bodies["event_report_link"] . get_report_create_link($event_uuid);;
 	
 	$user = get_staff_user($staff_uuid);
 	$sendOK = $sendOK && send_mail ( $user->email, $subject, $body );
@@ -220,7 +220,7 @@ function mail_add_staff_user($event_uuid, $user_uuid) {
 	
 	//send mail to added user
 	$subject = "In Wache eingeteilt" . event_subject($event_uuid);
-	$body = $bodies["event_staff_add"] . get_link($event_uuid);
+	$body = $bodies["event_staff_add"] . get_link($event_uuid) . $bodies["event_report_link"] . get_report_create_link($event_uuid);;
 	
 	$user = get_user($user_uuid);
 	$sendOK = $sendOK && send_mail ( $user->email, $subject, $body );
@@ -259,6 +259,11 @@ function mail_remove_staff_user($staff_uuid, $event_uuid) {
 function get_link($event_uuid){
 	global $config;
 	return $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/events/" . $event_uuid;
+}
+
+function get_report_create_link($event_uuid){
+    global $config;
+    return $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/" . $event_uuid; 
 }
 
 function get_report_link($report_uuid){
