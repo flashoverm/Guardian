@@ -2,6 +2,10 @@
 Release Documentation
 ******************************
 
+RewriteRule ^html/guardian/reports/export/?$ 	/guardian/html/guardianapp/report_export.php
+
+
+
 .htaccess 
 	Change report/new from event_report to report_edit
 	reports/new/([^/]*)?$ to report_edit.php?event=$1

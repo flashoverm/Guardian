@@ -121,6 +121,20 @@ function get_filtered_reports($engine_uuid) {
     return $data;
 }
 
+function filter_reports($reports, $type_uuid, $from, $until) {
+    $data = array ();
+    foreach($reports as $report){
+        
+        if($report->date >= $from && $report->date <= $until ){
+            
+            if($type_uuid == -1 || $report->type == $type_uuid){
+                $data [] = $report;
+            }
+        }        
+    }
+    return $data;
+}
+
 function get_reports() {
     global $db;
     $data = array ();

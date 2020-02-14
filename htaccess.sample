@@ -10,7 +10,7 @@ RewriteRule ^html/guardian/events/([^/]*)/subscribe/?([^/]*)/?$ 	/guardian/html/
 RewriteRule ^html/guardian/events/([^/]*)/?$ 	/guardian/html/guardianapp/event_details.php?id=$1
 RewriteRule ^html/guardian/events/?$ 			/guardian/html/guardianapp/event_overview.php
 
-
+RewriteRule ^html/guardian/reports/export/?$ 	/guardian/html/guardianapp/report_export.php
 RewriteRule ^html/guardian/reports/admin/?$ 	/guardian/html/guardianapp/report_admin.php
 RewriteRule ^html/guardian/reports/new/?$ 		/guardian/html/guardianapp/report_edit.php
 RewriteRule ^html/guardian/reports/new/([^/]*)?$ /guardian/html/guardianapp/report_edit.php?event=$1
