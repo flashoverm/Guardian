@@ -46,7 +46,7 @@ if(isset($_SESSION ['guardian_userid'])){
    
 }
 
-if(isset($_POST['csv']) && isset($_SESSION ['guardian_userid']) && userHasRight($variables ['right'])){
+if((isset($_POST['csv']) || isset($_POST['invoice'])) && isset($_SESSION ['guardian_userid']) && userHasRight($variables ['right'])){
     
     if($type == -1 ){
         $head = "Alle Wachen";
@@ -57,7 +57,11 @@ if(isset($_POST['csv']) && isset($_SESSION ['guardian_userid']) && userHasRight(
         date($config ["formats"] ["date"], strtotime($from)) . " und " . 
         date($config ["formats"] ["date"], strtotime($to)) . "\n\n";
     
-    reportsToCSV($reports, $head);
+    if(isset($_POST['csv'])){
+    	reportsToCSV($reports, $head);
+    } else if(isset($_POST['invoice'])){
+    	reportsToInvoiceCSV($reports, $head);
+    }
     
     header('Content-Encoding: UTF-8');
     header('Content-type: text/csv; charset=UTF-8');
@@ -83,7 +87,6 @@ function reportsToCSV($reports, $head = ""){
         "Gesamtstunden" . $delimiter . 
         "Typ" . $delimiter .
         "Titel" . $delimiter .
-        "Löschzug" . $delimiter .
         "\n";
 
         $duration = strtotime($row->end_time) - strtotime($row->start_time);
@@ -102,7 +105,6 @@ function reportsToCSV($reports, $head = ""){
             gmdate($config ["formats"] ["time"], $personalhours) . $delimiter . 
             get_eventtype($row->type)->type . $delimiter .
             $row->title . $delimiter . 
-            get_engine($row->engine)->name . 
             "\n\nPersonal:\n";
         
         foreach ( $row->units as $entry ) {
@@ -118,6 +120,47 @@ function reportsToCSV($reports, $head = ""){
     }
     
     echo convertToWindowsCharset($filestring);
+}
+
+function reportsToInvoiceCSV($reports, $head = ""){
+	global $config;
+	$delimiter = ";";
+	$filestring = $head;
+	
+	$filestring .= "Datum" . $delimiter .
+	"Beginn" . $delimiter .
+	"Ende" . $delimiter .
+	"Titel" . $delimiter .
+	"Personal" . $delimiter .
+	"Dauer" . $delimiter .
+	"Gesamtstunden" . $delimiter .
+	"\n";
+	
+	foreach ( $reports as $report ) {
+		$row = get_report_object($report->uuid);
+		
+		$duration = strtotime($row->end_time) - strtotime($row->start_time);
+		$personalhours = 0;
+		$personalcount = 0;
+		foreach ( $row->units as $entry ) {
+			$unitDuration = strtotime($entry->end) - strtotime($entry->beginn);
+			foreach ( $entry->staffList as $staff ) {
+				$personalhours += $unitDuration;
+				$personalcount += 1;
+			}
+		}
+		
+		$filestring .= date($config ["formats"] ["date"], strtotime($row->date)) . $delimiter .
+		date($config ["formats"] ["time"], strtotime($row->start_time)) . $delimiter .
+		date($config ["formats"] ["time"], strtotime($row->end_time)) . $delimiter .
+		$row->title . $delimiter .
+		$personalcount . $delimiter .
+		gmdate($config ["formats"] ["time"], $duration) . $delimiter .
+		gmdate($config ["formats"] ["time"], $personalhours) . 
+		"\n";
+	}
+	
+	echo convertToWindowsCharset($filestring);
 }
 
 ?>

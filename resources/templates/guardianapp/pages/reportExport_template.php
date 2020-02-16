@@ -100,7 +100,8 @@
     	</table>
     </div>
     <p>
-    	<input type="submit" name="csv" class="btn btn-primary" value='Exportieren'>
+    	<input type="submit" name="csv" class="btn btn-primary" value='Wachen exportieren'>
+    	<input type="submit" name="invoice" class="btn btn-primary" value='Rechungsdaten exportieren'>
     </p>
 </form>
 
