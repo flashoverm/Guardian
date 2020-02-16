@@ -6,6 +6,8 @@ Bugs:
 
 To Do:
 
+- Administration (Feuerwehrverwaltung) rights are provided by application rights, not juts engine
+
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
 
 - ICS auf Android prüfen
@@ -49,6 +51,8 @@ Refactoring:
 - move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Event Report Export (data overview)
+
 - Edit Wachbericht
 - Edit-function for units in event report
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)

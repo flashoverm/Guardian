@@ -101,11 +101,11 @@ function insert_report_staff($position, $name, $engine, $unit_uuid){
 	}
 }
 
-function get_filtered_reports($engine_uuid) {
+function get_filtered_reports($engine_uuid, $dateorder = "DESC") {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM report WHERE engine = ? ORDER BY date DESC");
+    $statement = $db->prepare("SELECT * FROM report WHERE engine = ? ORDER BY date " . $dateorder);
     $statement->bind_param('s', $engine_uuid);
 
     if ($statement->execute()) {
@@ -135,11 +135,11 @@ function filter_reports($reports, $type_uuid, $from, $until) {
     return $data;
 }
 
-function get_reports() {
+function get_reports($dateorder = "DESC") {
     global $db;
     $data = array ();
     
-    $statement = $db->prepare("SELECT * FROM report ORDER BY date DESC");
+    $statement = $db->prepare("SELECT * FROM report ORDER BY date " . $dateorder);
     
     if ($statement->execute()) {
         $result = $statement->get_result();
