@@ -25,6 +25,13 @@ $variables = array (
         'title' => "Wachbericht erstellen",
 );
 
+
+if(isset ( $_SESSION ['guardian_userid'] )){
+	$user = get_user($_SESSION ['guardian_userid']);
+	$usersEngine = get_engine_of_user($_SESSION ['guardian_userid']);
+	$variables ['usersEngine'] = $usersEngine;
+}
+
 if(isset($_GET['id'])){
 	$variables['secured'] = true;
 	
@@ -44,7 +51,6 @@ if(isset($_GET['id'])){
 	if($event != null){
 		
 		if(isset ( $_SESSION ['guardian_userid'] )){
-			$user = get_user($_SESSION ['guardian_userid']);
 			$creator = $user->firstname . " " . $user->lastname;
 		} else {
 			$creator = "";

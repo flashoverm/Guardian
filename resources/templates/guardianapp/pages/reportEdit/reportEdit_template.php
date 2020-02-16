@@ -1,11 +1,11 @@
 <?php include 'reportEditUnit_template.php'; ?>
 <?php include 'reportCard_template.php'; ?>
 
-<form onsubmit="showLoader()" method="post" >
+<form id="reportForm" onsubmit="showLoader()" method="post" >
 	<div class="row">
 		<div class="col">
 			<div class="form-group">
-				<label>Datum:</label> <input type="date" required="required" 
+				<label>Datum:</label> <input type="date" required
 				placeholder="TT.MM.JJJJ" title="TT.MM.JJJJ"	class="form-control" 
 				name="date" id="date" 
 				<?php
@@ -17,7 +17,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Wachbeginn:</label> <input type="time" required="required" 
+				<label>Wachbeginn:</label> <input type="time" required
 				placeholder="--:--" title="--:--" class="form-control" 
 				name="start" id="start" 
 				<?php
@@ -29,7 +29,7 @@
 		</div>
 		<div class="col">
 			<div class="form-group">
-				<label>Wachende:</label> <input type="time" required="required" 
+				<label>Wachende:</label> <input type="time" required
 				placeholder="--:--" title="--:--" class="form-control" 
 				<?php
 				if(isset($object) && $object->end_time != null ){
@@ -83,6 +83,10 @@
 			?>
 			<option value="<?=  $option->uuid; ?> " selected><?= $option->name; ?></option>
 			<?php 
+			}else if(!isset($event) && $option->uuid == $usersEngine){
+				?>
+			   	<option selected value="<?=  $option->uuid;	?> "><?= $option->name; ?></option>
+			    <?php 
 			}else{
 		    ?>
 			<option value="<?=  $option->uuid; ?> "><?= $option->name; ?></option>
@@ -133,6 +137,7 @@
 		}
 		?>
 	</div>
+	
 	<p>
 	<div>
 	    <?php if(isset($object) && $object->uuid != null){
@@ -144,11 +149,27 @@
     	    <input type="submit" class="btn btn-primary" id="submitReport" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?> value='Aktualisieren'>
     	    <?php 
     	} else{ ?>
+    	    <div style="display:none;">
+				<input type='submit' id="reportSubmit"/>
+			</div>
     	    <button type="button" id="submitReport" class="btn btn-primary" data-toggle="modal" data-target="#confirmSubmit" <?php if(!isset($i) || $i == 0){ echo 'style="display:none;"'; } ?>>Abschicken</button>
-    		<?php
-    	    createDialog('confirmSubmit', "Bericht absenden", null, null, null, "Abschicken", "Abbrechen", 
-    	        "Bitte überprüfen Sie alle eingebenen Daten.<br>Ist das Wachende korrekt eingetragen (tatsächliches Ende der Wachveranstaltung)?");
-    	} ?>
+    	    <div class='modal fade' id='confirmSubmit'>
+				<div class='modal-dialog'>
+					<div class='modal-content'>
+		
+						<div class='modal-header'>
+							<h4 class='modal-title'>Bericht absenden</h4>
+							<button type='button' class='close' data-dismiss='modal'>&times;</button>
+						</div>
+			            <div class='modal-body'>Bitte überprüfen Sie alle eingebenen Daten.<br>Ist das Wachende korrekt eingetragen (tatsächliches Ende der Wachveranstaltung)?</div>
+			            <div class='modal-footer'>
+							<button type='button' class='btn btn-primary' onClick='processReportForm()'>Abschicken</button>
+							<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>Abbrechen</button>
+						</div>
+					</div>
+				</div>
+			</div>
+    	<?php } ?>
 	</div>
 
 </form>
@@ -165,5 +186,25 @@ var reportUnitCount = <?= $i ?>;
 openUnit(reportUnitCount);
 
 var currentPosition = 1;
+
+function processReportForm() {
+	closeOneModal('confirmSubmit');
+    
+    var reportSubmit = document.getElementById('reportSubmit');
+    reportSubmit.click();
+}
+
+function closeOneModal(modalId) {
+
+    const modal = document.getElementById(modalId);
+
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('style', 'display: none');
+
+	const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+	document.body.removeChild(modalBackdrops[0]);
+}
 
 </script>
