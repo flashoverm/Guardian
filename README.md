@@ -2,18 +2,18 @@
 
 Bugs:
 
+- On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
+
+To Do:
+
+- Administration (Feuerwehrverwaltung) rights are provided by application rights, not juts engine
+
 - ICS auf Android prüfen
 
 - Internet Explorer Support (Date and Time fields) especially report
 
-- Sort by date in every table does not work correctly (string compare)
-
-
-To Do:
-
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
-
- - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
+ 
   
   
 New feature:
@@ -36,6 +36,7 @@ New feature:
 
 - Druckfunktion für Wachen mit QR Code neben Wachlink
 
+
 Low prio:
 
 - Event Report Export in Invoice-Style for Administration
@@ -43,6 +44,7 @@ Low prio:
 - Event import function from excel
 
 - Verify-Link for new user - Delete account if not verified
+
 
 Refactoring: 
 
@@ -52,6 +54,9 @@ Refactoring:
 - move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Sort by date in every table does not work correctly (string compare)
+- Event Report Export (data overview)
+
 - Edit Wachbericht
 - Edit-function for units in event report
 - Wachhabenden-Link der Bericht mit bekannten Felder ausfüllt (Personal fehlt noch)

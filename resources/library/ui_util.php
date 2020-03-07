@@ -2,7 +2,7 @@
 
 function createDialog($id, $title, $name, $additionalValueName = null, $additionalValue = null, $positiveButton="Ja", $negativeButton="Abbrechen", $text = null){
 	echo "
-	<div class='modal' id='" . $id . "'>
+	<div class='modal fade' id='" . $id . "'>
 		<div class='modal-dialog'>
 			<div class='modal-content'>
 
@@ -14,7 +14,7 @@ function createDialog($id, $title, $name, $additionalValueName = null, $addition
 	                echo "<div class='modal-body'>" . $text . "</div>";
             	}
             	echo "<div class='modal-footer'>
-					<form action='' method='post'style='margin-bottom: 0px;'>";
+					<form action='' method='post' style='margin-bottom: 0px;'>";
 					if($additionalValueName != null && $additionalValue != null){
 						echo "<input type='hidden' name='" . $additionalValueName . "' value='" . $additionalValue . "' />";
 					}
@@ -22,7 +22,7 @@ function createDialog($id, $title, $name, $additionalValueName = null, $addition
 					if($name != null && $name != ""){
 						echo "name='" . $name . "' "; 
 					}
-					echo "value='" . $positiveButton . "' class='btn btn-primary' onClick='showLoader()'/>
+					echo "value='" . $positiveButton . "' class='btn btn-primary' />
 						<button type='button' class='btn btn-outline-primary' data-dismiss='modal'>" . $negativeButton .  "</button>
 					</form>
 				</div>

@@ -31,6 +31,7 @@ if ($loggedIn) {
         			<div class='dropdown-menu bg-dark'>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports'>Berichtsübersicht</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/new'>Bericht anlegen</a>
+                        <a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/export'>Berichte exportieren</a>
 					</div>
 				</li>
 			</ul>

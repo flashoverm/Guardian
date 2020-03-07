@@ -2,12 +2,18 @@
 Release Documentation
 ******************************
 
+##### V1.1
+
+Added export function for event data (administration only)
+
 ##### V1.0.1
 
 Updated calender file export
 
 
 ##### V1.0.0
+
+RewriteRule ^html/guardian/reports/export/?$ 	/guardian/html/guardianapp/report_export.php
 
 .htaccess 
 	Change report/new from event_report to report_edit
