@@ -60,7 +60,7 @@ if (isset ( $_GET ['staffid'] ) and isset ( $_GET ['id'] )) {
     					if(add_staff_user ( $staffUUID, $user->uuid )){
     						mail_add_staff_user ($eventUUID, $user->uuid);
     						
-    						$variables ['successMessage'] = "Wachteilnehmer zugiesen - <a href=\"" . $config["urls"]["guardianapp_home"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
+    						$variables ['successMessage'] = "Wachteilnehmer zugewiesen - <a href=\"" . $config["urls"]["guardianapp_home"] . "/events/" . $eventUUID . "\" class=\"alert-link\">Zurück</a>";
     						$variables ['showFormular'] = false;
     						header ( "Location: " . $config["urls"]["guardianapp_home"] . "/events/".$eventUUID); // redirects
     					} else {
