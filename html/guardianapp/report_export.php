@@ -47,7 +47,11 @@ if(isset($_SESSION ['guardian_userid'])){
 }
 
 if((isset($_POST['csv']) || isset($_POST['invoice'])) && isset($_SESSION ['guardian_userid']) && userHasRight($variables ['right'])){
-    
+	
+	header('Content-Encoding: UTF-8');
+	header('Content-type: text/csv; charset=UTF-8');
+	header('Content-Disposition: attachment; filename=Wachberichte_Export.csv');
+	
     if($type == -1 ){
         $head = "Alle Wachen";
     } else {
@@ -56,16 +60,12 @@ if((isset($_POST['csv']) || isset($_POST['invoice'])) && isset($_SESSION ['guard
     $head .= " zwischen " . 
         date($config ["formats"] ["date"], strtotime($from)) . " und " . 
         date($config ["formats"] ["date"], strtotime($to)) . "\n\n";
-    
+        
     if(isset($_POST['csv'])){
     	reportsToCSV($reports, $head);
     } else if(isset($_POST['invoice'])){
     	reportsToInvoiceCSV($reports, $head);
     }
-    
-    header('Content-Encoding: UTF-8');
-    header('Content-type: text/csv; charset=UTF-8');
-    header('Content-Disposition: attachment; filename=Wachberichte_Export.csv');
 
     return;
 }
