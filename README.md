@@ -13,10 +13,11 @@ To Do:
 - Internet Explorer Support (Date and Time fields) especially report
 
 - Logging (differentiate between application (added, , edited, removed...) and errors, sent mail, ...)
- 
-  
+   
   
 New feature:
+
+- Rechteverwaltung (Personen Rechte aus Liste zuweisen und entfernen)
 
 - Freitextfeld in Position (Makes Vehicles possible)
 
@@ -38,8 +39,6 @@ New feature:
 
 
 Low prio:
-
-- Event Report Export in Invoice-Style for Administration
 
 - Event import function from excel
 
