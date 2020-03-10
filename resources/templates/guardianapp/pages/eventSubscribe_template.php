@@ -30,9 +30,9 @@
 		echo "<p>Sie werden per E-Mail informiert, sobald der Wachbeauftragte ihre Teilnahme bestätigt hat.</p>";
 	} else {
 		?>
-		<div class='form-check'>
-			<input type='checkbox' class='form-check-input' name='informMe' id='informMe'> 
-			<label for='informMe'>Benachrichtung an eigene E-Mail-Adresse senden</label>
+		<div class='custom-control custom-checkbox custom-checkbox-big'>
+			<input type='custom-control-input' class='form-check-input' name='informMe' id='informMe'> 
+			<label class="custom-control-label custom-control-label-big" for='informMe'>Benachrichtung an eigene E-Mail-Adresse senden</label>
 		</div>
 		<?php 
 	}

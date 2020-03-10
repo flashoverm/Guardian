@@ -114,17 +114,14 @@
 			<?php 
 			if($config["settings"]["staffconfirmation"]){
 			?>
-			<div class="form-check">
+			<div class="custom-control custom-checkbox custom-checkbox-big">
 				<?php if(isset($event) && $event->staff_confirmation) { ?>
-					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation" checked> 
+					<input type="checkbox" class="custom-control-input" id="confirmation" name="confirmation" checked> 
 				<?php } else { ?>
-					<input type="checkbox" class="form-check-input" id="confirmation" name="confirmation">
+					<input type="checkbox" class="custom-control-input" id="confirmation" name="confirmation">
 				<?php }?>
 				
-				<span class='d-inline-block' data-toggle='tooltip' title='Eingetragenes Personal muss durch Wachbeauftragten bestätigt werden'>
-					<label for="confirmation">Personal muss bestätigt werden</label>
-				</span>
-             
+					<label class="custom-control-label custom-control-label-big" for="confirmation">Personal muss bestätigt werden</label>
 			</div>
 			<?php } ?>
 		<div class="table-responsive">
@@ -273,18 +270,18 @@
 	</div>
 		<?php
 		if(isset($event)){
-			echo "	<div class='form-check'>
-						<input type='checkbox' class='form-check-input' id='inform' name='inform'> 
-						<label for='inform'>Personal über Änderungen informieren (Entferntes Personal wird immer informiert!)</label>
+			echo "	<div class='custom-control custom-checkbox custom-checkbox-big'>
+						<input type='checkbox' class='custom-control-input' id='inform' name='inform'> 
+						<label class='custom-control-label custom-control-label-big' for='inform'>Personal über Änderungen informieren (Entferntes Personal wird immer informiert!)</label>
 					</div>";
 		} else {
-			echo "	<div class='form-check'>
-						<input type='checkbox' class='form-check-input' id='publish' name='publish'>
-						<label for='publish'>Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
+			echo "	<div class='custom-control custom-checkbox custom-checkbox-big'>
+						<input type='checkbox' class='custom-control-input' id='publish' name='publish'>
+						<label class='custom-control-label custom-control-label-big' for='publish'>Veröffentlichen (E-Mail an alle Wachbeauftragen)</label>
 					</div>
-					<div class='form-check'>
-						<input type='checkbox' class='form-check-input' name='informMe' id='informMe' checked> 
-						<label for='informMe'>Information über angelegte Wache an eigene E-Mail-Adresse</label>
+					<div class='custom-control custom-checkbox custom-checkbox-big'>
+						<input type='checkbox' class='custom-control-input' name='informMe' id='informMe' checked> 
+						<label class='custom-control-label custom-control-label-big' for='informMe'>Information über angelegte Wache an eigene E-Mail-Adresse</label>
 					</div>";
 		}
 		if(isset($event)){

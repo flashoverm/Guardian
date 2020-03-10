@@ -94,16 +94,16 @@
 		</select>
 	</div>
 		
-	<div class="form-check">
-		<input type="checkbox" class="form-check-input" name="ilsEntry" id="ilsEntry" 
+	<div class="custom-control custom-checkbox custom-checkbox-big">
+		<input type="checkbox" class="custom-control-input" name="ilsEntry" id="ilsEntry" 
 		<?php if(isset($object) && $object->ilsEntry) { echo "checked"; } ?>
-		> <label for="ilsEntry">Wache durch ILS angelegt</label>
+		> <label class="custom-control-label custom-control-label-big" for="ilsEntry">Wache durch ILS angelegt</label>
 	</div>
 	
-	<div class="form-check">
-		<input type="checkbox" class="form-check-input" name="noIncidents" id="noIncidents"
+	<div class="custom-control custom-checkbox custom-checkbox-big">
+		<input type="checkbox" class="custom-control-input" name="noIncidents" id="noIncidents"
 		<?php if(isset($object) && $object->noIncidents) { echo "checked"; } ?>
-		> <label for="noIncidents">Keine Vorkomnisse</label>
+		> <label class="custom-control-label custom-control-label-big" for="noIncidents">Keine Vorkomnisse</label>
 	</div>
 	
 	<div class="form-group">
