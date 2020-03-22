@@ -4,7 +4,11 @@ Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
+- Link für vorausgefüllten Berichten für alle sichtbar machen
+
 To Do:
+
+- Link Wache bei Bericht | Link Bericht bei Wache (Info: Bericht wurde bereits erstellt) 
 
 - Administration (Feuerwehrverwaltung) rights are provided by application rights, not juts engine
 

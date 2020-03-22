@@ -1,5 +1,5 @@
 
-<form id="eventForm" action="" method="post">
+<form id="eventForm" action="" method="post" onsubmit="showLoader()">
 	<?php
 	$staffId = 0;
 	if(isset($event) ){

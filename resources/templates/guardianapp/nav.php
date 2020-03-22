@@ -67,6 +67,7 @@ if ($loggedIn) {
         			<div class='dropdown-menu bg-dark'>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/manager'>Wachbeauftragte</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/user'>Personal</a>
+	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/privilege'>Rechteverwaltung</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/events/admin'>Alle Wachen</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/admin'>Alle Wachberichte</a>
 	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/templates'>Personalvorlagen</a>
