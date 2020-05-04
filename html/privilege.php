@@ -9,7 +9,7 @@ $privileges = get_all_privileges();
 // Pass variables (as an array) to template
 $variables = array (
 		'secured' => true,
-		'right' => EVENTADMIN,
+		'privilege' => EVENTADMIN,	//TODO privilege: Global Admin
 		'title' => "Rechteverwaltung",
 		'user' => get_all_user(),
 		'privileges' => $privileges,
@@ -24,10 +24,10 @@ if (isset ( $_POST ['user'] ) ) {
 	if($ok){
 		foreach($privileges as $privileg){
 			
-			$inputName = "priv_" . $privileg;
+			$inputName = "priv_" . $privileg->name;
 			
 			if(isset ( $_POST [ $inputName ] )){
-				$ok = $ok && add_privilege_to_user($user, $privileg);
+				$ok = $ok && add_privilege_to_user($user, $privileg->name);
 			}
 		}
 	}

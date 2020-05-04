@@ -2,6 +2,7 @@
 require_once LIBRARY_PATH . "/db_connect.php";
 
 //Restrictions
+define("PORTALADMIN", "PORTALADMIN");
 define("EVENTMANAGER", "EVENTMANAGER");
 define("EVENTADMIN", "EVENTADMIN");
 
@@ -27,7 +28,21 @@ function create_privilege($privilege){
 }
 
 function add_privilege_to_user($user_uuid, $privilege){
+	global $db;
 	
+	$privilege_name = strtoupper($privilege);
+	
+	$statement = $db->prepare("INSERT INTO privilege_user (user, privilege) VALUES (?, ?)");
+	$statement->bind_param('ss', $user_uuid, $privilege_name);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	} else {
+		// echo "Error: " . $query . "<br>" . $db->error;
+		return false;
+	}
 }
 
 function get_all_privileges(){
@@ -50,26 +65,81 @@ function get_all_privileges(){
 }
 
 function get_users_privileges($user_uuid){
-	return get_rights($user_uuid);
+	global $db;
+	$data = array ();
+	
+	$statement = $db->prepare("SELECT * FROM privilege_user WHERE user = ? ");
+	$statement->bind_param('s', $user_uuid);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			while ( $date = $result->fetch_object () ) {
+				$data [] = $date;
+			}
+			$result->free ();
+		}
+	}
+	return $data;
 }
 
 function user_has_privilege($user_uuid, $privilege){
-	return hasRight($user_uuid, $privilege);
+	global $db;
+	
+	$privilege_name = strtoupper($privilege);
+	
+	$statement = $db->prepare("SELECT * FROM privilege_user WHERE user = ? AND privilege = ?");
+	$statement->bind_param('ss', $user_uuid, $privilege_name);
+	
+	if ($statement->execute()) {
+		$result = $statement->get_result();
+		
+		if (mysqli_num_rows ( $result )) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function current_user_has_privilege($privilege){
 	if(isset ($_SESSION ['guardian_userid'])){
-		return user_has_privilege($_SESSION ['guardian_userid'], $privilege);
+		$privilege_name = strtoupper($privilege);
+		
+		return user_has_privilege($_SESSION ['guardian_userid'], $privilege_name);
 	}
 	return false;
 }
 
 function remove_privilege_from_user($user_uuid, $privilege){
+	global $db;
 	
+	$privilege_name = strtoupper($privilege);
+	
+	$statement = $db->prepare("DELETE FROM privilege_user WHERE user = ? AND privilege = ?");
+	$statement->bind_param('ss', $user_uuid, $privilege_name);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	}
+	// echo "Error: " . $query . "<br>" . $db->error;
+	return false;
 }
 
 function remove_privileges_from_user($user_uuid){
-	return true;
+	global $db;
+	$statement = $db->prepare("DELETE FROM privilege_user WHERE user = ?");
+	$statement->bind_param('s', $user_uuid);
+	
+	$result = $statement->execute();
+	
+	if ($result) {
+		return true;
+	}
+	// echo "Error: " . $query . "<br>" . $db->error;
+	return false;
 }
 
 
@@ -116,100 +186,5 @@ function create_table_privilege_user() {
 	}
 }
 
-
-
-/**
- * Old right methods
- */
-
-function get_rights($user_uuid){
-	global $db;
-	$statement = $db->prepare("SELECT rights FROM user WHERE uuid = ?");
-	$statement->bind_param('s', $user_uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_object();
-			$result->free ();
-			if($data){
-				return json_decode($data->rights);
-			}
-		}
-	}
-	return false;
-}
-
-function hasRight($uuid, $right){
-	$rights = get_rights($uuid);
-	if($rights){
-		if(in_array($right, $rights)){
-			
-			return true;
-		}
-	}
-	return false;
-}
-
-function userHasRight($right){
-	if(isset ($_SESSION ['guardian_userid'])){
-		return hasRight($_SESSION ['guardian_userid'], $right);
-	}
-	return false;
-}
-
-function addRight($uuid, $right){
-	global $db;
-	
-	$rights = get_rights($uuid);
-	if($rights){
-		if(!in_array ($right, $rights)){
-			$rights[] = $right;
-		}
-	} else {
-		$rights = array();
-		$rights[] = $right;
-	}
-	$rightsJson = json_encode($rights);
-	
-	$statement = $db->prepare("UPDATE user SET rights = ? WHERE uuid = ?");
-	$statement->bind_param('ss', $rightsJson, $uuid);
-	
-	$result = $statement->execute();
-	
-	if ($result) {
-		return true;
-	} else {
-		//echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
-
-function removeRight($uuid, $right){
-	global $db;
-	
-	$rights = get_rights($uuid);
-	if($rights && in_array ($right, $rights)){
-		$idx = array_search($right, $rights);
-		unset($rights[$idx]);
-	} else {
-		$rights = array();
-	}
-	
-	$rightsJson = json_encode($rights);
-	
-	$statement = $db->prepare("UPDATE user SET rights = ? WHERE uuid = ?");
-	$statement->bind_param('ss', $rightsJson, $uuid);
-	
-	$result = $statement->execute();
-	
-	if ($result) {
-		return true;
-	} else {
-		//echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
 
 ?>

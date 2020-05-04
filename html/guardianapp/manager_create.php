@@ -12,7 +12,7 @@ $variables = array (
     'title' => "Wachbeauftragten anlegen",
     'secured' => true,
 	'engines' => $engines,
-	'right' => EVENTADMIN
+	'privilege' => EVENTADMIN
 );
 
 if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST ['firstname'] ) && isset ( $_POST ['lastname'] )) {
@@ -27,13 +27,13 @@ if (isset ( $_POST ['email'] ) && isset ( $_POST ['engine'] ) && isset ( $_POST 
 		
 		if($user){
 			
-			if(hasRight($user->uuid, EVENTMANAGER)){
+			if(user_has_privilege($user->uuid, EVENTMANAGER)){
 				$variables ['successMessage'] = 'Dieser Benutzer ist bereits Wachbeauftragter';
 				
 			} else {
 				$variables ['successMessage'] = 'Diese E-Mail-Adresse ist bereits angelegt. Der Benutzer wurde zum Wachbeauftragten ernannt';
 				
-				addRight($user->uuid, EVENTMANAGER);
+				add_privilege_to_user($user->uuid, EVENTMANAGER);
 				reactivate_user($user->uuid);
 				$password = reset_password($user->uuid);
 				

@@ -64,7 +64,7 @@ function renderLayoutWithContentFile($app, $contentFile, $variables = array()) {
 	    goToLogin();
 	} else {	
 	    
-	    if(isset($right) && !userHasRight($right)){
+		if(isset($privilege) && !user_has_privilege($privilege)){
 	        showAlert("Sie haben keine Berechtigung diese Seite anzuzeigen");
 	        $showFormular = false;
 	    }

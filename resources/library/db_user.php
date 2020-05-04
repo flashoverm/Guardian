@@ -5,6 +5,8 @@ require_once LIBRARY_PATH . "/password.php";
 require_once LIBRARY_PATH . "/mail.php";
 require_once LIBRARY_PATH . "/db_connect.php";
 
+require_once LIBRARY_PATH . "/db_user_guardian.php";
+
 create_table_user ();
 
 function insert_user($firstname, $lastname, $email, $engine_uuid) {
@@ -13,8 +15,8 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	$uuid = getGUID ();
 	$mail = strtolower($email);
 	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
-		VALUES (?, ?, ?, ?, NULL, ?, NULL, FALSE, TRUE)");
+	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, loginenabled, available) 
+		VALUES (?, ?, ?, ?, NULL, ?, FALSE, TRUE)");
 	$statement->bind_param('sssss', $uuid, $firstname, $lastname, $mail, $engine_uuid);
 	
 	$result = $statement->execute();
@@ -27,52 +29,6 @@ function insert_user($firstname, $lastname, $email, $engine_uuid) {
 		$data = $statement->get_result()->fetch_object ();
 		return $data;
 		
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
-
-function insert_manager($firstname, $lastname, $email, $password, $engine_uuid) {
-	global $db;
-	$uuid = getGUID ();
-	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
-	$mail = strtolower($email);
-	$rights[] = EVENTMANAGER;
-	$rightsJson = json_encode($rights);
-		
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
-	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $mail, $pwhash, $engine_uuid, $rightsJson);
-	
-	$result = $statement->execute();
-
-	if ($result) {
-		// echo "New record created successfully";
-	    return $uuid;
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
-
-function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
-	global $db;
-	$uuid = getGUID ();
-	$pwhash = password_hash ( $password, PASSWORD_DEFAULT );
-	$mail = strtolower($email);
-	$rights[] = EVENTADMIN;
-	$rightsJson = json_encode($rights);
-	
-	$statement = $db->prepare("INSERT INTO user (uuid, firstname, lastname, email, password, engine, rights, loginenabled, available)
-		VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, TRUE)");
-	$statement->bind_param('sssssss', $uuid, $firstname, $lastname, $mail, $pwhash, $engine_uuid, $rightsJson);
-	
-	$result = $statement->execute();
-
-	if ($result) {
-		// echo "New record created successfully";
-	    return $uuid;
 	} else {
 		// echo "Error: " . $query . "<br>" . $db->error;
 		return false;
@@ -117,54 +73,12 @@ function get_all_available_user() {
 	return $data;
 }
 
-function get_all_manager() {
-	global $db;
-	$data = array ();
-	
-	$right = '%' . EVENTMANAGER . '%';
-	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ?");
-	$statement->bind_param('s', $right);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			while ( $date = $result->fetch_object () ) {
-				$data [] = $date;
-			}
-			$result->free ();
-		}
-	}
-	return $data;
-}
-
 function get_user_of_engine($engine_uuid){
 	global $db;
 	$data = array ();
 	
 	$statement = $db->prepare("SELECT * FROM user WHERE engine = ? AND available = TRUE ORDER BY lastname");
 	$statement->bind_param('s', $engine_uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			while ( $date = $result->fetch_object () ) {
-				$data [] = $date;
-			}
-			$result->free ();
-		}
-	}
-	return $data;
-}
-
-function get_manager_of_engine($engine_uuid) {
-	global $db;
-	$data = array ();
-	
-	$right = '%' . EVENTMANAGER . '%';
-	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ? AND engine = ?");
-	$statement->bind_param('ss', $right, $engine_uuid);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -270,33 +184,6 @@ function email_in_use($email) {
 	return false;
 }
 
-function is_admin($uuid) {
-    return hasRight($uuid, EVENTADMIN);
-}
-
-function is_manager($uuid) {
-    return hasRight($uuid, EVENTMANAGER);
-}
-
-function is_manager_of($user_uuid, $engine_uuid){
-	global $db;
-	
-	$right = '%' . EVENTMANAGER . '%';
-	$statement = $db->prepare("SELECT * FROM user WHERE rights LIKE ? AND uuid = ? AND engine = ?");
-	$statement->bind_param('sss', $right, $user_uuid, $engine_uuid);
-	
-	if ($statement->execute()) {
-		$result = $statement->get_result();
-		
-		if (mysqli_num_rows ( $result )) {
-			$data = $result->fetch_row ();
-			$result->free ();
-			return $data [0];
-		}
-	}
-	return FALSE;
-}
-
 function login_enabled($email) {
 	global $db;
 	$mail = strtolower($email);
@@ -363,40 +250,6 @@ function reactivate_user($uuid) {
 	
 	$result = $statement->execute();
 	
-	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
-		return true;
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
-
-function hide_user($uuid) {
-	global $db;
-	
-	$statement = $db->prepare("UPDATE user SET available = FALSE WHERE uuid= ?");
-	$statement->bind_param('s', $uuid);
-	
-	$result = $statement->execute();
-
-	if ($result) {
-		// echo "Record ".$uuid." updated successfully";
-		return true;
-	} else {
-		// echo "Error: " . $query . "<br>" . $db->error;
-		return false;
-	}
-}
-
-function show_user($uuid) {
-	global $db;
-	
-	$statement = $db->prepare("UPDATE user SET available = TRUE WHERE uuid= ?");
-	$statement->bind_param('s', $uuid);
-	
-	$result = $statement->execute();
-
 	if ($result) {
 		// echo "Record ".$uuid." updated successfully";
 		return true;

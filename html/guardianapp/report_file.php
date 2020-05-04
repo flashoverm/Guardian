@@ -14,7 +14,7 @@ if(isset($_GET['render'])){
     
 } else {
     if(	isset ( $_SESSION ['guardian_userid'] ) ){
-        if(!userHasRight(EVENTMANAGER)){
+    	if(!current_user_has_privilege(EVENTMANAGER)){
             showAlert("Sie haben keine Berechtigung diese Seite anzuzeigen");
         } else if(isset($_GET['report'])){
             

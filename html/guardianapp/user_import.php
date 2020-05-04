@@ -12,7 +12,7 @@ $engines = get_engines();
 $variables = array (
 		'title' => "Daten-Import",
 		'secured' => true,
-		'right' => EVENTADMIN,
+		'privilege' => EVENTADMIN,
 		'engines' => $engines,
 );
 

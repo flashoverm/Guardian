@@ -8,7 +8,7 @@ require_once LIBRARY_PATH . "/db_staff_template.php";
 $variables = array (
 		'title' => "Personalvorlagen",
 		'secured' => true,
-		'right' => EVENTADMIN
+		'privilege' => EVENTADMIN
 );
 
 if(isset($_SESSION ['guardian_userid']) && is_admin($_SESSION ['guardian_userid'])){

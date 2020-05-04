@@ -10,7 +10,7 @@ require_once LIBRARY_PATH . "/mail_controller.php";
 $variables = array (
     'title' => "Admin-Übersicht Wachen",
     'secured' => true,
-	'right' => EVENTADMIN
+	'privilege' => EVENTADMIN
 );
 
 if(isset($_SESSION ['guardian_userid']) && is_admin($_SESSION ['guardian_userid'])){

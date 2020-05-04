@@ -12,7 +12,7 @@ $variables = array (
     'title' => "Export Wachberichte",
     'secured' => true,
     'eventtypes' => $eventtypes,
-	'right' => EVENTMANAGER,
+	'privilege' => EVENTMANAGER,
 );
 
 $type = -1;
@@ -46,7 +46,7 @@ if(isset($_SESSION ['guardian_userid'])){
    
 }
 
-if((isset($_POST['csv']) || isset($_POST['invoice'])) && isset($_SESSION ['guardian_userid']) && userHasRight($variables ['right'])){
+if((isset($_POST['csv']) || isset($_POST['invoice'])) && isset($_SESSION ['guardian_userid']) && current_user_has_privilege($variables ['privilege'])){
 	
 	header('Content-Encoding: UTF-8');
 	header('Content-type: text/csv; charset=UTF-8');

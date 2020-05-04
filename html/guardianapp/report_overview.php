@@ -9,7 +9,7 @@ require_once LIBRARY_PATH . "/db_eventtypes.php";
 $variables = array (
     'title' => "Übersicht Wachberichte",
     'secured' => true,
-	'right' => EVENTMANAGER,
+	'privilege' => EVENTMANAGER,
 );
 
 if(isset($_SESSION ['guardian_userid'])){

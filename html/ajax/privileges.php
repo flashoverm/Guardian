@@ -4,6 +4,7 @@ require_once LIBRARY_PATH . "/db_user.php";
 
 session_start ();
 
+//TODO replate with GLOBAL-ADMIN
 $isAdmin = isset ( $_SESSION ['guardian_userid'] ) && is_admin ( $_SESSION ['guardian_userid'] ) ;
 
 if(!$isAdmin){
@@ -12,20 +13,22 @@ if(!$isAdmin){
 	if (isset($_GET['uuid'])) {
 		
 		$privileges = get_users_privileges($_GET['uuid']);
-		if($privileges){
+		//if($privileges){
 			$string = "[";
 			foreach($privileges as $privilege){
-				$string .= "\n\t\"" . $privilege . "\",";
+				$string .= "\n\t\"" . $privilege->privilege . "\",";
 			}
-			$string = substr($string, 0, -1);
+			if(strlen($string) > 1){
+				$string = substr($string, 0, -1);
+			}
 			$string .= "\n]";
 			echo $string;
 			header('Content-Type: text/plain');
 			//header('Content-Type: application/json');
 			
-		} else {
-			http_response_code(404);
-		}
+		//} else {
+		//	http_response_code(404);
+		//}
 	} else {
 		http_response_code(400);
 	}
