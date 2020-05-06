@@ -94,7 +94,7 @@ function get_manager_except_engine_and_creator($engine_uuid, $creator_uuid){
 	global $db;
 	$data = array ();
 	
-	$right = '%' . EVENTMANAGER . '%';
+	$privilege = EVENTMANAGER;
 	
 	$statement = $db->prepare("SELECT *
 		FROM user
@@ -102,7 +102,7 @@ function get_manager_except_engine_and_creator($engine_uuid, $creator_uuid){
 		AND NOT engine = ?
 		AND NOT uuid = ?
 		AND privilege_user.privilege = ?");
-	$statement->bind_param('sss', $engine_uuid, $creator_uuid, EVENTMANAGER);
+	$statement->bind_param('sss', $engine_uuid, $creator_uuid, $privilege);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();
@@ -120,13 +120,15 @@ function get_manager_except_engine_and_creator($engine_uuid, $creator_uuid){
 function is_manager_of($user_uuid, $engine_uuid){
 	global $db;
 	
+	$privilege = EVENTMANAGER;
+	
 	$statement = $db->prepare("SELECT *
 		FROM user, privilege_user
 		WHERE user.uuid = privilege_user.user
 		AND user.uuid = ?
 		AND user.engine = ?
 		AND privilege_user.privilege = ?");
-	$statement->bind_param('sss', $user_uuid, $engine_uuid, EVENTMANAGER);
+	$statement->bind_param('sss', $user_uuid, $engine_uuid, $privilege);
 	
 	if ($statement->execute()) {
 		$result = $statement->get_result();

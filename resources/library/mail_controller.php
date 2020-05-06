@@ -5,7 +5,6 @@ require_once LIBRARY_PATH . "/db_event.php";
 require_once LIBRARY_PATH . "/db_user.php";
 require_once LIBRARY_PATH . "/db_engines.php";
 require_once LIBRARY_PATH . "/db_connect.php";
-require_once LIBRARY_PATH . "/db_mail.php";
 require_once LIBRARY_PATH . "/mail_body.php";
 require_once LIBRARY_PATH . "/mail.php";
 

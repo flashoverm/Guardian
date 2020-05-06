@@ -1,13 +1,7 @@
 <?php 
-require_once "db_connect.php";
-require_once "db_privilege.php";
-require_once "db_user.php";
-
-//Restrictions
-define("EVENTMANAGER", "EVENTMANAGER");
-define("EVENTADMIN", "EVENTADMIN");
-
-
+require_once "../db_connect.php";
+require_once "../db_privilege.php";
+require_once "../db_user.php";
 
 $users = get_all_user();
 

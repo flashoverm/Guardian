@@ -19,20 +19,26 @@ if ($loggedIn) {
         			<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>
 						Wachen
 					</a>
-        			<div class='dropdown-menu bg-dark'>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/events'>Wachübersicht</a>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/events/new'>Wache anlegen</a>
-					</div>
+        			<div class='dropdown-menu bg-dark'>";
+        			echo "<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/events'>Wachübersicht</a>";
+        			if (current_user_has_privilege (EVENTMANAGER)){
+	        			echo "<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/events/new'>Wache anlegen</a>";
+        			}
+	echo "			</div>
 				</li>
 				<li class='nav-item dropdown'>
         			<a class='nav-link dropdown-toggle text-light mx-1' data-toggle='dropdown' href='#'>
 						Wachberichte
 					</a>
-        			<div class='dropdown-menu bg-dark'>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports'>Berichtsübersicht</a>
-	        			<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/new'>Bericht anlegen</a>
-                        <a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/export'>Berichte exportieren</a>
-					</div>
+        			<div class='dropdown-menu bg-dark'>";
+					if (current_user_has_privilege (EVENTMANAGER)){
+						echo "<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports'>Berichtsübersicht</a>";
+					}
+	        		echo "<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/new'>Bericht anlegen</a>";
+	        		if (current_user_has_privilege (EVENTMANAGER)){
+	        			echo "<a class='dropdown-item text-light' href='" . $config["urls"]["guardianapp_home"]. "/reports/export'>Berichte exportieren</a>";
+	        		}
+	echo "				</div>
 				</li>
 			</ul>
 		</div>";

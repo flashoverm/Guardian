@@ -5,7 +5,7 @@ require_once LIBRARY_PATH . "/db_user.php";
 session_start ();
 
 //TODO replate with GLOBAL-ADMIN
-$isAdmin = isset ( $_SESSION ['guardian_userid'] ) && is_admin ( $_SESSION ['guardian_userid'] ) ;
+$isAdmin = isset ( $_SESSION ['guardian_userid'] ) && current_user_has_privilege ( EVENTADMIN ) ;
 
 if(!$isAdmin){
 	http_response_code(401);

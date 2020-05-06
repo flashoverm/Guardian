@@ -54,7 +54,7 @@ function renderLayoutWithContentFile($app, $contentFile, $variables = array()) {
 
 	$loggedIn = isset ( $_SESSION ['guardian_userid'] );
 	
-	$isAdmin = $loggedIn && is_admin ( $_SESSION ['guardian_userid'] );
+	$isAdmin = $loggedIn && current_user_has_privilege ( EVENTADMIN );
 
 	require_once (TEMPLATES_PATH . "/header.php");
 
@@ -64,7 +64,7 @@ function renderLayoutWithContentFile($app, $contentFile, $variables = array()) {
 	    goToLogin();
 	} else {	
 	    
-		if(isset($privilege) && !user_has_privilege($privilege)){
+		if(isset($privilege) && !current_user_has_privilege($privilege)){
 	        showAlert("Sie haben keine Berechtigung diese Seite anzuzeigen");
 	        $showFormular = false;
 	    }

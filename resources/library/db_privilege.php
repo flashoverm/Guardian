@@ -156,6 +156,7 @@ function create_table_privilege() {
 	if ($result) {
 		create_privilege(EVENTMANAGER);
 		create_privilege(EVENTADMIN);
+		create_privilege(PORTALADMIN);
 		// echo "Table created<br>";
 		return true;
 	} else {

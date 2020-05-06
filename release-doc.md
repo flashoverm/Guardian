@@ -2,6 +2,12 @@
 Release Documentation
 ******************************
 
+##### V1.2
+
+Added privilege management
+
+Run resources/library/scripts/migrate_rights.php
+
 ##### V1.1
 
 Added export function for event data (administration only)
