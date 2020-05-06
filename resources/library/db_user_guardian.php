@@ -38,6 +38,7 @@ function insert_admin($firstname, $lastname, $email, $password, $engine_uuid) {
 
 	if ($result) {
 		add_privilege_to_user($uuid, EVENTADMIN);
+		add_privilege_to_user($uuid, EVENTMANAGER);
 		
 		// echo "New record created successfully";
 	    return $uuid;

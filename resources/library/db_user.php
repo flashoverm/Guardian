@@ -1,13 +1,14 @@
 <?php
-require_once LIBRARY_PATH . "/db_privilege.php";
+
 require_once LIBRARY_PATH . "/db_engines.php";
 require_once LIBRARY_PATH . "/password.php";
 require_once LIBRARY_PATH . "/mail.php";
 require_once LIBRARY_PATH . "/db_connect.php";
-
 require_once LIBRARY_PATH . "/db_user_guardian.php";
-
 create_table_user ();
+require_once LIBRARY_PATH . "/db_privilege.php";
+
+insert_admin("Admin", "Admin", "admin@guardian.de", "admin", "2BAA144B-F946-1524-E60E-7DD485FE1881");
 
 function insert_user($firstname, $lastname, $email, $engine_uuid) {
 	global $db;
@@ -321,7 +322,7 @@ function create_table_user() {
                           uuid CHARACTER(36) NOT NULL,
 						  firstname VARCHAR(64) NOT NULL,
                           lastname VARCHAR(64) NOT NULL,
-                          email VARCHAR(96) NOT NULL,
+                          email VARCHAR(96) NOT NULL UNIQUE,
                           password VARCHAR(255),
 						  engine CHARACTER(36) NOT NULL,
 						  rights VARCHAR(255),
@@ -335,7 +336,6 @@ function create_table_user() {
 
 	if ($result) {
 		// echo "Table created<br>";
-		insert_admin("Admin", "Admin", "admin@guardian.de", "admin", "2BAA144B-F946-1524-E60E-7DD485FE1881");
 		return true;
 	} else {
 		// echo "Error: " . $db->error . "<br><br>";
