@@ -4,13 +4,9 @@ Bugs:
 
 - On edit, write-lock dataset: https://www.codexpedia.com/php/lock-a-mysql-table-in-php/
 
-- Link für vorausgefüllten Berichten für alle sichtbar machen
-
 To Do:
 
 - Link Wache bei Bericht | Link Bericht bei Wache (Info: Bericht wurde bereits erstellt) 
-
-- Administration (Feuerwehrverwaltung) rights are provided by application rights, not juts engine
 
 - ICS auf Android prüfen
 
@@ -21,13 +17,10 @@ To Do:
   
 New feature:
 
-- Rechteverwaltung (Personen Rechte aus Liste zuweisen und entfernen)
 
 - Freitextfeld in Position (Makes Vehicles possible)
 
 - Bestätigung, dass Person zugiesene Wache zur Kentniss genommen hat (Link klicken)
-
-- Add address of event location and display in report
 
 - ICS als Anhang bei angelegter Wache
 
@@ -57,6 +50,9 @@ Refactoring:
 - move javascript in own js-file -> create cacheable minjs
 
 Done:
+- Link für vorausgefüllten Berichten für alle sichtbar machen
+- Rechteverwaltung (Personen Rechte aus Liste zuweisen und entfernen)
+
 - Sort by date in every table does not work correctly (string compare)
 - Event Report Export (data overview)
 

@@ -125,13 +125,13 @@ if ($isCreator) {
 			         <th colspan="1">Erstellt von</th>
 			         <td colspan="2"><?= $creator->firstname . " " . $creator->lastname ?></td>
 				</tr>
-				<tr>
-					<th colspan="1">Bericht erstellen</th>
-					<td colspan="2"><a href='<?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?>' target='_blank'><?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?></a></td>
-				</tr>
 			<?php 
 			}
 			?>
+			<tr>
+				<th colspan="1">Bericht erstellen</th>
+				<td colspan="2"><a href='<?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?>' target='_blank'><?= $config ["urls"] ["baseUrl"] . $config ["urls"] ["guardianapp_home"] . "/reports/new/".$event->uuid; ?></a></td>
+			</tr>
 		</tbody>
 	</table>
 	<?php
@@ -140,9 +140,6 @@ if ($isCreator) {
                   <a href='" . $config["urls"]["guardianapp_home"] . "/events' class='btn btn-outline-primary'>Zurück</a>
 				  <div class='float-right'>";
 	    
-	    if(!$relevant){
-	    	echo "<a class='btn btn-primary' href='" . $config["urls"]["guardianapp_home"] . "/reports/new/" . $event->uuid . "'>Bericht erstellen</a>";
-	    }
 	    if(!$event->published){
 	        if(is_user_manager_or_creator($event->uuid, $_SESSION['guardian_userid']) and $relevant) {?>
 	          	<a class='btn btn-primary' href='<?= $config["urls"]["guardianapp_home"] ?>/events/<?= $event->uuid ?>/edit'>Bearbeiten</a>
